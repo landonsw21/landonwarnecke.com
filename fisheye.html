@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fisheye Studio — Continuous Ray Optical Engine · Landon Warnecke</title>
+  <meta name="description" content="Fisheye Studio: Upgrading KeyShot 3D rendering with continuous ray unprojection, physical optical lenses, SSAA anti-aliasing, and 16K master export.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23151816' stroke='%23d5f596' stroke-width='6'/><circle cx='40' cy='50' r='20' fill='%23d5f596'/></svg>">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="logo-group">
+        <div class="logo-symbol">◉</div>
+        <span class="logo-text">Landon Warnecke</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html#work">Work</a>
+        <a href="index.html#about">About</a>
+
+        <!-- Extras Dropdown Active -->
+        <div class="dropdown">
+          <button class="dropdown-btn" style="color:var(--accent);" aria-haspopup="true" aria-expanded="true">
+            Extras <span class="arrow">▼</span>
+          </button>
+          <div class="dropdown-menu" role="menu">
+            <a href="fisheye.html" class="dropdown-item" style="background:var(--bg-elevated);">
+              <div class="item-title">
+                <span style="color:var(--accent);">Fisheye Studio</span>
+                <span class="badge-new">Active</span>
+              </div>
+              <div class="item-desc">Continuous-ray optical engine & physical lenses</div>
+            </a>
+            <a href="https://landonsw21.github.io/perspective-studio/" target="_blank" class="dropdown-item">
+              <div class="item-title">
+                <span>Perspective Studio</span>
+                <span style="font-size:10px;color:var(--text-subtle);">Live ↗</span>
+              </div>
+              <div class="item-desc">1-point up to 360° spherical drafting app</div>
+            </a>
+            <a href="https://landonsw21.github.io/2point/" target="_blank" class="dropdown-item">
+              <div class="item-title">
+                <span>2-Point Perspective</span>
+                <span style="font-size:10px;color:var(--text-subtle);">Live ↗</span>
+              </div>
+              <div class="item-desc">Parametric underlay & grid generator</div>
+            </a>
+          </div>
+        </div>
+
+        <a href="mailto:landon.warnecke@gmail.com" class="btn-contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:20px;">
+        <div>
+          <span class="eyebrow">Extras / Optical Tooling</span>
+          <h1>Fisheye Studio — Continuous Ray Optical Engine</h1>
+          <p class="lead">
+            An optical rendering pipeline and WebGL 2 interface upgrading KeyShot Studio into a calibrated wide-angle lens system — replacing polygon duplication with continuous ray unprojection, 4× subpixel SSAA, and physical optical dispersion.
+          </p>
+        </div>
+        <a href="editor.html" target="_blank" class="btn-primary" style="display:inline-flex;align-items:center;gap:8px;">
+          <span>Launch Fullscreen Editor ↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container" style="padding-top:40px;padding-bottom:80px;">
+
+    <!-- Interactive Live WebGL 2 Viewport -->
+    <div class="interactive-showcase">
+      <div class="showcase-toolbar">
+        <div class="toolbar-title">
+          <span>◉ Live WebGL 2 Engine</span>
+          <span style="opacity:0.4">|</span>
+          <span id="demoFormula" style="color:var(--accent)">r = 2f · sin(θ / 2) — Area Preserving</span>
+        </div>
+        <div class="toolbar-controls">
+          <select id="demoLensMode">
+            <option value="0" selected>Equisolid (Standard Photo Fisheye)</option>
+            <option value="1">Stereographic (Conformal Action Cam)</option>
+            <option value="2">Equidistant (Dome Master)</option>
+            <option value="3">Orthographic (Hemispherical)</option>
+          </select>
+          <label style="font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:6px;cursor:pointer;">
+            <input type="checkbox" id="demoSsaa" checked accent-color="var(--accent)"> 4× SSAA
+          </label>
+        </div>
+      </div>
+
+      <div class="demo-stage">
+        <canvas id="demoCanvas"></canvas>
+        <div class="demo-overlay-info">
+          Interactive Viewport · Click & Drag to Orbit Camera
+        </div>
+      </div>
+
+      <div class="demo-controls-bar">
+        <div class="ctrl-item">
+          <label>Field of View <span id="demoFovVal" class="val">190°</span></label>
+          <input type="range" id="demoFov" min="120" max="240" step="1" value="190">
+        </div>
+        <div class="ctrl-item">
+          <label>Radial Dispersion <span id="demoChromaVal" class="val">20%</span></label>
+          <input type="range" id="demoChroma" min="0" max="1" step="0.02" value="0.20">
+        </div>
+        <div class="ctrl-item">
+          <label>Optical Vignetting <span id="demoVigVal" class="val">25%</span></label>
+          <input type="range" id="demoVig" min="0" max="1" step="0.02" value="0.25">
+        </div>
+      </div>
+    </div>
+
+    <!-- Master Render Showcase -->
+    <div class="render-comparison">
+      <div class="render-image-wrap">
+        <img src="assets/moai_fisheye_master.png" alt="MOAI Master Render" loading="lazy">
+        <div class="image-meta">
+          <span>KeyShot Studio Capture · 2048 × 2048 px</span>
+          <span>2×2 RGSS SSAA · 8.36s Render</span>
+        </div>
+      </div>
+
+      <div class="render-details">
+        <h3>Why Continuous Ray Unprojection Matters</h3>
+        <p>
+          Simulating wide-angle lenses in path-traced software like KeyShot traditionally involves duplicating models 12–20 times in a Thomson-spherical layout. This causes massive memory spikes, geometry faceting, and self-shadowing leaks.
+        </p>
+        <p>
+          Fisheye Studio solves this by capturing six 90° perspective cube faces once, then reprojecting them via <strong>continuous per-pixel ray unprojection</strong>. Curved rays are evaluated analytically at the pixel level, giving infinite polygon smoothness with zero faceting.
+        </p>
+        <ul class="feature-list">
+          <li><strong>Super-Sample Anti-Aliasing (SSAA):</strong> $2\times2$ Rotated Grid (RGSS) and $3\times3$ grid subpixel sampling eliminate staircasing on specular edges and fine geometry.</li>
+          <li><strong>Catmull-Rom Bicubic Sampling:</strong> Sharp texture reconstruction across cube faces prevents the softening of standard hardware bilinear filtering.</li>
+          <li><strong>Dual Workflow:</strong> Real-time browser editing via WebGL 2 plus a standalone Python engine (<code>export_highres.py</code>) exporting up to 16,000+ px in 16-bit TIFF/PNG.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Mathematical Lens Models -->
+    <h3 style="font-size:24px;font-weight:650;margin-bottom:8px;">Optical Lens Projections</h3>
+    <p style="color:var(--text-muted);font-size:15px;margin-bottom:24px;">
+      Mathematical models governing how incident ray angles (θ) map to normalized sensor plane radii (r).
+    </p>
+
+    <div class="equations-grid">
+      <div class="eq-card">
+        <h4>Equisolid Angle</h4>
+        <div class="eq-formula">r = 2f · sin(θ / 2)</div>
+        <p>
+          Standard photographic fisheye (Nikkor 10.5mm, Sigma 8mm). Preserves relative surface area across the frame, maintaining accurate optical proportions.
+        </p>
+      </div>
+
+      <div class="eq-card">
+        <h4>Stereographic (Conformal)</h4>
+        <div class="eq-formula">r = 2f · tan(θ / 2)</div>
+        <p>
+          Conformal projection popular in action sports and skate filmmaking (Century MK1). Preserves local circular shapes and orthogonal angles without squashed edges.
+        </p>
+      </div>
+
+      <div class="eq-card">
+        <h4>Equidistant</h4>
+        <div class="eq-formula">r = f · θ</div>
+        <p>
+          Linear angular distance mapping. Radius on image is directly proportional to incident ray angle. The standard for planetarium dome masters and robotics.
+        </p>
+      </div>
+
+      <div class="eq-card">
+        <h4>Orthographic</h4>
+        <div class="eq-formula">r = f · sin(θ)</div>
+        <p>
+          Planar projection of a hemisphere. Maximizes central resolution while dramatically compressing the perimeter, matching optical aperture ray behavior.
+        </p>
+      </div>
+    </div>
+
+    <!-- High-Resolution Offline Exporter -->
+    <h3 style="font-size:24px;font-weight:650;margin-bottom:8px;">Offline Studio Master Exporter (`export_highres.py`)</h3>
+    <p style="color:var(--text-muted);font-size:15px;margin-bottom:16px;">
+      For commercial master prints (4K, 8K, 12K, 16K) or 16-bit color-managed production workflows without browser memory constraints:
+    </p>
+
+    <div class="code-box">
+<pre><code># 4K Master Render with 2×2 SSAA (8-bit PNG)
+python3 export_highres.py "Captures/MOAI.bip cube - nohewccd" --width 3840 --ssaa 2
+
+# 8K Master Render with 16-bit TIFF Output
+python3 export_highres.py "Captures/MOAI.bip cube - nohewccd" --width 8192 --ssaa 2 --format tiff --depth 16
+
+# 12K Master Render using saved .fisheye.json edits
+python3 export_highres.py "Captures/MOAI.bip cube - nohewccd" --edits "scene.fisheye.json" --width 12000 --ssaa 3</code></pre>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <span>© 2026 Landon Warnecke · landonwarnecke.com</span>
+      <div class="footer-links">
+        <a href="index.html#work">Work</a>
+        <a href="fisheye.html">Fisheye Tool</a>
+        <a href="https://landonsw21.github.io/perspective-studio/" target="_blank">Perspective Studio</a>
+        <a href="https://github.com/landonsw21" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="fisheye-demo.js"></script>
+</body>
+</html>

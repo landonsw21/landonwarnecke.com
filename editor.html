@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Fisheye Studio · cube export</title>
+<style>
+:root{color-scheme:dark;--bg:#151817;--panel:#1c201e;--line:#343b36;--muted:#9ba69e;--text:#eef2e9;--accent:#d5f596;--orange:#f5ae73}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:13px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,select,input{font:inherit}button,select{background:#292f2b;border:1px solid #414a42;color:var(--text);border-radius:7px;padding:9px 12px;cursor:pointer}button:hover{background:#374234}button:disabled{opacity:.4;cursor:default}button.primary{background:var(--accent);color:#1c2915;border-color:var(--accent);font-weight:650}button.active{border-color:var(--accent);color:var(--accent);background:#303b25}button.small{padding:5px 9px;font-size:12px}header{height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;border-bottom:1px solid var(--line);gap:16px}.brand{display:flex;align-items:center;gap:12px}.logo{width:34px;height:34px;border:1px solid var(--accent);border-radius:50%;box-shadow:inset -7px 0 0 #748a4c;display:grid;place-items:center;color:var(--accent);font-size:22px}.brand h1{font-size:17px;letter-spacing:-.3px;margin:0 0 4px}.eyebrow{text-transform:uppercase;letter-spacing:1.8px;font-size:9px;color:var(--muted)}.actions{display:flex;gap:8px;align-items:center}.workspace{display:grid;grid-template-columns:minmax(400px,1fr) 320px;min-height:calc(100vh - 76px)}main{min-width:0;padding:24px 26px}.projectline{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.projectline h2{margin:0 0 5px;font-size:19px;font-weight:550;letter-spacing:-.4px}.subtle{color:var(--muted);font-size:12px;line-height:1.6}.badge{font-size:10px;text-transform:uppercase;letter-spacing:1px;padding:6px 9px;border:1px solid #536448;border-radius:20px;color:var(--accent);white-space:nowrap}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}.toolset{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.stage{height:calc(100vh - 290px);min-height:340px;max-height:850px;background:radial-gradient(ellipse at center,#272e28,#111512 75%);border:1px solid var(--line);border-radius:12px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}.view{position:relative;max-width:100%;max-height:100%;touch-action:none}.view canvas{display:block;width:100%;height:100%}#overlay{position:absolute;inset:0;cursor:crosshair}.stage-label{position:absolute;top:15px;left:16px;font-size:9px;letter-spacing:1.5px;color:#97a491;pointer-events:none}.stage-corner{position:absolute;bottom:14px;right:16px;color:#859280;font-size:10px;pointer-events:none}.viewport-footer{display:flex;justify-content:space-between;gap:12px;padding-top:12px;color:var(--muted);font-size:11px}.instruction{margin-top:17px;border-left:2px solid var(--accent);padding-left:12px;line-height:1.6;color:#b9c4b8;font-size:12px}aside{border-left:1px solid var(--line);background:var(--panel);padding:22px 20px;max-height:calc(100vh - 76px);overflow:auto}section{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:18px}section:last-child{border:0}h3{margin:0 0 16px;font-size:11px;text-transform:uppercase;letter-spacing:1.7px;color:#c7d1c3}.control{margin-bottom:14px}.control:last-child{margin-bottom:0}.label{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;font-size:12px;color:#ccd5c8}.label output{color:var(--accent);font-variant-numeric:tabular-nums;font-size:11px}input[type=range]{width:100%;accent-color:var(--accent);height:15px;margin:0;cursor:ew-resize}select{width:100%;padding:8px}input[type=number]{background:#101511;border:1px solid #414a42;border-radius:5px;padding:7px;color:var(--text);width:88px}input[type=checkbox]{accent-color:var(--accent)}.row{display:flex;align-items:center;gap:8px}.row.spread{justify-content:space-between}.btn-group{display:flex;gap:4px;margin-top:6px}.btn-group button{flex:1;padding:5px 8px;font-size:11px}.ringrow{display:grid;grid-template-columns:42px 1fr 40px;gap:8px;align-items:center;margin:12px 0;font-size:11px}.ringrow output{text-align:right;color:var(--accent)}.pinbox{background:#131914;border:1px solid #3c473a;border-radius:7px;padding:12px;margin-top:12px}.pinbox p{margin:0 0 12px}.pinbox[hidden]{display:none}.secondary{color:var(--muted);font-size:11px;line-height:1.6}.status{margin-top:12px;font-size:11px;color:#becdb6;line-height:1.6;overflow-wrap:anywhere}.status.error{color:#ffb099}.export{width:100%;margin-top:12px}.divider{width:1px;height:20px;background:var(--line);margin:0 2px}.notice{background:#2d3525;border:1px solid #52623e;border-radius:6px;padding:9px 12px;margin-bottom:15px;font-size:12px;line-height:1.6}.notice[hidden]{display:none}details summary{cursor:pointer;font-size:12px;color:var(--muted);padding:8px 0}details p{font-size:11px;line-height:1.7;color:var(--muted)}@media(max-width:900px){header{height:auto;padding:16px;align-items:flex-start;flex-wrap:wrap}.workspace{grid-template-columns:1fr}main{padding:18px}aside{max-height:none;border-left:0;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:20px}.stage{height:55vh}.actions{flex-wrap:wrap}}@media(max-width:550px){aside{display:block}.toolbar{align-items:flex-start;flex-direction:column}.projectline{gap:12px}.actions button{font-size:11px;padding:8px}.stage{min-height:280px}.viewport-footer{flex-wrap:wrap}}
+</style></head><body>
+<header><div class="brand"><div class="logo">◉</div><div><h1>Fisheye Studio</h1><div class="eyebrow">Capture once. Shape the view.</div></div></div><div class="actions"><button id="openFolder" class="primary">Open cube folder</button><button id="loadEdit">Load edits</button><button id="saveEdit">Save edits</button></div></header>
+<input id="folderInput" type="file" webkitdirectory multiple hidden><input id="editInput" type="file" accept=".json,application/json" hidden>
+<div class="workspace"><main><div class="projectline"><div><h2 id="projectName">Material study</h2><div class="subtle" id="projectMeta">Interactive sample · load a cube export to use your own render</div></div><span class="badge" id="sourceBadge">Demo scene</span></div><div id="notice" class="notice" hidden></div>
+<div class="toolbar"><div class="toolset"><button class="small active" id="toolRings">◎ Rings</button><button class="small" id="toolPins">⌖ Pins</button><span class="divider"></span><button class="small" id="undo" title="Undo (⌘/Ctrl Z)">Undo</button><button class="small" id="redo" title="Redo (⌘/Ctrl Shift Z)">Redo</button></div><div class="toolset"><button class="small" id="handles">Hide handles</button><button class="small" id="compare" title="Press and hold to see the unedited projection">Hold original</button></div></div>
+<div class="stage" id="stage"><div class="stage-label">LIVE VIEWPORT / GPU</div><div class="view" id="view"><canvas id="render"></canvas><canvas id="overlay" aria-label="Interactive fisheye viewport. Rings: drag a ring. Pins: click to add, drag to move. Pin controls are also available in the sidebar."></canvas></div><div class="stage-corner" id="previewInfo">900 px preview</div></div>
+<div class="viewport-footer"><span id="toolHint">Drag a ring to expand or compress that region.</span><span id="renderInfo">Six faces → one editable view</span></div><div class="instruction" id="instruction"><strong>Shape the lens.</strong> Drag one of the three rings. Its influence fades smoothly into the surrounding image. Switch to Pins for local adjustments.</div><div id="status" class="status" role="status">Ready. All processing stays on this computer.</div>
+</main><aside>
+<section><h3>01 / Projection</h3><div class="control"><label class="label" for="mode">Lens</label><select id="mode">
+<option value="4pt">4-point · 180° fisheye (original)</option>
+<option value="5pt">5-point · variable coverage (original)</option>
+<option value="6pt">6-point · whole sphere (original)</option>
+<option value="pano">360° panorama (original)</option>
+<option value="equisolid">Equisolid · standard photographic lens</option>
+<option value="stereographic">Stereographic · conformal action cam</option>
+<option value="equidistant">Equidistant · dome master</option>
+<option value="orthographic">Orthographic · hemisphere map</option>
+</select></div>
+<div id="projectionControls"></div></section>
+<section><div class="row spread"><h3 style="margin:0">02 / Displacement</h3><button class="small" id="resetWarp">Reset</button></div><p class="secondary">Rings expand (+) or compress (−) the image. Pins pull a local region; locked pins hold it in place.</p><div id="ringControls"></div><div id="warpControls"></div><div class="row spread"><span id="pinCount" class="secondary">0 / 12 pins</span><button id="clearPins" class="small">Clear pins</button></div>
+<div id="pinbox" class="pinbox" hidden><p id="pinTitle">Pin 1</p><div id="pinControls"></div><div class="row spread"><label><input id="pinLocked" type="checkbox"> Lock / anchor</label><button id="deletePin" class="small">Delete</button></div></div></section>
+<section><div class="row spread"><h3 style="margin:0">03 / Lens & Optics</h3><label title="Enable glass effects"><input id="glassEnabled" type="checkbox" checked> Glass On</label></div><p class="secondary">Physical vignetting, radial dispersion and stylized glass highlights.</p><div id="opticControls"></div><div id="glassControls"></div></section>
+<section><h3>04 / High-Quality Export</h3>
+<div class="row spread"><label for="exportWidth">Width (pixels)</label><input id="exportWidth" type="number" min="200" max="16000" step="100" value="3840"></div>
+<div class="btn-group"><button class="small" id="res2k">2K (2048)</button><button class="small" id="res4k">4K (3840)</button><button class="small" id="res6k">6K (6000)</button><button class="small" id="res8k">8K (8192)</button></div>
+<p id="exportDimensions" class="secondary"></p>
+<div class="control" style="margin-top:10px"><label class="label" for="exportSSAA">Anti-Aliasing (SSAA)<output id="ssaaLabel">2×2 (4×)</output></label>
+<select id="exportSSAA">
+<option value="1">1× · Standard (Fast export)</option>
+<option value="2" selected>2×2 SSAA · High Quality (4× subpixel)</option>
+<option value="3">3×3 SSAA · Studio Ultra (9× subpixel)</option>
+</select></div>
+<div class="row spread" style="margin:8px 0"><label class="secondary"><input id="bicubicFiltering" type="checkbox" checked> Sharp texture sampling (Bicubic)</label></div>
+<div class="row spread" style="margin-bottom:12px"><label class="secondary"><input id="transparent" type="checkbox" checked> Transparent outside lens rim</label></div>
+<button id="exportPNG" class="primary export">Export master PNG ↗</button>
+<details><summary>About this workflow</summary><p>Open a folder containing project.json and six face PNGs from cube export. Edits are saved as a small JSON file; keep it with your original cube capture. SSAA evaluates subpixel ray directions to eliminate aliasing and polygon edges. Final export samples the retained source textures, not the preview.</p><p>No uploads, external libraries, installation, or account required. Output is 8-bit PNG decoded locally by WebGL 2.</p></details></section>
+</aside></div>
+<script>
+'use strict';
+const $=id=>document.getElementById(id), FACE_NAMES=['front','right','back','left','up','down'];
+const defaults=()=>({mode:'4pt',hc:100,vc:100,coverage:180,back:3,panoHeight:45,yaw:0,pitch:0,rings:[0,0,0],ringSpread:.22,pins:[],radialChroma:.15,vignette:.20,glassEnabled:true,glassWidth:.16,refraction:.25,shine:.68,glow:.25,angle:-35,softness:.45,chroma:.25,darkness:.18,transparent:true,exportWidth:3840,exportSSAA:2,bicubicFiltering:true});
+let state=defaults(), project=null, demo=true, tangent=1, sourceSize=0, textureSize=0, selectedPin=-1, tool='rings', showHandles=true, compare=false, dragging=null, history=[], future=[], pending=false, busy=false, sources=[], textures=[];
+const canvas=$('render'), overlay=$('overlay'), ctx=overlay.getContext('2d'), gl=canvas.getContext('webgl2',{alpha:true,premultipliedAlpha:false,preserveDrawingBuffer:true,antialias:false});
+function status(s,error=false){$('status').textContent=s;$('status').classList.toggle('error',error)}
+if(!gl){status('WebGL 2 is unavailable. Open this file in a browser with hardware acceleration enabled.',true);throw Error('WebGL 2 unavailable')}
+const vertex=`#version 300 es
+in vec2 position;void main(){gl_Position=vec4(position,0,1);}`;
+const fragment=`#version 300 es
+precision highp float;
+out vec4 color;
+uniform vec2 fullSize,tileOffset;uniform vec4 bounds;
+uniform int mode;uniform vec2 stretch;uniform float thMax,kappa,panoHeight,tangent,yaw,pitch,focal;
+uniform bool demo,original,glassOn,transparent,bicubic;
+uniform vec3 rings;uniform float ringSpread;
+uniform int pinCount;uniform vec4 pins[12];uniform vec2 pinProps[12];
+uniform float radialChroma,vignette,glassWidth,refraction,shine,glow,angle,softness,chroma,darkness;
+uniform int ssaa;
+uniform sampler2D frontTex,rightTex,backTex,leftTex,upTex,downTex;
+const float PI=3.141592653589793;
+
+float tk(float t){if(t<=PI*.5||mode!=2)return t;float v=(t-PI*.5)/(PI*.5);return PI*.5*(1.+(abs(kappa)<1.e-5?v:(1.-exp(-kappa*v))/kappa));}
+float reach(vec2 p){return 1./length(p/stretch);}
+float edgeRadius(vec2 p){
+ if(mode>=4){vec2 d=normalize(p);return reach(d);}
+ vec2 d=normalize(p);float a=reach(d);float th=min(thMax,PI*.99999);return a*tk(atan(sin(th),a*cos(th)));
+}
+vec3 unproject(vec2 p){
+ if(mode==3){
+  float a=stretch.x;float yaw0=atan(a*sin(p.x/a),cos(p.x/a));float tall=sqrt(a*a/(a*a*cos(yaw0)*cos(yaw0)+sin(yaw0)*sin(yaw0)));
+  float e=atan(p.y/tall);if(abs(e)>panoHeight||abs(p.x)>PI*a)return vec3(0);return vec3(cos(e)*sin(yaw0),sin(e),cos(e)*cos(yaw0));
+ }
+ if(mode>=4){
+  vec2 pNorm=p/stretch;float rad=length(pNorm);if(rad<1.e-7)return vec3(0,0,1);
+  vec2 d=pNorm/rad;float th=0.;
+  if(mode==4){float val=clamp(rad/(2.*max(.001,focal)),-1.,1.);th=2.*asin(val);}
+  else if(mode==5){th=2.*atan(rad/(2.*max(.001,focal)));}
+  else if(mode==6){th=rad/max(.001,focal);}
+  else if(mode==7){float val=clamp(rad/max(.001,focal),-1.,1.);th=asin(val);}
+  if(th>thMax+.0001)return vec3(0);return vec3(sin(th)*d.x,sin(th)*d.y,cos(th));
+ }
+ float rad=length(p);if(rad<1.e-7)return vec3(0,0,1);vec2 d=p/rad;float a=reach(d);float t=rad/a;
+ if(mode==2&&t>PI*.5){float v=t/(PI*.5)-1.;if(abs(kappa)<1.e-5)t=PI*.5*(1.+v);else {if(1.-kappa*v<=0.)return vec3(0);t=PI*.5*(1.-log(1.-kappa*v)/kappa);}}
+ if(t>PI)return vec3(0);float th=atan(a*sin(t),cos(t));if(th>thMax+.00001)return vec3(0);return vec3(sin(th)*d,cos(th));
+}
+
+vec4 sampleTex(sampler2D tex,vec2 uv){
+ if(!bicubic||demo)return texture(tex,uv);
+ vec2 res=vec2(textureSize(tex,0));vec2 coord=uv*res-.5;vec2 f=fract(coord);vec2 i=floor(coord);
+ vec2 w0=f*(-.5+f*(1.-.5*f));vec2 w1=1.+f*f*(-2.5+1.5*f);vec2 w2=f*(.5+f*(2.-1.5*f));vec2 w3=f*f*(-.5+.5*f);
+ vec2 s0=w0+w1;vec2 s1=w2+w3;vec2 f0=(i-.5+w1/s0)/res;vec2 f1=(i+1.5+w3/s1)/res;
+ return texture(tex,vec2(f0.x,f0.y))*s0.x*s0.y+texture(tex,vec2(f1.x,f0.y))*s1.x*s0.y+
+        texture(tex,vec2(f0.x,f1.y))*s0.x*s1.y+texture(tex,vec2(f1.x,f1.y))*s1.x*s1.y;
+}
+
+vec4 scene(vec3 d){
+ float cy=cos(yaw),sy=sin(yaw),cp=cos(pitch),sp=sin(pitch);d=vec3(d.x,d.y*cp-d.z*sp,d.y*sp+d.z*cp);d=vec3(d.x*cy+d.z*sy,d.y,d.z*cy-d.x*sy);
+ if(demo){
+  vec3 base=mix(vec3(.075,.10,.08),vec3(.36,.43,.32),.5+.5*d.y);float closest=1000.;vec3 result=base;
+  if(d.y<-.02){float t=-2.5/d.y;vec3 p=d*t;float grid=step(.96,fract(p.x*.35))+step(.96,fract(p.z*.35));result=mix(vec3(.18,.23,.17),vec3(.27,.33,.23),min(1.,grid)*.5);closest=t;}
+  for(int i=0;i<13;i++){
+   float fi=float(i),a=fi*2.39996;float z=1.-2.*(fi+.5)/13.;vec3 c=vec3(sqrt(1.-z*z)*cos(a),sqrt(1.-z*z)*sin(a),z)*5.;float radius=.9+.18*sin(fi*2.);
+   float b=dot(d,c),disc=b*b-dot(c,c)+radius*radius;
+   if(disc>0.){float t=b-sqrt(disc);if(t>0.&&t<closest){closest=t;vec3 n=normalize(d*t-c);vec3 light=normalize(vec3(-.6,1.,.8));vec3 tint=mix(vec3(.46,.66,.24),vec3(.86,.47,.23),.5+.5*sin(fi*1.7));float diff=max(0.,dot(n,light));float spec=pow(max(0.,dot(reflect(-light,n),-d)),50.);float rim=pow(1.-max(0.,dot(n,-d)),3.);result=tint*(.19+.8*diff)+vec3(.95,.99,.83)*spec*.9+rim*.12;}}
+  }return vec4(result,1);
+ }
+ vec3 a=abs(d);vec2 uv;vec4 c;
+ if(a.z>=a.x&&a.z>=a.y){uv=d.z>0.?vec2(d.x/d.z,d.y/d.z):vec2(d.x/d.z,-d.y/d.z);uv=vec2(.5+uv.x/(2.*tangent),.5-uv.y/(2.*tangent));c=d.z>0.?sampleTex(frontTex,uv):sampleTex(backTex,uv);}
+ else if(a.x>=a.y){uv=d.x>0.?vec2(-d.z/d.x,d.y/d.x):vec2(-d.z/d.x,-d.y/d.x);uv=vec2(.5+uv.x/(2.*tangent),.5-uv.y/(2.*tangent));c=d.x>0.?sampleTex(rightTex,uv):sampleTex(leftTex,uv);}
+ else {uv=d.y>0.?vec2(d.x/d.y,-d.z/d.y):vec2(-d.x/d.y,-d.z/d.y);uv=vec2(.5+uv.x/(2.*tangent),.5-uv.y/(2.*tangent));c=d.y>0.?sampleTex(upTex,uv):sampleTex(downTex,uv);}return c;
+}
+
+vec2 lensPoint(vec2 q){return mix(bounds.xz,bounds.yw,(q+1.)*.5);}
+vec2 clampLens(vec2 p){if(mode!=3&&length(p)>1.e-6){float edge=edgeRadius(p);p*=min(1.,edge*.99999/length(p));}return p;}
+
+vec4 evaluateRay(vec2 coord){
+ vec2 q=coord/fullSize*2.-1.;vec2 p0=lensPoint(q);vec3 d0=unproject(p0);
+ if(length(d0)<.1)return vec4(0,0,0,transparent?0.:1.);
+ float rho=mode==3?0.:length(p0)/max(.00001,edgeRadius(p0+vec2(1.e-9)));float a=atan(q.y,q.x);vec2 warped=q;
+ if(!original){
+  vec2 delta=vec2(0);float weight=0.;
+  for(int i=0;i<12;i++){if(i>=pinCount)break;float dist=distance(q,pins[i].zw)/max(.03,pinProps[i].x);float w=exp(-dist*dist*3.);if(pinProps[i].y>.5){delta+=(pins[i].zw-pins[i].xy)*w*8.;weight+=w*8.;}else {delta+=(pins[i].zw-pins[i].xy)*w;weight+=w;}}
+  warped-=delta/max(1.,weight);
+  float r=length(warped);float change=0.;for(int i=0;i<3;i++){float center=.28+float(i)*.27;float x=(r-center)/ringSpread;change+=rings[i]*exp(-x*x*2.);}
+  float fade=smoothstep(0.,.12,r)*(1.-smoothstep(.88,1.05,r));warped-=normalize(warped+vec2(1.e-9))*change*fade;
+ }
+ vec2 p=clampLens(lensPoint(warped));float band=smoothstep(1.-glassWidth,1.,rho);float bulge=sin(clamp((rho-1.+glassWidth)/glassWidth,0.,1.)*PI);
+ if(glassOn&&!original&&mode!=3)p*=1.-refraction*.15*bulge*band;
+ vec3 d=unproject(p);vec4 c=length(d)<.1?vec4(0):scene(d);
+ 
+ // Full-frame radial chromatic aberration
+ if(radialChroma>.001&&!original&&mode!=3){
+  float rDisp=radialChroma*.006*rho*rho;
+  vec4 cr=scene(unproject(clampLens(p*(1.-rDisp))));
+  vec4 cb=scene(unproject(clampLens(p*(1.+rDisp))));
+  c.r=cr.r;c.b=cb.b;
+ }
+ 
+ if(glassOn&&!original&&mode!=3){
+  float dispersion=chroma*.004*band;vec4 cr=scene(unproject(clampLens(p*(1.-dispersion))));vec4 cb=scene(unproject(clampLens(p*(1.+dispersion))));c.r=mix(c.r,cr.r,chroma);c.b=mix(c.b,cb.b,chroma);
+  float pos=(rho-1.+glassWidth)/glassWidth;float width=.06+softness*.20;
+  float arc1=pow(max(0.,cos(a-angle)),18.)*exp(-pow((pos-.42)/width,2.));
+  float arc2=.5*pow(max(0.,cos(a-angle-PI*.95)),11.)*exp(-pow((pos-.72)/(width*.85),2.));
+  float reflection=shine*(arc1+arc2)*.9;float halo=glow*.35*exp(-pow((pos-.5)/.55,2.))*band;
+  float edge=exp(-pow((rho-.993)/.018,2.));c.rgb*=1.-darkness*edge*.65;c.rgb=mix(c.rgb,vec3(.92,.96,1.),clamp(reflection+halo,0.,.95));
+ }
+ 
+ // Optical vignetting
+ if(vignette>.001&&!original&&mode!=3){
+  float vig=pow(clamp(cos(rho*1.2),0.,1.),vignette*3.);
+  c.rgb*=vig;
+ }
+ 
+ // Antialiased rim mask
+ if(mode!=3){
+  float rimMask=smoothstep(1.,.993,rho);
+  c.a*=rimMask;
+  if(!transparent)c.rgb*=rimMask;
+ }
+ return vec4(c.rgb,transparent?c.a:1.);
+}
+
+void main(){
+ vec2 baseCoord=gl_FragCoord.xy+tileOffset;
+ if(ssaa<=1){
+  color=evaluateRay(baseCoord);
+ } else if(ssaa==2){
+  // 4-sample Rotated Grid Super-Sampling (RGSS)
+  vec4 c0=evaluateRay(baseCoord+vec2(-.375,-.125));
+  vec4 c1=evaluateRay(baseCoord+vec2(-.125, .375));
+  vec4 c2=evaluateRay(baseCoord+vec2( .125,-.375));
+  vec4 c3=evaluateRay(baseCoord+vec2( .375, .125));
+  color=(c0+c1+c2+c3)*.25;
+ } else {
+  // 9-sample 3x3 uniform supersampling
+  vec4 sum=vec4(0);
+  for(float dy=-.333;dy<=.334;dy+=.333){
+   for(float dx=-.333;dx<=.334;dx+=.333){
+    sum+=evaluateRay(baseCoord+vec2(dx,dy));
+   }
+  }
+  color=sum*(1./9.);
+ }
+}`;
+function compile(type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s}
+let program;try{program=gl.createProgram();gl.attachShader(program,compile(gl.VERTEX_SHADER,vertex));gl.attachShader(program,compile(gl.FRAGMENT_SHADER,fragment));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));gl.useProgram(program)}catch(e){status('The GPU could not start: '+e.message,true);throw e}
+const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);const pos=gl.getAttribLocation(program,'position');gl.enableVertexAttribArray(pos);gl.vertexAttribPointer(pos,2,gl.FLOAT,false,0,0);
+const locations={};function loc(n){return locations[n]??(locations[n]=gl.getUniformLocation(program,n))}function f(n,v){gl.uniform1f(loc(n),v)}function i(n,v){gl.uniform1i(loc(n),v)}
+for(let j=0;j<6;j++){const t=gl.createTexture();textures.push(t);gl.activeTexture(gl.TEXTURE0+j);gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array([0,0,0,255]));gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);i(FACE_NAMES[j]+'Tex',j)}
+
+const ALL_MODES=['4pt','5pt','6pt','pano','equisolid','stereographic','equidistant','orthographic'];
+function lensConfig(s=state){
+ let k=0,th=Math.PI/2,focal=1.0;const st=[100/s.hc,100/s.vc];
+ if(s.mode==='5pt')th=s.coverage*Math.PI/360;
+ if(s.mode==='6pt'){
+  th=Math.PI;let lo=-60,hi=60;
+  for(let j=0;j<64;j++){let mid=(lo+hi)/2,val=Math.abs(mid)<1e-9?1:-Math.expm1(-mid)/mid;if(val>s.back-1)lo=mid;else hi=mid}
+  k=(lo+hi)/2;
+ }
+ const modeIdx=ALL_MODES.indexOf(s.mode);
+ if(modeIdx>=4){
+  th=(s.coverage||180)*Math.PI/360;
+  if(s.mode==='equisolid')focal=1./(2.*Math.sin(th/2.));
+  else if(s.mode==='stereographic')focal=1./(2.*Math.tan(th/2.));
+  else if(s.mode==='equidistant')focal=1./th;
+  else if(s.mode==='orthographic')focal=1./Math.sin(th);
+  const x=st[0],y=st[1];
+  return {k,th,st,focal,b:[-x,x,-y,y],aspect:x/y};
+ }
+ const tk=t=>t<=Math.PI/2||s.mode!=='6pt'?t:Math.PI/2*(1+(Math.abs(k)<1e-9?(t-Math.PI/2)/(Math.PI/2):-Math.expm1(-k*(t-Math.PI/2)/(Math.PI/2))/k));
+ let x=0,y=0;
+ if(s.mode==='pano'){x=Math.PI*st[0];y=Math.max(1,st[0])*Math.tan(s.panoHeight*Math.PI/180)}
+ else for(let j=0;j<1440;j++){let a=j*Math.PI/720,c=Math.cos(a),v=Math.sin(a),A=1/Math.hypot(c/st[0],v/st[1]),t=Math.min(th,Math.PI*.99999),r=A*tk(Math.atan2(Math.sin(t),A*Math.cos(t)));x=Math.max(x,Math.abs(r*c));y=Math.max(y,Math.abs(r*v))}
+ const pad=.004*x;x+=pad;y+=pad;return {k,th,st,focal,b:[-x,x,-y,y],aspect:x/y};
+}
+
+function uniforms(width,height,ox=0,oy=0,samples=1){
+ const c=lensConfig();gl.uniform2f(loc('fullSize'),width,height);gl.uniform2f(loc('tileOffset'),ox,oy);gl.uniform4fv(loc('bounds'),c.b);gl.uniform2fv(loc('stretch'),c.st);
+ i('mode',ALL_MODES.indexOf(state.mode));f('thMax',c.th);f('kappa',c.k);f('panoHeight',state.panoHeight*Math.PI/180);f('focal',c.focal);f('tangent',tangent);
+ f('yaw',state.yaw*Math.PI/180);f('pitch',state.pitch*Math.PI/180);i('demo',demo);i('original',compare);i('glassOn',state.glassEnabled);i('transparent',state.transparent);
+ i('bicubic',state.bicubicFiltering);i('ssaa',samples);f('radialChroma',state.radialChroma);f('vignette',state.vignette);
+ gl.uniform3fv(loc('rings'),state.rings);f('ringSpread',state.ringSpread);i('pinCount',state.pins.length);
+ const ps=new Float32Array(48),pp=new Float32Array(24);state.pins.forEach((p,j)=>{ps.set([p.x,p.y,p.tx,p.ty],j*4);pp.set([p.radius,p.locked?1:0],j*2)});
+ gl.uniform4fv(loc('pins[0]'),ps);gl.uniform2fv(loc('pinProps[0]'),pp);
+ for(const n of ['glassWidth','refraction','shine','glow','softness','chroma','darkness'])f(n,state[n]);f('angle',state.angle*Math.PI/180);
+}
+
+function frame(w,h,fullW=w,fullH=h,ox=0,oy=0,samples=1){
+ canvas.width=w;canvas.height=h;gl.viewport(0,0,w,h);uniforms(fullW,fullH,ox,oy,samples);gl.drawArrays(gl.TRIANGLES,0,6);
+}
+
+function render(){
+ pending=false;if(busy)return;const c=lensConfig(),max=dragging?600:1000;
+ let w=c.aspect>=1?max:Math.max(32,Math.round(max*c.aspect)),h=c.aspect>=1?Math.max(32,Math.round(max/c.aspect)):max;
+ frame(w,h,w,h,0,0,1);
+ const sw=$('stage').clientWidth-40,sh=$('stage').clientHeight-46,scale=Math.min(sw/w,sh/h);
+ $('view').style.width=w*scale+'px';$('view').style.height=h*scale+'px';overlay.width=w;overlay.height=h;
+ drawOverlay();
+ $('previewInfo').textContent=`${w} × ${h} · ${dragging?'interactive':'live'} preview`;
+ const H=Math.round(state.exportWidth/c.aspect);
+ $('exportDimensions').textContent=`${state.exportWidth.toLocaleString()} × ${H.toLocaleString()} px · ${(state.exportWidth*H/1e6).toFixed(1)} MP`;
+}
+function schedule(){if(!pending){pending=true;requestAnimationFrame(render)}}
+
+function drawOverlay(){
+ ctx.clearRect(0,0,overlay.width,overlay.height);if(!showHandles||compare)return;
+ const w=overlay.width,h=overlay.height,line=Math.max(1,w/850);ctx.lineWidth=line;const pt=(x,y)=>[(x+1)*w/2,(1-y)*h/2];
+ if(tool==='rings'){
+  for(let j=0;j<3;j++){
+   const r=.28+j*.27+state.rings[j];ctx.strokeStyle=j===dragging?.index?'#fff':'#d5f59699';ctx.setLineDash([line*5,line*5]);ctx.beginPath();
+   ctx.ellipse(w/2,h/2,r*w/2,r*h/2,0,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);const x=w/2+r*w/2,y=h/2;ctx.fillStyle='#d5f596';
+   ctx.beginPath();ctx.arc(x,y,5*line,0,7);ctx.fill();ctx.font=`${12*line}px sans-serif`;ctx.fillText(String(j+1),x+9*line,y-8*line);
+  }
+ }
+ if(tool==='pins')state.pins.forEach((p,j)=>{
+  const a=pt(p.x,p.y),b=pt(p.tx,p.ty);ctx.strokeStyle=p.locked?'#a4b5c8':'#f5ae73';ctx.fillStyle=ctx.strokeStyle;
+  if(j===selectedPin){ctx.globalAlpha=.25;ctx.beginPath();ctx.ellipse(...b,p.radius*w/2,p.radius*h/2,0,0,7);ctx.stroke();ctx.globalAlpha=1}
+  ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.stroke();ctx.beginPath();ctx.arc(...a,3*line,0,7);ctx.stroke();ctx.beginPath();ctx.arc(...b,6*line,0,7);ctx.fill();
+  ctx.fillStyle='#121812';ctx.font=`bold ${9*line}px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(p.locked?'×':String(j+1),...b);
+  ctx.textAlign='left';ctx.textBaseline='alphabetic';
+ });
+}
+
+function snapshot(){return JSON.stringify(state)}
+function checkpoint(){const now=snapshot();if(history.at(-1)!==now){history.push(now);if(history.length>80)history.shift()}future=[];updateHistory()}
+function updateHistory(){$('undo').disabled=!history.length;$('redo').disabled=!future.length}
+function undo(){if(busy||!history.length)return;future.push(snapshot());state=JSON.parse(history.pop());selectedPin=-1;sync();schedule()}
+function redo(){if(busy||!future.length)return;history.push(snapshot());state=JSON.parse(future.pop());selectedPin=-1;sync();schedule()}
+
+const definitions=[
+ ['projectionControls','hc','Horizontal curvature',25,200,1,'%'],
+ ['projectionControls','vc','Vertical curvature',25,200,1,'%'],
+ ['projectionControls','coverage','Field of view coverage',10,359,1,'°'],
+ ['projectionControls','back','Back rim',1.05,8,.05,'×'],
+ ['projectionControls','panoHeight','Panorama half-height',5,80,1,'°'],
+ ['projectionControls','yaw','Look left / right',-180,180,1,'°'],
+ ['projectionControls','pitch','Look up / down',-89,89,1,'°'],
+ ['warpControls','ringSpread','Ring falloff',.08,.5,.01,'percent'],
+ ['opticControls','radialChroma','Radial chromatic dispersion',0,1,.01,'percent'],
+ ['opticControls','vignette','Optical vignetting (falloff)',0,1,.01,'percent'],
+ ['glassControls','glassWidth','Border width',.02,.35,.01,'percent'],
+ ['glassControls','refraction','Refraction',0,1,.01,'percent'],
+ ['glassControls','shine','Reflections',0,1,.01,'percent'],
+ ['glassControls','angle','Reflection angle',-180,180,1,'°'],
+ ['glassControls','softness','Reflection softness',0,1,.01,'percent'],
+ ['glassControls','glow','Inner glow',0,1,.01,'percent'],
+ ['glassControls','chroma','Edge chromatic fringe',0,1,.01,'percent'],
+ ['glassControls','darkness','Edge darkness',0,1,.01,'percent']
+];
+function display(v,unit){return unit==='percent'?Math.round(v*100)+'%':(Number.isInteger(v)?v:v.toFixed(2))+unit}
+for(const [parent,id,label,min,max,step,unit] of definitions){
+ const div=document.createElement('div');div.className='control';div.id=id+'Control';
+ div.innerHTML=`<label class="label" for="${id}">${label}<output id="${id}Value"></output></label><input type="range" id="${id}" min="${min}" max="${max}" step="${step}">`;
+ $(parent).append(div);const el=$(id);el.onpointerdown=checkpoint;
+ el.onkeydown=e=>{if(e.key.startsWith('Arrow'))checkpoint()};
+ el.oninput=()=>{state[id]=+el.value;syncValues();schedule()};
+}
+for(let j=0;j<3;j++){
+ const div=document.createElement('div');div.className='ringrow';
+ div.innerHTML=`<label for="ring${j}">Ring ${j+1}</label><input type="range" id="ring${j}" min="-.18" max=".18" step=".002"><output id="ring${j}Value"></output>`;
+ $('ringControls').append(div);$('ring'+j).onpointerdown=checkpoint;$('ring'+j).onkeydown=e=>{if(e.key.startsWith('Arrow'))checkpoint()};
+ $('ring'+j).oninput=()=>{state.rings[j]=+$('ring'+j).value;syncValues();schedule()};
+}
+for(const [id,label,min,max,step] of [['radius','Influence radius',.05,.8,.01],['tx','Horizontal position',-.98,.98,.01],['ty','Vertical position',-.98,.98,.01]]){
+ const div=document.createElement('div');div.className='control';
+ div.innerHTML=`<label class="label" for="pin_${id}">${label}<output id="pin_${id}Value"></output></label><input id="pin_${id}" type="range" min="${min}" max="${max}" step="${step}">`;
+ $('pinControls').append(div);const el=$('pin_'+id);el.onpointerdown=checkpoint;el.onkeydown=e=>{if(e.key.startsWith('Arrow'))checkpoint()};
+ el.oninput=()=>{const p=state.pins[selectedPin];if(!p)return;p[id]=+el.value;syncPin();schedule()};
+}
+
+function syncPin(){
+ const p=state.pins[selectedPin];$('pinbox').hidden=!p;$('pinCount').textContent=`${state.pins.length} / 12 pins`;if(!p)return;
+ $('pinTitle').textContent=`Pin ${selectedPin+1}${p.locked?' · anchor':''}`;
+ for(const id of ['radius','tx','ty']){$('pin_'+id).value=p[id];$('pin_'+id).disabled=p.locked&&id!=='radius';$('pin_'+id+'Value').textContent=Math.round(p[id]*100)+'%'}
+ $('pinLocked').checked=p.locked;
+}
+
+function syncValues(){
+ for(const [,id,,,, ,unit] of definitions)$(id+'Value').textContent=display(state[id],unit);
+ state.rings.forEach((v,j)=>{$('ring'+j+'Value').textContent=(v>0?'+':'')+Math.round(v*100)+'%'});
+ const hasCoverage=['5pt','equisolid','stereographic','equidistant','orthographic'].includes(state.mode);
+ $('coverageControl').hidden=!hasCoverage;$('backControl').hidden=state.mode!=='6pt';
+ $('panoHeightControl').hidden=state.mode!=='pano';$('vcControl').hidden=state.mode==='pano';
+ syncPin();
+}
+
+function sync(){
+ for(const [,id] of definitions)$(id).value=state[id];
+ state.rings.forEach((v,j)=>$('ring'+j).value=v);
+ $('mode').value=state.mode;$('glassEnabled').checked=state.glassEnabled;$('transparent').checked=state.transparent;
+ $('exportWidth').value=state.exportWidth;$('exportSSAA').value=state.exportSSAA||2;$('bicubicFiltering').checked=!!state.bicubicFiltering;
+ syncValues();updateHistory();
+}
+
+function setTool(t){
+ tool=t;$('toolRings').classList.toggle('active',t==='rings');$('toolPins').classList.toggle('active',t==='pins');
+ $('toolHint').textContent=t==='rings'?'Drag a ring to expand or compress that region.':'Click to add a pin. Drag to pull. Select a pin to adjust or lock.';
+ $('instruction').innerHTML=t==='rings'?'<strong>Shape the lens.</strong> Drag one of the three rings. Its influence fades smoothly into the surrounding image. Switch to Pins for local adjustments.':'<strong>Pull a local region.</strong> Click inside the lens to add a pin, then drag it. Add a locked pin to protect a nearby area. Use the sidebar to edit its influence or position.';
+ schedule();
+}
+function coords(e){const r=overlay.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width*2-1,y:1-(e.clientY-r.top)/r.height*2}}
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+
+overlay.onpointerdown=e=>{
+ if(busy||!showHandles||compare)return;const q=coords(e);
+ if(tool==='rings'){
+  let best=0,dist=Infinity;state.rings.forEach((v,j)=>{let d=Math.abs(Math.hypot(q.x,q.y)-(.28+j*.27+v));if(d<dist){dist=d;best=j}});
+  if(dist>.09)return;checkpoint();dragging={type:'ring',index:best,start:Math.hypot(q.x,q.y),value:state.rings[best]};
+ } else {
+  let j=state.pins.findIndex(p=>Math.hypot(p.tx-q.x,p.ty-q.y)<.06);
+  if(j<0){
+   if(state.pins.length>=12){status('All 12 pins are in use. Delete a pin to add another.');return}
+   if(state.mode!=='pano'&&Math.hypot(q.x,q.y)>.97)return;
+   checkpoint();j=state.pins.length;state.pins.push({x:q.x,y:q.y,tx:q.x,ty:q.y,radius:.28,locked:false});
+  } else checkpoint();
+  selectedPin=j;syncPin();if(!state.pins[j].locked)dragging={type:'pin',index:j};
+ }
+ overlay.setPointerCapture(e.pointerId);schedule();
+};
+
+overlay.onpointermove=e=>{
+ if(!dragging)return;const q=coords(e);
+ if(dragging.type==='ring')state.rings[dragging.index]=clamp(dragging.value+Math.hypot(q.x,q.y)-dragging.start,-.18,.18);
+ else {const p=state.pins[dragging.index];p.tx=clamp(q.x,-.98,.98);p.ty=clamp(q.y,-.98,.98)}
+ sync();schedule();
+};
+
+function endDrag(){dragging=null;schedule()}
+overlay.onpointerup=endDrag;overlay.onpointercancel=endDrag;overlay.onlostpointercapture=endDrag;
+$('toolRings').onclick=()=>setTool('rings');$('toolPins').onclick=()=>setTool('pins');$('undo').onclick=undo;$('redo').onclick=redo;
+$('handles').onclick=()=>{showHandles=!showHandles;$('handles').textContent=showHandles?'Hide handles':'Show handles';schedule()};
+$('compare').onpointerdown=e=>{if(busy)return;compare=true;$('compare').setPointerCapture(e.pointerId);schedule()};
+$('compare').onpointerup=$('compare').onpointercancel=$('compare').onlostpointercapture=()=>{compare=false;schedule()};
+$('compare').onkeydown=e=>{if(e.key===' '){e.preventDefault();compare=true;schedule()}};$('compare').onkeyup=()=>{compare=false;schedule()};
+$('mode').onchange=()=>{checkpoint();state.mode=$('mode').value;sync();schedule()};
+for(const id of ['glassEnabled','transparent','bicubicFiltering'])$(id).onchange=()=>{checkpoint();state[id]=$(id).checked;schedule()};
+$('exportSSAA').onchange=()=>{checkpoint();state.exportSSAA=+($('exportSSAA').value||2);$('ssaaLabel').textContent=$('exportSSAA').options[$('exportSSAA').selectedIndex].text.split('·')[0];schedule()};
+$('exportWidth').onchange=()=>{checkpoint();state.exportWidth=clamp(Math.round(+$('exportWidth').value||3840),200,16000);sync();schedule()};
+for(const [btnId,w] of [['res2k',2048],['res4k',3840],['res6k',6000],['res8k',8192]]){
+ $(btnId).onclick=()=>{checkpoint();state.exportWidth=w;sync();schedule()};
+}
+$('resetWarp').onclick=()=>{checkpoint();state.rings=[0,0,0];state.pins=[];selectedPin=-1;sync();schedule()};
+$('clearPins').onclick=()=>{checkpoint();state.pins=[];selectedPin=-1;sync();schedule()};
+$('deletePin').onclick=()=>{if(selectedPin<0)return;checkpoint();state.pins.splice(selectedPin,1);selectedPin=-1;sync();schedule()};
+$('pinLocked').onchange=()=>{const p=state.pins[selectedPin];if(!p)return;checkpoint();p.locked=$('pinLocked').checked;syncPin();schedule()};
+document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='z'){e.preventDefault();e.shiftKey?redo():undo()}if(e.key==='Escape'){selectedPin=-1;syncPin();schedule()}});
+window.addEventListener('resize',schedule);window.addEventListener('blur',()=>{compare=false;dragging=null;schedule()});
+
+function download(blob,name){const a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),30000)}
+function safeName(){return (project?.name||'fisheye-study').replace(/[^\w .-]/g,'_')}
+$('saveEdit').onclick=()=>download(new Blob([JSON.stringify({schema:'fisheye-edits',version:1,capture:project?{name:project.name,created:project.created,faces:project.faces}:null,state},null,2)],{type:'application/json'}),safeName()+'.fisheye.json');
+
+function validateEdits(data){
+ if(data.schema!=='fisheye-edits'||data.version!==1||!data.state)throw Error('This is not a supported Fisheye Studio edit file.');
+ const s=defaults(),v=data.state;if(!ALL_MODES.includes(v.mode))throw Error('Invalid lens mode: '+v.mode);
+ s.mode=v.mode;
+ for(const [,id,,min,max] of definitions){if(v[id]!==undefined){if(typeof v[id]!=='number'||!Number.isFinite(v[id]))throw Error('Invalid '+id);s[id]=clamp(v[id],min,max)}}
+ if(Array.isArray(v.rings)&&v.rings.length===3&&v.rings.every(x=>typeof x==='number'&&Number.isFinite(x)))s.rings=v.rings.map(x=>clamp(x,-.18,.18));
+ if(Array.isArray(v.pins)&&v.pins.length<=12){
+  s.pins=v.pins.map(p=>{for(const k of ['x','y','tx','ty','radius'])if(typeof p[k]!=='number'||!Number.isFinite(p[k]))throw Error('Invalid pin.');return {x:clamp(p.x,-1,1),y:clamp(p.y,-1,1),tx:clamp(p.tx,-.98,.98),ty:clamp(p.ty,-.98,.98),radius:clamp(p.radius,.05,.8),locked:!!p.locked}});
+ }
+ if(v.glassEnabled!==undefined)s.glassEnabled=!!v.glassEnabled;
+ if(v.transparent!==undefined)s.transparent=!!v.transparent;
+ if(v.bicubicFiltering!==undefined)s.bicubicFiltering=!!v.bicubicFiltering;
+ if(v.exportSSAA!==undefined)s.exportSSAA=clamp(Math.round(Number(v.exportSSAA)||2),1,3);
+ if(v.exportWidth!==undefined)s.exportWidth=clamp(Math.round(Number(v.exportWidth)||3840),200,16000);
+ return s;
+}
+
+$('loadEdit').onclick=()=>$('editInput').click();
+$('editInput').onchange=async e=>{
+ const file=e.target.files[0];if(!file)return;try{
+  const data=JSON.parse(await file.text()),next=validateEdits(data);checkpoint();state=next;selectedPin=-1;sync();schedule();
+  status(data.capture&&data.capture.name!==project?.name?'Edits loaded. They reference '+data.capture.name+'; open that cube folder for the matching source.':'Edits loaded.');
+ }catch(err){status(err.message,true)}e.target.value='';
+};
+
+$('openFolder').onclick=()=>$('folderInput').click();
+async function loadFiles(files){
+ if(busy)return;busy=true;status('Reading cube capture…');let bitmaps=[],newTextures=[];try{
+  const manifests=files.filter(f=>f.name==='project.json');if(manifests.length!==1)throw Error('Choose one capture folder containing project.json and all six face PNGs.');
+  const mf=manifests[0],data=JSON.parse(await mf.text());if(data.schema!=='fisheye-cube-project'||data.version!==1)throw Error('Unsupported cube project format.');
+  if(!Number.isFinite(data.tangent)||data.tangent<1||data.tangent>2)throw Error('Invalid cube face field of view.');
+  const prefix=(mf.webkitRelativePath||mf.name).slice(0,-mf.name.length);const map=new Map(files.map(f=>[f.webkitRelativePath||f.name,f]));
+  for(const face of FACE_NAMES){const name=data.faces?.[face];if(typeof name!=='string'||name.includes('/')||name.includes('\\'))throw Error('Invalid face filename.');const file=map.get(prefix+name);if(!file)throw Error('Missing '+name);bitmaps.push(await createImageBitmap(file,{premultiplyAlpha:'none',colorSpaceConversion:'default'}));}
+  const n=bitmaps[0].width;if(bitmaps.some(b=>b.width!==n||b.height!==n)||n<2)throw Error('All six faces must be square and have matching dimensions.');
+  const max=gl.getParameter(gl.MAX_TEXTURE_SIZE),size=Math.min(n,max);gl.getError();
+  for(let j=0;j<6;j++){
+   const t=gl.createTexture();newTextures.push(t);gl.activeTexture(gl.TEXTURE0+j);gl.bindTexture(gl.TEXTURE_2D,t);
+   let bitmap=bitmaps[j],scaled=null;if(n>max){scaled=await createImageBitmap(bitmap,{resizeWidth:size,resizeHeight:size,resizeQuality:'high'});bitmap=scaled}
+   gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,bitmap);scaled?.close();
+   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+   if(gl.getError()!==gl.NO_ERROR)throw Error('The GPU could not load these faces. Export smaller cube faces and try again.');
+  }
+  textures.forEach(t=>gl.deleteTexture(t));textures=newTextures;newTextures=[];sources.forEach(b=>b.close());sources=bitmaps;bitmaps=[];
+  project=data;demo=false;tangent=data.tangent;sourceSize=n;textureSize=size;state=defaults();history=[];future=[];selectedPin=-1;sync();
+  $('projectName').textContent=data.name||'Cube capture';$('projectMeta').textContent=`6 cube faces · ${n.toLocaleString()} × ${n.toLocaleString()} px each · original capture retained`;
+  $('sourceBadge').textContent='Cube capture';$('notice').hidden=n<=max;$('notice').textContent=`This GPU supports ${max}px textures. The ${n}px source faces are sampled at ${size}px in this session.`;
+  status('Capture loaded. Shape the view, then save your edits or export a PNG.');
+ }catch(e){
+  newTextures.forEach(t=>gl.deleteTexture(t));bitmaps.forEach(b=>b.close());textures.forEach((t,j)=>{gl.activeTexture(gl.TEXTURE0+j);gl.bindTexture(gl.TEXTURE_2D,t)});status(e.message,true);
+ }finally{busy=false;schedule()}
+}
+
+$('folderInput').onchange=async e=>{await loadFiles([...e.target.files]);e.target.value=''};
+function lockUI(on){
+ document.querySelectorAll('button,input,select').forEach(el=>{if(on){el.dataset.wasDisabled=String(el.disabled);el.disabled=true}else {el.disabled=el.dataset.wasDisabled==='true';delete el.dataset.wasDisabled}});
+}
+
+$('exportPNG').onclick=async()=>{
+ if(busy)return;const c=lensConfig(),W=state.exportWidth,H=Math.round(W/c.aspect);
+ if(H<1||H>16000||W*H>100000000){status('Export exceeds the 100 MP / 16,000 px height limit. Lower the width or use less extreme curvature.',true);return}
+ busy=true;compare=false;lockUI(true);
+ const out=document.createElement('canvas');out.width=W;out.height=H;const dest=out.getContext('2d');
+ const ssaaSamples=state.exportSSAA||2;
+ try{
+  if(!dest)throw Error('Not enough memory for this output.');
+  const tile=Math.min(2048,gl.getParameter(gl.MAX_RENDERBUFFER_SIZE));
+  const totalTiles=Math.ceil(H/tile)*Math.ceil(W/tile);let currentTile=0;
+  for(let y=0;y<H;y+=tile)for(let x=0;x<W;x+=tile){
+   const w=Math.min(tile,W-x),h=Math.min(tile,H-y);
+   frame(w,h,W,H,x,H-y-h,ssaaSamples);
+   if(gl.getError()!==gl.NO_ERROR)throw Error('GPU export failed. Try a smaller output.');
+   dest.drawImage(canvas,x,y);currentTile++;
+   status(`Exporting master resolution (${ssaaSamples>1?ssaaSamples+'× SSAA':'1×'})… ${Math.round((currentTile/totalTiles)*100)}%`);
+   await new Promise(resolve=>setTimeout(resolve,0));
+  }
+  const blob=await new Promise(resolve=>out.toBlob(resolve,'image/png'));
+  if(!blob)throw Error('Could not encode PNG. Try a smaller output.');
+  download(blob,safeName()+'_master.png');
+  status(`Exported ${W.toLocaleString()} × ${H.toLocaleString()} Master PNG with ${ssaaSamples>1?ssaaSamples+'× SSAA anti-aliasing':'1×'}${demo?' from demo':''}.`);
+ }catch(e){status(e.message,true)}finally{
+  out.width=out.height=1;busy=false;lockUI(false);updateHistory();schedule();
+ }
+};
+
+canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();busy=true;status('GPU memory was exhausted or graphics context lost. Reload editor and reopen capture.',true)});
+sync();schedule();
+</script></body></html>
