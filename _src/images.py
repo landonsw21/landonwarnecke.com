@@ -5,6 +5,7 @@ and HEIC photos (uses sips). Sources are looked up in the ID copy folder; overri
 
 usage (from the repo root):
   python3 _src/images.py heroes [h_wedge h_axio ...]   re-crop the project card images (all if none named)
+  python3 _src/images.py crop KEY X0 Y0 X1 Y1   trim portfolio-media/KEY.jpg in place (fractions 0-1, e.g. to cut slide titles)
   python3 _src/images.py add KEY SOURCE [--width 1800] [--rotate 90]
         SOURCE: a path, "PROJECT/file name.jpg" (searched inside that ID copy project folder),
                 "PDF:PROJECT/deck.pdf:PAGE", or a .HEIC file. --rotate turns it clockwise.
@@ -120,12 +121,22 @@ def add(key, src, width=1800, rotate=0):
     save(im, key)
 
 
+def trim(key, x0, y0, x1, y1):
+    path = os.path.join(OUT, key + ".jpg")
+    im = Image.open(path).convert("RGB")
+    save(im.crop((round(x0 * im.width), round(y0 * im.height), round(x1 * im.width), round(y1 * im.height))), key)
+
+
 if __name__ == "__main__":
     args = sys.argv[1:]
-    if not args or args[0] not in ("heroes", "add"):
+    if not args or args[0] not in ("heroes", "add", "crop"):
         sys.exit(__doc__)
     if args[0] == "heroes":
         heroes(args[1:])
+    elif args[0] == "crop":
+        if len(args) != 6:
+            sys.exit(__doc__)
+        trim(args[1], *map(float, args[2:]))
     else:
         opts = {"--width": 1800, "--rotate": 0}
         pos = []

@@ -59,9 +59,17 @@ def pad(n):
     return f"{n:02d}"
 
 
+_PLACEHOLDER = __import__("re").compile(r"\s*\[(?:TO WRITE|TO CONFIRM|TO ADD|PDF LINK TO ADD)[^\]]*\]")
+
+
+def clean(text):
+    """Drop unfinished '[TO WRITE: ...]'-style notes from content.py so they never show on the site."""
+    return _PLACEHOLDER.sub("", text).strip()
+
+
 def head_block(label, title, sub, right=""):
     return (f'<header class="lw-head"><div style="display:flex;flex-direction:column;gap:10px;max-width:640px">'
-            f'<span class="lw-mono lw-label">{label}</span><h1 class="lw-h1">{title}</h1>{f'<p class="lw-sub">{sub}</p>' if sub else ''}</div>{right}</header>')
+            f'{f'<span class="lw-mono lw-label">{label}</span>' if label else ''}<h1 class="lw-h1">{title}</h1>{f'<p class="lw-sub">{sub}</p>' if sub else ''}</div>{right}</header>')
 
 
 # ---------- projects ----------
@@ -74,16 +82,16 @@ for i, p in enumerate(PROJECTS):
     hm = META.get(p["hero"], {"w": 2, "h": 1})
     ar = 2.0 if p.get("soon") else hm["w"] / hm["h"]   # clicked card = the whole image at its own shape
     chaps = "".join(f'<a class="lw-chap" href="#{pid}-{s[0]}" data-chap="{pid}-{s[0]}">{e(s[1])}</a>' for s in p["sections"])
-    meta = "".join(f'<div><dt class="lw-mono">{e(k.upper())}</dt><dd>{e(v)}</dd></div>' for k, v in p["meta"])
+    meta = "".join(f'<div><dt class="lw-mono">{e(k.upper())}</dt><dd>{e(clean(v))}</dd></div>' for k, v in p["meta"] if clean(v))
     secs = ""
     for j, (slug, title, paras, imgs, cols) in enumerate(p["sections"]):
         cid = f"{pid}-{slug}"
-        body = "".join(f"<p>{t}</p>" for t in paras)
+        body = "".join(f"<p>{clean(t)}</p>" for t in paras if clean(t))
         if imgs:
             cls = "lw-imgs c2" if cols == 2 and len(imgs) > 1 else "lw-imgs"
             body += f'<div class="{cls}">' + "".join(img(k, a, extra=f' data-lb="{pid}"') for k, a in imgs) + "</div>"
-        secs += (f'<section id="{cid}" class="lw-sec" data-chapter="{cid}"><div style="display:flex;flex-direction:column;gap:6px">'
-                 f'<span class="lw-mono lw-label">{pad(j + 1)}</span><h3>{e(title)}</h3></div><div class="lw-sec-body">{body}</div></section>')
+        secs += (f'<section id="{cid}" class="lw-sec" data-chapter="{cid}"><h3>{e(title)}</h3>'
+                 f'<div class="lw-sec-body">{body}</div></section>')
     cards.append(
         f'<article id="p-{pid}" class="lw-proj" data-project="{pid}"><div class="lw-unit">'
         f'<button class="lw-card" type="button" aria-expanded="false" aria-controls="d-{pid}" data-toggle="{pid}" style="--fy:{focus};--ar:{ar:.4f}">{media}'
@@ -94,46 +102,41 @@ for i, p in enumerate(PROJECTS):
         f'<nav class="lw-chapbar" aria-label="{e(p["name"])} sections"><div class="lw-chaps">{chaps}</div>'
         f'</nav>'
         f'<div class="lw-dbody"><dl class="lw-meta">{meta}</dl>{secs}'
-        f'<div class="lw-dfoot"><button class="lw-ghost" type="button" data-toggle="{pid}">Close project ↑</button>'
-        f'<button class="lw-pill" type="button" data-next="{nxt["id"]}">Next: {e(nxt["name"])} →</button></div></div></div></div></div></article>')
-projects_html = (head_block("SELECTED WORK · 2024–2026", "Selected work",
-                            "Seven case studies and one project in progress. Open any project for the full story, from research to final.")
-                 + f'<div class="lw-list">{"".join(cards)}</div>')
+        f'<div class="lw-dfoot"><button class="lw-pill" type="button" data-next="{nxt["id"]}">Next: {e(nxt["name"])} →</button></div></div></div></div></div></article>')
+projects_html = f'<div class="lw-list">{"".join(cards)}</div>'
 
 # ---------- extras ----------
 ex = ""
 for k, tag, name, desc, url, alt in EXTRAS:
     href = FISHEYE if name == "Fisheye Studio" else url
-    ex += (f'<article class="lw-extra">{img(k, alt)}<div class="lw-extra-body"><span class="lw-mono" style="font-size:12px">{e(tag)}</span>'
+    ex += (f'<article class="lw-extra">{img(k, alt)}<div class="lw-extra-body">'
            f'<h2>{e(name)}</h2><p>{e(desc)}</p><a class="lw-pill" style="margin-top:auto;align-self:flex-start;color:var(--lw-on-accent)" href="{e(href)}" target="_blank" rel="noopener">Open tool ↗</a></div></article>')
-extras_html = head_block("EXTRAS", "Tools I’ve built", "Small tools I made for my own process, free to try in your browser.") + f'<div class="lw-two">{ex}</div>'
+extras_html = f'<div class="lw-two">{ex}</div>'
 
 # ---------- gallery ----------
 gs = ""
 for gi, (gid, title, items) in enumerate(GALLERY):
     cards_g = "".join(
         f'<button class="lw-gcard" type="button" aria-label="View {e(cap)}" data-lbopen="{gid}" data-i="{i}">'
-        f'{img(k, cap, extra=f" data-lb=\"{gid}\"")}<span class="lw-gcap"><span class="lw-mono lw-label" style="padding-top:2px">{pad(i + 1)}</span><span>{e(cap)}</span></span></button>'
+        f'{img(k, cap, extra=f" data-lb=\"{gid}\"")}<span class="lw-gcap"><span>{e(cap)}</span></span></button>'
         for i, (k, cap) in enumerate(items))
-    gs += (f'<section class="lw-gsec" aria-labelledby="g-{gid}"><div class="lw-ghead"><div style="display:flex;flex-direction:column;gap:6px">'
-           f'<span class="lw-mono lw-label">{pad(gi + 1)} · {len(items)} PIECES</span><h2 id="g-{gid}">{e(title)}</h2></div>'
+    gs += (f'<section class="lw-gsec" aria-labelledby="g-{gid}"><div class="lw-ghead">'
+           f'<h2 id="g-{gid}">{e(title)}</h2>'
            f'<div style="display:flex;gap:8px"><button class="lw-icon" type="button" data-row="{gid}" data-dir="-1" aria-label="Scroll {e(title)} left">←</button>'
            f'<button class="lw-icon" type="button" data-row="{gid}" data-dir="1" aria-label="Scroll {e(title)} right">→</button></div></div>'
            f'<div class="lw-row" id="row-{gid}">{cards_g}</div><div class="lw-track"><div id="prog-{gid}" style="width:6%"></div></div></section>')
-gallery_html = (head_block("GALLERY", "Gallery", "Drawings, making and smaller projects. Drag, swipe or use the arrows; tap any piece to view it large.")
-                + f'<div style="display:flex;flex-direction:column;gap:48px">{gs}</div>')
+gallery_html = f'<div style="display:flex;flex-direction:column;gap:48px">{gs}</div>'
 
 # ---------- resume ----------
 def rrow(r):
     return (f'<div class="lw-rrow"><span class="lw-mono lw-label" style="padding-top:3px">{e(r[0])}</span>'
-            f'<div style="display:flex;flex-direction:column;gap:3px"><b>{e(r[1])}</b><small>{e(r[2])}</small></div></div>')
+            f'<div style="display:flex;flex-direction:column;gap:3px"><b>{e(clean(r[1]))}</b><small>{e(clean(r[2]))}</small></div></div>')
 
 
 skills = "".join(f'<div class="lw-rrow" style="grid-template-columns:170px minmax(0,1fr)"><b style="font-size:14px">{e(a)}</b>'
                  f'<span style="font-size:15px;line-height:1.5">{e(b)}</span></div>' for a, b in RESUME["skills"])
-dl = ('<div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><a class="lw-pill" style="color:var(--lw-on-accent)" href="#resume">Download PDF ↓</a>'
-      '<span class="lw-mono lw-label" style="font-size:11px">[PDF LINK TO ADD]</span></div>')
-resume_html = (head_block("RESUME", "Resume", "Industrial design student at Western Washington University. [TO CONFIRM: graduation year]", dl)
+pdf = RESUME.get("pdf")
+resume_html = ((f'<div class="lw-rtop"><a class="lw-pill" style="color:var(--lw-on-accent)" href="{e(pdf)}" download>Download PDF ↓</a></div>' if pdf else "")
                + '<div class="lw-two" style="gap:40px"><div style="display:flex;flex-direction:column;gap:36px">'
                + f'<section class="lw-rblock"><h2>Education</h2>{"".join(rrow(r) for r in RESUME["education"])}</section>'
                + f'<section class="lw-rblock"><h2>Experience</h2>{"".join(rrow(r) for r in RESUME["experience"])}</section>'
@@ -165,7 +168,7 @@ cform = (f'<form class="lw-form" id="cform" data-sitekey="{e(TURNSTILE_SITEKEY)}
          '<p class="lw-fstatus" id="cform-status" role="status" aria-live="polite"></p></div>'
          '<noscript><p class="lw-fstatus">The form needs JavaScript. You can also use the links below.</p></noscript>'
          '</form>')
-contact_html = (head_block("CONTACT", "Contact me", "")
+contact_html = (head_block(None, "Contact me", "")
                 + f'<div class="lw-contact-wrap">{cform}<div class="lw-contact">{crows}</div></div>')
 panes = {"projects": projects_html, "contact": contact_html, "extras": extras_html, "gallery": gallery_html, "resume": resume_html}
 main = "".join(f'<div class="lw-pane" id="tab-{k}" data-pane="{k}"{"" if k == "projects" else " hidden"}>{panes[k]}</div>' for k, _ in tabs)
@@ -210,9 +213,9 @@ doc = f'''<!doctype html>
 <div class="lw-shell">
 <aside class="lw-side" aria-label="About and navigation">
 <div class="lw-id"><button class="lw-me" type="button" data-collapse disabled aria-label="Collapse the open project">{img("portrait2", "Portrait of Landon Warnecke", "lw-portrait", lazy=False)}</button>
-<div style="display:flex;flex-direction:column;gap:4px;min-width:0"><span class="lw-nm">Landon Warnecke</span><span class="lw-role">Industrial Design · Western Washington University</span></div>
+<div style="display:flex;flex-direction:column;gap:4px;min-width:0"><span class="lw-nm">Landon Warnecke</span></div>
 <button class="lw-about-toggle" type="button" aria-expanded="false" data-about>About me</button></div>
-<div class="lw-bio"><span class="lw-mono lw-label">ABOUT ME</span><p>{e(BIO)}</p></div>
+<div class="lw-bio"><p>{e(BIO)}</p></div>
 <nav class="lw-tabs" aria-label="Sections">{tab_btns}</nav>
 <div class="lw-side-foot"><span style="font-size:13px;color:var(--lw-muted)">© 2026 Landon Warnecke</span></div>
 </aside>
@@ -320,6 +323,10 @@ a.lw-crow:hover{color:#8E2F3A !important}
 .lw-fstatus.is-ok{color:#2A1F1E; font-weight:600}
 .lw-fstatus.is-err{color:#B43C2F; font-weight:600}
 @media (max-width: 860px){ .lw-frow{grid-template-columns:1fr} .lw-tabs::after{content:""; flex:0 0 10px} }
+.lw-main{padding-top:32px}
+.lw-dfoot{justify-content:flex-end}
+.lw-rtop{display:flex; justify-content:flex-end; margin-bottom:24px}
+@media (max-width: 860px){ .lw-main{padding-top:20px} }
 [hidden]{display:none !important}
 """
 
