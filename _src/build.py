@@ -105,7 +105,7 @@ for i, p in enumerate(PROJECTS):
         f'<span class="lw-card-name">{e(p["name"])}</span><span class="lw-card-line">{e(p["line"])}</span>'
         f'</span></button>'
         f'<div id="d-{pid}" class="lw-drawer" hidden><div class="lw-drawer-in">'
-        f'<nav class="lw-chapbar" aria-label="{e(p["name"])} sections"><div class="lw-chaps">{chaps}</div>'
+        f'<nav class="lw-chapbar" aria-label="{e(p["name"])} sections"><button class="lw-chapname" type="button" data-top="{pid}" tabindex="-1">{e(p["name"])}</button><div class="lw-chaps">{chaps}</div>'
         f'</nav>'
         f'<div class="lw-dbody"><dl class="lw-meta">{meta}</dl>{secs}'
         f'<div class="lw-dfoot"><button class="lw-pill" type="button" data-next="{nxt["id"]}">Next: {e(nxt["name"])} →</button></div></div></div></div></div></article>')
@@ -273,6 +273,12 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-drawer-in{min-height:0; min-width:0; overflow:clip}
 .lw-drawer.is-settled .lw-drawer-in{overflow:visible}
 .lw-chapbar{border-radius:0}
+/* --- the project name slides into the section bar once its title has scrolled away; clicking it goes back to the project's top --- */
+.lw-chapname{flex:none; max-width:0; margin-right:-10px; padding:8px 0; overflow:hidden; white-space:nowrap; border:0; border-right:1px solid transparent; background:none; color:#2A1F1E; font:inherit; font-size:15px; font-weight:700; letter-spacing:-0.01em; cursor:pointer; opacity:0; transform:translateY(-70%); transition:max-width .35s cubic-bezier(.2,.7,.2,1), margin .35s cubic-bezier(.2,.7,.2,1), padding .35s cubic-bezier(.2,.7,.2,1), opacity .25s, transform .35s cubic-bezier(.2,.7,.2,1), border-color .35s, color .2s}
+.lw-chapbar.has-name .lw-chapname{max-width:240px; margin-right:0; padding:8px 14px 8px 10px; opacity:1; transform:none; border-right-color:#D2CABF}
+.lw-chapname:hover{color:#8E2F3A}
+@media (max-width: 860px){ .lw-chapname{font-size:14px} }
+@media (prefers-reduced-motion: reduce){ .lw-chapname{transition:none} }
 /* --- portrait collapses the open project; floating button when the portrait is off screen --- */
 .lw-me{position:relative; flex:none; padding:0; border:0; background:none; border-radius:12px; cursor:default; line-height:0}
 .lw-me:not([disabled]){cursor:pointer}
@@ -465,6 +471,9 @@ js = r"""(function () {
     if (!openId) return;
     var d = document.getElementById('d-' + openId); if (!d || d.hidden) return;
     var bar = $('.lw-chapbar', d); var line = bar.getBoundingClientRect().bottom + 24;
+    var title = $('#p-' + openId + ' .lw-card-name');
+    var named = !!title && title.getBoundingClientRect().bottom < (parseFloat(getComputedStyle(bar).top) || 0) + 4;   // title scrolled past the bar's stuck line
+    bar.classList.toggle('has-name', named); $('.lw-chapname', bar).tabIndex = named ? 0 : -1;
     var secs = $$('[data-chapter]', d); var cur = secs[0];
     secs.forEach(function (s) { if (s.getBoundingClientRect().top <= line) cur = s; });
     var id = cur && cur.getAttribute('data-chapter');
@@ -482,6 +491,9 @@ js = r"""(function () {
   }, { passive: true });
   $$('.lw-chap').forEach(function (a) {
     a.addEventListener('click', function (ev) { ev.preventDefault(); scrollToEl(document.getElementById(a.getAttribute('data-chap'))); });
+  });
+  $$('.lw-chapname').forEach(function (b) {
+    b.addEventListener('click', function () { scrollToEl(document.getElementById('p-' + b.getAttribute('data-top'))); });
   });
 
   // ---------- lightbox ----------

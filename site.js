@@ -100,6 +100,9 @@
     if (!openId) return;
     var d = document.getElementById('d-' + openId); if (!d || d.hidden) return;
     var bar = $('.lw-chapbar', d); var line = bar.getBoundingClientRect().bottom + 24;
+    var title = $('#p-' + openId + ' .lw-card-name');
+    var named = !!title && title.getBoundingClientRect().bottom < (parseFloat(getComputedStyle(bar).top) || 0) + 4;   // title scrolled past the bar's stuck line
+    bar.classList.toggle('has-name', named); $('.lw-chapname', bar).tabIndex = named ? 0 : -1;
     var secs = $$('[data-chapter]', d); var cur = secs[0];
     secs.forEach(function (s) { if (s.getBoundingClientRect().top <= line) cur = s; });
     var id = cur && cur.getAttribute('data-chapter');
@@ -117,6 +120,9 @@
   }, { passive: true });
   $$('.lw-chap').forEach(function (a) {
     a.addEventListener('click', function (ev) { ev.preventDefault(); scrollToEl(document.getElementById(a.getAttribute('data-chap'))); });
+  });
+  $$('.lw-chapname').forEach(function (b) {
+    b.addEventListener('click', function () { scrollToEl(document.getElementById('p-' + b.getAttribute('data-top'))); });
   });
 
   // ---------- lightbox ----------
