@@ -248,7 +248,7 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-sw small{align-self:start; font-size:12px; line-height:1.35; color:#6A5F58}
 .lw-extra img{height:auto}
 .lw-about-toggle{white-space:nowrap; flex:none}
-.lw-portrait{filter:none; object-position:50% 30%}
+.lw-portrait{filter:none; object-position:50% 30%; box-sizing:border-box; border:2px solid #8E2F3A}
 /* --- project cards: darkened image with the name on top. Three sizes: resting band, hover (2x, shade lifted), clicked (the whole image) --- */
 .lw-list{gap:0}
 .lw-proj{padding-bottom:22px; scroll-margin-top:16px}
