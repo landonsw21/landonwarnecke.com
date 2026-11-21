@@ -1258,11 +1258,12 @@ def switch_engine(choice):
 
 
 def _default_folder():
-    for kind in ("FOLDER_RESOURCE_ROOT",):
+    """KeyShot's Renderings folder, where KeyShot saves its own images (the Desktop if it can't be found)."""
+    for kind, sub in (("FOLDER_RENDERINGS", None), ("FOLDER_RESOURCE_ROOT", "Renderings")):
         try:
             root = lux.getKeyShotFolder(getattr(lux, kind))
-            out = os.path.join(root, "Renderings")
-            if os.path.isdir(out):
+            out = os.path.join(root, sub) if sub else root
+            if out and os.path.isdir(out) and os.access(out, os.W_OK):
                 return out
         except Exception:
             pass
@@ -1306,7 +1307,7 @@ import webbrowser
 
 
 def cube_output_folder():
-    return os.path.expanduser("~/Documents/GBD/cube export/Captures")
+    return _default_folder()
 
 
 def cube_export_settings():
