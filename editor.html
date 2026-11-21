@@ -1,50 +1,553 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Fisheye Studio · cube export</title>
-<link rel="stylesheet" href="theme.css">
-<style>
-:root{--bg:var(--lw-bg);--panel:var(--lw-panel);--line:var(--lw-line);--muted:var(--lw-muted);--text:var(--lw-ink);--accent:var(--lw-accent);--orange:var(--lw-scene-tint-b)}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:13px var(--lw-font-sans)}button,select,input{font:inherit}button,select{background:var(--lw-panel);border:1px solid var(--lw-line-strong);color:var(--text);border-radius:7px;padding:9px 12px;cursor:pointer}button:hover{background:var(--lw-surface)}button:disabled{opacity:.4;cursor:default}button.primary{background:var(--accent);color:var(--lw-on-accent);border-color:var(--accent);font-weight:650}button.active{border-color:var(--accent);color:var(--accent);background:var(--lw-accent-soft)}button.small{padding:5px 9px;font-size:12px}header{height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;border-bottom:1px solid var(--line);gap:16px}.brand{display:flex;align-items:center;gap:12px}.logo{width:34px;height:34px;border:1px solid var(--accent);border-radius:50%;box-shadow:inset -7px 0 0 color-mix(in srgb,var(--lw-accent) 55%,transparent);display:grid;place-items:center;color:var(--accent);font-size:22px}.brand h1{font-size:17px;letter-spacing:-.3px;margin:0 0 4px}.eyebrow{text-transform:uppercase;letter-spacing:1.8px;font-size:9px;color:var(--muted)}.actions{display:flex;gap:8px;align-items:center}.workspace{display:grid;grid-template-columns:minmax(400px,1fr) 320px;min-height:calc(100vh - 76px)}main{min-width:0;padding:24px 26px}.projectline{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.projectline h2{margin:0 0 5px;font-size:19px;font-weight:550;letter-spacing:-.4px}.subtle{color:var(--muted);font-size:12px;line-height:1.6}.badge{font-size:10px;text-transform:uppercase;letter-spacing:1px;padding:6px 9px;border:1px solid color-mix(in srgb,var(--lw-accent) 45%,transparent);border-radius:20px;color:var(--accent);white-space:nowrap}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}.toolset{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.stage{height:calc(100vh - 290px);min-height:340px;max-height:850px;background:var(--lw-stage);border:1px solid var(--line);border-radius:12px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}.view{position:relative;max-width:100%;max-height:100%;touch-action:none}.view canvas{display:block;width:100%;height:100%}#overlay{position:absolute;inset:0;cursor:crosshair}.stage-label{position:absolute;top:15px;left:16px;font-size:9px;letter-spacing:1.5px;color:var(--lw-muted);pointer-events:none}.stage-corner{position:absolute;bottom:14px;right:16px;color:var(--lw-muted);font-size:10px;pointer-events:none}.viewport-footer{display:flex;justify-content:space-between;gap:12px;padding-top:12px;color:var(--muted);font-size:11px}.instruction{margin-top:17px;border-left:2px solid var(--accent);padding-left:12px;line-height:1.6;color:var(--lw-muted);font-size:12px}aside{border-left:1px solid var(--line);background:var(--panel);padding:22px 20px;max-height:calc(100vh - 76px);overflow:auto}section{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:18px}section:last-child{border:0}h3{margin:0 0 16px;font-size:11px;text-transform:uppercase;letter-spacing:1.7px;color:var(--lw-muted)}.control{margin-bottom:14px}.control:last-child{margin-bottom:0}.label{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;font-size:12px;color:var(--lw-ink)}.label output{color:var(--accent);font-variant-numeric:tabular-nums;font-size:11px}input[type=range]{width:100%;accent-color:var(--accent);height:15px;margin:0;cursor:ew-resize}select{width:100%;padding:8px}input[type=number]{background:var(--lw-paper);border:1px solid var(--lw-line-strong);border-radius:5px;padding:7px;color:var(--text);width:88px}input[type=checkbox]{accent-color:var(--accent)}.row{display:flex;align-items:center;gap:8px}.row.spread{justify-content:space-between}.btn-group{display:flex;gap:4px;margin-top:6px}.btn-group button{flex:1;padding:5px 8px;font-size:11px}.ringrow{display:grid;grid-template-columns:42px 1fr 40px;gap:8px;align-items:center;margin:12px 0;font-size:11px}.ringrow output{text-align:right;color:var(--accent)}.pinbox{background:var(--lw-panel);border:1px solid var(--lw-line);border-radius:7px;padding:12px;margin-top:12px}.pinbox p{margin:0 0 12px}.pinbox[hidden]{display:none}.secondary{color:var(--muted);font-size:11px;line-height:1.6}.status{margin-top:12px;font-size:11px;color:var(--lw-muted);line-height:1.6;overflow-wrap:anywhere}.status.error{color:var(--lw-danger)}.export{width:100%;margin-top:12px}.divider{width:1px;height:20px;background:var(--line);margin:0 2px}.notice{background:var(--lw-accent-soft);border:1px solid color-mix(in srgb,var(--lw-accent) 40%,transparent);border-radius:6px;padding:9px 12px;margin-bottom:15px;font-size:12px;line-height:1.6}.notice[hidden]{display:none}details summary{cursor:pointer;font-size:12px;color:var(--muted);padding:8px 0}details p{font-size:11px;line-height:1.7;color:var(--muted)}@media(max-width:900px){header{height:auto;padding:16px;align-items:flex-start;flex-wrap:wrap}.workspace{grid-template-columns:1fr}main{padding:18px}aside{max-height:none;border-left:0;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:20px}.stage{height:55vh}.actions{flex-wrap:wrap}}@media(max-width:550px){aside{display:block}.toolbar{align-items:flex-start;flex-direction:column}.projectline{gap:12px}.actions button{font-size:11px;padding:8px}.stage{min-height:280px}.viewport-footer{flex-wrap:wrap}}
-</style></head><body>
-<header><div class="brand"><div class="logo">◉</div><div><h1>Fisheye Studio</h1><div class="eyebrow">Capture once. Shape the view.</div></div></div><div class="actions"><button id="openFolder" class="primary">Open cube folder</button><button id="loadEdit">Load edits</button><button id="saveEdit">Save edits</button></div></header>
-<input id="folderInput" type="file" webkitdirectory multiple hidden><input id="editInput" type="file" accept=".json,application/json" hidden>
-<div class="workspace"><main><div class="projectline"><div><h2 id="projectName">Material study</h2><div class="subtle" id="projectMeta">Interactive sample · load a cube export to use your own render</div></div><span class="badge" id="sourceBadge">Demo scene</span></div><div id="notice" class="notice" hidden></div>
-<div class="toolbar"><div class="toolset"><button class="small active" id="toolRings">◎ Rings</button><button class="small" id="toolPins">⌖ Pins</button><span class="divider"></span><button class="small" id="undo" title="Undo (⌘/Ctrl Z)">Undo</button><button class="small" id="redo" title="Redo (⌘/Ctrl Shift Z)">Redo</button></div><div class="toolset"><button class="small" id="handles">Hide handles</button><button class="small" id="compare" title="Press and hold to see the unedited projection">Hold original</button></div></div>
-<div class="stage" id="stage"><div class="stage-label">LIVE VIEWPORT / GPU</div><div class="view" id="view"><canvas id="render"></canvas><canvas id="overlay" aria-label="Interactive fisheye viewport. Rings: drag a ring. Pins: click to add, drag to move. Pin controls are also available in the sidebar."></canvas></div><div class="stage-corner" id="previewInfo">900 px preview</div></div>
-<div class="viewport-footer"><span id="toolHint">Drag a ring to expand or compress that region.</span><span id="renderInfo">Six faces → one editable view</span></div><div class="instruction" id="instruction"><strong>Shape the lens.</strong> Drag one of the three rings. Its influence fades smoothly into the surrounding image. Switch to Pins for local adjustments.</div><div id="status" class="status" role="status">Ready. All processing stays on this computer.</div>
-</main><aside>
-<section><h3>01 / Projection</h3><div class="control"><label class="label" for="mode">Lens</label><select id="mode">
-<option value="4pt">4-point · 180° fisheye (original)</option>
-<option value="5pt">5-point · variable coverage (original)</option>
-<option value="6pt">6-point · whole sphere (original)</option>
-<option value="pano">360° panorama (original)</option>
-<option value="equisolid">Equisolid · standard photographic lens</option>
-<option value="stereographic">Stereographic · conformal action cam</option>
-<option value="equidistant">Equidistant · dome master</option>
-<option value="orthographic">Orthographic · hemisphere map</option>
-</select></div>
-<div id="projectionControls"></div></section>
-<section><div class="row spread"><h3 style="margin:0">02 / Displacement</h3><button class="small" id="resetWarp">Reset</button></div><p class="secondary">Rings expand (+) or compress (−) the image. Pins pull a local region; locked pins hold it in place.</p><div id="ringControls"></div><div id="warpControls"></div><div class="row spread"><span id="pinCount" class="secondary">0 / 12 pins</span><button id="clearPins" class="small">Clear pins</button></div>
-<div id="pinbox" class="pinbox" hidden><p id="pinTitle">Pin 1</p><div id="pinControls"></div><div class="row spread"><label><input id="pinLocked" type="checkbox"> Lock / anchor</label><button id="deletePin" class="small">Delete</button></div></div></section>
-<section><div class="row spread"><h3 style="margin:0">03 / Lens & Optics</h3><label title="Enable glass effects"><input id="glassEnabled" type="checkbox" checked> Glass On</label></div><p class="secondary">Physical vignetting, radial dispersion and stylized glass highlights.</p><div id="opticControls"></div><div id="glassControls"></div></section>
-<section><h3>04 / High-Quality Export</h3>
-<div class="row spread"><label for="exportWidth">Width (pixels)</label><input id="exportWidth" type="number" min="200" max="16000" step="100" value="3840"></div>
-<div class="btn-group"><button class="small" id="res2k">2K (2048)</button><button class="small" id="res4k">4K (3840)</button><button class="small" id="res6k">6K (6000)</button><button class="small" id="res8k">8K (8192)</button></div>
-<p id="exportDimensions" class="secondary"></p>
-<div class="control" style="margin-top:10px"><label class="label" for="exportSSAA">Anti-Aliasing (SSAA)<output id="ssaaLabel">2×2 (4×)</output></label>
-<select id="exportSSAA">
-<option value="1">1× · Standard (Fast export)</option>
-<option value="2" selected>2×2 SSAA · High Quality (4× subpixel)</option>
-<option value="3">3×3 SSAA · Studio Ultra (9× subpixel)</option>
-</select></div>
-<div class="row spread" style="margin:8px 0"><label class="secondary"><input id="bicubicFiltering" type="checkbox" checked> Sharp texture sampling (Bicubic)</label></div>
-<div class="row spread" style="margin-bottom:12px"><label class="secondary"><input id="transparent" type="checkbox" checked> Transparent outside lens rim</label></div>
-<button id="exportPNG" class="primary export">Export master PNG ↗</button>
-<details><summary>About this workflow</summary><p>Open a folder containing project.json and six face PNGs from cube export. Edits are saved as a small JSON file; keep it with your original cube capture. SSAA evaluates subpixel ray directions to eliminate aliasing and polygon edges. Final export samples the retained source textures, not the preview.</p><p>No uploads, external libraries, installation, or account required. Output is 8-bit PNG decoded locally by WebGL 2.</p></details></section>
-</aside></div>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fisheye Studio · Landon Warnecke</title>
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    :root { --bg: var(--lw-bg); --panel: var(--lw-panel); --panel-elevated: var(--lw-surface); --line: var(--lw-line); --muted: var(--lw-muted); --text: var(--lw-ink); --accent: var(--lw-accent); --accent-glow: color-mix(in srgb, var(--lw-accent) 15%, transparent); --orange: var(--lw-scene-tint-b); }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font: 13px var(--lw-font-sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    button, select, input, .download-button { font: inherit; }
+    button, select, .download-button {
+      background: var(--lw-panel);
+      border: 1px solid var(--lw-line-strong);
+      color: var(--text);
+      border-radius: 7px;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    button:hover, .download-button:hover { background: var(--lw-surface); border-color: var(--lw-muted); }
+    .download-button { text-decoration: none; display: inline-flex; align-items: center; }
+    .download-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    button:disabled { opacity: 0.35; cursor: default; }
+    button.primary {
+      background: var(--accent);
+      color: var(--lw-on-accent);
+      border-color: var(--accent);
+      font-weight: 650;
+    }
+    button.primary:hover { opacity: 0.9; }
+    button.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--lw-accent-soft);
+    }
+    button.small { padding: 5px 9px; font-size: 11px; }
+
+    header {
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, var(--lw-bg) 85%, transparent);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      gap: 16px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .logo {
+      width: 32px;
+      height: 32px;
+      border: 1.5px solid var(--accent);
+      border-radius: 50%;
+      box-shadow: inset -6px 0 0 color-mix(in srgb, var(--lw-accent) 40%, transparent);
+      display: grid;
+      place-items: center;
+      color: var(--accent);
+      font-size: 18px;
+    }
+    .brand h1 { font-size: 16px; letter-spacing: -0.3px; margin: 0; }
+    .eyebrow { text-transform: uppercase; letter-spacing: 1.5px; font-size: 9px; color: var(--muted); }
+    .actions { display: flex; gap: 8px; align-items: center; }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(400px, 1fr) 340px;
+      min-height: calc(100vh - 68px);
+    }
+    main { min-width: 0; padding: 20px 24px; display: flex; flex-direction: column; }
+    
+    .projectline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .projectline h2 { margin: 0 0 4px; font-size: 18px; font-weight: 600; letter-spacing: -0.4px; }
+    .subtle { color: var(--muted); font-size: 12px; }
+    .badge {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 5px 9px;
+      border: 1px solid color-mix(in srgb, var(--lw-accent) 45%, transparent);
+      border-radius: 20px;
+      color: var(--accent);
+      background: color-mix(in srgb, var(--lw-accent) 8%, transparent);
+      white-space: nowrap;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .toolset { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    
+    .stage {
+      flex: 1;
+      min-height: 280px;
+      height: 42vh;
+      max-height: 520px;
+      flex: none;
+      background: var(--lw-stage);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .stage.dragover { border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); }
+    .view { position: relative; max-width: 100%; max-height: 100%; touch-action: none; }
+    .view canvas { display: block; width: 100%; height: 100%; }
+    #overlay { position: absolute; inset: 0; cursor: crosshair; }
+    .stage-label {
+      position: absolute;
+      top: 14px;
+      left: 16px;
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      color: var(--lw-muted);
+      pointer-events: none;
+      font-family: var(--lw-font-mono);
+    }
+    .stage-corner {
+      position: absolute;
+      bottom: 14px;
+      right: 16px;
+      color: var(--lw-muted);
+      font-size: 10px;
+      pointer-events: none;
+      font-family: var(--lw-font-mono);
+    }
+
+    .viewport-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 12px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .status {
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--lw-muted);
+      line-height: 1.5;
+      font-family: var(--lw-font-mono);
+    }
+    .status.error { color: var(--lw-danger); }
+
+    aside {
+      border-left: 1px solid var(--line);
+      background: var(--panel);
+      padding: 20px;
+      max-height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+    section {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 18px;
+      margin-bottom: 18px;
+    }
+    section:last-child { border: 0; }
+    h3 {
+      margin: 0 0 14px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.6px;
+      color: var(--lw-muted);
+    }
+    .control { margin-bottom: 13px; }
+    .control:last-child { margin-bottom: 0; }
+    .label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 12px;
+      color: var(--lw-ink);
+    }
+    .label output { color: var(--accent); font-variant-numeric: tabular-nums; font-size: 11px; }
+    input[type=range] { width: 100%; accent-color: var(--accent); height: 14px; cursor: ew-resize; margin: 0; }
+    select { width: 100%; padding: 8px 10px; }
+    input[type=number] {
+      background: var(--lw-bg);
+      border: 1px solid var(--lw-line-strong);
+      border-radius: 5px;
+      padding: 6px 8px;
+      color: var(--text);
+      width: 90px;
+    }
+    input[type=checkbox] { accent-color: var(--accent); }
+    .row { display: flex; align-items: center; gap: 8px; }
+    .row.spread { justify-content: space-between; }
+    .btn-group { display: flex; gap: 4px; margin-top: 6px; }
+    .btn-group button { flex: 1; padding: 5px 8px; font-size: 11px; }
+    .ringrow { display: grid; grid-template-columns: 46px 1fr 40px; gap: 8px; align-items: center; margin: 10px 0; font-size: 11px; }
+    .ringrow output { text-align: right; color: var(--accent); }
+    .pinbox { background: var(--lw-bg); border: 1px solid var(--lw-line-strong); border-radius: 7px; padding: 12px; margin-top: 10px; }
+    .pinbox p { margin: 0 0 10px; font-weight: 600; }
+    .pinbox[hidden] { display: none; }
+    .secondary { color: var(--muted); font-size: 11px; line-height: 1.5; }
+    .divider { width: 1px; height: 18px; background: var(--line); margin: 0 2px; }
+    .notice {
+      background: var(--lw-accent-soft);
+      border: 1px solid color-mix(in srgb, var(--lw-accent) 40%, transparent);
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-bottom: 14px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .notice[hidden] { display: none; }
+    details summary { cursor: pointer; font-size: 11px; color: var(--muted); padding: 6px 0; }
+    details p { font-size: 11px; line-height: 1.6; color: var(--muted); margin-top: 6px; }
+
+    @media (max-width: 900px) {
+      header { height: auto; min-height: 68px; flex-wrap: wrap; padding: 12px 16px; }
+      .actions { flex-wrap: wrap; }
+      .workspace { grid-template-columns: 1fr; }
+      aside { max-height: none; border-left: 0; border-top: 1px solid var(--line); }
+      .stage { height: 50vh; }
+    }
+  
+    .animation-panel { margin-top:18px; padding:16px; background:var(--panel); border:1px solid var(--line); border-radius:12px; }
+    .animation-panel h3 {margin:0;}
+    .animation-panel .row {gap:10px; flex-wrap:wrap;}
+    .animation-panel input[type=number] {width:84px;}
+    .animation-panel select {max-width:100%;}
+    .animation-fields[hidden] {display:none;}
+    .animation-fields {display:flex;gap:12px;flex-wrap:wrap;margin:14px 0;align-items:end;}
+    .animation-fields label {display:flex;flex-direction:column;gap:6px;color:var(--muted);font-size:11px;}
+    .timeline-scroll {overflow-x:auto;margin-top:12px;}
+    .timeline {min-width:540px;position:relative; padding-top:24px;}
+    .timeline-ruler {position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;color:var(--muted);font:10px var(--lw-font-mono);}
+    .effect-track {height:46px;position:relative;border-bottom:1px solid var(--line);background:repeating-linear-gradient(90deg,transparent 0,transparent calc(10% - 1px),color-mix(in srgb, var(--lw-ink) 6%, transparent) calc(10% - 1px),color-mix(in srgb, var(--lw-ink) 6%, transparent) 10%);}
+    .effect-clip {position:absolute;top:5px;height:34px;min-width:18px;background:var(--lw-accent-soft);border:1px solid color-mix(in srgb, var(--lw-accent) 55%, transparent);border-radius:5px;touch-action:none;cursor:grab;display:flex;align-items:center;}
+    .effect-clip.selected {background:color-mix(in srgb, var(--lw-accent) 28%, var(--lw-accent-soft));border-color:var(--accent);}
+    .effect-name {padding:5px 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11px;pointer-events:none;}
+    .trim-handle {position:absolute;top:0;width:9px;height:100%;cursor:ew-resize;touch-action:none;background:color-mix(in srgb, var(--lw-accent) 20%, transparent);}
+    .trim-handle.start {left:0;border-radius:4px 0 0 4px;}.trim-handle.end {right:0;border-radius:0 4px 4px 0;}
+    .effect-midpoint {position:absolute;left:50%;top:0;bottom:0;border-left:1px dashed var(--lw-accent);pointer-events:none;}
+    .timeline-playhead {position:absolute;top:20px;bottom:0;width:2px;background:var(--orange);pointer-events:none;z-index:2;}
+    #animationScrub {width:100%;margin:12px 0;}
+    #animationEmpty {padding:20px 0;color:var(--muted);}
+    .animation-panel button:focus-visible,.effect-clip:focus-visible {outline:2px solid var(--accent);outline-offset:3px;}
+    @media(max-width:700px){.animation-fields {gap:8px}.animation-panel {padding:12px}}
+  
+    section > .row.spread:first-child { margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="logo">◉</div>
+      <div>
+        <h1>Fisheye Studio</h1>
+        <div class="eyebrow">Capture once. Shape the view.</div>
+      </div>
+    </div>
+    <div class="actions">
+      <a class="download-button" href="downloads/cube-export.py" download="cube export.py" title="Download cube export.py, import it in KeyShot’s Scripting window, then run it to capture your cube faces.">↓ Download KeyShot script</a>
+      <button id="openFolder" class="primary">Open cube folder</button>
+      <button id="loadEdit">Load edits</button>
+      <button id="saveEdit">Save edits</button>
+    </div>
+  </header>
+
+  <input id="folderInput" type="file" webkitdirectory multiple hidden>
+  <input id="editInput" type="file" accept=".json,application/json" hidden>
+
+  <div class="workspace">
+    <main>
+      <div class="projectline">
+        <div>
+          <h2 id="projectName">Material study</h2>
+          <div class="subtle" id="projectMeta">Interactive sample · load a cube export to use your own render</div>
+        </div>
+        <span class="badge" id="sourceBadge">Demo scene</span>
+      </div>
+
+      <div id="notice" class="notice" hidden></div>
+
+      <div class="toolbar">
+        <div class="toolset">
+          <button class="small active" id="toolRings">◎ Rings</button>
+          <button class="small" id="toolPins">⌖ Pins</button>
+          <span class="divider"></span>
+          <button class="small" id="undo" title="Undo (⌘/Ctrl Z)">Undo</button>
+          <button class="small" id="redo" title="Redo (⌘/Ctrl Shift Z)">Redo</button>
+        </div>
+        <div class="toolset">
+          <button class="small" id="handles">Hide handles</button>
+          <button class="small" id="compare" title="Press and hold to see the unedited projection">Hold original</button>
+        </div>
+      </div>
+
+      <div class="stage" id="stage">
+        
+        <div class="view" id="view">
+          <canvas id="render"></canvas>
+          <canvas id="overlay" aria-label="Interactive fisheye viewport. Drag rings or click to place pins."></canvas>
+        </div>
+        <div class="stage-corner" id="previewInfo">1000 px preview</div>
+      </div>
+
+      <div class="viewport-footer">
+        <span id="toolHint">Drag a ring radially; drag its orange diamond to rotate the image.</span>
+      </div>
+      <section class="animation-panel" aria-label="Animation timeline">
+        <div class="row spread"><h3>Animation</h3><label><input type="checkbox" id="animationLoop" checked> Loop</label></div>
+        <div class="toolset" style="margin-top:12px">
+          <button id="animationPlay" class="primary">Play preview</button><button id="animationStop">Stop</button>
+          <button id="animationBase">Reset preview</button><output id="animationTime" aria-live="off">0.00 / 4.00 s</output>
+        </div>
+        <div class="animation-fields"><label>Adjustment<select id="animationEffect"></select></label><button id="animationAdd">+ Add effect</button><button id="animationPan">+ 360° pan</button><button id="animationCopy" disabled title="Copy selected effect (⌘/Ctrl+C)">Copy effect</button><button id="animationPaste" disabled title="Paste after copied effect (⌘/Ctrl+V)">Paste effect</button></div>
+        <div class="animation-fields" id="animationInspector" hidden>
+          <label title="Rotation is continuous: 0 → 360 is one turn, 0 → 720 is two">From<input id="effectFrom" type="number" step="any"></label><label title="Rotation is continuous: 0 → 360 is one turn, 0 → 720 is two">To<input id="effectTo" type="number" step="any"></label>
+          <label>Start (s)<input id="effectStart" type="number" min="0" step="0.1"></label><label>Duration (s)<input id="effectDuration" type="number" min="0.1" step="0.1"></label>
+          <label>Easing<select id="effectEasing"><option value="linear">Linear</option><option value="smooth">Smooth</option></select></label><label title="Reach the full effect halfway through, then reverse back to the starting value"><span>Return to start</span><input id="effectReturn" type="checkbox"></label><button id="animationRemove" title="Delete selected effect (Delete / Backspace)">Delete effect</button>
+        </div>
+        <input id="animationScrub" type="range" min="0" max="4" step="0.01" value="0" aria-label="Animation playhead">
+        <div class="timeline-scroll"><div id="animationTimeline" class="timeline"><div id="animationRuler" class="timeline-ruler"></div><div id="animationTracks"></div><div id="animationPlayhead" class="timeline-playhead"></div></div></div>
+        <p id="animationEmpty">No effects yet. Add a 360° pan to start.</p>
+        <p class="secondary" style="margin-top:10px">The preview plays here; PNG export uses the still view. Save edits keeps the timeline.</p>
+      </section>
+      <div id="status" class="status">Engine ready. All optical ray calculations stay on this machine.</div>
+    </main>
+
+    <!-- Sidebar Controls -->
+    <aside>
+      <!-- Section 1: Projection -->
+      <section>
+        <h3>Projection</h3>
+        <div class="control">
+          <label class="label" for="mode">Lens Model</label>
+          <select id="mode">
+            <option value="equisolid" selected>Equisolid · Photographic Lens (Nikkor/Sigma)</option>
+            <option value="stereographic">Stereographic · Conformal Action Cam (Century MK1)</option>
+            <option value="equidistant">Equidistant · Dome Master (Planetarium)</option>
+            <option value="orthographic">Orthographic · Planar Hemispherical</option>
+            <option value="4pt">4-point · 180° Fisheye (Perspective Studio)</option>
+            <option value="5pt">5-point · Variable Coverage</option>
+            <option value="6pt">6-point · Whole Sphere (360° Continuous)</option>
+            <option value="pano">360° Cylindrical Panorama</option>
+          </select>
+        </div>
+        <div id="projectionControls"></div>
+      </section>
+
+      <!-- Section 2: Displacement -->
+      <section>
+        <div class="row spread">
+          <h3 style="margin:0">Displacement</h3>
+          <button class="small" id="resetWarp">Reset</button>
+        </div>
+        <p class="secondary" style="margin:0 0 10px;">Each ring moves a radius in the original image (base / source) to a new one (destination) and can twist it. Remove a neighboring ring for more travel.</p>
+        <button id="addRing" class="small">+ Add ring</button><div id="ringControls"></div>
+        <div id="warpControls"></div>
+        <div class="row spread" style="margin-top:10px;">
+          <span id="pinCount" class="secondary">0 / 12 pins</span>
+          <button id="clearPins" class="small">Clear pins</button>
+        </div>
+        <div id="pinbox" class="pinbox" hidden>
+          <p id="pinTitle">Pin 1</p>
+          <div id="pinControls"></div>
+          <div class="row spread">
+            <label><input id="pinLocked" type="checkbox"> Lock / anchor pin</label>
+            <button id="deletePin" class="small">Delete</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Optics & Aberrations -->
+      <section>
+        <div class="row spread">
+          <h3 style="margin:0">Optics</h3>
+          <label title="Enable stylized glass highlights"><input id="glassEnabled" type="checkbox" checked> Glass Highlights</label>
+        </div>
+        <div id="opticControls"></div>
+        <div id="glassControls"></div><h3 style="margin-top:24px">Lens surface reflections</h3><p class="secondary">Fixed to the glass while the scene moves.</p><div id="lensSurfaceControls"></div>
+      </section>
+
+      <!-- Section 4: Export -->
+      <section>
+        <h3>Export</h3>
+        <div class="row spread">
+          <label for="exportWidth">Output Width (px)</label>
+          <input id="exportWidth" type="number" min="200" max="32768" step="100" value="16000">
+        </div>
+        <div class="btn-group">
+          <button class="small" id="res2k">2K (2048)</button>
+          <button class="small" id="res4k">4K (3840)</button>
+          <button class="small" id="res6k">6K (6000)</button>
+          <button class="small" id="res8k">8K (8192)</button>
+        </div>
+        <div class="btn-group"><button class="small" id="res16k">16,000 px</button><button class="small" id="res20k">20,000 px</button></div><p id="sourceDetail" class="secondary"></p><p id="exportDimensions" class="secondary" style="margin-top:6px;"></p>
+
+        <div class="control" style="margin-top:12px;">
+          <label class="label" for="exportSSAA">
+            Anti-Aliasing (SSAA)
+            <output id="ssaaLabel">2×2 (4×)</output>
+          </label>
+          <select id="exportSSAA">
+            <option value="1">1× · Standard (Fast export)</option>
+            <option value="2" selected>2×2 SSAA · High Quality (4× Rotated Grid)</option>
+            <option value="3">3×3 SSAA · Studio Ultra (9× Subpixel)</option>
+          </select>
+        </div>
+
+        <div class="row spread" style="margin:8px 0;">
+          <label class="secondary"><input id="bicubicFiltering" type="checkbox" checked> Sharp texture sampling (Bicubic)</label>
+        </div>
+        <div class="row spread" style="margin-bottom:12px;">
+          <label class="secondary"><input id="transparent" type="checkbox" checked> Transparent outside lens rim</label>
+        </div>
+
+        <button id="exportPNG" class="primary" style="width:100%;padding:10px;">Export PNG</button><button id="cancelExport" hidden class="small">Cancel export</button>
+      </section>
+    </aside>
+  </div>
+
 <script>
+/* Shared, deterministic inverse radial warp. Browser and offline tests use the same knot convention. */
+(function(root){
+'use strict';
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function defaultRings(){return [.28,.55,.82].map(r=>({source:r,target:r,rotation:0}));}
+function validateRings(rings){
+ if(!Array.isArray(rings)||rings.length>8)throw Error('Use at most eight rings.');
+ let a=0,b=0;
+ return rings.map(r=>{for(const k of ['source','target','rotation'])if(!Number.isFinite(r[k]))throw Error('Invalid ring '+k);
+ if(r.source<=a+.00001||r.target<=b+.00001||r.source>=1||r.target>=1)throw Error('Ring radii must remain ordered inside the lens.');a=r.source;b=r.target;
+ return {source:r.source,target:r.target,rotation:clamp(r.rotation,-720,720)};});
+}
+function slopes(x,y){
+ const n=x.length,h=[],d=[],m=new Array(n);
+ for(let j=0;j<n-1;j++){h[j]=x[j+1]-x[j];d[j]=(y[j+1]-y[j])/h[j];}
+ if(n===2)return [d[0],d[0]];
+ for(let j=1;j<n-1;j++){
+  if(d[j-1]*d[j]<=0)m[j]=0;
+  else {const w1=2*h[j]+h[j-1],w2=h[j]+2*h[j-1];m[j]=(w1+w2)/(w1/d[j-1]+w2/d[j]);}
+ }
+ function endpoint(h0,h1,d0,d1){let v=((2*h0+h1)*d0-h0*d1)/(h0+h1);if(v*d0<=0)v=0;else if(d0*d1<0&&Math.abs(v)>Math.abs(3*d0))v=3*d0;return v;}
+ m[0]=endpoint(h[0],h[1],d[0],d[1]);m[n-1]=endpoint(h[n-2],h[n-3],d[n-2],d[n-3]);return m;
+}
+function curve(rings){
+ validateRings(rings);
+ const x=[0,...rings.map(r=>r.target),1],y=[0,...rings.map(r=>r.source),1];
+ const a=[rings[0]?.rotation||0,...rings.map(r=>r.rotation),rings.at(-1)?.rotation||0].map(v=>v*Math.PI/180);
+ return {x,y,a,m:slopes(x,y),am:slopes(x,a)};
+}
+function at(c,r){
+ r=clamp(r,0,1);let j=0;while(j<c.x.length-2&&r>c.x[j+1])j++;
+ const h=c.x[j+1]-c.x[j],t=(r-c.x[j])/h,t2=t*t,t3=t2*t;
+ const evaluate=(y,m)=>(2*t3-3*t2+1)*y[j]+(t3-2*t2+t)*h*m[j]+(-2*t3+3*t2)*y[j+1]+(t3-t2)*h*m[j+1];
+ return [evaluate(c.y,c.m),evaluate(c.a,c.am)];
+}
+function moveRing(rings,j,target){rings[j].target=clamp(target,(rings[j-1]?.target||0)+.006,(rings[j+1]?.target||1)-.006);return rings[j].target;}
+function moveRingSource(rings,j,source){const lo=rings[j-1]?.source||0,hi=rings[j+1]?.source||1,gap=Math.min(.006,(hi-lo)/3);rings[j].source=clamp(source,lo+gap,hi-gap);return rings[j].source;}
+function addRing(rings){
+ if(rings.length>=8)return -1;const c=curve(rings);let gap=-1,index=0;
+ for(let j=0;j<c.x.length-1;j++)if(c.x[j+1]-c.x[j]>gap){gap=c.x[j+1]-c.x[j];index=j;}
+ const target=(c.x[index]+c.x[index+1])/2,[source,angle]=at(c,target);
+ rings.splice(index,0,{source,target,rotation:angle*180/Math.PI});return index;
+}
+const api={defaultRings,validateRings,slopes,curve,at,moveRing,moveRingSource,addRing};
+if(typeof module!=='undefined')module.exports=api;else root.WarpMath=api;
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+</script>
+<script>
+/* Incremental PNG encoder: one short scanline band in memory, no full-size canvas. */
+(function(root){
+'use strict';
+const table=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xedb88320^(c>>>1):c>>>1;table[n]=c>>>0;}
+function chunk(type,data){const out=new Uint8Array(data.length+12),dv=new DataView(out.buffer);dv.setUint32(0,data.length);for(let j=0;j<4;j++)out[4+j]=type.charCodeAt(j);out.set(data,8);let crc=0xffffffff;for(let j=4;j<out.length-4;j++)crc=table[(crc^out[j])&255]^(crc>>>8);dv.setUint32(out.length-4,(crc^0xffffffff)>>>0);return out;}
+class PNGStream{
+ static async create(width,height,sink){
+  if(typeof CompressionStream==='undefined')throw Error('Streaming PNG requires a browser with CompressionStream. Use the offline exporter.');
+  const p=new PNGStream();p.sink=sink;p.width=width;p.height=height;p.rows=0;
+  await sink.write(new Uint8Array([137,80,78,71,13,10,26,10]));const hdr=new Uint8Array(13),v=new DataView(hdr.buffer);v.setUint32(0,width);v.setUint32(4,height);hdr[8]=8;hdr[9]=6;await sink.write(chunk('IHDR',hdr));await sink.write(chunk('sRGB',new Uint8Array([0])));
+  const z=new CompressionStream('deflate');p.writer=z.writable.getWriter();p.reader=z.readable.getReader();
+  p.draining=(async()=>{try{for(;;){const {value,done}=await p.reader.read();if(done)break;await sink.write(chunk('IDAT',value));}}catch(e){p.failure=e;await p.writer.abort(e).catch(()=>{});}})();return p;
+ }
+ async writeBand(rgba,rows){if(this.failure)throw this.failure;if(rgba.length!==rows*this.width*4||this.rows+rows>this.height)throw Error('Invalid PNG scanline band.');const stride=this.width*4,raw=new Uint8Array(rows*(stride+1));for(let y=0;y<rows;y++){let src=y*stride,dst=y*(stride+1);raw[dst++]=1;for(let x=0;x<stride;x++)raw[dst+x]=(rgba[src+x]-(x>=4?rgba[src+x-4]:0))&255;}await this.writer.write(raw);this.rows+=rows;}
+ async finish(){if(this.rows!==this.height)throw Error('PNG is missing scanlines.');await this.writer.close();await this.draining;if(this.failure)throw this.failure;await this.sink.write(chunk('IEND',new Uint8Array()));await this.sink.close();}
+ async abort(reason){await this.writer.abort(reason).catch(()=>{});await this.reader.cancel(reason).catch(()=>{});await this.draining;await this.sink.abort?.(reason);}
+}
+if(typeof module!=='undefined')module.exports={PNGStream,chunk};else root.PNGStream=PNGStream;
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+</script>
+<script>
+/* Deterministic effect sampling. Angles interpolate unwrapped; normalize only for rendering. */
+(function(root){
+'use strict';
+const clone=x=>JSON.parse(JSON.stringify(x));
+const wrapDegrees=x=>((x%360)+360)%360;
+function get(obj,path){return path.split('.').reduce((v,k)=>v?.[k],obj)}
+function set(obj,path,value){const keys=path.split('.');let target=obj;for(const k of keys.slice(0,-1)){if(target[k]===undefined)return;target=target[k]}target[keys.at(-1)]=value}
+function sample(base,clips,time){
+ const result=clone(base);
+ for(const clip of clips.map((c,i)=>({...c,order:i})).sort((a,b)=>a.start-b.start||a.order-b.order)){
+  if(time<clip.start)continue;
+  let p=Math.min(1,Math.max(0,(time-clip.start)/clip.duration));
+  const elapsed=p;
+  if(clip.returnToStart){if(elapsed>=1)continue;p=elapsed<=.5?elapsed*2:(1-elapsed)*2;}
+  if(clip.easing==='smooth')p=p*p*(3-2*p);
+  const numeric=typeof clip.from==='number'&&typeof clip.to==='number';
+  const value=numeric?(get(result,clip.path)??0)+(clip.to-clip.from)*p:(clip.returnToStart?(elapsed<.5?clip.from:clip.to):(p<1?clip.from:clip.to));
+  set(result,clip.path,value);
+ }
+ // Multiple ring effects must never fold the inverse warp.
+ if(result.ringKnots)for(let j=0;j<result.ringKnots.length;j++){
+  for(const key of ['source','target'])result.ringKnots[j][key]=Math.max((result.ringKnots[j-1]?.[key]||0)+.006,Math.min(1-(result.ringKnots.length-j)*.006,result.ringKnots[j][key]));
+ }
+ if(result.mode==='orthographic')result.coverage=Math.min(180,result.coverage);
+ return result;
+}
+function duration(clips){return Math.max(1,...clips.map(c=>c.start+c.duration))}
+const api={clone,get,set,sample,duration,wrapDegrees};
+if(typeof module!=='undefined')module.exports=api;else root.AnimationMath=api;
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+</script>
+<script>
+
 'use strict';
 const $=id=>document.getElementById(id), FACE_NAMES=['front','right','back','left','up','down'];
-const defaults=()=>({mode:'4pt',hc:100,vc:100,coverage:180,back:3,panoHeight:45,yaw:0,pitch:0,rings:[0,0,0],ringSpread:.22,pins:[],radialChroma:.15,vignette:.20,glassEnabled:true,glassWidth:.16,refraction:.25,shine:.68,glow:.25,angle:-35,softness:.45,chroma:.25,darkness:.18,transparent:true,exportWidth:3840,exportSSAA:2,bicubicFiltering:true});
-let state=defaults(), project=null, demo=true, tangent=1, sourceSize=0, textureSize=0, selectedPin=-1, tool='rings', showHandles=true, compare=false, dragging=null, history=[], future=[], pending=false, busy=false, sources=[], textures=[];
+const defaults=()=>({mode:'4pt',hc:100,vc:100,coverage:180,back:3,panoHeight:45,yaw:0,pitch:0,roll:0,rings:[0,0,0],ringSpread:.22,warpVersion:2,ringKnots:WarpMath.defaultRings(),pins:[],radialChroma:.15,vignette:.20,glassEnabled:true,glassWidth:.16,refraction:.25,shine:.68,glow:.25,angle:-35,softness:.45,chroma:.25,darkness:.18,softbox:.22,softboxSize:.4,softboxX:-.38,softboxY:.36,edgeReflection:.28,lensCoating:.3,coatingHue:.6,internalReflection:.15,transparent:true,exportWidth:16000,exportSSAA:2,bicubicFiltering:true});
+let state=defaults(), project=null, demo=true, tangent=1, sourceSize=0, textureSize=0, selectedPin=-1, selectedRing=0, tool='rings', showHandles=true, compare=false, dragging=null, history=[], future=[], pending=false, busy=false, sources=[], textures=[];
 const canvas=$('render'), overlay=$('overlay'), ctx=overlay.getContext('2d'), gl=canvas.getContext('webgl2',{alpha:true,premultipliedAlpha:false,preserveDrawingBuffer:true,antialias:false});
 function status(s,error=false){$('status').textContent=s;$('status').classList.toggle('error',error)}
 if(!gl){status('WebGL 2 is unavailable. Open this file in a browser with hardware acceleration enabled.',true);throw Error('WebGL 2 unavailable')}
@@ -54,12 +557,14 @@ const fragment=`#version 300 es
 precision highp float;
 out vec4 color;
 uniform vec2 fullSize,tileOffset;uniform vec4 bounds;
-uniform int mode;uniform vec2 stretch;uniform float thMax,kappa,panoHeight,tangent,yaw,pitch,focal;
+uniform int mode;uniform vec2 stretch;uniform float thMax,kappa,panoHeight,tangent,yaw,pitch,roll,focal;
 uniform bool demo,original,glassOn,transparent,bicubic;
 uniform vec3 rings;uniform float ringSpread;
 uniform vec3 demoSkyA,demoSkyB,demoGroundA,demoGroundB,demoTintA,demoTintB;
+uniform int warpVersion,ringCount;uniform vec4 ringNodes[10];uniform float twistSlopes[10];
 uniform int pinCount;uniform vec4 pins[12];uniform vec2 pinProps[12];
 uniform float radialChroma,vignette,glassWidth,refraction,shine,glow,angle,softness,chroma,darkness;
+uniform float softbox,softboxSize,softboxX,softboxY,edgeReflection,lensCoating,coatingHue,internalReflection;
 uniform int ssaa;
 uniform sampler2D frontTex,rightTex,backTex,leftTex,upTex,downTex;
 const float PI=3.141592653589793;
@@ -76,7 +581,7 @@ vec3 unproject(vec2 p){
   float e=atan(p.y/tall);if(abs(e)>panoHeight||abs(p.x)>PI*a)return vec3(0);return vec3(cos(e)*sin(yaw0),sin(e),cos(e)*cos(yaw0));
  }
  if(mode>=4){
-  vec2 pNorm=p/stretch;float rad=length(pNorm);if(rad<1.e-7)return vec3(0,0,1);
+  vec2 pNorm=p/stretch;float rad=length(pNorm);if(rad>1.)return vec3(0);if(rad<1.e-7)return vec3(0,0,1);
   vec2 d=pNorm/rad;float th=0.;
   if(mode==4){float val=clamp(rad/(2.*max(.001,focal)),-1.,1.);th=2.*asin(val);}
   else if(mode==5){th=2.*atan(rad/(2.*max(.001,focal)));}
@@ -89,17 +594,21 @@ vec3 unproject(vec2 p){
  if(t>PI)return vec3(0);float th=atan(a*sin(t),cos(t));if(th>thMax+.00001)return vec3(0);return vec3(sin(th)*d,cos(th));
 }
 
+vec4 cubicWeights(float t){return vec4(t*(-.5+t*(1.-.5*t)),1.+t*t*(-2.5+1.5*t),t*(.5+t*(2.-1.5*t)),t*t*(-.5+.5*t));}
+vec4 texelPremul(sampler2D tex,ivec2 p){vec4 c=texelFetch(tex,clamp(p,ivec2(0),textureSize(tex,0)-1),0);return vec4(c.rgb*c.a,c.a);}
 vec4 sampleTex(sampler2D tex,vec2 uv){
- if(!bicubic||demo)return texture(tex,uv);
- vec2 res=vec2(textureSize(tex,0));vec2 coord=uv*res-.5;vec2 f=fract(coord);vec2 i=floor(coord);
- vec2 w0=f*(-.5+f*(1.-.5*f));vec2 w1=1.+f*f*(-2.5+1.5*f);vec2 w2=f*(.5+f*(2.-1.5*f));vec2 w3=f*f*(-.5+.5*f);
- vec2 s0=w0+w1;vec2 s1=w2+w3;vec2 f0=(i-.5+w1/s0)/res;vec2 f1=(i+1.5+w3/s1)/res;
- return texture(tex,vec2(f0.x,f0.y))*s0.x*s0.y+texture(tex,vec2(f1.x,f0.y))*s1.x*s0.y+
-        texture(tex,vec2(f0.x,f1.y))*s0.x*s1.y+texture(tex,vec2(f1.x,f1.y))*s1.x*s1.y;
+ vec2 coord=uv*vec2(textureSize(tex,0))-.5;ivec2 base=ivec2(floor(coord));vec2 f=fract(coord);vec4 sum=vec4(0);
+ if(bicubic){
+  vec4 wx=cubicWeights(f.x),wy=cubicWeights(f.y);
+  for(int y=0;y<4;y++)for(int x=0;x<4;x++)sum+=texelPremul(tex,base+ivec2(x-1,y-1))*wx[x]*wy[y];
+ }else{
+  for(int y=0;y<2;y++)for(int x=0;x<2;x++)sum+=texelPremul(tex,base+ivec2(x,y))*(x==0?1.-f.x:f.x)*(y==0?1.-f.y:f.y);
+ }
+ sum.a=clamp(sum.a,0.,1.);return vec4(sum.a>1.e-7?clamp(sum.rgb/sum.a,0.,1.):vec3(0),sum.a);
 }
 
 vec4 scene(vec3 d){
- float cy=cos(yaw),sy=sin(yaw),cp=cos(pitch),sp=sin(pitch);d=vec3(d.x,d.y*cp-d.z*sp,d.y*sp+d.z*cp);d=vec3(d.x*cy+d.z*sy,d.y,d.z*cy-d.x*sy);
+ float cr=cos(roll),sr=sin(roll);d=vec3(d.x*cr-d.y*sr,d.x*sr+d.y*cr,d.z);float cy=cos(yaw),sy=sin(yaw),cp=cos(pitch),sp=sin(pitch);d=vec3(d.x,d.y*cp-d.z*sp,d.y*sp+d.z*cp);d=vec3(d.x*cy+d.z*sy,d.y,d.z*cy-d.x*sy);
  if(demo){
   vec3 base=mix(demoSkyA,demoSkyB,.5+.5*d.y);float closest=1000.;vec3 result=base;
   if(d.y<-.02){float t=-2.5/d.y;vec3 p=d*t;float grid=step(.96,fract(p.x*.35))+step(.96,fract(p.z*.35));result=mix(demoGroundA,demoGroundB,min(1.,grid)*.5);closest=t;}
@@ -118,6 +627,18 @@ vec4 scene(vec3 d){
 vec2 lensPoint(vec2 q){return mix(bounds.xz,bounds.yw,(q+1.)*.5);}
 vec2 clampLens(vec2 p){if(mode!=3&&length(p)>1.e-6){float edge=edgeRadius(p);p*=min(1.,edge*.99999/length(p));}return p;}
 
+float outlineQ(float a){vec2 d=vec2(cos(a),sin(a));if(mode==3)return 1./max(abs(d.x),abs(d.y));vec2 p=lensPoint(d);return edgeRadius(p)/length(p);}
+vec2 radialCurve(float r){
+ int j=0;for(int k=0;k<9;k++){if(k>=ringCount-1)break;if(r>ringNodes[k+1].x)j=k+1;}
+ j=min(j,ringCount-2);vec4 a=ringNodes[j],b=ringNodes[j+1];float h=b.x-a.x,t=clamp((r-a.x)/h,0.,1.),t2=t*t,t3=t2*t;
+ vec4 basis=vec4(2.*t3-3.*t2+1.,t3-2.*t2+t,-2.*t3+3.*t2,t3-t2);
+ return vec2(dot(basis,vec4(a.y,h*a.z,b.y,h*b.z)),dot(basis,vec4(a.w,h*twistSlopes[j],b.w,h*twistSlopes[j+1])));
+}
+vec2 warpRings(vec2 q){
+ float r=length(q);if(r<1.e-8)return q;
+ if(warpVersion<2){float change=0.;for(int k=0;k<3;k++){float z=(r-(.28+float(k)*.27))/ringSpread;change+=rings[k]*exp(-2.*z*z);}return q-q/r*change*smoothstep(0.,.12,r)*(1.-smoothstep(.88,1.05,r));}
+ float a=atan(q.y,q.x),rho=clamp(r/outlineQ(a),0.,1.);vec2 mapped=radialCurve(rho);a-=mapped.y;return vec2(cos(a),sin(a))*outlineQ(a)*mapped.x;
+}
 vec4 evaluateRay(vec2 coord){
  vec2 q=coord/fullSize*2.-1.;vec2 p0=lensPoint(q);vec3 d0=unproject(p0);
  if(length(d0)<.1)return vec4(0,0,0,transparent?0.:1.);
@@ -126,8 +647,7 @@ vec4 evaluateRay(vec2 coord){
   vec2 delta=vec2(0);float weight=0.;
   for(int i=0;i<12;i++){if(i>=pinCount)break;float dist=distance(q,pins[i].zw)/max(.03,pinProps[i].x);float w=exp(-dist*dist*3.);if(pinProps[i].y>.5){delta+=(pins[i].zw-pins[i].xy)*w*8.;weight+=w*8.;}else {delta+=(pins[i].zw-pins[i].xy)*w;weight+=w;}}
   warped-=delta/max(1.,weight);
-  float r=length(warped);float change=0.;for(int i=0;i<3;i++){float center=.28+float(i)*.27;float x=(r-center)/ringSpread;change+=rings[i]*exp(-x*x*2.);}
-  float fade=smoothstep(0.,.12,r)*(1.-smoothstep(.88,1.05,r));warped-=normalize(warped+vec2(1.e-9))*change*fade;
+  warped=warpRings(warped);
  }
  vec2 p=clampLens(lensPoint(warped));float band=smoothstep(1.-glassWidth,1.,rho);float bulge=sin(clamp((rho-1.+glassWidth)/glassWidth,0.,1.)*PI);
  if(glassOn&&!original&&mode!=3)p*=1.-refraction*.15*bulge*band;
@@ -148,6 +668,26 @@ vec4 evaluateRay(vec2 coord){
   float arc2=.5*pow(max(0.,cos(a-angle-PI*.95)),11.)*exp(-pow((pos-.72)/(width*.85),2.));
   float reflection=shine*(arc1+arc2)*.9;float halo=glow*.35*exp(-pow((pos-.5)/.55,2.))*band;
   float edge=exp(-pow((rho-.993)/.018,2.));c.rgb*=1.-darkness*edge*.65;c.rgb=mix(c.rgb,vec3(.92,.96,1.),clamp(reflection+halo,0.,.95));
+  // Reflections use the unwarped lens surface, never the rotating scene ray.
+  vec2 surface=rho*vec2(cos(a-angle),sin(a-angle));
+  surface/=1.+.45*rho*rho;
+  float feather=.008+softness*.065;
+  vec2 halfBox=vec2(.12,.25)*(.3+softboxSize*2.);
+  vec2 boxDistance=abs(surface-vec2(softboxX,softboxY))-halfBox;
+  float box=1.-smoothstep(-feather,feather,max(boxDistance.x,boxDistance.y));
+  float facing=sqrt(max(0.,1.-rho*rho));
+  float fresnel=.04+.96*pow(1.-facing,5.);
+  float rimLight=(.25+.75*pow(max(0.,cos(a-angle)),3.))*pow(rho,9.);
+  vec3 coatingColor=.55+.45*cos(6.2831853*(coatingHue+rho*.12+vec3(0.,.333,.667)));
+  vec3 reflectionColor=mix(vec3(.98,.99,1.),coatingColor,lensCoating*.7);
+  vec2 ghostDistance=abs(surface+vec2(softboxX,softboxY)*.72)-halfBox*.62;
+  float ghost=1.-smoothstep(-feather*1.8,feather*1.8,max(ghostDistance.x,ghostDistance.y));
+  float ghostRing=exp(-pow((rho-.67)/(.015+softness*.035),2.))*pow(max(0.,cos(a-angle-PI)),6.);
+  float surfaceLight=softbox*box*(.15+.85*fresnel)+edgeReflection*rimLight*fresnel;
+  vec3 bounceColor=mix(vec3(.8,.9,1.),coatingColor,lensCoating);
+  c.rgb=1.-(1.-c.rgb)*(1.-reflectionColor*clamp(surfaceLight,0.,.9));
+  c.rgb=1.-(1.-c.rgb)*(1.-bounceColor*clamp(internalReflection*(ghost*.18+ghostRing*.3),0.,.65));
+
  }
  
  // Optical vignetting
@@ -156,48 +696,21 @@ vec4 evaluateRay(vec2 coord){
   c.rgb*=vig;
  }
  
- // Antialiased rim mask
- if(mode!=3){
-  float rimMask=smoothstep(1.,.993,rho);
-  c.a*=rimMask;
-  if(!transparent)c.rgb*=rimMask;
- }
+
  return vec4(c.rgb,transparent?c.a:1.);
 }
 
+vec4 premul(vec4 c){return vec4(c.rgb*c.a,c.a);}
 void main(){
- vec2 baseCoord=gl_FragCoord.xy+tileOffset;
- if(ssaa<=1){
-  color=evaluateRay(baseCoord);
- } else if(ssaa==2){
-  // 4-sample Rotated Grid Super-Sampling (RGSS)
-  vec4 c0=evaluateRay(baseCoord+vec2(-.375,-.125));
-  vec4 c1=evaluateRay(baseCoord+vec2(-.125, .375));
-  vec4 c2=evaluateRay(baseCoord+vec2( .125,-.375));
-  vec4 c3=evaluateRay(baseCoord+vec2( .375, .125));
-  color=(c0+c1+c2+c3)*.25;
- } else {
-  // 9-sample 3x3 uniform supersampling
-  vec4 sum=vec4(0);
-  for(float dy=-.333;dy<=.334;dy+=.333){
-   for(float dx=-.333;dx<=.334;dx+=.333){
-    sum+=evaluateRay(baseCoord+vec2(dx,dy));
-   }
-  }
-  color=sum*(1./9.);
- }
+ vec2 baseCoord=gl_FragCoord.xy+tileOffset;vec4 sum=vec4(0);
+ if(ssaa<=1)sum=premul(evaluateRay(baseCoord));
+ else if(ssaa==2){sum=(premul(evaluateRay(baseCoord+vec2(-.375,-.125)))+premul(evaluateRay(baseCoord+vec2(-.125,.375)))+premul(evaluateRay(baseCoord+vec2(.125,-.375)))+premul(evaluateRay(baseCoord+vec2(.375,.125))))*.25;}
+ else {for(int y=0;y<3;y++)for(int x=0;x<3;x++)sum+=premul(evaluateRay(baseCoord+vec2(float(x-1),float(y-1))/3.))/9.;}
+ color=vec4(sum.a>1.e-7?sum.rgb/sum.a:vec3(0),sum.a);
 }`;
 function compile(type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s}
 let program;try{program=gl.createProgram();gl.attachShader(program,compile(gl.VERTEX_SHADER,vertex));gl.attachShader(program,compile(gl.FRAGMENT_SHADER,fragment));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));gl.useProgram(program)}catch(e){status('The GPU could not start: '+e.message,true);throw e}
 const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);const pos=gl.getAttribLocation(program,'position');gl.enableVertexAttribArray(pos);gl.vertexAttribPointer(pos,2,gl.FLOAT,false,0,0);
-
-// ---- shared palette (theme.css) ----
-const LW_THEME={demoSkyA:'--lw-scene-sky-a',demoSkyB:'--lw-scene-sky-b',demoGroundA:'--lw-scene-ground-a',demoGroundB:'--lw-scene-ground-b',demoTintA:'--lw-scene-tint-a',demoTintB:'--lw-scene-tint-b'};
-function lwTok(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()}
-function lwVec(hex){const m=/^#?([0-9a-f]{6})$/i.exec(hex||'');if(!m)return[.5,.5,.5];const n=parseInt(m[1],16);return[(n>>16&255)/255,(n>>8&255)/255,(n&255)/255]}
-let lwVals={};function lwRead(){for(const k in LW_THEME)lwVals[k]=lwVec(lwTok(LW_THEME[k]));lwVals.accent=lwTok('--lw-accent')||'#8E2F3A';lwVals.accentHover=lwTok('--lw-accent-hover')||'#6E2029'}
-function lwApplyTheme(){for(const k in LW_THEME)gl.uniform3fv(loc(k),lwVals[k])}
-lwRead();
 const locations={};function loc(n){return locations[n]??(locations[n]=gl.getUniformLocation(program,n))}function f(n,v){gl.uniform1f(loc(n),v)}function i(n,v){gl.uniform1i(loc(n),v)}
 for(let j=0;j<6;j++){const t=gl.createTexture();textures.push(t);gl.activeTexture(gl.TEXTURE0+j);gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array([0,0,0,255]));gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);i(FACE_NAMES[j]+'Tex',j)}
 
@@ -212,7 +725,7 @@ function lensConfig(s=state){
  }
  const modeIdx=ALL_MODES.indexOf(s.mode);
  if(modeIdx>=4){
-  th=(s.coverage||180)*Math.PI/360;
+  th=(s.mode==='orthographic'?Math.min(180,s.coverage||180):(s.coverage||180))*Math.PI/360;
   if(s.mode==='equisolid')focal=1./(2.*Math.sin(th/2.));
   else if(s.mode==='stereographic')focal=1./(2.*Math.tan(th/2.));
   else if(s.mode==='equidistant')focal=1./th;
@@ -227,15 +740,26 @@ function lensConfig(s=state){
  const pad=.004*x;x+=pad;y+=pad;return {k,th,st,focal,b:[-x,x,-y,y],aspect:x/y};
 }
 
+// ---- shared palette (theme.css), added by the site's _src/fisheye.py
+const LW_THEME={demoSkyA:'--lw-scene-sky-a',demoSkyB:'--lw-scene-sky-b',demoGroundA:'--lw-scene-ground-a',demoGroundB:'--lw-scene-ground-b',demoTintA:'--lw-scene-tint-a',demoTintB:'--lw-scene-tint-b'};
+function lwTok(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()}
+function lwVec(hex){const m=/^#?([0-9a-f]{6})$/i.exec(hex||'');if(!m)return[.5,.5,.5];const n=parseInt(m[1],16);return[(n>>16&255)/255,(n>>8&255)/255,(n&255)/255]}
+const lwVals={};function lwRead(){for(const k in LW_THEME)lwVals[k]=lwVec(lwTok(LW_THEME[k]));lwVals.accent=lwTok('--lw-accent')||'#8E2F3A';lwVals.accentHover=lwTok('--lw-accent-hover')||'#6E2029'}
+function lwApplyTheme(){for(const k in LW_THEME)gl.uniform3fv(loc(k),lwVals[k])}
+lwRead();
+if(window.matchMedia)matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{lwRead();schedule()});
 function uniforms(width,height,ox=0,oy=0,samples=1){
  const c=lensConfig();gl.uniform2f(loc('fullSize'),width,height);gl.uniform2f(loc('tileOffset'),ox,oy);gl.uniform4fv(loc('bounds'),c.b);gl.uniform2fv(loc('stretch'),c.st);
  i('mode',ALL_MODES.indexOf(state.mode));f('thMax',c.th);f('kappa',c.k);f('panoHeight',state.panoHeight*Math.PI/180);f('focal',c.focal);f('tangent',tangent);
- f('yaw',state.yaw*Math.PI/180);f('pitch',state.pitch*Math.PI/180);i('demo',demo);i('original',compare);i('glassOn',state.glassEnabled);i('transparent',state.transparent);
- i('bicubic',state.bicubicFiltering);i('ssaa',samples);f('radialChroma',state.radialChroma);f('vignette',state.vignette);
+ f('yaw',AnimationMath.wrapDegrees(state.yaw)*Math.PI/180);f('pitch',AnimationMath.wrapDegrees(state.pitch)*Math.PI/180);f('roll',AnimationMath.wrapDegrees(state.roll||0)*Math.PI/180);i('demo',demo);i('original',compare);i('glassOn',state.glassEnabled);i('transparent',state.transparent);
+ i('bicubic',state.bicubicFiltering&&!dragging);i('ssaa',samples);f('radialChroma',state.radialChroma);f('vignette',state.vignette);
+ i('warpVersion',state.warpVersion||1);const curve=WarpMath.curve(state.ringKnots||WarpMath.defaultRings());
+ const nodes=new Float32Array(40),angles=new Float32Array(10);curve.x.forEach((v,j)=>{nodes.set([v,curve.y[j],curve.m[j],curve.a[j]],j*4);angles[j]=curve.am[j]});
+ i('ringCount',curve.x.length);gl.uniform4fv(loc('ringNodes[0]'),nodes);gl.uniform1fv(loc('twistSlopes[0]'),angles);
  lwApplyTheme();gl.uniform3fv(loc('rings'),state.rings);f('ringSpread',state.ringSpread);i('pinCount',state.pins.length);
  const ps=new Float32Array(48),pp=new Float32Array(24);state.pins.forEach((p,j)=>{ps.set([p.x,p.y,p.tx,p.ty],j*4);pp.set([p.radius,p.locked?1:0],j*2)});
  gl.uniform4fv(loc('pins[0]'),ps);gl.uniform2fv(loc('pinProps[0]'),pp);
- for(const n of ['glassWidth','refraction','shine','glow','softness','chroma','darkness'])f(n,state[n]);f('angle',state.angle*Math.PI/180);
+ for(const n of ['glassWidth','refraction','shine','glow','softness','chroma','darkness','softbox','softboxSize','softboxX','softboxY','edgeReflection','lensCoating','coatingHue','internalReflection'])f(n,state[n]);f('angle',AnimationMath.wrapDegrees(state.angle)*Math.PI/180);
 }
 
 function frame(w,h,fullW=w,fullH=h,ox=0,oy=0,samples=1){
@@ -243,27 +767,35 @@ function frame(w,h,fullW=w,fullH=h,ox=0,oy=0,samples=1){
 }
 
 function render(){
- pending=false;if(busy)return;const c=lensConfig(),max=dragging?600:1000;
+ const editingState=state;const animation=window.StudioAnimation;
+ if(animation?.preview)state=animation.sample();
+ try { renderView(); } finally {state=editingState;}
+}
+function renderView(){
+ pending=false;if(busy)return;const c=lensConfig(),max=(dragging||window.StudioAnimation?.playing)?700:1600;
  let w=c.aspect>=1?max:Math.max(32,Math.round(max*c.aspect)),h=c.aspect>=1?Math.max(32,Math.round(max/c.aspect)):max;
- frame(w,h,w,h,0,0,1);
+ frame(w,h,w,h,0,0,(dragging||window.StudioAnimation?.playing)?1:2);
  const sw=$('stage').clientWidth-40,sh=$('stage').clientHeight-46,scale=Math.min(sw/w,sh/h);
  $('view').style.width=w*scale+'px';$('view').style.height=h*scale+'px';overlay.width=w;overlay.height=h;
  drawOverlay();
  $('previewInfo').textContent=`${w} × ${h} · ${dragging?'interactive':'live'} preview`;
  const H=Math.round(state.exportWidth/c.aspect);
+ $('sourceDetail').textContent=sourceSize?`Source: ${sourceSize.toLocaleString()} px per face. Larger outputs resample these original pixels; they do not add captured detail.`:'Demo scene — open your capture for source detail.';
  $('exportDimensions').textContent=`${state.exportWidth.toLocaleString()} × ${H.toLocaleString()} px · ${(state.exportWidth*H/1e6).toFixed(1)} MP`;
 }
-function schedule(){if(!pending){pending=true;requestAnimationFrame(render)}}
+function schedule(){window.StudioSession?.save();if(!pending){pending=true;requestAnimationFrame(render)}}
 
 function drawOverlay(){
- ctx.clearRect(0,0,overlay.width,overlay.height);if(!showHandles||compare)return;
+ ctx.clearRect(0,0,overlay.width,overlay.height);if(!showHandles||compare||window.StudioAnimation?.preview)return;
  const w=overlay.width,h=overlay.height,line=Math.max(1,w/850);ctx.lineWidth=line;const pt=(x,y)=>[(x+1)*w/2,(1-y)*h/2];
- if(tool==='rings'){
-  for(let j=0;j<3;j++){
-   const r=.28+j*.27+state.rings[j];ctx.strokeStyle=j===dragging?.index?lwVals.accentHover:lwVals.accent+'99';ctx.setLineDash([line*5,line*5]);ctx.beginPath();
-   ctx.ellipse(w/2,h/2,r*w/2,r*h/2,0,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);const x=w/2+r*w/2,y=h/2;ctx.fillStyle=lwVals.accent;
-   ctx.beginPath();ctx.arc(x,y,5*line,0,7);ctx.fill();ctx.font=`${12*line}px sans-serif`;ctx.fillText(String(j+1),x+9*line,y-8*line);
-  }
+ if(tool==='rings'&&state.warpVersion===2){
+  const cfg=lensConfig(),knots=state.ringKnots||WarpMath.defaultRings();
+  knots.forEach((ring,j)=>{ctx.strokeStyle=j===selectedRing?lwVals.accentHover:lwVals.accent+'88';ctx.setLineDash([line*5,line*5]);ctx.beginPath();
+   for(let n=0;n<=180;n++){const p=ringPoint(ring.target,n*Math.PI/90,cfg),v=pt(p.x,p.y);n?ctx.lineTo(...v):ctx.moveTo(...v);}ctx.stroke();ctx.setLineDash([]);
+   const h=pt(...Object.values(ringPoint(ring.target,0,cfg)));ctx.fillStyle=lwVals.accent;ctx.beginPath();ctx.arc(...h,5*line,0,7);ctx.fill();
+   const rot=pt(...Object.values(ringPoint(ring.target,ring.rotation*Math.PI/180+Math.PI/2,cfg)));ctx.fillStyle='#f5ae73';ctx.save();ctx.translate(...rot);ctx.rotate(Math.PI/4);ctx.fillRect(-5*line,-5*line,10*line,10*line);ctx.restore();
+   ctx.font=`${12*line}px sans-serif`;ctx.fillText(`${j+1} ↻`,rot[0]+9*line,rot[1]-8*line);
+  });
  }
  if(tool==='pins')state.pins.forEach((p,j)=>{
   const a=pt(p.x,p.y),b=pt(p.tx,p.ty);ctx.strokeStyle=p.locked?'#a4b5c8':'#f5ae73';ctx.fillStyle=ctx.strokeStyle;
@@ -274,11 +806,12 @@ function drawOverlay(){
  });
 }
 
-function snapshot(){return JSON.stringify(state)}
-function checkpoint(){const now=snapshot();if(history.at(-1)!==now){history.push(now);if(history.length>80)history.shift()}future=[];updateHistory()}
+function snapshot(){return JSON.stringify({state,animation:window.StudioAnimation?.historySnapshot()||null})}
+function restoreSnapshot(value){const saved=JSON.parse(value);state=saved.state;window.StudioAnimation?.restoreHistory(saved.animation);selectedPin=-1;sync();schedule()}
+function checkpoint(exitPreview=true){if(exitPreview)window.StudioAnimation?.editing();const now=snapshot();if(history.at(-1)!==now){history.push(now);if(history.length>80)history.shift()}future=[];updateHistory()}
 function updateHistory(){$('undo').disabled=!history.length;$('redo').disabled=!future.length}
-function undo(){if(busy||!history.length)return;future.push(snapshot());state=JSON.parse(history.pop());selectedPin=-1;sync();schedule()}
-function redo(){if(busy||!future.length)return;history.push(snapshot());state=JSON.parse(future.pop());selectedPin=-1;sync();schedule()}
+function undo(){if(busy||!history.length)return;future.push(snapshot());restoreSnapshot(history.pop())}
+function redo(){if(busy||!future.length)return;history.push(snapshot());restoreSnapshot(future.pop())}
 
 const definitions=[
  ['projectionControls','hc','Horizontal curvature',25,200,1,'%'],
@@ -286,10 +819,11 @@ const definitions=[
  ['projectionControls','coverage','Field of view coverage',10,359,1,'°'],
  ['projectionControls','back','Back rim',1.05,8,.05,'×'],
  ['projectionControls','panoHeight','Panorama half-height',5,80,1,'°'],
- ['projectionControls','yaw','Look left / right',-180,180,1,'°'],
- ['projectionControls','pitch','Look up / down',-89,89,1,'°'],
- ['warpControls','ringSpread','Ring falloff',.08,.5,.01,'percent'],
- ['opticControls','radialChroma','Radial chromatic dispersion',0,1,.01,'percent'],
+ ['projectionControls','yaw','Look left / right',-36000,36000,1,'°'],
+ ['projectionControls','pitch','Look up / down',-36000,36000,1,'°'],
+ ['projectionControls','roll','Camera roll',-36000,36000,1,'°'],
+
+ ['opticControls','radialChroma','Radial chromatic dispersion',0,10,.01,'percent'],
  ['opticControls','vignette','Optical vignetting (falloff)',0,1,.01,'percent'],
  ['glassControls','glassWidth','Border width',.02,.35,.01,'percent'],
  ['glassControls','refraction','Refraction',0,1,.01,'percent'],
@@ -298,7 +832,15 @@ const definitions=[
  ['glassControls','softness','Reflection softness',0,1,.01,'percent'],
  ['glassControls','glow','Inner glow',0,1,.01,'percent'],
  ['glassControls','chroma','Edge chromatic fringe',0,1,.01,'percent'],
- ['glassControls','darkness','Edge darkness',0,1,.01,'percent']
+ ['glassControls','darkness','Edge darkness',0,1,.01,'percent'],
+ ['lensSurfaceControls','softbox','Softbox reflection',0,1,0.01,'percent'],
+ ['lensSurfaceControls','softboxSize','Softbox size',0.05,1,0.01,'percent'],
+ ['lensSurfaceControls','softboxX','Softbox horizontal position',-0.8,0.8,0.01,''],
+ ['lensSurfaceControls','softboxY','Softbox vertical position',-0.8,0.8,0.01,''],
+ ['lensSurfaceControls','edgeReflection','Edge reflection',0,1,0.01,'percent'],
+ ['lensSurfaceControls','lensCoating','Lens coating',0,1,0.01,'percent'],
+ ['lensSurfaceControls','coatingHue','Coating hue',0,1,0.01,''],
+ ['lensSurfaceControls','internalReflection','Internal reflections',0,1,0.01,'percent']
 ];
 function display(v,unit){return unit==='percent'?Math.round(v*100)+'%':(Number.isInteger(v)?v:v.toFixed(2))+unit}
 for(const [parent,id,label,min,max,step,unit] of definitions){
@@ -308,12 +850,20 @@ for(const [parent,id,label,min,max,step,unit] of definitions){
  el.onkeydown=e=>{if(e.key.startsWith('Arrow'))checkpoint()};
  el.oninput=()=>{state[id]=+el.value;syncValues();schedule()};
 }
-for(let j=0;j<3;j++){
- const div=document.createElement('div');div.className='ringrow';
- div.innerHTML=`<label for="ring${j}">Ring ${j+1}</label><input type="range" id="ring${j}" min="-.18" max=".18" step=".002"><output id="ring${j}Value"></output>`;
- $('ringControls').append(div);$('ring'+j).onpointerdown=checkpoint;$('ring'+j).onkeydown=e=>{if(e.key.startsWith('Arrow'))checkpoint()};
- $('ring'+j).oninput=()=>{state.rings[j]=+$('ring'+j).value;syncValues();schedule()};
+function ensureModernRings(){if(state.warpVersion!==2){state.warpVersion=2;state.rings=[0,0,0];state.ringKnots=WarpMath.defaultRings();status('Switched legacy Gaussian rings to the new curve. Undo restores the old warp.');}}
+function ringControls(){
+ const host=$('ringControls');host.replaceChildren();
+ if(state.warpVersion!==2){const note=document.createElement('p');note.className='secondary';note.textContent='Legacy warp preserved. Reset displacement to use the new radial and rotation handles.';host.append(note);return;}
+ state.ringKnots.forEach((ring,j)=>{const row=document.createElement('div');row.className='pinbox';row.innerHTML=`<div class="row spread"><strong>Ring ${j+1}</strong><button class="small" id="removeRing${j}" aria-label="Remove ring ${j+1}">×</button></div><label class="label" for="sourceRing${j}">Base / source radius <output id="sourceRing${j}Value"></output></label><input id="sourceRing${j}" type="range" min=".006" max=".994" step=".001"><label class="label" for="ring${j}">Destination radius <output id="ring${j}Value"></output></label><input id="ring${j}" type="range" min=".006" max=".994" step=".001"><label class="label" for="twist${j}">Rotation <output id="twist${j}Value"></output></label><input id="twist${j}" type="range" min="-720" max="720" step="1">`;host.append(row);
+  for(const id of ['sourceRing'+j,'ring'+j,'twist'+j]){$(id).onpointerdown=()=>{checkpoint();selectedRing=j};$(id).onkeydown=e=>{if(e.key.startsWith('Arrow')){checkpoint();selectedRing=j}};}
+  $('sourceRing'+j).oninput=()=>{WarpMath.moveRingSource(state.ringKnots,j,+$('sourceRing'+j).value);syncRingValues();schedule()};
+  $('ring'+j).oninput=()=>{WarpMath.moveRing(state.ringKnots,j,+$('ring'+j).value);syncRingValues();schedule()};
+  $('twist'+j).oninput=()=>{ring.rotation=+$('twist'+j).value;syncRingValues();schedule()};
+  $('removeRing'+j).onclick=()=>{checkpoint();state.ringKnots.splice(j,1);selectedRing=-1;ringControls();schedule()};
+ });syncRingValues();
 }
+function syncRingValues(){(state.ringKnots||[]).forEach((r,j)=>{if(!$('ring'+j))return;const lo=state.ringKnots[j-1]?.source||0,hi=state.ringKnots[j+1]?.source||1,gap=Math.min(.006,(hi-lo)/3);$('sourceRing'+j).min=lo+gap;$('sourceRing'+j).max=hi-gap;$('sourceRing'+j).value=r.source;$('sourceRing'+j+'Value').textContent=(r.source*100).toFixed(1)+'%';$('ring'+j).value=r.target;$('ring'+j+'Value').textContent=(r.target*100).toFixed(1)+'%';$('twist'+j).value=r.rotation;$('twist'+j+'Value').textContent=r.rotation.toFixed(0)+'°'});$('addRing').disabled=state.ringKnots?.length>=8;}
+$('addRing').onclick=()=>{checkpoint();ensureModernRings();selectedRing=WarpMath.addRing(state.ringKnots);ringControls();if(selectedRing>=0){$('sourceRing'+selectedRing).focus();status('Set the new ring’s base / source radius first, then its destination radius.');}schedule()};
 for(const [id,label,min,max,step] of [['radius','Influence radius',.05,.8,.01],['tx','Horizontal position',-.98,.98,.01],['ty','Vertical position',-.98,.98,.01]]){
  const div=document.createElement('div');div.className='control';
  div.innerHTML=`<label class="label" for="pin_${id}">${label}<output id="pin_${id}Value"></output></label><input id="pin_${id}" type="range" min="${min}" max="${max}" step="${step}">`;
@@ -330,52 +880,60 @@ function syncPin(){
 
 function syncValues(){
  for(const [,id,,,, ,unit] of definitions)$(id+'Value').textContent=display(state[id],unit);
- state.rings.forEach((v,j)=>{$('ring'+j+'Value').textContent=(v>0?'+':'')+Math.round(v*100)+'%'});
+ syncRingValues();
  const hasCoverage=['5pt','equisolid','stereographic','equidistant','orthographic'].includes(state.mode);
- $('coverageControl').hidden=!hasCoverage;$('backControl').hidden=state.mode!=='6pt';
+ $('coverageControl').hidden=!hasCoverage;$('coverage').max=state.mode==='orthographic'?180:359;$('backControl').hidden=state.mode!=='6pt';
  $('panoHeightControl').hidden=state.mode!=='pano';$('vcControl').hidden=state.mode==='pano';
  syncPin();
 }
 
 function sync(){
  for(const [,id] of definitions)$(id).value=state[id];
- state.rings.forEach((v,j)=>$('ring'+j).value=v);
+ ringControls();
  $('mode').value=state.mode;$('glassEnabled').checked=state.glassEnabled;$('transparent').checked=state.transparent;
- $('exportWidth').value=state.exportWidth;$('exportSSAA').value=state.exportSSAA||2;$('bicubicFiltering').checked=!!state.bicubicFiltering;
+ $('exportWidth').value=state.exportWidth;$('exportSSAA').value=state.exportSSAA||2;$('ssaaLabel').textContent=state.exportSSAA===1?'1 sample':state.exportSSAA===3?'9 samples':'4 samples';$('bicubicFiltering').checked=!!state.bicubicFiltering;
  syncValues();updateHistory();
 }
 
 function setTool(t){
  tool=t;$('toolRings').classList.toggle('active',t==='rings');$('toolPins').classList.toggle('active',t==='pins');
- $('toolHint').textContent=t==='rings'?'Drag a ring to expand or compress that region.':'Click to add a pin. Drag to pull. Select a pin to adjust or lock.';
- $('instruction').innerHTML=t==='rings'?'<strong>Shape the lens.</strong> Drag one of the three rings. Its influence fades smoothly into the surrounding image. Switch to Pins for local adjustments.':'<strong>Pull a local region.</strong> Click inside the lens to add a pin, then drag it. Add a locked pin to protect a nearby area. Use the sidebar to edit its influence or position.';
+ $('toolHint').textContent=t==='rings'?'Drag a ring radially. Drag its orange diamond to rotate the image, or hold Option/Alt while dragging.':'Click to add a pin. Drag to pull. Select a pin to adjust or lock.';
+ if($('instruction'))$('instruction').innerHTML=t==='rings'?'<strong>Shape the lens.</strong> Drag one of the three rings. Its influence fades smoothly into the surrounding image. Switch to Pins for local adjustments.':'<strong>Pull a local region.</strong> Click inside the lens to add a pin, then drag it. Add a locked pin to protect a nearby area. Use the sidebar to edit its influence or position.';
  schedule();
 }
 function coords(e){const r=overlay.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width*2-1,y:1-(e.clientY-r.top)/r.height*2}}
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 
+function outlineRadius(a,c=lensConfig()){
+ const ux=Math.cos(a),uy=Math.sin(a);if(state.mode==='pano')return 1/Math.max(Math.abs(ux),Math.abs(uy));
+ const px=ux*c.b[1],py=uy*c.b[3],len=Math.hypot(px,py),dx=px/len,dy=py/len,A=1/Math.hypot(dx/c.st[0],dy/c.st[1]);
+ let edge=A;if(ALL_MODES.indexOf(state.mode)<4){let th=Math.min(c.th,Math.PI*.99999),t=Math.atan2(Math.sin(th),A*Math.cos(th));let tk=t;if(t>Math.PI/2&&state.mode==='6pt'){let v=(t-Math.PI/2)/(Math.PI/2);tk=Math.PI/2*(1+(Math.abs(c.k)<1e-9?v:-Math.expm1(-c.k*v)/c.k))}edge=A*tk;}return edge/len;
+}
+function ringPoint(r,a,c){const edge=outlineRadius(a,c);return {x:r*edge*Math.cos(a),y:r*edge*Math.sin(a)}}
+function ringRho(q){return Math.hypot(q.x,q.y)/outlineRadius(Math.atan2(q.y,q.x))}
+function pixelDistance(a,b){const rect=overlay.getBoundingClientRect();return Math.hypot((a.x-b.x)*rect.width/2,(a.y-b.y)*rect.height/2)}
 overlay.onpointerdown=e=>{
- if(busy||!showHandles||compare)return;const q=coords(e);
+ if(busy||!showHandles||compare||window.StudioAnimation?.preview)return;const q=coords(e);
  if(tool==='rings'){
-  let best=0,dist=Infinity;state.rings.forEach((v,j)=>{let d=Math.abs(Math.hypot(q.x,q.y)-(.28+j*.27+v));if(d<dist){dist=d;best=j}});
-  if(dist>.09)return;checkpoint();dragging={type:'ring',index:best,start:Math.hypot(q.x,q.y),value:state.rings[best]};
- } else {
-  let j=state.pins.findIndex(p=>Math.hypot(p.tx-q.x,p.ty-q.y)<.06);
-  if(j<0){
-   if(state.pins.length>=12){status('All 12 pins are in use. Delete a pin to add another.');return}
-   if(state.mode!=='pano'&&Math.hypot(q.x,q.y)>.97)return;
-   checkpoint();j=state.pins.length;state.pins.push({x:q.x,y:q.y,tx:q.x,ty:q.y,radius:.28,locked:false});
-  } else checkpoint();
+  if(state.warpVersion!==2){status('Reset the legacy warp before editing new ring handles.');return;}
+  let best=-1,distance=Infinity,kind='ring';const angle=Math.atan2(q.y,q.x),cfg=lensConfig();
+  state.ringKnots.forEach((r,j)=>{const radial=ringPoint(r.target,angle,cfg),rot=ringPoint(r.target,r.rotation*Math.PI/180+Math.PI/2,cfg),dr=pixelDistance(q,radial),dt=pixelDistance(q,rot);
+   if(dr<distance){distance=dr;best=j;kind='ring'}if(dt<14&&dt<=distance+8){distance=dt;best=j;kind='twist'}});
+  if(best<0||distance>18)return;checkpoint();selectedRing=best;const ring=state.ringKnots[best];
+  dragging={type:e.altKey?'twist':kind,index:best,start:ringRho(q),value:ring.target,lastAngle:angle,rotation:ring.rotation};
+ }else{
+  let j=state.pins.findIndex(p=>pixelDistance(q,{x:p.tx,y:p.ty})<14);
+  if(j<0){if(state.pins.length>=12){status('All 12 pins are in use.');return}if(state.mode!=='pano'&&ringRho(q)>.99)return;checkpoint();j=state.pins.length;state.pins.push({x:q.x,y:q.y,tx:q.x,ty:q.y,radius:.28,locked:false})}else checkpoint();
   selectedPin=j;syncPin();if(!state.pins[j].locked)dragging={type:'pin',index:j};
  }
  overlay.setPointerCapture(e.pointerId);schedule();
 };
-
 overlay.onpointermove=e=>{
  if(!dragging)return;const q=coords(e);
- if(dragging.type==='ring')state.rings[dragging.index]=clamp(dragging.value+Math.hypot(q.x,q.y)-dragging.start,-.18,.18);
- else {const p=state.pins[dragging.index];p.tx=clamp(q.x,-.98,.98);p.ty=clamp(q.y,-.98,.98)}
- sync();schedule();
+ if(dragging.type==='ring'){WarpMath.moveRing(state.ringKnots,dragging.index,dragging.value+ringRho(q)-dragging.start);syncRingValues();}
+ else if(dragging.type==='twist'){let a=Math.atan2(q.y,q.x),delta=Math.atan2(Math.sin(a-dragging.lastAngle),Math.cos(a-dragging.lastAngle));dragging.rotation=clamp(dragging.rotation+delta*180/Math.PI,-720,720);dragging.lastAngle=a;state.ringKnots[dragging.index].rotation=dragging.rotation;syncRingValues();}
+ else {const p=state.pins[dragging.index];p.tx=clamp(q.x,-.98,.98);p.ty=clamp(q.y,-.98,.98);syncPin();}
+ schedule();
 };
 
 function endDrag(){dragging=null;schedule()}
@@ -385,14 +943,14 @@ $('handles').onclick=()=>{showHandles=!showHandles;$('handles').textContent=show
 $('compare').onpointerdown=e=>{if(busy)return;compare=true;$('compare').setPointerCapture(e.pointerId);schedule()};
 $('compare').onpointerup=$('compare').onpointercancel=$('compare').onlostpointercapture=()=>{compare=false;schedule()};
 $('compare').onkeydown=e=>{if(e.key===' '){e.preventDefault();compare=true;schedule()}};$('compare').onkeyup=()=>{compare=false;schedule()};
-$('mode').onchange=()=>{checkpoint();state.mode=$('mode').value;sync();schedule()};
+$('mode').onchange=()=>{checkpoint();state.mode=$('mode').value;if(state.mode==='orthographic')state.coverage=Math.min(180,state.coverage);sync();schedule()};
 for(const id of ['glassEnabled','transparent','bicubicFiltering'])$(id).onchange=()=>{checkpoint();state[id]=$(id).checked;schedule()};
 $('exportSSAA').onchange=()=>{checkpoint();state.exportSSAA=+($('exportSSAA').value||2);$('ssaaLabel').textContent=$('exportSSAA').options[$('exportSSAA').selectedIndex].text.split('·')[0];schedule()};
-$('exportWidth').onchange=()=>{checkpoint();state.exportWidth=clamp(Math.round(+$('exportWidth').value||3840),200,16000);sync();schedule()};
-for(const [btnId,w] of [['res2k',2048],['res4k',3840],['res6k',6000],['res8k',8192]]){
+$('exportWidth').onchange=()=>{checkpoint();state.exportWidth=clamp(Math.round(+$('exportWidth').value||3840),200,32768);sync();schedule()};
+for(const [btnId,w] of [['res2k',2048],['res4k',3840],['res6k',6000],['res8k',8192],['res16k',16000],['res20k',20000]]){
  $(btnId).onclick=()=>{checkpoint();state.exportWidth=w;sync();schedule()};
 }
-$('resetWarp').onclick=()=>{checkpoint();state.rings=[0,0,0];state.pins=[];selectedPin=-1;sync();schedule()};
+$('resetWarp').onclick=()=>{checkpoint();state.rings=[0,0,0];state.warpVersion=2;state.ringKnots=WarpMath.defaultRings();state.pins=[];selectedPin=-1;sync();schedule()};
 $('clearPins').onclick=()=>{checkpoint();state.pins=[];selectedPin=-1;sync();schedule()};
 $('deletePin').onclick=()=>{if(selectedPin<0)return;checkpoint();state.pins.splice(selectedPin,1);selectedPin=-1;sync();schedule()};
 $('pinLocked').onchange=()=>{const p=state.pins[selectedPin];if(!p)return;checkpoint();p.locked=$('pinLocked').checked;syncPin();schedule()};
@@ -401,11 +959,11 @@ window.addEventListener('resize',schedule);window.addEventListener('blur',()=>{c
 
 function download(blob,name){const a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),30000)}
 function safeName(){return (project?.name||'fisheye-study').replace(/[^\w .-]/g,'_')}
-$('saveEdit').onclick=()=>download(new Blob([JSON.stringify({schema:'fisheye-edits',version:1,capture:project?{name:project.name,created:project.created,faces:project.faces}:null,state},null,2)],{type:'application/json'}),safeName()+'.fisheye.json');
+$('saveEdit').onclick=()=>download(new Blob([JSON.stringify({schema:'fisheye-edits',version:2,capture:project?{name:project.name,created:project.created,faces:project.faces}:null,state,animation:window.StudioAnimation?.serialize()},null,2)],{type:'application/json'}),safeName()+'.fisheye.json');
 
 function validateEdits(data){
- if(data.schema!=='fisheye-edits'||data.version!==1||!data.state)throw Error('This is not a supported Fisheye Studio edit file.');
- const s=defaults(),v=data.state;if(!ALL_MODES.includes(v.mode))throw Error('Invalid lens mode: '+v.mode);
+ if(data.schema!=='fisheye-edits'||![1,2].includes(data.version)||!data.state)throw Error('This is not a supported Fisheye Studio edit file.');
+ const s=defaults(),v=data.state;s.warpVersion=v.warpVersion===2?2:1;s.ringKnots=s.warpVersion===2?WarpMath.validateRings(v.ringKnots):WarpMath.defaultRings();if(!ALL_MODES.includes(v.mode))throw Error('Invalid lens mode: '+v.mode);
  s.mode=v.mode;
  for(const [,id,,min,max] of definitions){if(v[id]!==undefined){if(typeof v[id]!=='number'||!Number.isFinite(v[id]))throw Error('Invalid '+id);s[id]=clamp(v[id],min,max)}}
  if(Array.isArray(v.rings)&&v.rings.length===3&&v.rings.every(x=>typeof x==='number'&&Number.isFinite(x)))s.rings=v.rings.map(x=>clamp(x,-.18,.18));
@@ -416,14 +974,14 @@ function validateEdits(data){
  if(v.transparent!==undefined)s.transparent=!!v.transparent;
  if(v.bicubicFiltering!==undefined)s.bicubicFiltering=!!v.bicubicFiltering;
  if(v.exportSSAA!==undefined)s.exportSSAA=clamp(Math.round(Number(v.exportSSAA)||2),1,3);
- if(v.exportWidth!==undefined)s.exportWidth=clamp(Math.round(Number(v.exportWidth)||3840),200,16000);
+ if(v.exportWidth!==undefined)s.exportWidth=clamp(Math.round(Number(v.exportWidth)||3840),200,32768);
  return s;
 }
 
 $('loadEdit').onclick=()=>$('editInput').click();
 $('editInput').onchange=async e=>{
  const file=e.target.files[0];if(!file)return;try{
-  const data=JSON.parse(await file.text()),next=validateEdits(data);checkpoint();state=next;selectedPin=-1;sync();schedule();
+  const data=JSON.parse(await file.text()),next=validateEdits(data),anim=window.StudioAnimation?.validate(data.animation);checkpoint();state=next;window.StudioAnimation?.load(anim);selectedPin=-1;sync();schedule();
   status(data.capture&&data.capture.name!==project?.name?'Edits loaded. They reference '+data.capture.name+'; open that cube folder for the matching source.':'Edits loaded.');
  }catch(err){status(err.message,true)}e.target.value='';
 };
@@ -447,49 +1005,267 @@ async function loadFiles(files){
    if(gl.getError()!==gl.NO_ERROR)throw Error('The GPU could not load these faces. Export smaller cube faces and try again.');
   }
   textures.forEach(t=>gl.deleteTexture(t));textures=newTextures;newTextures=[];sources.forEach(b=>b.close());sources=bitmaps;bitmaps=[];
-  project=data;demo=false;tangent=data.tangent;sourceSize=n;textureSize=size;state=defaults();history=[];future=[];selectedPin=-1;sync();
+  project=data;demo=false;tangent=data.tangent;sourceSize=n;textureSize=size;state=defaults();window.StudioAnimation?.clear();history=[];future=[];selectedPin=-1;sync();
   $('projectName').textContent=data.name||'Cube capture';$('projectMeta').textContent=`6 cube faces · ${n.toLocaleString()} × ${n.toLocaleString()} px each · original capture retained`;
   $('sourceBadge').textContent='Cube capture';$('notice').hidden=n<=max;$('notice').textContent=`This GPU supports ${max}px textures. The ${n}px source faces are sampled at ${size}px in this session.`;
-  status('Capture loaded. Shape the view, then save your edits or export a PNG.');
+  await window.StudioSession?.capture([mf,...FACE_NAMES.map(face=>map.get(prefix+data.faces[face]))]);
+  status('Capture loaded. Shape the view, then save your edits or export a PNG.');return true;
  }catch(e){
-  newTextures.forEach(t=>gl.deleteTexture(t));bitmaps.forEach(b=>b.close());textures.forEach((t,j)=>{gl.activeTexture(gl.TEXTURE0+j);gl.bindTexture(gl.TEXTURE_2D,t)});status(e.message,true);
+  newTextures.forEach(t=>gl.deleteTexture(t));bitmaps.forEach(b=>b.close());textures.forEach((t,j)=>{gl.activeTexture(gl.TEXTURE0+j);gl.bindTexture(gl.TEXTURE_2D,t)});status(e.message,true);return false;
  }finally{busy=false;schedule()}
 }
 
+$('stage').addEventListener('dragover',e=>e.preventDefault());
+$('stage').addEventListener('drop',async e=>{e.preventDefault();const files=[];
+ for(const item of [...(e.dataTransfer.items||[])]){const entry=item.webkitGetAsEntry?.();
+  if(entry?.isDirectory){const reader=entry.createReader();for(;;){const entries=await new Promise((ok,fail)=>reader.readEntries(ok,fail));if(!entries.length)break;for(const ent of entries)if(ent.isFile)files.push(await new Promise((ok,fail)=>ent.file(ok,fail)));}}
+  else if(item.kind==='file'){const f=item.getAsFile();if(f)files.push(f);}
+ }if(files.length)await loadFiles(files);
+});
 $('folderInput').onchange=async e=>{await loadFiles([...e.target.files]);e.target.value=''};
 function lockUI(on){
  document.querySelectorAll('button,input,select').forEach(el=>{if(on){el.dataset.wasDisabled=String(el.disabled);el.disabled=true}else {el.disabled=el.dataset.wasDisabled==='true';delete el.dataset.wasDisabled}});
 }
 
+let cancelExport=false;
+$('cancelExport').onclick=()=>{cancelExport=true;status('Cancelling after the current tile…')};
 $('exportPNG').onclick=async()=>{
- if(busy)return;const c=lensConfig(),W=state.exportWidth,H=Math.round(W/c.aspect);
- if(H<1||H>16000||W*H>100000000){status('Export exceeds the 100 MP / 16,000 px height limit. Lower the width or use less extreme curvature.',true);return}
- busy=true;compare=false;lockUI(true);
- const out=document.createElement('canvas');out.width=W;out.height=H;const dest=out.getContext('2d');
- const ssaaSamples=state.exportSSAA||2;
+ if(busy)return;window.StudioAnimation?.editing();const c=lensConfig(),W=state.exportWidth,H=Math.round(W/c.aspect);
+ if(H<1||H>32768||W*H>536870912){status('Choose dimensions up to 32,768 px per side and 512 MP total.',true);return;}
+ let writable=null;try{if(typeof showSaveFilePicker==='function'){const handle=await showSaveFilePicker({suggestedName:safeName()+'_master.png',types:[{description:'PNG image',accept:{'image/png':['.png']}}]});writable=await handle.createWritable();}}catch(e){if(e.name!=='AbortError')status('Could not open output file: '+e.message,true);return;}
+ busy=true;compare=false;cancelExport=false;lockUI(true);$('cancelExport').hidden=false;$('cancelExport').disabled=false;let png=null;
+ let exportFB=null,exportTexture=null;
+ const chunks=[],sink=writable||{write:async b=>chunks.push(b),close:async()=>{},abort:async()=>{chunks.length=0}};
  try{
-  if(!dest)throw Error('Not enough memory for this output.');
-  const tile=Math.min(2048,gl.getParameter(gl.MAX_RENDERBUFFER_SIZE));
-  const totalTiles=Math.ceil(H/tile)*Math.ceil(W/tile);let currentTile=0;
-  for(let y=0;y<H;y+=tile)for(let x=0;x<W;x+=tile){
-   const w=Math.min(tile,W-x),h=Math.min(tile,H-y);
-   frame(w,h,W,H,x,H-y-h,ssaaSamples);
-   if(gl.getError()!==gl.NO_ERROR)throw Error('GPU export failed. Try a smaller output.');
-   dest.drawImage(canvas,x,y);currentTile++;
-   status(`Exporting master resolution (${ssaaSamples>1?ssaaSamples+'× SSAA':'1×'})… ${Math.round((currentTile/totalTiles)*100)}%`);
-   await new Promise(resolve=>setTimeout(resolve,0));
+  png=await PNGStream.create(W,H,sink);const tile=Math.min(1024,gl.getParameter(gl.MAX_RENDERBUFFER_SIZE)),bandH=64,samples=state.exportSSAA||2;
+  exportFB=gl.createFramebuffer();exportTexture=gl.createTexture();gl.activeTexture(gl.TEXTURE6);gl.bindTexture(gl.TEXTURE_2D,exportTexture);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA8,tile,bandH,0,gl.RGBA,gl.UNSIGNED_BYTE,null);gl.bindFramebuffer(gl.FRAMEBUFFER,exportFB);gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,exportTexture,0);
+  if(gl.checkFramebufferStatus(gl.FRAMEBUFFER)!==gl.FRAMEBUFFER_COMPLETE)throw Error('Could not allocate export tile.');
+  for(let y=0;y<H;y+=bandH){const h=Math.min(bandH,H-y),band=new Uint8Array(W*h*4);
+   for(let x=0;x<W;x+=tile){if(cancelExport)throw Error('Export cancelled.');const w=Math.min(tile,W-x);gl.viewport(0,0,w,h);uniforms(W,H,x,H-y-h,samples);gl.drawArrays(gl.TRIANGLES,0,6);
+    const pixels=new Uint8Array(w*h*4);gl.readPixels(0,0,w,h,gl.RGBA,gl.UNSIGNED_BYTE,pixels);if(gl.getError()!==gl.NO_ERROR)throw Error('GPU readback failed.');
+    for(let row=0;row<h;row++)band.set(pixels.subarray((h-1-row)*w*4,(h-row)*w*4),(row*W+x)*4);
+    status(`Exporting ${W.toLocaleString()} × ${H.toLocaleString()} · ${Math.floor((y*W+x*h)/(W*H)*100)}% · ${samples*samples} samples/pixel`);await new Promise(r=>setTimeout(r,0));
+   }await png.writeBand(band,h);
   }
-  const blob=await new Promise(resolve=>out.toBlob(resolve,'image/png'));
-  if(!blob)throw Error('Could not encode PNG. Try a smaller output.');
-  download(blob,safeName()+'_master.png');
-  status(`Exported ${W.toLocaleString()} × ${H.toLocaleString()} Master PNG with ${ssaaSamples>1?ssaaSamples+'× SSAA anti-aliasing':'1×'}${demo?' from demo':''}.`);
- }catch(e){status(e.message,true)}finally{
-  out.width=out.height=1;busy=false;lockUI(false);updateHistory();schedule();
- }
+  await png.finish();if(!writable)download(new Blob(chunks,{type:'image/png'}),safeName()+'_master.png');status(`Exported ${W.toLocaleString()} × ${H.toLocaleString()} PNG from original cube textures.`);
+ }catch(e){if(png)await png.abort(e);else await sink.abort?.(e);status(e.message,true)}finally{gl.bindFramebuffer(gl.FRAMEBUFFER,null);if(exportFB)gl.deleteFramebuffer(exportFB);if(exportTexture)gl.deleteTexture(exportTexture);gl.activeTexture(gl.TEXTURE0);chunks.length=0;busy=false;$('cancelExport').hidden=true;lockUI(false);sync();schedule()}
 };
 
 canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();busy=true;status('GPU memory was exhausted or graphics context lost. Reload editor and reopen capture.',true)});
 sync();schedule();
 
-if(window.matchMedia)matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{lwRead();try{schedule();drawOverlay()}catch(e){}});
-</script></body></html>
+</script>
+<script>
+/* Timeline UI and playback, isolated from the static editing state. */
+(function(){
+'use strict';
+const A=AnimationMath;
+let copiedEffect=null,editingField=null;
+let base=null,clips=[],selected=null,time=0,playing=false,preview=false,loop=true,raf=0,last=0,drag=null;
+const panel=document.querySelector('.animation-panel');
+function catalog(s=state){
+ const entries=definitions.filter(([parent])=>parent!=='lensSurfaceControls').map(([,path,label,min,max,step,unit])=>({path,label,min,max,step,unit}));
+ entries.push({path:'mode',label:'Lens model',choices:ALL_MODES},{path:'glassEnabled',label:'Glass highlights',choices:[false,true]},{path:'transparent',label:'Transparent outside lens',choices:[false,true]},{path:'bicubicFiltering',label:'Sharp texture sampling',choices:[false,true]});
+ (s.ringKnots||[]).forEach((r,j)=>{entries.push({path:`ringKnots.${j}.source`,label:`Ring ${j+1} · base / source radius`,min:.006,max:.994,step:.001},{path:`ringKnots.${j}.target`,label:`Ring ${j+1} · radius`,min:.006,max:.994,step:.001},{path:`ringKnots.${j}.rotation`,label:`Ring ${j+1} · rotation (°)`,min:-720,max:720,step:1});});
+ (s.pins||[]).forEach((p,j)=>{for(const [k,label,min,max] of [['tx','horizontal',-.98,.98],['ty','vertical',-.98,.98],['radius','influence',.05,.8]])entries.push({path:`pins.${j}.${k}`,label:`Pin ${j+1} · ${label}`,min,max,step:.01});entries.push({path:`pins.${j}.locked`,label:`Pin ${j+1} · locked`,choices:[false,true]});});
+ return entries;
+}
+function length(){return A.duration(clips)}
+function scale(){return Math.max(4,Math.ceil(length()))}
+function current(){return clips.find(c=>c.id===selected)}
+function pause(){playing=false;cancelAnimationFrame(raf);raf=0;$('animationPlay').textContent='Play preview'}
+function editing(){pause();preview=false;schedule()}
+// Every preview starts from the current editing settings; numeric clips add their change to the current settings.
+function sample(){return A.sample(state,clips,time)}
+function syncClock(){const end=length();$('animationTime').textContent=`${time.toFixed(2)} / ${end.toFixed(2)} s`;$('animationScrub').max=end;$('animationScrub').value=time;$('animationPlayhead').style.left=(time/scale()*100)+'%';}
+function seek(t){pause();time=Math.max(0,Math.min(length(),t));preview=clips.length>0;syncClock();schedule()}
+function tick(now){
+ if(!playing)return;
+ if(busy||document.hidden){last=now;raf=requestAnimationFrame(tick);return;}
+ time+=(now-last)/1000;last=now;const end=length();
+ if(time>=end){if(loop)time%=end;else{time=end;pause();}}
+ syncClock();schedule();if(playing)raf=requestAnimationFrame(tick);
+}
+function play(){if(busy)return;if(playing){pause();schedule();return;}if(!clips.length){status('Add an animation effect first.');return;}if(time>=length())time=0;preview=true;playing=true;last=performance.now();$('animationPlay').textContent='Pause preview';raf=requestAnimationFrame(tick);schedule();}
+function options(){const select=$('animationEffect'),old=select.value;select.replaceChildren();for(const e of catalog()){const o=document.createElement('option');o.value=e.path;o.textContent=e.label;select.append(o)}if([...select.options].some(o=>o.value===old))select.value=old;}
+function inspector(){
+ const c=current();$('animationCopy').disabled=!c;$('animationPaste').disabled=!copiedEffect;$('animationInspector').hidden=!c;if(!c)return;
+ const e=catalog().find(e=>e.path===c.path)||catalog(base||state).find(e=>e.path===c.path);
+ if(!e){$('animationInspector').hidden=true;return;}
+ for(const name of ['from','to']){
+  const el=$('effect'+name[0].toUpperCase()+name.slice(1));
+  el.value=e.choices?e.choices.indexOf(c[name]):c[name];el.min=e.choices?0:e.min;el.max=e.choices?e.choices.length-1:e.max;el.step=e.choices?1:e.step;
+  el.title=e.choices?e.choices.map((v,i)=>`${i}: ${v}`).join(', '):`${e.label}${e.unit==='percent'?' (1 = 100%)':''}`;
+ }
+ $('effectStart').value=c.start.toFixed(2);$('effectDuration').value=c.duration.toFixed(2);$('effectEasing').value=c.easing;$('effectReturn').checked=!!c.returnToStart;
+ $('effectFrom').parentElement.firstChild.textContent=e.choices?'From (option index)':'From reference';
+ $('effectTo').parentElement.firstChild.textContent=e.choices?'To (option index)':'To reference';
+ $('animationValueHint').textContent=e.choices?e.choices.map((v,i)=>`${i} = ${v}`).join(' · '):`Adds the change (To − From) on top of the right-panel value. Overlapping effects add together.${e.unit==='percent'?' Values use a multiplier: 1 = 100%.':''}`;
+}
+function focusSelected(){const block=[...$('animationTracks').querySelectorAll('.effect-clip')].find(el=>el.dataset.clip===selected);block?.focus()}
+function removeEffect(){
+ if(busy||!current())return;checkpoint(false);pause();
+ const index=clips.findIndex(c=>c.id===selected);clips.splice(index,1);
+ selected=clips[Math.min(index,clips.length-1)]?.id||null;
+ if(!clips.length){preview=false;base=null;time=0;}
+ editingField=null;paint();if(selected)focusSelected();else $('animationAdd').focus();
+ status('Effect deleted. Use ⌘/Ctrl+Z to undo.');
+}
+function paint(){
+ options();inspector();const host=$('animationTracks');host.replaceChildren();const end=scale();
+ for(const c of clips){
+  const entry=catalog().find(e=>e.path===c.path)||catalog(base||state).find(e=>e.path===c.path)||{label:'Unavailable adjustment'};const row=document.createElement('div');row.className='effect-track';
+  const block=document.createElement('div');block.className='effect-clip'+(c.id===selected?' selected':'');block.style.left=c.start/end*100+'%';block.style.width=c.duration/end*100+'%';block.tabIndex=0;block.setAttribute('role','button');block.setAttribute('aria-label',`${entry.label}, starts ${c.start.toFixed(2)} seconds, duration ${c.duration.toFixed(2)} seconds${c.returnToStart?', returns to start':''}`);block.dataset.clip=c.id;
+  const label=document.createElement('span');label.className='effect-name';label.textContent=entry.label+(c.returnToStart?' ↔':'');block.append(label);
+  if(c.returnToStart){const midpoint=document.createElement('span');midpoint.className='effect-midpoint';midpoint.title='Full effect at midpoint; reverses after this point';block.append(midpoint)}
+  for(const edge of ['start','end']){const grip=document.createElement('span');grip.className='trim-handle '+edge;grip.dataset.edge=edge;grip.title=`Drag ${edge} to trim effect`;block.append(grip)}
+  block.onpointerdown=e=>{
+   if(e.button!==0||busy)return;e.preventDefault();block.focus();pause();selected=c.id;inspector();for(const el of host.querySelectorAll('.effect-clip'))el.classList.toggle('selected',el===block);
+   drag={id:c.id,kind:e.target.dataset.edge||'move',x:e.clientX,start:c.start,duration:c.duration,scale:end,width:row.getBoundingClientRect().width};block.setPointerCapture(e.pointerId);
+  };
+  block.onpointermove=e=>{
+   if(!drag||drag.id!==c.id)return;const delta=(e.clientX-drag.x)/drag.width*drag.scale;
+   if(delta===0)return;if(!drag.recorded){checkpoint(false);drag.recorded=true;}
+   if(drag.kind==='move')c.start=Math.max(0,Math.min(600-c.duration,Math.round((drag.start+delta)*100)/100));
+   else if(drag.kind==='end')c.duration=Math.max(.1,Math.min(600-c.start,Math.round((drag.duration+delta)*100)/100));
+   else {const finish=drag.start+drag.duration;c.start=Math.max(0,Math.min(finish-.1,Math.round((drag.start+delta)*100)/100));c.duration=finish-c.start;}
+   block.style.left=c.start/drag.scale*100+'%';block.style.width=c.duration/drag.scale*100+'%';inspector();syncClock();preview=true;schedule();
+  };
+  block.onpointerup=block.onpointercancel=()=>{drag=null;paint();focusSelected();};
+  block.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selected=c.id;paint();focusSelected();}if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();checkpoint(false);pause();c.start=Math.max(0,Math.min(600-c.duration,c.start+(e.key==='ArrowLeft'?-.1:.1)));selected=c.id;paint();focusSelected();}};
+  row.append(block);host.append(row);
+ }
+ const ruler=$('animationRuler');ruler.replaceChildren();for(let j=0;j<=10;j++){const span=document.createElement('span');span.textContent=(end*j/10).toFixed(1)+'s';ruler.append(span)}
+ $('animationEmpty').hidden=clips.length>0;time=Math.min(time,length());syncClock();schedule();
+}
+function add(path,pan=false){
+ if(busy)return;pause();if(clips.length>=100){status('Use at most 100 animation effects.',true);return;}
+ checkpoint(false);if(!base)base=A.clone(state);
+ const entry=catalog().find(e=>e.path===path);if(!entry)return;
+ const from=A.get(sample(),path);let to=from;
+ if(pan)to=from+360;
+ else if(typeof from==='number')to=Math.min(entry.max,from+(path==='yaw'||path==='roll'||path.endsWith('.rotation')?360:(entry.max-entry.min)*.25));
+ else if(typeof from==='boolean')to=!from;
+ const c={id:'effect-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),path,from,to,start:time,duration:Math.min(4,600-time),easing:'linear'};
+ if(c.duration<.1){status('The timeline is limited to 600 seconds.',true);return;}clips.push(c);selected=c.id;preview=true;paint();
+}
+function copyEffect(){
+ const c=current();if(!c)return;
+ copiedEffect=A.clone(c);$('animationPaste').disabled=false;
+ status('Effect copied. Paste places a copy immediately after this effect, preserving its values, duration, and easing.');
+}
+function pasteEffect(){
+ if(!copiedEffect||busy)return;
+ if(clips.length>=100){status('Use at most 100 animation effects.',true);return;}
+ const source=clips.find(c=>c.id===copiedEffect.id)||copiedEffect;
+ const pasteStart=source.start+source.duration;
+ if(pasteStart+copiedEffect.duration>600){status('The pasted effect would exceed 600 seconds. Move or shorten the source effect first.',true);return;}
+ const entry=catalog().find(e=>e.path===copiedEffect.path);
+ if(!entry){status('The copied effect’s ring or pin is not in this starting view.',true);return;}
+ checkpoint(false);pause();if(!base)base=A.clone(state);
+ const c={...A.clone(copiedEffect),id:'effect-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),start:pasteStart};
+ clips.push(c);selected=c.id;time=pasteStart;preview=true;paint();
+ const block=$('animationTracks').lastElementChild?.firstElementChild;block?.focus();
+ status('Effect pasted at '+time.toFixed(2)+' seconds.');
+}
+function valueChange(name,repaint=true){const c=current();if(!c)return;pause();const el=$('effect'+name[0].toUpperCase()+name.slice(1)),v=el.value===''?NaN:Number(el.value);if(!Number.isFinite(v)){inspector();return;}const e=catalog().find(e=>e.path===c.path)||catalog(base||state).find(e=>e.path===c.path);if(!e)return;
+ if(editingField!==name){checkpoint(false);editingField=name;}
+ if(name==='from'||name==='to')c[name]=e.choices?e.choices[Math.max(0,Math.min(e.choices.length-1,Math.round(v)))]:Math.max(e.min,Math.min(e.max,v));
+ else if(name==='start')c.start=Math.max(0,Math.min(600-c.duration,v));else c.duration=Math.max(.1,Math.min(600-c.start,v));
+ preview=true;if(repaint)paint();else {syncClock();schedule();}
+}
+function serialize(){return {version:1,base:base&&A.clone(base),clips:A.clone(clips),loop}}
+function validate(data){
+ if(data==null)return null;if(data.version!==1||!Array.isArray(data.clips)||data.clips.length>100)throw Error('Invalid animation timeline.');
+ if(!data.base){if(data.clips.length)throw Error('Animation starting view is missing.');return null;}
+ const cleanBase=validateEdits({schema:'fisheye-edits',version:2,state:data.base}),entries=catalog(cleanBase);
+ const cleanClips=data.clips.map((c,i)=>{
+  const e=entries.find(e=>e.path===c.path);if(!e)throw Error('Unknown animation adjustment.');
+  if(!Number.isFinite(c.start)||!Number.isFinite(c.duration)||c.start<0||c.duration<.1||c.start+c.duration>600)throw Error('Animation timing is outside 0–600 seconds.');
+  for(const k of ['from','to'])if(e.choices?!e.choices.includes(c[k]):!Number.isFinite(c[k])||c[k]<e.min||c[k]>e.max)throw Error('Invalid effect value for '+e.label);
+  return {id:'loaded-'+i,path:c.path,from:c.from,to:c.to,start:c.start,duration:c.duration,easing:c.easing==='smooth'?'smooth':'linear',returnToStart:c.returnToStart===true};
+ });return {base:cleanBase,clips:cleanClips,loop:data.loop!==false};
+}
+function load(data){pause();base=data?.base||null;clips=data?.clips||[];loop=data?.loop??true;selected=clips[0]?.id||null;time=0;preview=false;$('animationLoop').checked=loop;paint()}
+function clear(){load(null)}
+function historySnapshot(){return {data:serialize(),selected,time,preview}}
+function restoreHistory(saved){
+ editingField=null;drag=null;load(saved?.data?A.clone(saved.data):null);
+ if(saved){selected=clips.some(c=>c.id===saved.selected)?saved.selected:(clips[0]?.id||null);time=Math.min(saved.time||0,length());preview=!!saved.preview&&clips.length>0;paint()}
+}
+window.StudioAnimation={get playing(){return playing},get preview(){return preview},sample,serialize,validate,load,clear,editing,historySnapshot,restoreHistory};
+$('animationCopy').onclick=copyEffect;$('animationPaste').onclick=pasteEffect;
+panel.addEventListener('keydown',e=>{
+ const target=e.target,typing=target.isContentEditable||['INPUT','TEXTAREA','SELECT'].includes(target.tagName);
+ if((e.key==='Delete'||e.key==='Backspace')&&!typing&&!e.metaKey&&!e.ctrlKey&&!e.altKey){if(current()){e.preventDefault();e.stopPropagation();removeEffect()}return;}
+ if(!(e.metaKey||e.ctrlKey)||e.altKey||e.shiftKey)return;
+ const el=e.target;if(el.isContentEditable||el.tagName==='TEXTAREA'||el.tagName==='SELECT'||(el.tagName==='INPUT'&&el.type!=='range'))return;
+ const key=e.key.toLowerCase();if(key==='c'&&current()){e.preventDefault();copyEffect()}else if(key==='v'&&copiedEffect){e.preventDefault();pasteEffect()}
+});
+$('animationPlay').onclick=play;$('animationStop').onclick=()=>{pause();time=0;preview=false;syncClock();schedule()};
+$('animationLoop').onchange=()=>{checkpoint(false);loop=$('animationLoop').checked};
+$('animationScrub').oninput=e=>seek(+e.target.value);
+$('animationAdd').onclick=()=>add($('animationEffect').value);$('animationPan').onclick=()=>add('yaw',true);
+$('animationRemove').onclick=removeEffect;
+$('animationBase').onclick=()=>{checkpoint(false);pause();base=A.clone(state);const valid=new Set(catalog(base).map(e=>e.path));clips=clips.filter(c=>valid.has(c.path));selected=clips[0]?.id||null;time=0;preview=false;paint();status('Preview reset to the current right-panel settings. Effects keep their From and To values.');};
+for(const name of ['from','to','start','duration']){const el=$('effect'+name[0].toUpperCase()+name.slice(1));el.onchange=()=>{valueChange(name);editingField=null};el.onblur=()=>{editingField=null};el.oninput=()=>valueChange(name,false);}
+$('effectReturn').onchange=()=>{const c=current();if(c){checkpoint(false);c.returnToStart=$('effectReturn').checked;preview=true;paint()}};
+$('effectEasing').onchange=()=>{const c=current();if(c){checkpoint(false);c.easing=$('effectEasing').value;preview=true;schedule()}};
+const hint=document.createElement('p');hint.id='animationValueHint';hint.className='secondary';$('animationInspector').after(hint);
+panel.addEventListener('focusin',()=>{options()});
+document.addEventListener('input',e=>{if(!panel.contains(e.target))editing()},true);
+document.addEventListener('change',e=>{if(!panel.contains(e.target))editing()},true);
+window.addEventListener('blur',()=>{pause();schedule()});window.addEventListener('pagehide',()=>cancelAnimationFrame(raf));
+paint();
+})();
+
+</script>
+<script>
+/* Local session recovery: original image blobs in IndexedDB; lightweight edits saved synchronously. */
+(function(){
+'use strict';
+const KEY='fisheye-studio-session-v1';
+let restoring=true,captureId=null,last='',dbPromise=null,failed=false;
+const badge=document.createElement('span');badge.className='secondary';badge.setAttribute('role','status');badge.textContent='Restoring local session…';$('saveEdit').after(badge);
+function database(){return dbPromise||(dbPromise=new Promise((resolve,reject)=>{const request=indexedDB.open('fisheye-studio',1);request.onupgradeneeded=()=>request.result.createObjectStore('captures');request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error)}))}
+async function transaction(mode,action){const db=await database();return new Promise((resolve,reject)=>{const tx=db.transaction('captures',mode);const request=action(tx.objectStore('captures'));tx.oncomplete=()=>resolve(request?.result);tx.onerror=tx.onabort=()=>reject(tx.error||request?.error||Error('Local storage unavailable'))})}
+function warn(){failed=true;badge.textContent='Autosave unavailable — use Save edits and keep your capture folder.'}
+function save(force=false){
+ if(restoring||failed||(busy&&force!==true))return;
+ try{const value=JSON.stringify({version:1,captureId,state,animation:window.StudioAnimation?.serialize()||null});if(value===last)return;localStorage.setItem(KEY,value);last=value;badge.textContent='Saved on this device';}catch(e){warn()}
+}
+async function capture(files){
+ if(restoring)return;
+ const previous=captureId;failed=false;badge.textContent='Saving imported images…';
+ const id='capture-'+Date.now()+'-'+Math.random().toString(36).slice(2);
+ try{
+  await transaction('readwrite',store=>store.put(files.map(file=>({name:file.name,path:file.webkitRelativePath||file.name,blob:file})),id));
+  captureId=id;save(true);
+  if(!failed&&previous&&previous!==id)await transaction('readwrite',store=>store.delete(previous));
+ }catch(e){warn()}
+}
+window.StudioSession={save,capture};
+window.addEventListener('pagehide',save);document.addEventListener('visibilitychange',()=>{if(document.hidden)save()});
+(async()=>{
+ lockUI(true);
+ try{
+  const raw=localStorage.getItem(KEY);
+  if(raw){const saved=JSON.parse(raw);if(saved.version!==1)throw Error('Unsupported local session');
+   const restoredState=validateEdits({schema:'fisheye-edits',version:2,state:saved.state});
+   const restoredAnimation=window.StudioAnimation?.validate(saved.animation);
+   if(saved.captureId){
+    const entries=await transaction('readonly',store=>store.get(saved.captureId));if(!entries)throw Error('Saved capture images are missing');
+    const files=entries.map(entry=>{const file=new File([entry.blob],entry.name,{type:entry.blob.type});Object.defineProperty(file,'webkitRelativePath',{value:entry.path});return file});
+    if(!await loadFiles(files))throw Error('Saved capture could not be restored');
+   }
+   captureId=saved.captureId||null;state=restoredState;window.StudioAnimation?.load(restoredAnimation);history=[];future=[];selectedPin=-1;sync();status('Restored your edits, animation, and imported images from this device.');
+  }
+  badge.textContent=raw?'Session restored · saved on this device':'Autosave ready · this device';
+ }catch(e){warn();status('Could not restore the local session. '+e.message,true)}
+ finally{restoring=false;lockUI(false);updateHistory();schedule()}
+})();
+})();
+
+</script>
+</body>
+</html>

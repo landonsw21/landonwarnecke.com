@@ -169,7 +169,7 @@ GALLERY = [
 
 EXTRAS = [
     ("x_fisheye", "TOOL · KEYSHOT", "Fisheye Studio",
-     "A ray-optical fisheye engine for KeyShot renders. Load a capture, warp it with concentric rings and local pins, then save your edits.",
+     "A ray-optical fisheye engine for KeyShot renders. Capture a cube with the KeyShot script, warp the view with rings and pins, then animate it on a timeline.",
      "https://landonsw21.github.io/landonwarnecke.com/editor.html", "Fisheye Studio editor with a demo scene in Greige and Pomegranate"),
     ("x_perspective", "TOOL · DRAWING", "Perspective Studio",
      "A browser-based perspective drafting tool, from 1-point up to a full 360° 6-point view, with 3D model import and PNG, JPG or PDF export.",
