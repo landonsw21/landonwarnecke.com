@@ -210,7 +210,7 @@ RESUME = {
 
 CONTACT = [
     ("EMAIL", "landon.warnecke@gmail.com", "mailto:landon.warnecke@gmail.com"),
-    ("LINKEDIN", "Landon Warnecke", "https://www.linkedin.com/in/landon-schmidt-warnecke-008637195"),
+    ("LINKEDIN", "linkedin.com/in/landon-schmidt-warnecke-008637195", "https://www.linkedin.com/in/landon-schmidt-warnecke-008637195"),
     ("INSTAGRAM", "@landons_kitchenette", "https://www.instagram.com/landons_kitchenette/"),
     ("GITHUB", "github.com/landonsw21", "https://github.com/landonsw21"),
 ]
