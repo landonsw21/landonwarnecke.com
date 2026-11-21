@@ -1,0 +1,1787 @@
+// Landon Schmidt-Warnecke — portfolio (Framer code component)
+// Generated from the Claude canvas prototype. Content lives in DATA below;
+// images load from IMAGE_BASE (GitHub Pages) and can be moved by changing the "Image base URL" property.
+import * as React from "react"
+import { addPropertyControls, ControlType } from "framer"
+
+const DEFAULT_BASE = "https://landonsw21.github.io/landonwarnecke.com/portfolio-media/"
+const DATA: any = {
+ "bio": "I'm an industrial design student at Western Washington University. I grew up on Mercer Island, Washington, making things in my dad's garage, and studied mechanical engineering at Arizona State before moving to industrial design to get back to hands-on, creative problem solving. I'm happiest when a design is fun, practical and solves a real problem, especially in toys and games, lighting, home goods and consumer electronics.",
+ "projects": [
+  {
+   "id": "wedge",
+   "num": "01",
+   "name": "WEDGE",
+   "kind": "NAPKIN HOLDER",
+   "hero": "c_wedge",
+   "alt": "WEDGE, a folded metal napkin holder",
+   "line": "A napkin holder folded from a single sheet of metal.",
+   "soon": false,
+   "meta": [
+    [
+     "Type",
+     "Napkin holder"
+    ],
+    [
+     "Material",
+     "Sheet metal"
+    ],
+    [
+     "Role",
+     "Solo"
+    ],
+    [
+     "Year",
+     "[TO CONFIRM]"
+    ]
+   ],
+   "sections": [
+    {
+     "slug": "overview",
+     "title": "Overview",
+     "paras": [
+      "A napkin holder made from one folded sheet of metal. [TO WRITE: the brief or constraint, and who it is for.]"
+     ],
+     "imgs": [
+      [
+       "wedge_overview",
+       "WEDGE napkin holder in brushed metal"
+      ]
+     ],
+     "cols": 1
+    },
+    {
+     "slug": "ideation",
+     "title": "Ideation",
+     "paras": [
+      "Sketches and quick paper models explored folded, wedge-shaped forms that hold a stack of napkins upright."
+     ],
+     "imgs": [
+      [
+       "wedge_sk1",
+       "WEDGE sketch sheet"
+      ],
+      [
+       "wedge_sk2",
+       "WEDGE paper model sketches"
+      ],
+      [
+       "wedge_paper1",
+       "Paper sketch model holding napkins"
+      ],
+      [
+       "wedge_paper2",
+       "Paper sketch model, side view"
+      ]
+     ],
+     "cols": 2
+    },
+    {
+     "slug": "construction",
+     "title": "Construction",
+     "paras": [
+      "The form was cut and bent from sheet metal in the shop. [TO CONFIRM: tools and finishing process.]"
+     ],
+     "imgs": [
+      [
+       "wedge_build",
+       "WEDGE construction: bending sheet metal in the shop"
+      ],
+      [
+       "wedge_detail",
+       "WEDGE bend detail"
+      ]
+     ],
+     "cols": 2
+    },
+    {
+     "slug": "final",
+     "title": "Final",
+     "paras": [
+      "The finished holder on the kitchen table."
+     ],
+     "imgs": [
+      [
+       "wedge_f1",
+       "WEDGE holding napkins on a kitchen table"
+      ],
+      [
+       "wedge_f2",
+       "WEDGE on the kitchen table, angled view"
+      ],
+      [
+       "wedge_f3",
+       "WEDGE close-up with napkins"
+      ]
+     ],
+     "cols": 2
+    }
+   ]
+  },
+  {
+   "id": "axio",
+   "num": "02",
+   "name": "AXIO",
+   "kind": "FACE WASH + MOISTURIZER",
+   "hero": "c_axio",
+   "alt": "AXIO amber face wash and moisturizer bottles",
+   "line": "Two bottles that complement each other in form, color, material and purpose.",
+   "soon": false,
+   "meta": [
+    [
+     "Type",
+     "Personal care bottles"
+    ],
+    [
+     "Role",
+     "Solo"
+    ],
+    [
+     "Tools",
+     "Illustrator, Rhino, KeyShot"
+    ],
+    [
+     "Features",
+     "Refillable, gel + foam"
+    ]
+   ],
+   "sections": [
+    {
+     "slug": "brief",
+     "title": "Brief",
+     "paras": [
+      "Design a face wash and moisturizer pair that relate to and complement each other. They have to stand upright without tipping; be easy to handle, open, pour and close; hold about 8 to 12 ounces; and have an original form that stands apart from competitors."
+     ],
+     "imgs": [],
+     "cols": 1
+    },
+    {
+     "slug": "research",
+     "title": "Research",
+     "paras": [
+      "<strong>User:</strong> Jordan Williams, 32, a style-driven urban creative. He's a freelance photographer and content producer in Los Angeles who rents a loft-style apartment and lives alone.",
+      "Research covered materials and manufacturing (PET injection molding versus blown glass), finishes, trends, psychographics and buying behavior. Pain points with current products: <strong>masculine, loud, underperforming</strong>."
+     ],
+     "imgs": [
+      [
+       "axio_persona",
+       "Persona: Jordan Williams at home"
+      ]
+     ],
+     "cols": 1
+    },
+    {
+     "slug": "insights",
+     "title": "Insights",
+     "paras": [
+      "<strong>Timeless:</strong> an elegant form and CMF that lasts, instead of chasing trends.",
+      "<strong>Authentic:</strong> form and CMF reflect the function and quality of the product.",
+      "<strong>Cohesive:</strong> the bottles have hierarchy together and individually, with a small footprint for limited counter space.",
+      "<strong>Premium:</strong> the dispensing mechanism should feel sturdy and match the intention involved in face care."
+     ],
+     "imgs": [],
+     "cols": 1
+    },
+    {
+     "slug": "ideation",
+     "title": "Ideation",
+     "paras": [
+      "Pump explorations played with dynamic hierarchy between the two bottles, then six dispensing directions: press-down open, pump in profile, removable cap, gel pump, flip cap and foam pump."
+     ],
+     "imgs": [
+      [
+       "axio_sk1",
+       "AXIO bottle sketches"
+      ],
+      [
+       "axio_sk2",
+       "AXIO dispensing ideation sketches"
+      ],
+      [
+       "axio_foam1",
+       "AXIO pump exploration foam models"
+      ],
+      [
+       "axio_foam2",
+       "AXIO foam models with a lilac variant"
+      ]
+     ],
+     "cols": 2
+    },
+    {
+     "slug": "refinement",
+     "title": "Refinement",
+     "paras": [
+      "Profiles were drawn in Illustrator, modeled in Rhino and tested as foam models in multiple orientations."
+     ],
+     "imgs": [
+      [
+       "axio_rhino",
+       "AXIO Rhino model"
+      ],
+      [
+       "axio_foam3",
+       "AXIO foam models in multiple orientations"
+      ],
+      [
+       "axio_foam4",
+       "AXIO refined foam model"
+      ],
+      [
+       "axio_foam5",
+       "AXIO refined foam pair"
+      ]
+     ],
+     "cols": 2
+    },
+    {
+     "slug": "cmf",
+     "title": "CMF",
+     "paras": [
+      "Inspiration: lifestyle quality; presentation and image; premium, brand-aware; intentional, authentic, refined.",
+      "Palette: <strong>Cambridge Brown</strong> (refined, timeless), <strong>Whispy Clouds</strong> (elegant, authentic) and <strong>Black Onyx</strong> (premium, performance)."
+     ],
+     "imgs": [
+      [
+       "axio_cmf",
+       "AXIO CMF inspiration board"
+      ],
+      [
+       "axio_palette",
+       "AXIO color palette: Cambridge Brown, Whispy Clouds, Black Onyx"
+      ]
+     ],
+     "cols": 2
+    },
+    {
+     "slug": "final",
+     "title": "Final",
+     "paras": [
+      "Amber bottles with black dispensing heads: refillable, with gel and foam dispensing."
+     ],
+     "imgs": [
+      [
+       "axio_f1",
+       "AXIO final render, two amber bottles"
+      ],
+      [
+       "axio_f2",
+       "AXIO pump dispensing render"
+      ],
+      [
+       "axio_f3",
+       "AXIO bottles on white"
+      ]
+     ],
+     "cols": 2
+    }
+   ]
+  },
+  {
+   "id": "anar",
+   "num": "03",
+   "name": "ANAR KARI",
+   "kind": "POMEGRANATE TOOLSET",
+   "hero": "c_anar",
+   "alt": "Anar Kari pomegranate bowl and muddler, stained with pomegranate juice",
+   "line": "A wood and aluminum toolset that honors the careful ritual of preparing pomegranates.",
+   "soon": false,
+   "meta": [
+    [
+     "Type",
+     "Kitchen toolset"
+    ],
+    [
+     "Course",
+     "ID 210"
+    ],
+    [
+     "Team",
+     "Dhwani & Landon"
+    ],
+    [
+     "Materials",
+     "Wood, aluminum sheet"
+    ]
+   ],
+   "sections": [
+    {
+     "slug": "objective",
+     "title": "Objective",
+     "paras": [
+      "<strong>Problem space:</strong> pomegranates can be difficult to prepare with current tools while still respecting the fruit.",
+      "<strong>Objective:</strong> create a set of tools designed to enhance the pomegranate preparation experience, using wood and aluminum sheet metal."
+     ],
+     "imgs": [],
+     "cols": 1
+    },
+    {
+     "slug": "research",
+     "title": "Research",
+     "paras": [
+      "Cultural understanding came from interviews about users, dishes and the ritual around the fruit. We tested current products, including mortar and pestle and hammering or shaking, and studied blade length and shape, bowl size and pestle shape."
+     ],
+     "imgs": [
+      [
+       "anar_r1",
+       "Research insights: cultural understanding"
+      ],
+      [
+       "anar_r2",
+       "Research insights: current products and testing"
+      ]
+     ],
+     "cols": 2
+    },
+    {
+     "slug": "drivers",
+     "title": "Design drivers",
+     "paras": [
+      "<strong>Opportunity:</strong> current pomegranate tools often use violent or forceful methods of removing seeds, taking away from the delicate, caring process.",
+      "Honor the careful, delicate process. Connect to the cultural, familial and ritual process. Be designed uniquely and recognizably for pomegranates."
+     ],
+     "imgs": [
+      [
+       "anar_mood",
+       "Anar Kari moodboard"
+      ]
+     ],
+     "cols": 1
+    },
+    {
+     "slug": "ideation",
+     "title": "Ideation",
+     "paras": [
+      "Shared nostalgia around pomegranates, family traditions and target tasks (fruit preparation, juicing and tea making) guided concept development."
+     ],
+     "imgs": [
+      [
+       "anar_sk1",
+       "Anar Kari concept sketches"
+      ],
+      [
+       "anar_sk2",
+       "Anar Kari bowl form sketches"
+      ]
+     ],
+     "cols": 2
+    },
+    {
+     "slug": "prototypes",
+     "title": "Prototypes",
+     "paras": [
+      "Prototypes and aril studies refined the bowl, muddler and blade forms."
+     ],
+     "imgs": [
+      [
+       "anar_p1",
+       "Foam prototype of bowl and muddler"
+      ],
+      [
+       "anar_p2",
+       "Wood prototypes"
+      ],
+      [
+       "anar_p3",
+       "Testing a wood prototype by hand"
+      ],
+      [
+       "anar_clay",
+       "Aril exploration in clay"
+      ]
+     ],
+     "cols": 2
+    },
+    {
+     "slug": "build",
+     "title": "Build + staining",
+     "paras": [
+      "Built in the shop, then stained with fresh pomegranate juice. We tested blended or crushed, brushed or soaked, boiled and gradient methods."
+     ],
+     "imgs": [
+      [
+       "anar_b1",
+       "Turning the bowl on the lathe"
+      ],
+      [
+       "anar_b2",
+       "Clamping during the build"
+      ],
+      [
+       "anar_stain",
+       "Pomegranate juice staining tests"
+      ]
+     ],
+     "cols": 2
+    },
+    {
+     "slug": "final",
+     "title": "Final + testing",
+     "paras": [
+      "The final set includes a scoring knife, a muddler and a bowl with a spout, tested through scoring, pressing, separating and pouring."
+     ],
+     "imgs": [
+      [
+       "anar_f1",
+       "Anar Kari bowl and muddler"
+      ],
+      [
+       "anar_f2",
+       "Anar Kari final set"
+      ],
+      [
+       "anar_f3",
+       "Muddler and scoring knife detail"
+      ],
+      [
+       "anar_t1",
+       "Scoring a pomegranate"
+      ],
+      [
+       "anar_t2",
+       "Separating arils into the bowl"
+      ],
+      [
+       "anar_t3",
+       "Pouring juice from the spout"
+      ]
+     ],
+     "cols": 2
+    }
+   ]
+  },
+  {
+   "id": "andon",
+   "num": "04",
+   "name": "ANDON",
+   "kind": "TABLE LIGHT",
+   "hero": "c_andon",
+   "alt": "ANDON table light glowing in a dark room",
+   "line": "A framed table light whose paper insert shapes a soft, graded glow.",
+   "soon": false,
+   "meta": [
+    [
+     "Type",
+     "Table light"
+    ],
+    [
+     "Role",
+     "Solo"
+    ],
+    [
+     "Date",
+     "March 2026"
+    ],
+    [
+     "Materials",
+     "[TO CONFIRM]"
+    ]
+   ],
+   "sections": [
+    {
+     "slug": "inspiration",
+     "title": "Inspiration",
+     "paras": [
+      "Geometric, simple, fun. References included Venini glass, Vanessa Veck, lithophanes and Lite Brite."
+     ],
+     "imgs": [
+      [
+       "andon_inspo",
+       "ANDON inspiration board"
+      ],
+      [
+       "andon_ref",
+       "Reference lanterns and lights"
+      ]
+     ],
+     "cols": 2
+    },
+    {
+     "slug": "ideation",
+     "title": "Ideation",
+     "paras": [
+      "Sketches explored lantern forms and how a paper insert could shape the light."
+     ],
+     "imgs": [
+      [
+       "andon_sk1",
+       "ANDON lantern sketches"
+      ],
+      [
+       "andon_sk2",
+       "ANDON form sketches"
+      ]
+     ],
+     "cols": 2
+    },
+    {
+     "slug": "exploration",
+     "title": "Light studies",
+     "paras": [
+      "Paper and card studies tested folds, cut patterns and layers, and were photographed lit to compare the patterns they cast."
+     ],
+     "imgs": [
+      [
+       "andon_l1",
+       "Layered paper light study"
+      ],
+      [
+       "andon_l2",
+       "Paper column light study"
+      ],
+      [
+       "andon_l3",
+       "Folded paper cube light study"
+      ],
+      [
+       "andon_l4",
+       "Pleated paper disc study"
+      ],
+      [
+       "andon_t1",
+       "Cut pattern test in the frame"
+      ],
+      [
+       "andon_t2",
+       "Cut pattern test casting shadows"
+      ]
+     ],
+     "cols": 2
+    },
+    {
+     "slug": "refinement",
+     "title": "Refinement",
+     "paras": [
+      "The insert profile was refined through a series of lit tests."
+     ],
+     "imgs": [
+      [
+       "andon_r1",
+       "Insert profile test"
+      ],
+      [
+       "andon_r2",
+       "Insert profile test, alternate"
+      ],
+      [
+       "andon_r3",
+       "Cut insert templates"
+      ]
+     ],
+     "cols": 2
+    },
+    {
+     "slug": "final",
+     "title": "Final",
+     "paras": [
+      "The finished light, at night and in a room."
+     ],
+     "imgs": [
+      [
+       "andon_f1",
+       "ANDON close-up glowing"
+      ],
+      [
+       "andon_f2",
+       "ANDON at dusk"
+      ],
+      [
+       "andon_f3",
+       "ANDON by a window in daylight"
+      ],
+      [
+       "andon_f4",
+       "ANDON in a dark room"
+      ]
+     ],
+     "cols": 2
+    }
+   ]
+  },
+  {
+   "id": "moai",
+   "num": "05",
+   "name": "MOAI",
+   "kind": "DESKTOP AC UNIT",
+   "hero": "c_moai",
+   "alt": "MOAI desktop AC unit renders in black",
+   "line": "A small, quiet desktop air conditioner for the home office.",
+   "soon": false,
+   "meta": [
+    [
+     "Type",
+     "Desktop AC unit"
+    ],
+    [
+     "Role",
+     "Solo"
+    ],
+    [
+     "User",
+     "Home office"
+    ],
+    [
+     "Tools",
+     "Rhino, KeyShot"
+    ]
+   ],
+   "sections": [
+    {
+     "slug": "research",
+     "title": "Research",
+     "paras": [
+      "<strong>User group:</strong> home office. <strong>Priorities:</strong> small footprint, quiet, ease of use."
+     ],
+     "imgs": [
+      [
+       "moai_research",
+       "MOAI research and ideation board"
+      ]
+     ],
+     "cols": 1
+    },
+    {
+     "slug": "ideation",
+     "title": "Ideation",
+     "paras": [
+      "Directions included a desk clip-on, a windowsill unit, surround cooling, a desktop unit and multidirectional airflow."
+     ],
+     "imgs": [
+      [
+       "moai_sk1",
+       "MOAI sketch sheet"
+      ],
+      [
+       "moai_sk2",
+       "MOAI final sketch sheet"
+      ]
+     ],
+     "cols": 2
+    },
+    {
+     "slug": "refinement",
+     "title": "Refinement",
+     "paras": [
+      "The desktop direction was refined in sketches and foam models."
+     ],
+     "imgs": [
+      [
+       "moai_m1",
+       "MOAI foam sketch models"
+      ],
+      [
+       "moai_m2",
+       "MOAI refined foam model"
+      ],
+      [
+       "moai_m3",
+       "MOAI foam model on a desk"
+      ],
+      [
+       "moai_m4",
+       "MOAI model with comparison objects"
+      ]
+     ],
+     "cols": 2
+    },
+    {
+     "slug": "final",
+     "title": "Final",
+     "paras": [
+      "Final renders detail the light slider, louvre tab and USB-C power, alongside a fisheye render from KeyShot."
+     ],
+     "imgs": [
+      [
+       "moai_f1",
+       "MOAI render with light slider"
+      ],
+      [
+       "moai_f2",
+       "MOAI louvres lit blue"
+      ],
+      [
+       "moai_f3",
+       "MOAI power button detail"
+      ],
+      [
+       "moai_f4",
+       "MOAI USB-C port detail"
+      ],
+      [
+       "moai_fish",
+       "MOAI fisheye render"
+      ]
+     ],
+     "cols": 2
+    }
+   ]
+  },
+  {
+   "id": "fern",
+   "num": "06",
+   "name": "Fern",
+   "kind": "PLEIN AIR WATERCOLOR BAG",
+   "hero": "c_fern",
+   "alt": "Fern watercolor bag open with brushes and paints",
+   "line": "A watercolor bag that moves with plein air artists, with less setup and cleanup.",
+   "soon": false,
+   "meta": [
+    [
+     "Type",
+     "Soft goods"
+    ],
+    [
+     "Course",
+     "ID 230"
+    ],
+    [
+     "Date",
+     "June 2026"
+    ],
+    [
+     "Materials",
+     "Sunforger canvas, elastic, foam"
+    ]
+   ],
+   "sections": [
+    {
+     "slug": "user",
+     "title": "User",
+     "paras": [
+      "<strong>Raul Beardsley</strong>, a plein air watercolorist. Pigments and materials get lost in larger bags. Pigment and water collect, creating mold and mildew. Water is hard to store and use in current setups."
+     ],
+     "imgs": [],
+     "cols": 1
+    },
+    {
+     "slug": "question",
+     "title": "How might we",
+     "paras": [
+      "<span style=\"font-size:24px; line-height:1.3; font-weight:600; letter-spacing:-0.02em\">How might we help plein air watercolor artists transition between environments, while minimizing friction from setup and cleanup?</span>"
+     ],
+     "imgs": [
+      [
+       "fern_story",
+       "Fern storyboard"
+      ]
+     ],
+     "cols": 1
+    },
+    {
+     "slug": "research",
+     "title": "Research",
+     "paras": [
+      "A survey of existing watercolor kits, rolls and pouches."
+     ],
+     "imgs": [
+      [
+       "fern_kits",
+       "Existing watercolor kits and pouches"
+      ]
+     ],
+     "cols": 1
+    },
+    {
+     "slug": "ideation",
+     "title": "Ideation",
+     "paras": [
+      "Sketches explored bag layouts and closures."
+     ],
+     "imgs": [
+      [
+       "fern_sketch",
+       "Fern ideation sketches"
+      ]
+     ],
+     "cols": 1
+    },
+    {
+     "slug": "prototyping",
+     "title": "Prototyping",
+     "paras": [
+      "Canvas sketch models, then sewn prototypes."
+     ],
+     "imgs": [
+      [
+       "fern_models",
+       "Fern canvas sketch models"
+      ],
+      [
+       "fern_proto",
+       "Sewing Fern prototypes"
+      ]
+     ],
+     "cols": 2
+    },
+    {
+     "slug": "cmf",
+     "title": "CMF",
+     "paras": [
+      "<strong>Sage Sunforger canvas</strong> resists water and mildew. <strong>Brown cloth</strong> marks the touchpoints, <strong>terracotta and tan elastic</strong> close it and <strong>foam pads</strong> give it structure. The elastic was dyed by hand."
+     ],
+     "imgs": [
+      [
+       "fern_dye",
+       "Hand-dyeing the elastic"
+      ],
+      [
+       "fern_cmf",
+       "Fern CMF board"
+      ]
+     ],
+     "cols": 2
+    },
+    {
+     "slug": "final",
+     "title": "Final",
+     "paras": [
+      "Fern in hand, packed and open."
+     ],
+     "imgs": [
+      [
+       "fern_f1",
+       "Fern carried closed under the arm"
+      ],
+      [
+       "fern_f2",
+       "Fern held closed in one hand"
+      ],
+      [
+       "fern_f3",
+       "Fern open while painting"
+      ],
+      [
+       "fern_f4",
+       "Fern laid flat with supplies"
+      ]
+     ],
+     "cols": 2
+    }
+   ]
+  },
+  {
+   "id": "bubble",
+   "num": "07",
+   "name": "Bubble",
+   "kind": "KIDS' ALARM CLOCK + TIMER",
+   "hero": "c_bubble",
+   "alt": "Bubble alarm clock in coral, teal and yellow",
+   "line": "A playful alarm clock and removable timer that helps kids build healthy habits around time.",
+   "soon": false,
+   "meta": [
+    [
+     "Type",
+     "Consumer electronics"
+    ],
+    [
+     "Team",
+     "Landon & Zetta Prendergast"
+    ],
+    [
+     "Users",
+     "Kids 6–12"
+    ],
+    [
+     "Deliverables",
+     "Form, UI, CMF spec"
+    ]
+   ],
+   "sections": [
+    {
+     "slug": "research",
+     "title": "Research",
+     "paras": [
+      "<strong>Pain points:</strong> reliance on phones many are trying to get away from; annoying or jarring sounds; screens too bright or too dark; complicated interfaces that make alarms hard to set.",
+      "From interviews: “I’m not allowed to keep my phone or other tech in my room at night.”"
+     ],
+     "imgs": [],
+     "cols": 1
+    },
+    {
+     "slug": "user",
+     "title": "Target user",
+     "paras": [
+      "Kids and students ages 6 to 12. They need a non-disruptive device for sleep and studying, value autonomy and customization, and like playful forms that reflect their personality."
+     ],
+     "imgs": [],
+     "cols": 1
+    },
+    {
+     "slug": "insights",
+     "title": "Insights",
+     "paras": [
+      "Many kids don’t have phones but still need alarms and timers. Healthy time-management habits matter at this age, and kids are still learning to tell time. The clock should promote healthy habits around time while helping with daily routines."
+     ],
+     "imgs": [
+      [
+       "bubble_mood",
+       "Bubble moodboard"
+      ]
+     ],
+     "cols": 1
+    },
+    {
+     "slug": "ideation",
+     "title": "Ideation + form",
+     "paras": [
+      "Sketches and form studies converged on a round, bubble-like body."
+     ],
+     "imgs": [
+      [
+       "bubble_sketch",
+       "Bubble sketches"
+      ],
+      [
+       "bubble_form",
+       "Bubble form exploration"
+      ],
+      [
+       "bubble_line",
+       "Bubble line drawing"
+      ]
+     ],
+     "cols": 2
+    },
+    {
+     "slug": "interface",
+     "title": "Interface",
+     "paras": [
+      "Time, date, alarm, menu, volume, brightness and sounds, kept to as few physical buttons as possible."
+     ],
+     "imgs": [
+      [
+       "bubble_ui",
+       "Bubble user interface screens"
+      ]
+     ],
+     "cols": 1
+    },
+    {
+     "slug": "cmf",
+     "title": "CMF",
+     "paras": [
+      "Energetic, playful, approachable, whimsical. Teal hard plastic (Pantone 5483 C), bright red soft plastic and silicone (179 C), dark red hard plastic (492 C) and matte yellow plastic (141 C)."
+     ],
+     "imgs": [
+      [
+       "bubble_cmf",
+       "Bubble CMF palette"
+      ],
+      [
+       "bubble_spec",
+       "Bubble CMF spec sheet"
+      ]
+     ],
+     "cols": 2
+    },
+    {
+     "slug": "final",
+     "title": "Final",
+     "paras": [
+      "An e-ink display, turn-and-click ring, battery, wireless charging coil, PCB, speaker module and magnets. The timer comes off the base for studying or free time."
+     ],
+     "imgs": [
+      [
+       "bubble_exploded",
+       "Bubble exploded view render"
+      ],
+      [
+       "bubble_r1",
+       "Bubble main clock face and timer setting"
+      ],
+      [
+       "bubble_r3",
+       "Bubble timer on a desk"
+      ]
+     ],
+     "cols": 2
+    }
+   ]
+  },
+  {
+   "id": "vivarium",
+   "num": "08",
+   "name": "Vivarium",
+   "kind": "COMING SOON",
+   "hero": "c_viv",
+   "alt": "Vivarium, blurred preview",
+   "line": "A climate-controlled enclosure for first-time reptile and amphibian keepers. GIA project, in progress.",
+   "soon": true,
+   "meta": [
+    [
+     "Type",
+     "Climate-controlled enclosure"
+    ],
+    [
+     "Program",
+     "GIA"
+    ],
+    [
+     "Role",
+     "Solo"
+    ],
+    [
+     "Status",
+     "In progress"
+    ]
+   ],
+   "sections": [
+    {
+     "slug": "user",
+     "title": "The user",
+     "paras": [
+      "<strong>Avery Daniels</strong>, 23, a first-time keeper setting up a first enclosure at home. Avery wants a healthy animal and the companionship that comes with it, and worries about getting the habitat wrong without knowing it."
+     ],
+     "imgs": [
+      [
+       "viv_user",
+       "Vivarium user profile"
+      ]
+     ],
+     "cols": 1
+    },
+    {
+     "slug": "journey",
+     "title": "Journey",
+     "paras": [
+      "Pick an animal, buy the kit, set it up, check it, keep it right. Pain points: live feeding, cleaning the tank, misting, knowing the right temperature and opposing climate controls."
+     ],
+     "imgs": [
+      [
+       "viv_journey",
+       "Vivarium user journey and pain points"
+      ]
+     ],
+     "cols": 1
+    },
+    {
+     "slug": "insights",
+     "title": "Insights",
+     "paras": [
+      "<strong>Too much falls on the keeper.</strong> The right numbers depend on the animal, checking takes several tools and a reading only says so much.",
+      "<strong>Climate goes wrong quietly.</strong> One number hides the gradient, humidity swings with every misting, light serves different functions, and the three pull against each other."
+     ],
+     "imgs": [
+      [
+       "viv_insight",
+       "Insight: too much falls on the keeper"
+      ],
+      [
+       "viv_climate",
+       "Insight: climate goes wrong quietly"
+      ]
+     ],
+     "cols": 2
+    },
+    {
+     "slug": "question",
+     "title": "How might we",
+     "paras": [
+      "<span style=\"font-size:24px; line-height:1.3; font-weight:600; letter-spacing:-0.02em\">How might we help first-time keepers take better care of their animals in an easy to set up and maintain habitat?</span>"
+     ],
+     "imgs": [],
+     "cols": 1
+    },
+    {
+     "slug": "principles",
+     "title": "Principles",
+     "paras": [
+      "<strong>Lead with the answer:</strong> right or not, at a glance, with numbers on request. <strong>System knowledge:</strong> the product knows each animal’s targets. <strong>Measure each zone:</strong> warm side, cool side, basking spot. <strong>One thing to set up:</strong> one consolidated point of information."
+     ],
+     "imgs": [
+      [
+       "viv_mood1",
+       "Vivarium moodboard: planted greenhouse"
+      ],
+      [
+       "viv_mood2",
+       "Vivarium moodboard: dark materials"
+      ]
+     ],
+     "cols": 2
+    },
+    {
+     "slug": "next",
+     "title": "Coming soon",
+     "paras": [
+      "The final design is in progress. [TO WRITE: expected date or what to look for.]"
+     ],
+     "imgs": [],
+     "cols": 1
+    }
+   ]
+  }
+ ],
+ "gallery": [
+  {
+   "id": "sketch",
+   "title": "Sketches & drawings",
+   "items": [
+    [
+     "g_trees",
+     "Tree textures, graphite studies"
+    ],
+    [
+     "g_still",
+     "Still life, line drawing"
+    ],
+    [
+     "g_maple",
+     "Japanese maple study sheet"
+    ],
+    [
+     "g_frog",
+     "Poison dart frog study sheet"
+    ],
+    [
+     "g_pom",
+     "Pomegranate study sheet"
+    ],
+    [
+     "g_venini",
+     "Venini vases, sketching"
+    ],
+    [
+     "g_class2",
+     "Form sketch in marker"
+    ],
+    [
+     "g_headphones",
+     "Headphone ideation in marker"
+    ]
+   ]
+  },
+  {
+   "id": "ceramics",
+   "title": "Ceramics & jewelry",
+   "items": [
+    [
+     "g_ceramics",
+     "Ceramics: tea set and bowls"
+    ],
+    [
+     "g_jewelry",
+     "Jewelry forms in brass, bronze and copper"
+    ]
+   ]
+  },
+  {
+   "id": "forms",
+   "title": "Form & line studies",
+   "items": [
+    [
+     "g_forms",
+     "Form studies"
+    ],
+    [
+     "g_lines",
+     "Line studies in wire"
+    ],
+    [
+     "g_forms2",
+     "Form studies, sheet and wire"
+    ],
+    [
+     "g_120a",
+     "ID 120 form and space study"
+    ],
+    [
+     "g_120b",
+     "ID 120 form and space study"
+    ],
+    [
+     "g_120c",
+     "ID 120 form study"
+    ],
+    [
+     "g_120d",
+     "ID 120 line study"
+    ]
+   ]
+  },
+  {
+   "id": "other",
+   "title": "Other projects",
+   "items": [
+    [
+     "g_pivot",
+     "PIVOT: flip-up loupe holder + headlight"
+    ],
+    [
+     "g_penguino",
+     "Penguino: handheld gaming device"
+    ],
+    [
+     "g_ovo",
+     "OVO: video game packaging"
+    ],
+    [
+     "g_lighter",
+     "Lighter: CMF for brand"
+    ],
+    [
+     "g_rain",
+     "Rain Roller"
+    ],
+    [
+     "g_uzumaki",
+     "Uzumaki: wire and parchment lamp"
+    ],
+    [
+     "g_elmer",
+     "ELMER: cardboard and ID magazine"
+    ],
+    [
+     "g_handheld",
+     "Handheld: Shinkansen"
+    ],
+    [
+     "g_rowing",
+     "MI Rowing logo design"
+    ],
+    [
+     "g_record",
+     "Record table for a vinyl collection and turntable"
+    ]
+   ]
+  }
+ ],
+ "extras": [
+  {
+   "img": "x_fisheye",
+   "tag": "TOOL · KEYSHOT",
+   "name": "Fisheye Studio",
+   "desc": "A ray-optical fisheye engine for KeyShot renders. Load a capture, warp it with concentric rings and local pins, then save your edits.",
+   "url": "https://landonsw21.github.io/landonwarnecke.com/editor.html",
+   "alt": "Fisheye render of MOAI made with Fisheye Studio"
+  },
+  {
+   "img": "x_perspective",
+   "tag": "TOOL · DRAWING",
+   "name": "Perspective Studio",
+   "desc": "A browser-based perspective drafting tool, from 1-point up to a full 360° 6-point view, with 3D model import and PNG, JPG or PDF export.",
+   "url": "https://landonsw21.github.io/perspective-studio/",
+   "alt": "Perspective Studio interface with vanishing points and rays"
+  }
+ ],
+ "resume": {
+  "education": [
+   [
+    "2024 – now",
+    "Western Washington University",
+    "B.S. Industrial Design [TO CONFIRM degree name] · Bellingham, WA"
+   ],
+   [
+    "2023 – 2024",
+    "Bellevue College",
+    "Drawing and sculpture coursework · Bellevue, WA"
+   ],
+   [
+    "2021 – 2023",
+    "Arizona State University",
+    "Mechanical Engineering · Tempe, AZ"
+   ]
+  ],
+  "experience": [
+   [
+    "2023 – 2024",
+    "Pacific Sunwear",
+    "Associate → Assistant Manager"
+   ],
+   [
+    "Summer 2022",
+    "Mercer Island Thrift Store",
+    "Sales Associate"
+   ],
+   [
+    "2019",
+    "QFC",
+    "Courtesy Clerk"
+   ]
+  ],
+  "skills": [
+   [
+    "Design + visualization",
+    "Illustrator, Photoshop, InDesign, Premiere Pro, Affinity Suite, Figma, Vizcom"
+   ],
+   [
+    "CAD + rendering",
+    "Rhino, Fusion 360, SketchUp, KeyShot"
+   ],
+   [
+    "Making",
+    "Arduino, soldering, 3D printing, laser cutting, sewing"
+   ],
+   [
+    "Working style",
+    "Problem solving, attention to detail, collaboration, adaptability"
+   ]
+  ],
+  "languages": "English, German",
+  "activities": [
+   [
+    "2012 – 2021",
+    "Destination Imagination",
+    "Team problem-solving challenge; placed 2nd in the world in our division"
+   ],
+   [
+    "2017 – 2019",
+    "High school tennis",
+    "Captain of the JV team"
+   ]
+  ],
+  "interests": "Toys and games, lighting, home goods, consumer electronics, manga, chess, Pokémon, climbing"
+ }
+}
+const CSS = `
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Archivo:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+html{scroll-behavior:smooth}
+.lw-root{background:#E4DED5; color:#2A1F1E; width:100%; -webkit-font-smoothing:antialiased}
+.lw-root *{box-sizing:border-box}
+.lw-root a{color:#8E2F3A}
+.lw-mono{font-family:'IBM Plex Mono', ui-monospace, monospace; letter-spacing:0.08em}
+.lw-shell{display:flex; align-items:flex-start}
+.lw-side{width:340px; flex:none; position:sticky; top:0; max-height:100vh; overflow-y:auto; scrollbar-width:thin; padding:32px 28px 26px; display:flex; flex-direction:column; gap:22px; border-right:1px solid #D2CABF; background:#E4DED5; z-index:10}
+.lw-id{display:flex; flex-direction:row; align-items:center; gap:14px}
+.lw-portrait{width:84px; height:104px; flex:none; object-fit:cover; object-position:50% 20%; border-radius:12px; display:block; filter:grayscale(1)}
+.lw-nm{font-size:21px; font-weight:700; line-height:1.1; letter-spacing:-0.02em}
+.lw-role{font-size:14px; line-height:1.4; color:#6A5F58}
+.lw-bio{display:flex; flex-direction:column; gap:8px}
+.lw-bio p{margin:0; font-size:14px; line-height:1.6}
+.lw-about-toggle{display:none; align-items:center; min-height:40px; padding:0 14px; border-radius:999px; border:1px solid #2A1F1E; background:transparent; color:#2A1F1E; font:inherit; font-size:13px; font-weight:600; cursor:pointer}
+.lw-tabs{display:flex; flex-direction:column; gap:6px}
+.lw-tab{display:flex; justify-content:space-between; align-items:center; gap:10px; width:100%; min-height:46px; padding:10px 14px; border-radius:10px; border:1px solid #D2CABF; background:transparent; color:#2A1F1E; font:inherit; font-size:15px; font-weight:600; text-align:left; cursor:pointer; transition:background .2s, color .2s, border-color .2s}
+.lw-tab:hover{background:#D4CBBE}
+.lw-tab.is-active{background:#8E2F3A; border-color:#8E2F3A; color:#FFFFFF}
+.lw-tabnum{font-size:12px; opacity:.85}
+.lw-side-foot{display:flex; flex-direction:column; gap:6px; padding-top:8px; border-top:1px solid #D2CABF; font-size:14px}
+.lw-main{flex:1 1 auto; min-width:0; padding:40px 48px 120px}
+.lw-head{display:flex; justify-content:space-between; align-items:flex-end; gap:20px; flex-wrap:wrap; margin-bottom:32px}
+.lw-h1{margin:0; font-size:44px; line-height:1.05; font-weight:700; letter-spacing:-0.035em}
+.lw-sub{margin:0; font-size:16px; line-height:1.55; color:#6A5F58; max-width:640px}
+.lw-label{font-size:12px; color:#6A5F58}
+.lw-list{display:flex; flex-direction:column; gap:40px}
+.lw-card{display:block; width:100%; padding:0; border:none; text-align:left; font:inherit; color:inherit; cursor:pointer; background:#D4CBBE; border-radius:18px; overflow:hidden; transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s}
+.lw-card:hover{transform:scale(1.015); box-shadow:0 18px 40px rgba(42,31,30,.16)}
+.lw-card-img{display:block; width:100%; aspect-ratio:16/9; object-fit:cover; background:#CFC6B8}
+.lw-soon{display:block; position:relative; aspect-ratio:16/9; overflow:hidden; background:#3A2F2C}
+.lw-soon img{display:block; width:100%; height:100%; object-fit:cover; filter:blur(16px) saturate(.9); transform:scale(1.15)}
+.lw-soon span{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); padding:10px 18px; border-radius:999px; background:#8E2F3A; color:#FFFFFF; font-size:13px; letter-spacing:.12em}
+.lw-card-body{display:flex; align-items:flex-end; justify-content:space-between; gap:16px; padding:18px 22px 20px; flex-wrap:wrap}
+.lw-card-text{display:flex; flex-direction:column; gap:6px; min-width:0; flex:1 1 320px}
+.lw-card-name{font-size:30px; line-height:1.05; font-weight:700; letter-spacing:-0.03em}
+.lw-card-line{font-size:15px; line-height:1.45; max-width:560px}
+.lw-pill{flex:none; display:inline-flex; align-items:center; min-height:44px; padding:0 18px; border-radius:999px; background:#8E2F3A; color:#FFFFFF; font-size:14px; font-weight:600; border:none; font-family:inherit; cursor:pointer; text-decoration:none}
+.lw-ghost{display:inline-flex; align-items:center; min-height:44px; padding:0 18px; border-radius:999px; border:1px solid #2A1F1E; background:transparent; color:#2A1F1E; font:inherit; font-size:14px; font-weight:600; cursor:pointer}
+.lw-drawer{margin-top:16px; background:#ECE7E0; border:1px solid #D2CABF; border-radius:18px}
+.lw-chapbar{position:sticky; top:0; z-index:4; display:flex; align-items:center; gap:10px; padding:10px 12px; background:rgba(236,231,224,.95); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-bottom:1px solid #D2CABF; border-radius:18px 18px 0 0}
+.lw-chaps{display:flex; gap:4px; overflow-x:auto; flex:1; min-width:0; scrollbar-width:none}
+.lw-chaps::-webkit-scrollbar{display:none}
+.lw-chap{flex:none; padding:9px 13px; border-radius:999px; color:#2A1F1E !important; text-decoration:none; font-size:13px; font-weight:600; white-space:nowrap; transition:background .2s}
+.lw-chap:hover{background:#D4CBBE}
+.lw-chap.is-active{background:#8E2F3A; color:#FFFFFF !important}
+.lw-close{flex:none; min-height:40px; padding:0 14px; border-radius:999px; border:1px solid #2A1F1E; background:transparent; color:#2A1F1E; font:inherit; font-size:13px; font-weight:600; cursor:pointer}
+.lw-dbody{padding:28px 32px 32px; display:flex; flex-direction:column; gap:52px}
+.lw-meta{margin:0; padding-bottom:24px; border-bottom:1px solid #D2CABF; display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:16px}
+.lw-meta dt{font-size:11px; color:#6A5F58}
+.lw-meta dd{margin:4px 0 0; font-size:15px; line-height:1.35; font-weight:600}
+.lw-sec{display:grid; grid-template-columns:180px minmax(0,1fr); gap:28px; scroll-margin-top:80px}
+.lw-sec h3{margin:0; font-size:22px; line-height:1.2; font-weight:700; letter-spacing:-0.02em}
+.lw-sec-body{display:flex; flex-direction:column; gap:16px; min-width:0}
+.lw-sec-body p{margin:0; font-size:16px; line-height:1.6; max-width:700px}
+.lw-imgs{display:grid; gap:12px}
+.lw-imgs.c2{grid-template-columns:repeat(2, minmax(0,1fr))}
+.lw-imgs img{display:block; width:100%; height:auto; border-radius:10px; background:#D4CBBE; cursor:zoom-in}
+.lw-dfoot{display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; padding-top:24px; border-top:1px solid #D2CABF}
+.lw-two{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:24px}
+.lw-extra{background:#D4CBBE; border-radius:18px; overflow:hidden; display:flex; flex-direction:column}
+.lw-extra img{display:block; width:100%; aspect-ratio:16/10; object-fit:cover; background:#2A1F1E}
+.lw-extra-body{padding:20px 22px 24px; display:flex; flex-direction:column; gap:10px; flex:1}
+.lw-extra h2, .lw-gsec h2{margin:0; font-size:26px; line-height:1.15; font-weight:700; letter-spacing:-0.02em}
+.lw-extra p{margin:0; font-size:15px; line-height:1.55}
+.lw-gsec{display:flex; flex-direction:column; gap:12px}
+.lw-ghead{display:flex; justify-content:space-between; align-items:flex-end; gap:12px}
+.lw-row{display:flex; gap:18px; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; padding:8px 6px 18px; margin:0 -6px}
+.lw-row::-webkit-scrollbar{display:none}
+.lw-gcard{flex:none; width:300px; scroll-snap-align:start; padding:0; border:none; background:transparent; text-align:left; font:inherit; color:inherit; cursor:zoom-in; transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.lw-gcard:hover{transform:scale(1.03)}
+.lw-gcard img{display:block; width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:14px; background:#D4CBBE}
+.lw-gcap{display:flex; gap:10px; margin-top:10px; font-size:14px; line-height:1.4}
+.lw-track{height:3px; background:#D2CABF; border-radius:2px; overflow:hidden}
+.lw-track div{height:3px; background:#8E2F3A; transition:width .2s}
+.lw-icon{width:44px; height:44px; flex:none; border-radius:50%; border:1px solid #2A1F1E; background:transparent; color:#2A1F1E; font:inherit; font-size:16px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; transition:background .2s, color .2s}
+.lw-icon:hover{background:#2A1F1E; color:#E4DED5}
+.lw-rrow{display:grid; grid-template-columns:120px minmax(0,1fr); gap:14px; padding:14px 0; border-top:1px solid #D2CABF}
+.lw-rrow b{font-size:16px}
+.lw-rrow small{font-size:14px; line-height:1.45; color:#6A5F58}
+.lw-rblock h2{margin:0 0 6px; font-size:20px; font-weight:700; letter-spacing:-0.01em}
+.lw-lb{position:fixed; inset:0; z-index:1000; background:rgba(26,18,17,.92); display:flex; align-items:center; justify-content:center}
+.lw-lb-bg{position:absolute; inset:0; border:none; background:transparent; cursor:zoom-out}
+.lw-lb figure{position:relative; margin:0; width:100%; height:100%; max-width:1200px; padding:24px 84px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; pointer-events:none}
+.lw-lb img{display:block; max-width:100%; max-height:calc(100% - 80px); object-fit:contain; border-radius:8px; pointer-events:auto}
+.lw-lb figcaption{display:flex; gap:14px; align-items:baseline; color:#FFFFFF; font-size:15px; pointer-events:auto}
+.lw-lbicon{position:absolute; width:48px; height:48px; border-radius:50%; border:1px solid rgba(255,255,255,.6); background:transparent; color:#FFFFFF; font:inherit; font-size:18px; cursor:pointer}
+.lw-lbicon:hover{background:rgba(255,255,255,.14)}
+.lw-root :focus-visible{outline:2px solid #8E2F3A; outline-offset:3px}
+@media (max-width: 860px){
+ .lw-shell{flex-direction:column; align-items:stretch}
+ .lw-side{width:auto; max-height:none; overflow:visible; padding:12px 16px; gap:10px; border-right:none; border-bottom:1px solid #D2CABF}
+ .lw-id{gap:12px}
+ .lw-portrait{width:44px; height:44px; border-radius:50%}
+ .lw-nm{font-size:17px}
+ .lw-role{display:none}
+ .lw-about-toggle{display:inline-flex; margin-left:auto}
+ .lw-bio{display:none}
+ .lw-side.is-about .lw-bio{display:flex}
+ .lw-tabs{flex-direction:row; overflow-x:auto; scrollbar-width:none}
+ .lw-tab{width:auto; flex:none; min-height:44px; padding:8px 16px; border-radius:999px}
+ .lw-tabnum{display:none}
+ .lw-side-foot{display:none}
+ .lw-main{padding:20px 16px 80px}
+ .lw-h1{font-size:32px}
+ .lw-chapbar{top:122px}
+ .lw-dbody{padding:20px 16px 24px; gap:36px}
+ .lw-meta{grid-template-columns:repeat(2, minmax(0,1fr))}
+ .lw-sec{grid-template-columns:1fr; gap:12px; scroll-margin-top:190px}
+ .lw-imgs.c2, .lw-two{grid-template-columns:1fr}
+ .lw-gcard{width:76%}
+ .lw-lb figure{padding:64px 16px}
+}
+@media (prefers-reduced-motion: reduce){
+ html{scroll-behavior:auto}
+ .lw-card, .lw-gcard{transition:none}
+ .lw-card:hover, .lw-gcard:hover{transform:none}
+}
+`
+const FONTS: Record<string, string> = {
+    Manrope: "Manrope, system-ui, sans-serif",
+    Archivo: "Archivo, system-ui, sans-serif",
+    "Space Grotesk": "'Space Grotesk', system-ui, sans-serif",
+}
+const TABS = [["projects", "Projects"], ["extras", "Extras"], ["gallery", "Gallery"], ["resume", "Resume"]]
+
+function pad(n: number) { return (n < 10 ? "0" : "") + n }
+
+/**
+ * @framerSupportedLayoutWidth any
+ * @framerSupportedLayoutHeight auto
+ * @framerIntrinsicWidth 1440
+ * @framerIntrinsicHeight 4000
+ */
+export default function Portfolio(props: { font?: string; imageBase?: string }) {
+    const font = FONTS[props.font || "Manrope"] || FONTS.Manrope
+    const base = (props.imageBase || DEFAULT_BASE).replace(/\/?$/, "/")
+    const img = (k: string) => base + k + ".jpg"
+
+    const [tab, setTab] = React.useState("projects")
+    const [open, setOpen] = React.useState<string | null>(null)
+    const [active, setActive] = React.useState<string | null>(null)
+    const [lb, setLb] = React.useState<{ list: any[]; i: number } | null>(null)
+    const [about, setAbout] = React.useState(false)
+    const [prog, setProg] = React.useState<Record<string, number>>({})
+    const rows = React.useRef<Record<string, HTMLDivElement | null>>({})
+    const pending = React.useRef<string | null>(null)
+
+    const projects = DATA.projects
+    const byId: Record<string, any> = {}
+    projects.forEach((p: any, i: number) => { byId[p.id] = { ...p, next: projects[(i + 1) % projects.length] } })
+
+    React.useEffect(() => {
+        if (!pending.current) return
+        const id = pending.current
+        pending.current = null
+        const el = document.getElementById(id)
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" })
+    }, [open, tab])
+
+    React.useEffect(() => {
+        if (!open || typeof IntersectionObserver === "undefined") return
+        const secs = Array.from(document.querySelectorAll('[data-chapter^="' + open + '-"]'))
+        if (!secs.length) return
+        const io = new IntersectionObserver((entries) => {
+            const vis = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+            if (vis.length) setActive(vis[0].target.getAttribute("data-chapter"))
+        }, { rootMargin: "-15% 0px -65% 0px", threshold: 0 })
+        secs.forEach((s) => io.observe(s))
+        return () => io.disconnect()
+    }, [open])
+
+    const step = React.useCallback((d: number) => {
+        setLb((cur) => (cur ? { list: cur.list, i: (cur.i + d + cur.list.length) % cur.list.length } : cur))
+    }, [])
+    React.useEffect(() => {
+        if (!lb) return
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === "Escape") setLb(null)
+            else if (e.key === "ArrowRight") step(1)
+            else if (e.key === "ArrowLeft") step(-1)
+        }
+        window.addEventListener("keydown", onKey)
+        return () => window.removeEventListener("keydown", onKey)
+    }, [lb, step])
+
+    const toggle = (id: string) => {
+        const next = open === id ? null : id
+        setOpen(next)
+        setActive(next ? next + "-" + byId[next].sections[0].slug : null)
+        pending.current = "p-" + id
+    }
+    const goNext = (id: string) => {
+        const n = byId[id].next.id
+        setOpen(n)
+        setActive(n + "-" + byId[n].sections[0].slug)
+        pending.current = "p-" + n
+    }
+    const go = (t: string) => {
+        setTab(t); setOpen(null); setLb(null); setAbout(false)
+        if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" })
+    }
+    const jump = (e: React.MouseEvent, id: string) => {
+        e.preventDefault()
+        const el = document.getElementById(id)
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" })
+    }
+    const scrollRow = (sid: string, dir: number) => {
+        const el = rows.current[sid]
+        if (el) el.scrollBy({ left: dir * Math.max(320, el.clientWidth * 0.8), behavior: "smooth" })
+    }
+    const onRowScroll = (sid: string, e: React.UIEvent<HTMLDivElement>) => {
+        const el = e.currentTarget
+        const max = el.scrollWidth - el.clientWidth
+        const p = max > 0 ? Math.round((el.scrollLeft / max) * 100) : 100
+        setProg((cur) => (cur[sid] === p ? cur : { ...cur, [sid]: p }))
+    }
+
+    const Head = (h: { label: string; title: string; sub: string; right?: any }) => (
+        <header className="lw-head">
+            <div style={{ display: "flex", flexDirection: "column", gap: 10, maxWidth: 640 }}>
+                <span className="lw-mono lw-label">{h.label}</span>
+                <h1 className="lw-h1">{h.title}</h1>
+                <p className="lw-sub">{h.sub}</p>
+            </div>
+            {h.right}
+        </header>
+    )
+
+    const projectView = (
+        <div>
+            <Head label="SELECTED WORK · 2024–2026" title="Selected work"
+                sub="Seven case studies and one project in progress. Open any project for the full story, from research to final." />
+            <div className="lw-list">
+                {projects.map((p: any, idx: number) => {
+                    const isOpen = open === p.id
+                    const sectionImgs = p.sections.flatMap((s: any) => s.imgs.map((im: any) => ({ src: img(im[0]), alt: im[1], cap: im[1] })))
+                    return (
+                        <article key={p.id} id={"p-" + p.id} style={{ scrollMarginTop: 16 }}>
+                            <button className="lw-card" onClick={() => toggle(p.id)} aria-expanded={isOpen} aria-controls={"d-" + p.id}>
+                                {p.soon ? (
+                                    <span className="lw-soon"><img src={img(p.hero)} alt={p.alt} loading="lazy" /><span className="lw-mono">COMING SOON</span></span>
+                                ) : (
+                                    <img className="lw-card-img" src={img(p.hero)} alt={p.alt} loading={idx < 2 ? "eager" : "lazy"} decoding="async" />
+                                )}
+                                <span className="lw-card-body">
+                                    <span className="lw-card-text">
+                                        <span className="lw-mono" style={{ fontSize: 12 }}>{p.num} · {p.kind}</span>
+                                        <span className="lw-card-name">{p.name}</span>
+                                        <span className="lw-card-line">{p.line}</span>
+                                    </span>
+                                    <span className="lw-pill">{isOpen ? "Close −" : p.soon ? "Preview +" : "Open case study +"}</span>
+                                </span>
+                            </button>
+                            {isOpen && (
+                                <div id={"d-" + p.id} className="lw-drawer">
+                                    <nav className="lw-chapbar" aria-label={p.name + " sections"}>
+                                        <div className="lw-chaps">
+                                            {p.sections.map((s: any) => {
+                                                const cid = p.id + "-" + s.slug
+                                                return <a key={cid} href={"#" + cid} onClick={(e) => jump(e, cid)} className={"lw-chap" + (active === cid ? " is-active" : "")}>{s.title}</a>
+                                            })}
+                                        </div>
+                                        <button className="lw-close" onClick={() => toggle(p.id)} aria-label={"Close " + p.name}>Close ×</button>
+                                    </nav>
+                                    <div className="lw-dbody">
+                                        <dl className="lw-meta">
+                                            {p.meta.map((m: any) => (
+                                                <div key={m[0]}><dt className="lw-mono">{m[0].toUpperCase()}</dt><dd>{m[1]}</dd></div>
+                                            ))}
+                                        </dl>
+                                        {p.sections.map((s: any, i: number) => {
+                                            const cid = p.id + "-" + s.slug
+                                            return (
+                                                <section key={cid} id={cid} data-chapter={cid} className="lw-sec">
+                                                    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                                                        <span className="lw-mono lw-label">{pad(i + 1)}</span>
+                                                        <h3>{s.title}</h3>
+                                                    </div>
+                                                    <div className="lw-sec-body">
+                                                        {s.paras.map((t: string, j: number) => <p key={j} dangerouslySetInnerHTML={{ __html: t }} />)}
+                                                        {s.imgs.length > 0 && (
+                                                            <div className={"lw-imgs" + (s.cols === 2 && s.imgs.length > 1 ? " c2" : "")}>
+                                                                {s.imgs.map((im: any) => (
+                                                                    <img key={im[0]} src={img(im[0])} alt={im[1]} loading="lazy" decoding="async"
+                                                                        onClick={() => setLb({ list: sectionImgs, i: sectionImgs.findIndex((x: any) => x.src === img(im[0])) })} />
+                                                                ))}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </section>
+                                            )
+                                        })}
+                                        <div className="lw-dfoot">
+                                            <button className="lw-ghost" onClick={() => toggle(p.id)}>Close project ↑</button>
+                                            <button className="lw-pill" onClick={() => goNext(p.id)}>Next: {byId[p.id].next.name} →</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </article>
+                    )
+                })}
+            </div>
+        </div>
+    )
+
+    const extrasView = (
+        <div>
+            <Head label="EXTRAS" title="Tools I’ve built" sub="Small tools I made for my own process, free to try in your browser." />
+            <div className="lw-two">
+                {DATA.extras.map((x: any) => (
+                    <article key={x.name} className="lw-extra">
+                        <img src={img(x.img)} alt={x.alt} loading="lazy" />
+                        <div className="lw-extra-body">
+                            <span className="lw-mono" style={{ fontSize: 12 }}>{x.tag}</span>
+                            <h2>{x.name}</h2>
+                            <p>{x.desc}</p>
+                            <a className="lw-pill" style={{ marginTop: "auto", alignSelf: "flex-start", color: "#FFFFFF" }} href={x.url} target="_blank" rel="noopener">Open tool ↗</a>
+                        </div>
+                    </article>
+                ))}
+            </div>
+        </div>
+    )
+
+    const galleryView = (
+        <div>
+            <Head label="GALLERY" title="Gallery" sub="Drawings, making and smaller projects. Drag, swipe or use the arrows; tap any piece to view it large." />
+            <div style={{ display: "flex", flexDirection: "column", gap: 48 }}>
+                {DATA.gallery.map((g: any, gi: number) => {
+                    const list = g.items.map((it: any) => ({ src: img(it[0]), alt: it[1], cap: it[1] }))
+                    return (
+                        <section key={g.id} className="lw-gsec" aria-labelledby={"g-" + g.id}>
+                            <div className="lw-ghead">
+                                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                                    <span className="lw-mono lw-label">{pad(gi + 1)} · {g.items.length} PIECES</span>
+                                    <h2 id={"g-" + g.id}>{g.title}</h2>
+                                </div>
+                                <div style={{ display: "flex", gap: 8 }}>
+                                    <button className="lw-icon" onClick={() => scrollRow(g.id, -1)} aria-label={"Scroll " + g.title + " left"}>←</button>
+                                    <button className="lw-icon" onClick={() => scrollRow(g.id, 1)} aria-label={"Scroll " + g.title + " right"}>→</button>
+                                </div>
+                            </div>
+                            <div className="lw-row" ref={(el) => { rows.current[g.id] = el }} onScroll={(e) => onRowScroll(g.id, e)}>
+                                {list.map((it: any, i: number) => (
+                                    <button key={it.src} className="lw-gcard" onClick={() => setLb({ list, i })} aria-label={"View " + it.cap}>
+                                        <img src={it.src} alt="" loading="lazy" decoding="async" />
+                                        <span className="lw-gcap"><span className="lw-mono lw-label" style={{ paddingTop: 2 }}>{pad(i + 1)}</span><span>{it.cap}</span></span>
+                                    </button>
+                                ))}
+                            </div>
+                            <div className="lw-track"><div style={{ width: Math.max(6, prog[g.id] || 0) + "%" }} /></div>
+                        </section>
+                    )
+                })}
+            </div>
+        </div>
+    )
+
+    const R = DATA.resume
+    const rrow = (e: any) => (
+        <div key={e[1]} className="lw-rrow">
+            <span className="lw-mono lw-label" style={{ paddingTop: 3 }}>{e[0]}</span>
+            <div style={{ display: "flex", flexDirection: "column", gap: 3 }}><b>{e[1]}</b><small>{e[2]}</small></div>
+        </div>
+    )
+    const resumeView = (
+        <div id="resume">
+            <Head label="RESUME" title="Resume" sub="Industrial design student at Western Washington University. [TO CONFIRM: graduation year]"
+                right={
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6 }}>
+                        <a className="lw-pill" style={{ color: "#FFFFFF" }} href="#resume">Download PDF ↓</a>
+                        <span className="lw-mono lw-label" style={{ fontSize: 11 }}>[PDF LINK TO ADD]</span>
+                    </div>
+                } />
+            <div className="lw-two" style={{ gap: 40 }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 36 }}>
+                    <section className="lw-rblock"><h2>Education</h2>{R.education.map(rrow)}</section>
+                    <section className="lw-rblock"><h2>Experience</h2>{R.experience.map(rrow)}</section>
+                    <section className="lw-rblock"><h2>Activities</h2>{R.activities.map(rrow)}</section>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 36 }}>
+                    <section className="lw-rblock"><h2>Skills</h2>
+                        {R.skills.map((s: any) => (
+                            <div key={s[0]} className="lw-rrow" style={{ gridTemplateColumns: "170px minmax(0,1fr)" }}>
+                                <b style={{ fontSize: 14 }}>{s[0]}</b><span style={{ fontSize: 15, lineHeight: 1.5 }}>{s[1]}</span>
+                            </div>
+                        ))}
+                    </section>
+                    <section className="lw-rblock"><h2>Languages</h2><p className="lw-rrow" style={{ display: "block", margin: 0, fontSize: 15 }}>{R.languages}</p></section>
+                    <section className="lw-rblock"><h2>Interests</h2><p className="lw-rrow" style={{ display: "block", margin: 0, fontSize: 15, lineHeight: 1.55 }}>{R.interests}</p></section>
+                </div>
+            </div>
+        </div>
+    )
+
+    return (
+        <div className="lw-root" style={{ fontFamily: font }}>
+            <style>{CSS}</style>
+            <div className="lw-shell">
+                <aside className={"lw-side" + (about ? " is-about" : "")} aria-label="About and navigation">
+                    <div className="lw-id">
+                        <img className="lw-portrait" src={img("portrait")} alt="Portrait of Landon Schmidt-Warnecke" />
+                        <div style={{ display: "flex", flexDirection: "column", gap: 4, minWidth: 0 }}>
+                            <span className="lw-nm">Landon Schmidt-Warnecke</span>
+                            <span className="lw-role">Industrial Design · Western Washington University</span>
+                        </div>
+                        <button className="lw-about-toggle" onClick={() => setAbout(!about)} aria-expanded={about}>{about ? "Hide about" : "About me"}</button>
+                    </div>
+                    <div className="lw-bio"><span className="lw-mono lw-label">ABOUT ME</span><p>{DATA.bio}</p></div>
+                    <nav className="lw-tabs" aria-label="Sections">
+                        {TABS.map(([k, label], i) => (
+                            <button key={k} className={"lw-tab" + (tab === k ? " is-active" : "")} onClick={() => go(k)} aria-current={tab === k ? "page" : undefined}>
+                                <span>{label}</span><span className="lw-mono lw-tabnum">{pad(i + 1)}</span>
+                            </button>
+                        ))}
+                    </nav>
+                    <div className="lw-side-foot">
+                        <span className="lw-mono lw-label">CONTACT</span>
+                        <span>[TO ADD: email and LinkedIn]</span>
+                        <span style={{ fontSize: 13, color: "#6A5F58" }}>© 2026 Landon Schmidt-Warnecke</span>
+                    </div>
+                </aside>
+                <main className="lw-main">
+                    {tab === "projects" && projectView}
+                    {tab === "extras" && extrasView}
+                    {tab === "gallery" && galleryView}
+                    {tab === "resume" && resumeView}
+                </main>
+            </div>
+            {lb && (
+                <section className="lw-lb" aria-label="Image viewer">
+                    <button className="lw-lb-bg" onClick={() => setLb(null)} aria-label="Close image viewer" />
+                    <figure>
+                        <img src={lb.list[lb.i].src} alt={lb.list[lb.i].alt} />
+                        <figcaption><span className="lw-mono" style={{ fontSize: 12, color: "rgba(255,255,255,.75)" }}>{lb.i + 1} / {lb.list.length}</span><span>{lb.list[lb.i].cap}</span></figcaption>
+                    </figure>
+                    <button className="lw-lbicon" style={{ left: 18, top: "50%", marginTop: -24 }} onClick={() => step(-1)} aria-label="Previous image">←</button>
+                    <button className="lw-lbicon" style={{ right: 18, top: "50%", marginTop: -24 }} onClick={() => step(1)} aria-label="Next image">→</button>
+                    <button className="lw-lbicon" style={{ right: 18, top: 18 }} onClick={() => setLb(null)} aria-label="Close">×</button>
+                </section>
+            )}
+        </div>
+    )
+}
+
+addPropertyControls(Portfolio, {
+    font: { type: ControlType.Enum, title: "Font", options: ["Manrope", "Archivo", "Space Grotesk"], defaultValue: "Manrope" },
+    imageBase: { type: ControlType.String, title: "Image base URL", defaultValue: DEFAULT_BASE },
+})
