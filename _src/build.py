@@ -248,7 +248,13 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-sw small{align-self:start; font-size:12px; line-height:1.35; color:#6A5F58}
 .lw-extra img{height:auto}
 .lw-about-toggle{white-space:nowrap; flex:none}
-.lw-portrait{filter:none; object-position:50% 30%; box-sizing:border-box; border:2px solid #8E2F3A}
+.lw-portrait{filter:none; object-position:50% 30%; box-sizing:border-box; border:2px solid transparent; transition:border-color .2s}
+/* portrait shares the card hover: dimmed at rest, undims with a pomegranate border on hover (touch screens show it plain) */
+@media (hover: hover){
+ .lw-me::after{content:""; position:absolute; inset:0; border-radius:inherit; background:color-mix(in srgb, #2A1F1E 42%, transparent); transition:opacity .3s; pointer-events:none}
+ .lw-me:hover::after{opacity:0}
+ .lw-me:hover .lw-portrait{border-color:#8E2F3A}
+}
 /* --- project cards: darkened image with the name on top. Three sizes: resting band, hover (2x, shade lifted), clicked (the whole image) --- */
 .lw-list{gap:0}
 .lw-proj{padding-bottom:22px; scroll-margin-top:16px}
