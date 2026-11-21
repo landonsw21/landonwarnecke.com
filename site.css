@@ -13,7 +13,7 @@ html{scroll-behavior:smooth}
 .lw-role{font-size:14px; line-height:1.4; color:var(--lw-muted)}
 .lw-bio{display:flex; flex-direction:column; gap:8px}
 .lw-bio p{margin:0; font-size:14px; line-height:1.6}
-.lw-about-toggle{display:none; align-items:center; min-height:40px; padding:0 14px; border-radius:999px; border:1px solid var(--lw-ink); background:transparent; color:var(--lw-ink); font:inherit; font-size:13px; font-weight:600; cursor:pointer}
+.lw-about-toggle{display:none; align-items:center; min-height:40px; padding:0 14px; border-radius:10px; border:1px solid var(--lw-ink); background:transparent; color:var(--lw-ink); font:inherit; font-size:13px; font-weight:600; cursor:pointer}
 .lw-tabs{display:flex; flex-direction:column; gap:6px}
 .lw-tab{display:flex; justify-content:space-between; align-items:center; gap:10px; width:100%; min-height:46px; padding:10px 14px; border-radius:10px; border:1px solid var(--lw-line); background:transparent; color:var(--lw-muted); font:inherit; font-size:15px; font-weight:600; text-align:left; cursor:pointer; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
 /* tabs share the project-card hover: dimmed at rest; hover undims, outlines in pomegranate and grows slightly. The current tab is filled pomegranate; on hover it gets an outline ring and grows */
@@ -33,23 +33,22 @@ html{scroll-behavior:smooth}
 .lw-card{display:block; width:100%; padding:0; border:none; text-align:left; font:inherit; color:inherit; cursor:pointer; background:var(--lw-surface); border-radius:18px; overflow:hidden; transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s}
 .lw-card:hover{transform:scale(1.015); box-shadow:0 18px 40px color-mix(in srgb, var(--lw-ink) 16%, transparent)}
 .lw-card-img{display:block; width:100%; aspect-ratio:16/9; object-fit:cover; background:var(--lw-surface)}
-.lw-soon{display:block; position:relative; aspect-ratio:16/9; overflow:hidden; background:var(--lw-ink)}
-.lw-soon img{display:block; width:100%; height:100%; object-fit:cover; filter:blur(16px) saturate(.9); transform:scale(1.15)}
-.lw-soon span{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); padding:10px 18px; border-radius:999px; background:var(--lw-accent); color:var(--lw-on-accent); font-size:13px; letter-spacing:.12em}
 .lw-card-body{display:flex; align-items:flex-end; justify-content:space-between; gap:16px; padding:18px 22px 20px; flex-wrap:wrap}
 .lw-card-text{display:flex; flex-direction:column; gap:6px; min-width:0; flex:1 1 320px}
 .lw-card-name{font-size:30px; line-height:1.05; font-weight:700; letter-spacing:-0.03em}
 .lw-card-line{font-size:15px; line-height:1.45; max-width:560px}
-.lw-pill{flex:none; display:inline-flex; align-items:center; min-height:44px; padding:0 18px; border-radius:999px; background:var(--lw-accent); color:var(--lw-on-accent); font-size:14px; font-weight:600; border:none; font-family:inherit; cursor:pointer; text-decoration:none}
-.lw-ghost{display:inline-flex; align-items:center; min-height:44px; padding:0 18px; border-radius:999px; border:1px solid var(--lw-ink); background:transparent; color:var(--lw-ink); font:inherit; font-size:14px; font-weight:600; cursor:pointer}
+.lw-pill{flex:none; display:inline-flex; align-items:center; min-height:44px; padding:0 18px; border-radius:10px; background:var(--lw-accent); color:var(--lw-on-accent); font-size:14px; font-weight:600; border:none; font-family:inherit; cursor:pointer; text-decoration:none}
 .lw-drawer{margin-top:16px; background:var(--lw-panel); border:1px solid var(--lw-line); border-radius:18px}
-.lw-chapbar{position:sticky; top:0; z-index:4; display:flex; align-items:center; gap:10px; padding:10px 12px; background:color-mix(in srgb, var(--lw-panel) 95%, transparent); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-bottom:1px solid var(--lw-line); border-radius:18px 18px 0 0}
-.lw-chaps{display:flex; gap:4px; overflow-x:auto; flex:1; min-width:0; scrollbar-width:none}
+.lw-chapbar{position:sticky; top:0; z-index:4; display:flex; align-items:center; gap:10px; padding:4px 6px; background:color-mix(in srgb, var(--lw-panel) 95%, transparent); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-bottom:1px solid var(--lw-line); border-radius:18px 18px 0 0}
+.lw-chaps{display:flex; gap:6px; padding:6px; overflow-x:auto; flex:1; min-width:0; scrollbar-width:none}
 .lw-chaps::-webkit-scrollbar{display:none}
-.lw-chap{flex:none; padding:9px 13px; border-radius:999px; color:var(--lw-ink) !important; text-decoration:none; font-size:13px; font-weight:600; white-space:nowrap; transition:background .2s}
-.lw-chap:hover{background:var(--lw-surface)}
-.lw-chap.is-active{background:var(--lw-accent); color:var(--lw-on-accent) !important}
-.lw-close{flex:none; min-height:40px; padding:0 14px; border-radius:999px; border:1px solid var(--lw-ink); background:transparent; color:var(--lw-ink); font:inherit; font-size:13px; font-weight:600; cursor:pointer}
+.lw-chap{flex:none; padding:8px 13px; border-radius:10px; border:1px solid var(--lw-line); color:var(--lw-muted) !important; text-decoration:none; font-size:13px; font-weight:600; white-space:nowrap; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
+/* section links share the tab states: dimmed at rest; hover undims, outlines in pomegranate and grows slightly; the current section is filled pomegranate */
+.lw-chap.is-active{background:var(--lw-accent); border-color:var(--lw-accent); color:var(--lw-on-accent) !important}
+@media (hover: hover){
+ .lw-chap:not(.is-active):hover{border-color:var(--lw-accent); box-shadow:inset 0 0 0 1px var(--lw-accent); color:var(--lw-ink) !important; transform:scale(1.04)}
+ .lw-chap.is-active:hover{outline:2px solid var(--lw-accent); outline-offset:2px; transform:scale(1.04)}
+}
 .lw-dbody{padding:28px 32px 32px; display:flex; flex-direction:column; gap:52px}
 .lw-meta{margin:0; padding-bottom:24px; border-bottom:1px solid var(--lw-line); display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:16px}
 .lw-meta dt{font-size:11px; color:var(--lw-muted)}
@@ -91,7 +90,7 @@ html{scroll-behavior:smooth}
  .lw-bio{display:none}
  .lw-side.is-about .lw-bio{display:flex}
  .lw-tabs{flex-direction:row; overflow-x:auto; scrollbar-width:none}
- .lw-tab{width:auto; flex:none; min-height:44px; padding:8px 16px; border-radius:999px}
+ .lw-tab{width:auto; flex:none; min-height:44px; padding:8px 16px}
  .lw-tabnum{display:none}
  .lw-side-foot{display:none}
  .lw-main{padding:20px 16px 80px}
@@ -105,8 +104,8 @@ html{scroll-behavior:smooth}
 }
 @media (prefers-reduced-motion: reduce){
  html{scroll-behavior:auto}
- .lw-card, .lw-tab{transition:none}
- .lw-card:hover, .lw-tab:not(.is-active):hover, .lw-tab.is-active:hover{transform:none}
+ .lw-card, .lw-tab, .lw-chap{transition:none}
+ .lw-card:hover, .lw-tab:not(.is-active):hover, .lw-tab.is-active:hover, .lw-chap:not(.is-active):hover, .lw-chap.is-active:hover{transform:none}
 }
 
 body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
@@ -217,7 +216,7 @@ a.lw-crow:hover{color:var(--lw-accent) !important}
 .lw-hp{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden}
 .lw-ts:empty{display:none}
 .lw-factions{display:flex; align-items:center; gap:18px; flex-wrap:wrap}
-.lw-send{font:inherit; font-size:16px; font-weight:700; color:var(--lw-on-accent); background:var(--lw-accent); border:0; border-radius:999px; padding:14px 26px; cursor:pointer; transition:background .15s, transform .15s}
+.lw-send{font:inherit; font-size:16px; font-weight:700; color:var(--lw-on-accent); background:var(--lw-accent); border:0; border-radius:10px; padding:14px 26px; cursor:pointer; transition:background .15s, transform .15s}
 .lw-send:hover{background:var(--lw-accent-hover)}
 .lw-send:active{transform:scale(.98)}
 .lw-send:focus-visible{outline:2px solid var(--lw-ink); outline-offset:3px}

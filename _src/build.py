@@ -338,7 +338,7 @@ a.lw-crow:hover{color:#8E2F3A !important}
 .lw-hp{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden}
 .lw-ts:empty{display:none}
 .lw-factions{display:flex; align-items:center; gap:18px; flex-wrap:wrap}
-.lw-send{font:inherit; font-size:16px; font-weight:700; color:#FFFFFF; background:#8E2F3A; border:0; border-radius:999px; padding:14px 26px; cursor:pointer; transition:background .15s, transform .15s}
+.lw-send{font:inherit; font-size:16px; font-weight:700; color:#FFFFFF; background:#8E2F3A; border:0; border-radius:10px; padding:14px 26px; cursor:pointer; transition:background .15s, transform .15s}
 .lw-send:hover{background:#6E2029}
 .lw-send:active{transform:scale(.98)}
 .lw-send:focus-visible{outline:2px solid #2A1F1E; outline-offset:3px}
