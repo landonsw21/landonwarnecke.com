@@ -1,0 +1,18 @@
+# Contact form mailer for landonwarnecke.com. Deployed by Cloudflare Workers Builds from this folder.
+name = "landonwarnecke-contact"
+main = "index.js"
+compatibility_date = "2026-11-01"
+workers_dev = false
+preview_urls = false
+routes = [
+  { pattern = "landonwarnecke.com/api/contact", zone_name = "landonwarnecke.com" },
+  { pattern = "www.landonwarnecke.com/api/contact", zone_name = "landonwarnecke.com" },
+]
+
+# Cloudflare Email Routing: may only send from this address, and only to verified destinations.
+[[send_email]]
+name = "EMAIL"
+allowed_sender_addresses = ["contact@landonwarnecke.com"]
+
+[observability]
+enabled = true

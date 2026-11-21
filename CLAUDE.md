@@ -11,6 +11,7 @@ Static portfolio for Landon Schmidt-Warnecke (industrial design, WWU). No build 
 - `perspective-studio/` — Perspective Studio (moved from landonsw21.github.io/perspective-studio). Its UI colors map to theme.css; its drawing colors (VP rays, guides) are functional and intentionally not themed.
 - `legacy.html` — the previous homepage, kept for reference.
 - `_headers` — Cloudflare Pages headers.
+- `contact-worker/` — the Contact form mailer, a separate Cloudflare Worker (`landonwarnecke-contact`) deployed by Workers Builds from this folder and routed at `landonwarnecke.com/api/contact` (Pages Functions can't send email). It checks Cloudflare Turnstile, then emails the message through Email Routing from contact@landonwarnecke.com with Reply-To set to the visitor. Secrets live only in the Worker's dashboard settings: `TURNSTILE_SECRET`, `CONTACT_TO`. The public Turnstile site key is in the form's `data-sitekey` (index.html). The form never says where messages are delivered.
 
 ## Design system
 Greige + Pomegranate, defined once in `theme.css` as `--lw-*` custom properties (light set + dark set).

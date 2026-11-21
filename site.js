@@ -14,10 +14,13 @@
       var on = b.getAttribute('data-tab') === name;
       b.classList.toggle('is-active', on);
       if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+      var row = b.parentNode;
+      if (on && row.scrollWidth > row.clientWidth) row.scrollLeft = b.offsetLeft - row.offsetLeft - 16;
     });
     $$('.lw-pane').forEach(function (p) { p.hidden = p.getAttribute('data-pane') !== name; });
     closeProject(false);
     $('.lw-side').classList.remove('is-about');
+    if (name === 'contact' && typeof loadTurnstile === 'function') loadTurnstile();
     if (push) history.replaceState(null, '', name === 'projects' ? location.pathname : '#' + name);
     window.scrollTo({ top: 0, behavior: smooth });
   }
@@ -121,6 +124,59 @@
     if (lb.hidden) return;
     if (ev.key === 'Escape') closeLb(); else if (ev.key === 'ArrowRight') step(1); else if (ev.key === 'ArrowLeft') step(-1);
   });
+
+  // ---------- contact form (Cloudflare Worker at /api/contact + Turnstile) ----------
+  var form = $('#cform'), tsId = null, tsLoading = false;
+  var sitekey = form ? form.getAttribute('data-sitekey') : '';
+  var tsReady = /^[0-9]x[A-Za-z0-9_-]{10,}$/.test(sitekey);
+  function loadTurnstile() {
+    if (!form || !tsReady || tsLoading) return; tsLoading = true;
+    window.lwTurnstile = function () {
+      tsId = window.turnstile.render('#cform-ts', { sitekey: sitekey, action: 'contact', theme: 'light', appearance: 'interaction-only', size: 'flexible' });
+    };
+    var s = document.createElement('script');
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=lwTurnstile';
+    s.async = true; s.defer = true; document.head.appendChild(s);
+  }
+  function tsToken() {
+    return new Promise(function (resolve) {
+      var t0 = Date.now();
+      (function poll() {
+        var t = (window.turnstile && tsId !== null) ? window.turnstile.getResponse(tsId) : '';
+        if (t || Date.now() - t0 > 8000) resolve(t || ''); else setTimeout(poll, 250);
+      })();
+    });
+  }
+  if (form) {
+    var status = $('#cform-status'), send = $('.lw-send', form);
+    var say = function (msg, kind) { status.textContent = msg; status.className = 'lw-fstatus' + (kind ? ' is-' + kind : ''); };
+    form.addEventListener('focusin', loadTurnstile);
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      if (!tsReady) { say('The form isn’t switched on yet. Please use one of the links below.', 'err'); return; }
+      send.disabled = true; say('Sending…');
+      loadTurnstile();
+      tsToken().then(function (token) {
+        if (!token) throw new Error('Couldn’t verify you’re human. Please try again.');
+        var f = form.elements;
+        return fetch('/api/contact', {
+          method: 'POST', headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ name: f.name.value, email: f.email.value, message: f.message.value, company: f.company.value, token: token })
+        }).then(function (r) {
+          return r.json().catch(function () { return {}; }).then(function (d) {
+            if (!r.ok || !d.ok) throw new Error(d.error || 'Something went wrong. Please try again, or use one of the links below.');
+          });
+        });
+      }).then(function () {
+        form.reset(); say('Thanks! Your message was sent.', 'ok');
+      }).catch(function (err) {
+        say(err && err.message && err.message !== 'Failed to fetch' ? err.message : 'Couldn’t send right now. Please try again, or use one of the links below.', 'err');
+      }).then(function () {
+        send.disabled = false;
+        if (window.turnstile && tsId !== null) window.turnstile.reset(tsId);
+      });
+    });
+  }
 
   // ---------- deep links: #gallery, #resume, #extras, #axio ----------
   function route() {
