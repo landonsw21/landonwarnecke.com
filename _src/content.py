@@ -78,7 +78,7 @@ PROJECTS = [
     dict(id="andon", num="04", name="ANDON", kind="TABLE LIGHT", hero="h_andon",
          alt="ANDON table light glowing in a dark room",
          line="Table light with paper insert",
-         meta=[("Type", "Table light [TO CONFIRM: add its materials here, e.g. Paper and ... table light]")],
+         meta=[("Type", "Yupo and polystyrene table light")],
          sections=[
              ("overview", "Overview", ["A framed table light whose paper insert shapes a soft, graded glow."], [], 1),
              ("inspiration", "Inspiration", ["Geometric, simple, fun. References included Venini glass, Vanessa Veck, lithophanes and Lite Brite."],
