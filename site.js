@@ -71,16 +71,11 @@
     history.replaceState(null, '', '#' + id);
   }
 
-  // ---------- collapse from the portrait, or the floating "−" when the portrait is off screen ----------
-  var me = $('.lw-me'), fab = $('.lw-fab'), portraitVisible = true;
+  // ---------- collapse the open project: floating "−" (bottom right, desktop) or the profile photo ----------
+  var me = $('.lw-me'), fab = $('.lw-fab');
   function syncCollapse() {
     if (me) me.disabled = !openId;
-    if (fab) fab.hidden = !(openId && !portraitVisible);
-  }
-  if (window.IntersectionObserver && me) {
-    new IntersectionObserver(function (entries) {
-      portraitVisible = entries[entries.length - 1].isIntersecting; syncCollapse();
-    }).observe(me);
+    if (fab) fab.hidden = !openId;
   }
   $$('[data-collapse]').forEach(function (b) {
     b.addEventListener('click', function () {

@@ -92,7 +92,7 @@ for i, p in enumerate(PROJECTS):
         f'</span></button>'
         f'<div id="d-{pid}" class="lw-drawer" hidden><div class="lw-drawer-in">'
         f'<nav class="lw-chapbar" aria-label="{e(p["name"])} sections"><div class="lw-chaps">{chaps}</div>'
-        f'<button class="lw-close" type="button" data-toggle="{pid}" aria-label="Close {e(p["name"])}">Close ×</button></nav>'
+        f'</nav>'
         f'<div class="lw-dbody"><dl class="lw-meta">{meta}</dl>{secs}'
         f'<div class="lw-dfoot"><button class="lw-ghost" type="button" data-toggle="{pid}">Close project ↑</button>'
         f'<button class="lw-pill" type="button" data-next="{nxt["id"]}">Next: {e(nxt["name"])} →</button></div></div></div></div></div></article>')
@@ -209,7 +209,7 @@ doc = f'''<!doctype html>
 <a class="lw-skip" href="#main">Skip to content</a>
 <div class="lw-shell">
 <aside class="lw-side" aria-label="About and navigation">
-<div class="lw-id"><button class="lw-me" type="button" data-collapse disabled aria-label="Collapse the open project">{img("portrait2", "Portrait of Landon Warnecke", "lw-portrait", lazy=False)}<span class="lw-me-badge" aria-hidden="true">−</span></button>
+<div class="lw-id"><button class="lw-me" type="button" data-collapse disabled aria-label="Collapse the open project">{img("portrait2", "Portrait of Landon Warnecke", "lw-portrait", lazy=False)}</button>
 <div style="display:flex;flex-direction:column;gap:4px;min-width:0"><span class="lw-nm">Landon Warnecke</span><span class="lw-role">Industrial Design · Western Washington University</span></div>
 <button class="lw-about-toggle" type="button" aria-expanded="false" data-about>About me</button></div>
 <div class="lw-bio"><span class="lw-mono lw-label">ABOUT ME</span><p>{e(BIO)}</p></div>
@@ -226,7 +226,7 @@ doc = f'''<!doctype html>
 <button class="lw-lbicon" type="button" style="right:18px;top:18px" data-lbclose aria-label="Close">×</button>
 </section>
 </div>
-<button class="lw-fab" type="button" data-collapse hidden aria-label="Collapse the open project"><span aria-hidden="true">−</span></button>
+<button class="lw-fab" type="button" data-collapse hidden aria-label="Collapse the open project" title="Collapse project"><span aria-hidden="true">−</span></button>
 <script src="site.js" defer></script>
 </body>
 </html>
@@ -272,12 +272,11 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 /* --- portrait collapses the open project; floating button when the portrait is off screen --- */
 .lw-me{position:relative; flex:none; padding:0; border:0; background:none; border-radius:12px; cursor:default; line-height:0}
 .lw-me:not([disabled]){cursor:pointer}
-.lw-me-badge{position:absolute; right:-6px; bottom:-6px; width:26px; height:26px; border-radius:50%; background:#8E2F3A; color:#FFFFFF; font-size:20px; font-weight:700; line-height:24px; text-align:center; box-shadow:0 0 0 3px #E4DED5; opacity:0; transform:scale(.6); transition:opacity .2s, transform .2s}
-.lw-me:not([disabled]) .lw-me-badge{opacity:1; transform:none}
-.lw-me:not([disabled]):hover .lw-me-badge{background:#6E2029; transform:scale(1.1)}
 .lw-fab{position:fixed; right:22px; bottom:22px; z-index:50; width:56px; height:56px; border-radius:50%; border:0; background:#8E2F3A; color:#FFFFFF; font:inherit; font-size:30px; font-weight:700; line-height:1; cursor:pointer; box-shadow:0 10px 28px color-mix(in srgb, #2A1F1E 28%, transparent); transition:background .15s, transform .15s}
 .lw-fab:hover{background:#6E2029; transform:scale(1.06)}
 .lw-fab:focus-visible{outline:3px solid #2A1F1E; outline-offset:3px}
+.lw-fab:not([hidden]){animation:lw-fab-in .28s cubic-bezier(.2,.7,.2,1)}
+@keyframes lw-fab-in{from{opacity:0; transform:scale(.6)}to{opacity:1; transform:none}}
 @media (max-width: 860px){
  .lw-proj{padding-bottom:14px; scroll-margin-top:124px}
  .lw-card{--h:clamp(118px, 18svh, 150px)}
@@ -285,10 +284,11 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
  .lw-card-name{font-size:22px}
  .lw-card-line{font-size:14px; -webkit-line-clamp:1}
  .lw-me, .lw-me .lw-portrait{border-radius:50%}
- .lw-me-badge, .lw-fab{display:none !important}
+ .lw-fab{display:none !important}
 }
 @media (prefers-reduced-motion: reduce){
- .lw-card, .lw-card::before, .lw-drawer, .lw-me-badge, .lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{transition:none}
+ .lw-fab{animation:none}
+ .lw-card, .lw-card::before, .lw-drawer, .lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{transition:none}
 }
 .lw-contact{display:flex; flex-direction:column; max-width:760px}
 .lw-crow{display:grid; grid-template-columns:130px minmax(0,1fr) auto; align-items:center; gap:16px; padding:18px 4px; border-top:1px solid #D2CABF; color:#2A1F1E !important; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:-0.01em; overflow-wrap:anywhere}
@@ -398,16 +398,11 @@ js = r"""(function () {
     history.replaceState(null, '', '#' + id);
   }
 
-  // ---------- collapse from the portrait, or the floating "−" when the portrait is off screen ----------
-  var me = $('.lw-me'), fab = $('.lw-fab'), portraitVisible = true;
+  // ---------- collapse the open project: floating "−" (bottom right, desktop) or the profile photo ----------
+  var me = $('.lw-me'), fab = $('.lw-fab');
   function syncCollapse() {
     if (me) me.disabled = !openId;
-    if (fab) fab.hidden = !(openId && !portraitVisible);
-  }
-  if (window.IntersectionObserver && me) {
-    new IntersectionObserver(function (entries) {
-      portraitVisible = entries[entries.length - 1].isIntersecting; syncCollapse();
-    }).observe(me);
+    if (fab) fab.hidden = !openId;
   }
   $$('[data-collapse]').forEach(function (b) {
     b.addEventListener('click', function () {
