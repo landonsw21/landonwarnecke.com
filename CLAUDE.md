@@ -16,8 +16,11 @@ Static portfolio for Landon Warnecke (industrial design, Western Washington Univ
 - `fisheye.html` (+ `styles.css`, `fisheye-demo.js`), `editor.html` — Fisheye Studio, linked from Extras. Colors come from theme.css (including the WebGL demo scenes via `--lw-scene-*`).
 - `perspective-studio/` — Perspective Studio (moved from landonsw21.github.io/perspective-studio). Its UI colors map to theme.css; its drawing colors (VP rays, guides) are functional and intentionally not themed.
 - `legacy.html` — the previous homepage, kept for reference.
-- `_headers` — Cloudflare Pages headers.
+- `_headers` — Cloudflare Pages headers. Only `site.css`/`site.js` get a long cache, because index.html links them as `?v=<content hash>` (build.py does this). Never add long caching for unversioned files: Cloudflare's edge on landonwarnecke.com honours it and keeps serving stale copies after a deploy.
 - `contact-worker/` — the Contact form mailer, a separate Cloudflare Worker (`landonwarnecke-contact`) deployed by Workers Builds from this folder and routed at `landonwarnecke.com/api/contact` (Pages Functions can't send email). It checks Cloudflare Turnstile, then emails the message through Email Routing from contact@landonwarnecke.com with Reply-To set to the visitor. Secrets live only in the Worker's dashboard settings: `TURNSTILE_SECRET`, `CONTACT_TO`. The public Turnstile site key is in the form's `data-sitekey` (index.html). The form never says where messages are delivered.
+  - Both secrets must be **Runtime** secrets of type **Secret** (Worker → Settings → Runtime variables and secrets). Build variables are invisible to the running Worker, and plain Text variables get wiped by every deploy.
+  - Debugging: Worker → Observability → Events logs each POST; a Turnstile rejection logs Cloudflare's error codes (e.g. `invalid-input-secret` = wrong TURNSTILE_SECRET). Turnstile always fails inside automated browsers (e.g. the Claude app's browser pane), so test in a normal browser.
+  - Workers Builds settings: root directory `contact-worker`, deploy command `npx wrangler deploy`, no build command.
 
 ## Design system
 Greige + Pomegranate, defined once in `theme.css` as `--lw-*` custom properties (light set + dark set).
