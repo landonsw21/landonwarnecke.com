@@ -34,11 +34,16 @@ def jpeg_size(path):
 
 META = {}
 for _fn in os.listdir(os.path.join(REPO, MEDIA)):
-    if _fn.endswith(".jpg"):
-        _path = os.path.join(REPO, MEDIA, _fn)
+    _key, _ext = os.path.splitext(_fn)
+    if _ext not in (".jpg", ".svg"):
+        continue
+    _path = os.path.join(REPO, MEDIA, _fn)
+    if _ext == ".jpg":
         _w, _h = jpeg_size(_path)
-        # ?v=<content hash> on every image link, so replacing a file in place still reaches visitors at once
-        META[_fn[:-4]] = {"w": _w, "h": _h, "v": __import__("hashlib").sha1(open(_path, "rb").read()).hexdigest()[:8]}
+    else:   # drawings made by images.py cut: size from the svg's own width/height
+        _w, _h = (int(x) for x in __import__("re").search(r'width="(\d+)" height="(\d+)"', open(_path).read()).groups())
+    # ?v=<content hash> on every image link, so replacing a file in place still reaches visitors at once
+    META[_key] = {"w": _w, "h": _h, "ext": _ext, "v": __import__("hashlib").sha1(open(_path, "rb").read()).hexdigest()[:8]}
 FISHEYE = "editor.html"
 
 
@@ -52,7 +57,7 @@ def img(k, alt, cls="", lazy=True, extra=""):
     load = ' loading="lazy" decoding="async"' if lazy else ' fetchpriority="high"'
     c = f' class="{cls}"' if cls else ""
     v = f'?v={m["v"]}' if m else ""
-    return f'<img src="{MEDIA}{k}.jpg{v}" alt="{e(alt)}"{wh}{load}{c}{extra}>'
+    return f'<img src="{MEDIA}{k}{m.get("ext", ".jpg")}{v}" alt="{e(alt)}"{wh}{load}{c}{extra}>'
 
 
 def pad(n):
@@ -89,7 +94,8 @@ for i, p in enumerate(PROJECTS):
         body = "".join(f"<p>{clean(t)}</p>" for t in paras if clean(t))
         if imgs:
             cls = "lw-imgs c2" if cols == 2 and len(imgs) > 1 else "lw-imgs"
-            body += f'<div class="{cls}">' + "".join(img(k, a, extra=f' data-lb="{pid}"') for k, a in imgs) + "</div>"
+            # an image given as (key, alt, "wide") spans both columns
+            body += f'<div class="{cls}">' + "".join(img(k, a, "is-wide" if w else "", extra=f' data-lb="{pid}"') for k, a, *w in imgs) + "</div>"
         secs += (f'<section id="{cid}" class="lw-sec" data-chapter="{cid}"><h3>{e(title)}</h3>'
                  f'<div class="lw-sec-body">{body}</div></section>')
     cards.append(
@@ -115,7 +121,7 @@ extras_html = f'<div class="lw-two">{ex}</div>'
 
 # ---------- gallery: one even grid of tiles; a tile opens the viewer at its first piece ----------
 def tile(i, label, items):
-    pieces = [{"src": f'{MEDIA}{k}.jpg?v={META[k]["v"]}', "alt": cap} for k, cap in items]
+    pieces = [{"src": f'{MEDIA}{k}{META[k]["ext"]}?v={META[k]["v"]}', "alt": cap} for k, cap in items]
     more = f", {len(items)} pieces" if len(items) > 1 else ""
     return (f'<button class="lw-tile" type="button" aria-label="View {e(label)}{more}" data-lbset="{e(json.dumps(pieces))}">'
             f'{img(items[0][0], items[0][1], "lw-tile-img", lazy=i > 5)}<span class="lw-tile-name">{e(label)}</span></button>')
@@ -234,6 +240,7 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-skip{position:absolute; left:-9999px; top:8px; z-index:2000; padding:10px 14px; border-radius:8px; background:#2A1F1E; color:#FFFFFF !important}
 .lw-skip:focus{left:8px}
 .lw-imgs img{cursor:zoom-in}
+.lw-imgs.c2 .is-wide{grid-column:1 / -1}
 .lw-extra img{height:auto}
 .lw-about-toggle{white-space:nowrap; flex:none}
 .lw-portrait{filter:none; object-position:50% 30%}

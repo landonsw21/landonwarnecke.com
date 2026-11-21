@@ -6,6 +6,8 @@ and HEIC photos (uses sips). Sources are looked up in the ID copy folder; overri
 usage (from the repo root):
   python3 _src/images.py heroes [h_wedge h_axio ...]   re-crop the project card images (all if none named)
   python3 _src/images.py crop KEY X0 Y0 X1 Y1   trim portfolio-media/KEY.jpg in place (fractions 0-1, e.g. to cut slide titles)
+  python3 _src/images.py sheet KEY COLS SOURCE... [--width 2400] [--rotate 90]   tile drawing pages into one image
+  python3 _src/images.py cut KEY PROJECT/file.dxf   a laser-cut DXF as portfolio-media/KEY.svg (sheet outline + part)
   python3 _src/images.py add KEY SOURCE [--width 1800] [--rotate 90]
         SOURCE: a path, "PROJECT/file name.jpg" (searched inside that ID copy project folder),
                 "PDF:PROJECT/deck.pdf:PAGE", or a .HEIC file. --rotate turns it clockwise.
@@ -127,9 +129,78 @@ def trim(key, x0, y0, x1, y1):
     save(im.crop((round(x0 * im.width), round(y0 * im.height), round(x1 * im.width), round(y1 * im.height))), key)
 
 
+def sheet(key, cols, sources, width=2400, rotate=0, edge=0.0):
+    """Tile several drawing pages into one image, edge to edge on white (`edge` trims that fraction of each page's border)."""
+    pages = []
+    for src in sources:
+        im = ImageOps.exif_transpose(Image.open(resolve(src))).convert("RGB")
+        if rotate:
+            im = im.rotate(-rotate, expand=True)
+        dx, dy = round(im.width * edge), round(im.height * edge)
+        pages.append(im.crop((dx, dy, im.width - dx, im.height - dy)))
+    cw = width // cols
+    ch = round(cw * pages[0].height / pages[0].width)
+    rows = (len(pages) + cols - 1) // cols
+    out = Image.new("RGB", (cw * cols, ch * rows), "white")
+    for i, im in enumerate(pages):
+        im.thumbnail((cw, ch), Image.LANCZOS)
+        out.paste(im, ((i % cols) * cw + (cw - im.width) // 2, (i // cols) * ch + (ch - im.height) // 2))
+    save(out, key)
+
+
+def cut(key, dxf):
+    """A laser-cut DXF (SPLINE + LINE entities, inches) as an SVG drawing: sheet outline in grey, the part in pomegranate."""
+    path = dxf if os.path.isabs(dxf) or os.path.exists(dxf) else find_in_project(*dxf.split("/", 1))
+    lines = open(path, encoding="latin-1").read().splitlines()
+    pairs = [(c.strip(), v.strip()) for c, v in zip(lines[0::2], lines[1::2])]
+    sec, ents = None, []
+    for i, (c, v) in enumerate(pairs):
+        if c == "0" and v == "SECTION":
+            sec = pairs[i + 1][1]
+        elif sec == "ENTITIES":
+            if c == "0":
+                ents.append((v, {}))
+            elif ents:
+                ents[-1][1].setdefault(c, []).append(v)
+
+    def point(t, knots, ctrl, p):   # de Boor
+        k = p
+        while k < len(ctrl) - 1 and not (knots[k] <= t < knots[k + 1]):
+            k += 1
+        d = [ctrl[j + k - p] for j in range(p + 1)]
+        for r in range(1, p + 1):
+            for j in range(p, r - 1, -1):
+                den = knots[j + 1 + k - r] - knots[j + k - p]
+                a = 0 if den == 0 else (t - knots[j + k - p]) / den
+                d[j] = ((1 - a) * d[j - 1][0] + a * d[j][0], (1 - a) * d[j - 1][1] + a * d[j][1])
+        return d[p]
+
+    segs = []
+    for kind, g in ents:
+        if kind == "SPLINE":
+            knots, p = [float(x) for x in g["40"]], int(g["71"][0])
+            ctrl = list(zip(map(float, g["10"]), map(float, g["20"])))
+            lo, hi = knots[p], knots[len(ctrl)]
+            segs.append([point(lo + (hi - lo) * s / 80, knots, ctrl, p) for s in range(81)])
+        elif kind == "LINE":
+            segs.append([(float(g["10"][0]), float(g["20"][0])), (float(g["11"][0]), float(g["21"][0]))])
+    xs, ys = [x for s in segs for x, _ in s], [y for s in segs for _, y in s]
+    x0, x1, y0, y1 = min(xs), max(xs), min(ys), max(ys)
+    edge = lambda s: any(min(abs(x - x0), abs(x - x1), abs(y - y0), abs(y - y1)) < 1e-3 for x, y in s)
+    m, u = 0.6, 100   # margin in inches, svg units per inch
+    w, h = (x1 - x0 + 2 * m) * u, (y1 - y0 + 2 * m) * u
+    d = lambda group: " ".join("M" + " L".join(f"{(x - x0 + m) * u:.1f},{(y1 - y + m) * u:.1f}" for x, y in s) for s in group)
+    svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w:.0f} {h:.0f}" width="{w:.0f}" height="{h:.0f}">'
+           f'<rect width="100%" height="100%" fill="#ECE7E0"/><g fill="none" stroke-linecap="round" stroke-linejoin="round">'
+           f'<path stroke="#B9AEA1" stroke-width="3" d="{d([s for s in segs if edge(s)])}"/>'
+           f'<path stroke="#8E2F3A" stroke-width="4" d="{d([s for s in segs if not edge(s)])}"/></g></svg>')
+    open(os.path.join(OUT, key + ".svg"), "w").write(svg)
+    print(f"{key}.svg  sheet {x1 - x0:.2f} x {y1 - y0:.2f} in  {len(svg) // 1024} KB")
+
+
 if __name__ == "__main__":
     args = sys.argv[1:]
-    if not args or args[0] not in ("heroes", "add", "crop"):
+    if not args or args[0] not in ("heroes", "add", "crop", "sheet", "cut"):
         sys.exit(__doc__)
     if args[0] == "heroes":
         heroes(args[1:])
@@ -137,6 +208,20 @@ if __name__ == "__main__":
         if len(args) != 6:
             sys.exit(__doc__)
         trim(args[1], *map(float, args[2:]))
+    elif args[0] == "cut":
+        if len(args) != 3:
+            sys.exit(__doc__)
+        cut(args[1], args[2])
+    elif args[0] == "sheet":
+        opts, pos, it = {"--width": 2400, "--rotate": 0}, [], iter(args[1:])
+        for a in it:
+            if a in opts:
+                opts[a] = int(next(it))
+            else:
+                pos.append(a)
+        if len(pos) < 3:
+            sys.exit(__doc__)
+        sheet(pos[0], int(pos[1]), pos[2:], opts["--width"], opts["--rotate"])
     else:
         opts = {"--width": 1800, "--rotate": 0}
         pos = []

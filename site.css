@@ -112,6 +112,7 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
 .lw-skip{position:absolute; left:-9999px; top:8px; z-index:2000; padding:10px 14px; border-radius:8px; background:var(--lw-ink); color:var(--lw-on-accent) !important}
 .lw-skip:focus{left:8px}
 .lw-imgs img{cursor:zoom-in}
+.lw-imgs.c2 .is-wide{grid-column:1 / -1}
 .lw-extra img{height:auto}
 .lw-about-toggle{white-space:nowrap; flex:none}
 .lw-portrait{filter:none; object-position:50% 30%}
