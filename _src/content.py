@@ -209,7 +209,7 @@ CONTACT = [
 ]
 
 # Cloudflare Turnstile site key (public). The secret lives only in the Worker's settings.
-TURNSTILE_SITEKEY = "[TURNSTILE SITEKEY]"
+TURNSTILE_SITEKEY = "0x4AAAAAAGLgEPURgpzYe-UI"
 
 # Vertical focus of each card image when the card is collapsed (CSS object-position y). Default 50%.
 HERO_FOCUS = {"wedge": "20%", "axio": "0%", "anar": "62%", "andon": "15%", "moai": "10%", "fern": "40%", "bubble": "30%"}
