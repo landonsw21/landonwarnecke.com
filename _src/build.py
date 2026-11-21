@@ -35,8 +35,10 @@ def jpeg_size(path):
 META = {}
 for _fn in os.listdir(os.path.join(REPO, MEDIA)):
     if _fn.endswith(".jpg"):
-        _w, _h = jpeg_size(os.path.join(REPO, MEDIA, _fn))
-        META[_fn[:-4]] = {"w": _w, "h": _h}
+        _path = os.path.join(REPO, MEDIA, _fn)
+        _w, _h = jpeg_size(_path)
+        # ?v=<content hash> on every image link, so replacing a file in place still reaches visitors at once
+        META[_fn[:-4]] = {"w": _w, "h": _h, "v": __import__("hashlib").sha1(open(_path, "rb").read()).hexdigest()[:8]}
 FISHEYE = "editor.html"
 
 
@@ -49,7 +51,8 @@ def img(k, alt, cls="", lazy=True, extra=""):
     wh = f' width="{m["w"]}" height="{m["h"]}"' if m else ""
     load = ' loading="lazy" decoding="async"' if lazy else ' fetchpriority="high"'
     c = f' class="{cls}"' if cls else ""
-    return f'<img src="{MEDIA}{k}.jpg" alt="{e(alt)}"{wh}{load}{c}{extra}>'
+    v = f'?v={m["v"]}' if m else ""
+    return f'<img src="{MEDIA}{k}.jpg{v}" alt="{e(alt)}"{wh}{load}{c}{extra}>'
 
 
 def pad(n):
@@ -67,8 +70,9 @@ for i, p in enumerate(PROJECTS):
     pid = p["id"]
     nxt = PROJECTS[(i + 1) % len(PROJECTS)]
     focus = HERO_FOCUS.get(pid, "50%")
-    media = img(p["hero"], p["alt"], "lw-card-img" + (" is-blur" if p.get("soon") else ""), lazy=i > 2,
-                extra=f' style="--fy:{focus}"')
+    media = img(p["hero"], p["alt"], "lw-card-img" + (" is-blur" if p.get("soon") else ""), lazy=i > 2)
+    hm = META.get(p["hero"], {"w": 2, "h": 1})
+    ar = 2.0 if p.get("soon") else hm["w"] / hm["h"]   # clicked card = the whole image at its own shape
     chaps = "".join(f'<a class="lw-chap" href="#{pid}-{s[0]}" data-chap="{pid}-{s[0]}">{e(s[1])}</a>' for s in p["sections"])
     meta = "".join(f'<div><dt class="lw-mono">{e(k.upper())}</dt><dd>{e(v)}</dd></div>' for k, v in p["meta"])
     secs = ""
@@ -82,8 +86,8 @@ for i, p in enumerate(PROJECTS):
                  f'<span class="lw-mono lw-label">{pad(j + 1)}</span><h3>{e(title)}</h3></div><div class="lw-sec-body">{body}</div></section>')
     cards.append(
         f'<article id="p-{pid}" class="lw-proj" data-project="{pid}"><div class="lw-unit">'
-        f'<button class="lw-card" type="button" aria-expanded="false" aria-controls="d-{pid}" data-toggle="{pid}">{media}'
-        f'<span class="lw-card-body"><span class="lw-mono lw-card-kind">{p["num"]} · {e(p["kind"])}</span>'
+        f'<button class="lw-card" type="button" aria-expanded="false" aria-controls="d-{pid}" data-toggle="{pid}" style="--fy:{focus};--ar:{ar:.4f}">{media}'
+        f'<span class="lw-card-body">'
         f'<span class="lw-card-name">{e(p["name"])}</span><span class="lw-card-line">{e(p["line"])}</span>'
         f'</span></button>'
         f'<div id="d-{pid}" class="lw-drawer" hidden><div class="lw-drawer-in">'
@@ -191,7 +195,7 @@ doc = f'''<!doctype html>
 <meta property="og:title" content="Landon Warnecke · Industrial Design">
 <meta property="og:description" content="{e(DESC)}">
 <meta property="og:url" content="https://landonwarnecke.com/">
-<meta property="og:image" content="https://landonwarnecke.com/{MEDIA}c_axio.jpg">
+<meta property="og:image" content="https://landonwarnecke.com/{MEDIA}c_axio.jpg?v={META["c_axio"]["v"]}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#E4DED5">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%238E2F3A'/><text x='50' y='66' font-family='Arial' font-weight='700' font-size='46' fill='%23E4DED5' text-anchor='middle'>LW</text></svg>">
@@ -236,11 +240,11 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-gcard img, .lw-extra img{height:auto}
 .lw-about-toggle{white-space:nowrap; flex:none}
 .lw-portrait{filter:none; object-position:50% 30%}
-/* --- project cards: darkened image with text on top; hover doubles the height and lifts the shade --- */
+/* --- project cards: darkened image with the name on top. Three sizes: resting band, hover (2x, shade lifted), clicked (the whole image) --- */
 .lw-list{gap:0}
 .lw-proj{padding-bottom:22px; scroll-margin-top:16px}
 .lw-proj:last-child{padding-bottom:0}
-.lw-unit{border-radius:18px; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s}
+.lw-unit{container-type:inline-size; border-radius:18px; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s}
 .lw-card{--h:clamp(170px, calc((100svh - 140px) / 3), 280px); position:relative; display:block; width:100%; height:var(--h); padding:0; border:0; border-radius:18px; overflow:hidden; background:#2A1F1E; color:#FFFFFF; text-align:left; cursor:pointer; transform:none; box-shadow:none; transition:height .5s cubic-bezier(.2,.7,.2,1), border-radius .3s}
 .lw-card:hover{transform:none; box-shadow:none}
 .lw-card-img{position:absolute; inset:0; width:100%; height:100%; aspect-ratio:auto; object-fit:cover; object-position:50% var(--fy, 50%); background:#2A1F1E}
@@ -248,18 +252,17 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-card::before{content:""; position:absolute; inset:0; z-index:1; background:color-mix(in srgb, #2A1F1E 42%, transparent); transition:opacity .5s}
 .lw-card::after{content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(to top, color-mix(in srgb, #2A1F1E 88%, transparent) 0, color-mix(in srgb, #2A1F1E 62%, transparent) 34%, transparent 72%)}
 .lw-card-body{position:absolute; left:0; right:0; bottom:0; z-index:2; display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end; flex-wrap:nowrap; gap:4px; padding:18px 22px 18px; text-shadow:0 1px 14px color-mix(in srgb, #2A1F1E 45%, transparent)}
-.lw-card-kind{font-size:12px; letter-spacing:.08em; color:#FFFFFF; opacity:.9}
 .lw-card-name{font-size:30px; line-height:1.05; font-weight:700; letter-spacing:-0.03em; color:#FFFFFF}
 .lw-card-line{font-size:15px; line-height:1.45; max-width:640px; color:#FFFFFF; opacity:.92; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden}
 .lw-card:focus-visible{outline:3px solid #8E2F3A; outline-offset:3px}
-.lw-proj.is-open .lw-unit{outline-color:#8E2F3A}
-.lw-proj.is-open .lw-card{height:calc(var(--h) * 2); border-radius:18px 18px 0 0}
-.lw-proj.is-open .lw-card::before{opacity:0}
 @media (hover: hover){
  .lw-proj:hover .lw-unit{outline-color:#8E2F3A}
  .lw-proj:hover .lw-card{height:calc(var(--h) * 2)}
  .lw-proj:hover .lw-card::before{opacity:0}
 }
+.lw-proj.is-open .lw-unit{outline-color:#8E2F3A}
+.lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{height:min(calc(100cqw / var(--ar, 2)), 86svh); border-radius:18px 18px 0 0; transition:height .6s cubic-bezier(.2,.7,.2,1), border-radius .3s}
+.lw-proj.is-open .lw-card::before{opacity:0}
 /* --- drawer hangs straight off its card and slides open --- */
 .lw-drawer{margin-top:0; border-top:0; border-radius:0 0 18px 18px; display:grid; grid-template-columns:minmax(0, 1fr); grid-template-rows:0fr; transition:grid-template-rows .55s cubic-bezier(.2,.7,.2,1)}
 .lw-drawer.is-open{grid-template-rows:1fr}
@@ -279,14 +282,13 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
  .lw-proj{padding-bottom:14px; scroll-margin-top:124px}
  .lw-card{--h:clamp(118px, 18svh, 150px)}
  .lw-card-body{padding:12px 14px; gap:2px}
- .lw-card-kind{font-size:11px}
  .lw-card-name{font-size:22px}
  .lw-card-line{font-size:14px; -webkit-line-clamp:1}
  .lw-me, .lw-me .lw-portrait{border-radius:50%}
  .lw-me-badge, .lw-fab{display:none !important}
 }
 @media (prefers-reduced-motion: reduce){
- .lw-card, .lw-card::before, .lw-drawer, .lw-me-badge{transition:none}
+ .lw-card, .lw-card::before, .lw-drawer, .lw-me-badge, .lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{transition:none}
 }
 .lw-contact{display:flex; flex-direction:column; max-width:760px}
 .lw-crow{display:grid; grid-template-columns:130px minmax(0,1fr) auto; align-items:center; gap:16px; padding:18px 4px; border-top:1px solid #D2CABF; color:#2A1F1E !important; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:-0.01em; overflow-wrap:anywhere}

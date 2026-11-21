@@ -21,7 +21,7 @@ PROJECTS = [
          ]),
     dict(id="axio", num="02", name="AXIO", kind="FACE WASH + MOISTURIZER", hero="h_axio",
          alt="AXIO amber face wash and moisturizer bottles",
-         line="Two bottles that complement each other in form, color, material and purpose.",
+         line="A face wash and moisturizer pair that complement each other in form, color, material and purpose.",
          meta=[("Type", "Personal care bottles"), ("Role", "Solo"), ("Tools", "Illustrator, Rhino, KeyShot"), ("Features", "Refillable, gel + foam")],
          sections=[
              ("brief", "Brief", ["Design a face wash and moisturizer pair that relate to and complement each other. They have to stand upright without tipping; be easy to handle, open, pour and close; hold about 8 to 12 ounces; and have an original form that stands apart from competitors."], [], 1),
@@ -133,7 +133,7 @@ PROJECTS = [
          ]),
     dict(id="vivarium", num="08", name="Vivarium", kind="COMING SOON", hero="c_viv", soon=True,
          alt="Vivarium, blurred preview",
-         line="A climate-controlled enclosure for first-time reptile and amphibian keepers. GIA project, in progress.",
+         line="Coming soon: a climate-controlled enclosure for first-time reptile and amphibian keepers. GIA project.",
          meta=[("Type", "Climate-controlled enclosure"), ("Program", "GIA"), ("Role", "Solo"), ("Status", "In progress")],
          sections=[
              ("user", "The user", ["<strong>Avery Daniels</strong>, 23, a first-time keeper setting up a first enclosure at home. Avery wants a healthy animal and the companionship that comes with it, and worries about getting the habitat wrong without knowing it."],
@@ -212,4 +212,4 @@ CONTACT = [
 TURNSTILE_SITEKEY = "0x4AAAAAAGLgEPURgpzYe-UI"
 
 # Vertical focus of each card image when the card is collapsed (CSS object-position y). Default 50%.
-HERO_FOCUS = {"wedge": "20%", "axio": "0%", "anar": "62%", "andon": "15%", "moai": "10%", "fern": "40%", "bubble": "30%"}
+HERO_FOCUS = {"wedge": "30%", "axio": "25%", "anar": "55%", "andon": "35%", "moai": "20%", "fern": "40%", "bubble": "30%"}

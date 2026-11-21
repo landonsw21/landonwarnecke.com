@@ -10,8 +10,10 @@ usage (from the repo root):
                 "PDF:PROJECT/deck.pdf:PAGE", or a .HEIC file. --rotate turns it clockwise.
   then: python3 _src/build.py
 
-Card images are 2:1 crops centered on one product. In the collapsed card only a band of the crop
-shows; which band is set per project in content.py (HERO_FOCUS, CSS object-position y).
+Card images are full frames showing one product (the whole photo unless a crop is given below).
+A card has three sizes: resting (a thin band of the image), hover (2x the band) and clicked (the whole
+image, at its own aspect ratio). Which band shows while resting/hovering is set per project in
+content.py (HERO_FOCUS, CSS object-position y); build.py reads each image's aspect ratio itself.
 """
 import os, sys, subprocess, tempfile
 from PIL import Image, ImageOps
@@ -22,17 +24,18 @@ REPO = os.path.dirname(HERE)
 OUT = os.path.join(REPO, "portfolio-media")
 ID_COPY = os.environ.get("LW_ID_COPY", os.path.expanduser("~/Downloads/Claude/ID copy"))
 CACHE = os.path.join(tempfile.gettempdir(), "lw-images-cache")
-AR, HERO_W = 2.0, 2400
+HERO_W = 2400
 
-# key: (source, center x, center y, crop width as a fraction of the source width; >1 pads with the backdrop color)
+# key: (source, crop). crop None = the whole photo; otherwise
+# (center x, center y, crop width as a fraction of the source width (>1 pads with the backdrop color), aspect ratio w/h)
 HEROES = {
-    "h_wedge":  ("WEDGE/DSC07271-2.jpg", 0.47, 0.50, 1.00),
-    "h_axio":   ("AXIO/untitled.14.png", 0.50, 0.45, 1.00),
-    "h_anar":   ("ANAR KARI/Pomegranate.png", 0.51, 0.60, 0.95),
-    "h_andon":  ("ANDON/DSC07529.jpg", 0.52, 0.56, 1.00),
-    "h_moai":   ("MOAI/untitled.82.png", 0.55, 0.50, 1.35),
-    "h_fern":   ("Fern/DSC07706.png", 0.52, 0.52, 1.00),
-    "h_bubble": ("PDF:Bubble/Bubble.pdf:12", 0.653, 0.48, 0.58),
+    "h_wedge":  ("WEDGE/DSC07271-2.jpg", None),
+    "h_axio":   ("AXIO/untitled.14.png", None),
+    "h_anar":   ("ANAR KARI/Pomegranate.png", None),
+    "h_andon":  ("ANDON/DSC07529.jpg", None),
+    "h_moai":   ("MOAI/untitled.82.png", None),
+    "h_fern":   ("Fern/DSC07706.png", None),
+    "h_bubble": ("PDF:Bubble/Bubble.pdf:12", (0.653, 0.50, 0.62, 1.5)),   # the clock, not the whole bedroom page
 }
 
 
@@ -80,9 +83,9 @@ def save(im, key):
     print(f"{key}.jpg  {im.width}x{im.height}  {os.path.getsize(path) // 1024} KB")
 
 
-def crop(im, cx, cy, wf):
+def crop(im, cx, cy, wf, ar):
     cw = im.width * wf
-    ch = cw / AR
+    ch = cw / ar
     if wf > 1:
         bg = im.getpixel((4, 4))
         canvas = Image.new("RGB", (round(cw), round(max(ch, im.height))), bg)
@@ -91,7 +94,7 @@ def crop(im, cx, cy, wf):
         return canvas.crop((0, round(y0), round(cw), round(y0 + ch)))
     if ch > im.height:
         ch = im.height
-        cw = ch * AR
+        cw = ch * ar
     x0 = min(max(cx * im.width - cw / 2, 0), im.width - cw)
     y0 = min(max(cy * im.height - ch / 2, 0), im.height - ch)
     return im.crop((round(x0), round(y0), round(x0 + cw), round(y0 + ch)))
@@ -99,11 +102,12 @@ def crop(im, cx, cy, wf):
 
 def heroes(keys):
     for key in keys or HEROES:
-        src, cx, cy, wf = HEROES[key]
-        im = ImageOps.exif_transpose(Image.open(resolve(src))).convert("RGB")
-        c = crop(im, cx, cy, wf)
+        src, box = HEROES[key]
+        c = ImageOps.exif_transpose(Image.open(resolve(src))).convert("RGB")
+        if box:
+            c = crop(c, *box)
         if c.width > HERO_W:
-            c = c.resize((HERO_W, round(HERO_W / AR)), Image.LANCZOS)
+            c = c.resize((HERO_W, round(c.height * HERO_W / c.width)), Image.LANCZOS)
         save(c, key)
 
 
