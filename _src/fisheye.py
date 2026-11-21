@@ -79,7 +79,6 @@ head = re.sub(r"<title>.*?</title>", "<title>Fisheye Studio · Landon Warnecke</
 head = sub(head, "<style>", '<link rel="stylesheet" href="theme.css">\n  <style>', "head")
 
 # ---- text: keep what helps, drop filler
-PLAY, PAUSE = "▶︎ Play", "❚❚ Pause"   # ︎ keeps ▶ a text symbol, not an emoji, on phones
 B = [
     ('<div class="eyebrow">Standalone Continuous Ray Optical Engine</div>', '<div class="eyebrow">Capture once. Shape the view.</div>'),
     ('href="cube%20export.py"', 'href="downloads/cube-export.py"'),
@@ -106,9 +105,6 @@ B = [
     (re.search(r'<p class="secondary">Fixed to the glass while the scene moves\..*?</p>', body, re.S),
      '<p class="secondary">Fixed to the glass while the scene moves.</p>'),
     ("Export Master PNG ↗", "Export PNG"),
-    ('class="primary">Play preview</button>', f'class="primary">{PLAY}</button>'),   # timeline transport: symbols
-    ('<button id="animationStop">Stop</button>', '<button id="animationStop">■ Stop</button>'),
-    ('<button id="animationBase">Reset preview</button>', '<button id="animationBase" title="Reset the preview to the current settings">↺ Reset</button>'),
     (re.search(r'\s*<details style="margin-top:14px;">.*?</details>', body, re.S), ""),   # offline exporter isn't offered here
 ]
 for old, new in B:
@@ -145,10 +141,6 @@ s = sub(s, '<p class="secondary">Warp from this radius in the original image to 
 if re.search(r"#d5f596|#e8ffad", s, re.I):
     sys.exit("fisheye.py: lime is still used in studio.js")
 js["studio.js"] = s
-a = js["animation.js"]
-a = sub(a, "$('animationPlay').textContent='Play preview'", f"$('animationPlay').textContent='{PLAY}'", "animation.js")
-a = sub(a, "$('animationPlay').textContent='Pause preview'", f"$('animationPlay').textContent='{PAUSE}'", "animation.js")
-js["animation.js"] = a
 
 scripts_html = "\n".join("<script>\n" + js[name] + "\n</script>" for name in scripts)
 body = sub(body, "{{SCRIPTS}}", scripts_html, "studio-shell.html body")

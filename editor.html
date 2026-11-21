@@ -328,7 +328,7 @@
       <section class="animation-panel" aria-label="Animation timeline">
         <div class="row spread"><h3>Animation</h3><label><input type="checkbox" id="animationLoop" checked> Loop</label></div>
         <div class="toolset" style="margin-top:12px">
-          <button id="animationPlay" class="primary">▶︎ Play</button><button id="animationStop">■ Stop</button>
+          <button id="animationPlay" class="primary">▶&#xFE0E; Play</button><button id="animationStop">■ Stop</button>
           <button id="animationBase" title="Reset the preview to the current settings">↺ Reset</button><output id="animationTime" aria-live="off">0.00 / 4.00 s</output>
         </div>
         <div class="animation-fields"><label>Adjustment<select id="animationEffect"></select></label><button id="animationAdd">+ Add effect</button><button id="animationPan">+ 360° pan</button><button id="animationCopy" disabled title="Copy selected effect (⌘/Ctrl+C)">Copy effect</button><button id="animationPaste" disabled title="Paste after copied effect (⌘/Ctrl+V)">Paste effect</button></div>
@@ -1073,7 +1073,7 @@ function catalog(s=state){
 function length(){return A.duration(clips)}
 function scale(){return Math.max(4,Math.ceil(length()))}
 function current(){return clips.find(c=>c.id===selected)}
-function pause(){playing=false;cancelAnimationFrame(raf);raf=0;$('animationPlay').textContent='▶︎ Play'}
+function pause(){playing=false;cancelAnimationFrame(raf);raf=0;$('animationPlay').textContent='▶\uFE0E Play'}
 function editing(){pause();preview=false;schedule()}
 // Every preview starts from the current editing settings; numeric clips add their change to the current settings.
 function sample(){return A.sample(state,clips,time)}
