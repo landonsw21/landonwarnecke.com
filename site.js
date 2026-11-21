@@ -24,7 +24,12 @@
     if (push) history.replaceState(null, '', name === 'projects' ? location.pathname : '#' + name);
     window.scrollTo({ top: 0, behavior: smooth });
   }
-  $$('.lw-tab').forEach(function (b) { b.addEventListener('click', function () { showTab(b.getAttribute('data-tab'), true); }); });
+  $$('.lw-tab').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (!b.classList.contains('is-active')) { showTab(b.getAttribute('data-tab'), true); return; }
+      if (openId) { closeProject(true); history.replaceState(null, '', location.pathname); }
+    });
+  });
 
   // ---------- about toggle (phones) ----------
   var about = $('[data-about]');
@@ -114,36 +119,24 @@
     a.addEventListener('click', function (ev) { ev.preventDefault(); scrollToEl(document.getElementById(a.getAttribute('data-chap'))); });
   });
 
-  // ---------- gallery rows ----------
-  $$('[data-row]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      var row = document.getElementById('row-' + b.getAttribute('data-row'));
-      row.scrollBy({ left: Number(b.getAttribute('data-dir')) * Math.max(320, row.clientWidth * 0.8), behavior: smooth });
-    });
-  });
-  $$('.lw-row').forEach(function (row) {
-    var bar = document.getElementById('prog-' + row.id.replace('row-', ''));
-    row.addEventListener('scroll', function () {
-      var max = row.scrollWidth - row.clientWidth; var p = max > 0 ? row.scrollLeft / max * 100 : 100;
-      bar.style.width = Math.max(6, p) + '%';
-    }, { passive: true });
-  });
-
   // ---------- lightbox ----------
   var lb = $('#lb'), lbImg = $('#lb-img'), lbCap = $('#lb-cap'), lbCount = $('#lb-count');
   var list = [], idx = 0, lastFocus = null;
   function render() {
     var im = list[idx]; lbImg.src = im.src; lbImg.alt = im.alt; lbCap.textContent = im.alt; lbCount.textContent = (idx + 1) + ' / ' + list.length;
+    var single = list.length < 2; lbCount.hidden = single; $$('[data-lbstep]', lb).forEach(function (b) { b.hidden = single; });
+  }
+  function openList(items, i, from) {
+    list = items; if (!list.length) return; idx = i; lastFocus = from || document.activeElement; render(); lb.hidden = false;
+    $('[data-lbclose]', lb).focus({ preventScroll: true });
   }
   function openLb(group, i, from) {
-    list = $$('img[data-lb="' + group + '"]').map(function (im) { return { src: im.currentSrc || im.src, alt: im.alt }; });
-    if (!list.length) return; idx = i; lastFocus = from || document.activeElement; render(); lb.hidden = false;
-    $('[data-lbclose]', lb).focus({ preventScroll: true });
+    openList($$('img[data-lb="' + group + '"]').map(function (im) { return { src: im.currentSrc || im.src, alt: im.alt }; }), i, from);
   }
   function closeLb() { lb.hidden = true; if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true }); }
   function step(dlt) { idx = (idx + dlt + list.length) % list.length; render(); }
-  $$('[data-lbopen]').forEach(function (b) {
-    b.addEventListener('click', function () { openLb(b.getAttribute('data-lbopen'), Number(b.getAttribute('data-i')), b); });
+  $$('[data-lbset]').forEach(function (b) {
+    b.addEventListener('click', function () { openList(JSON.parse(b.getAttribute('data-lbset')), 0, b); });
   });
   $$('.lw-imgs img[data-lb]').forEach(function (im) {
     im.addEventListener('click', function () {

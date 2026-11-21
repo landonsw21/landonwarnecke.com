@@ -150,21 +150,28 @@ PROJECTS = [
          ]),
 ]
 
+# Gallery: one grid of tiles. Each tile is (label shown on the tile, pieces); the first piece is the tile's image,
+# and clicking opens the image viewer at it (arrows step through the tile's pieces; captions show there).
 GALLERY = [
-    ("sketch", "Sketches & drawings", [
+    ("Sketches", [
         ("g_trees", "Tree textures, graphite studies"), ("g_still", "Still life, line drawing"), ("g_maple", "Japanese maple study sheet"),
         ("g_frog", "Poison dart frog study sheet"), ("g_pom", "Pomegranate study sheet"), ("g_venini", "Venini vases, sketching"),
         ("g_class2", "Form sketch in marker"), ("g_headphones", "Headphone ideation in marker")]),
-    ("ceramics", "Ceramics & jewelry", [
-        ("g_ceramics", "Ceramics: tea set and bowls"), ("g_jewelry", "Jewelry forms in brass, bronze and copper")]),
-    ("forms", "Form & line studies", [
+    ("Form studies", [
         ("g_forms", "Form studies"), ("g_lines", "Line studies in wire"), ("g_forms2", "Form studies, sheet and wire"),
         ("g_120a", "ID 120 form and space study"), ("g_120b", "ID 120 form and space study"), ("g_120c", "ID 120 form study"), ("g_120d", "ID 120 line study")]),
-    ("other", "Other projects", [
-        ("g_pivot", "PIVOT: flip-up loupe holder + headlight"), ("g_penguino", "Penguino: handheld gaming device"), ("g_ovo", "OVO: video game packaging"),
-        ("g_lighter", "Lighter: CMF for brand"), ("g_rain", "Rain Roller"), ("g_uzumaki", "Uzumaki: wire and parchment lamp"),
-        ("g_elmer", "ELMER: cardboard and ID magazine"), ("g_handheld", "Handheld: Shinkansen"), ("g_rowing", "MI Rowing logo design"),
-        ("g_record", "Record table for a vinyl collection and turntable")]),
+    ("Ceramics", [("g_ceramics", "Ceramics: tea set and bowls")]),
+    ("Jewelry", [("g_jewelry", "Jewelry forms in brass, bronze and copper")]),
+    ("PIVOT", [("g_pivot", "PIVOT: flip-up loupe holder + headlight")]),
+    ("Penguino", [("g_penguino", "Penguino: handheld gaming device")]),
+    ("OVO", [("g_ovo", "OVO: video game packaging")]),
+    ("Lighter", [("g_lighter", "Lighter: CMF for brand")]),
+    ("Rain Roller", [("g_rain", "Rain Roller")]),
+    ("Uzumaki", [("g_uzumaki", "Uzumaki: wire and parchment lamp")]),
+    ("ELMER", [("g_elmer", "ELMER: cardboard and ID magazine")]),
+    ("Handheld", [("g_handheld", "Handheld: Shinkansen")]),
+    ("Rowing logo", [("g_rowing", "MI Rowing logo design")]),
+    ("Record table", [("g_record", "Record table for a vinyl collection and turntable")]),
 ]
 
 EXTRAS = [

@@ -16,9 +16,12 @@ html{scroll-behavior:smooth}
 .lw-about-toggle{display:none; align-items:center; min-height:40px; padding:0 14px; border-radius:999px; border:1px solid var(--lw-ink); background:transparent; color:var(--lw-ink); font:inherit; font-size:13px; font-weight:600; cursor:pointer}
 .lw-tabs{display:flex; flex-direction:column; gap:6px}
 .lw-tab{display:flex; justify-content:space-between; align-items:center; gap:10px; width:100%; min-height:46px; padding:10px 14px; border-radius:10px; border:1px solid var(--lw-line); background:transparent; color:var(--lw-muted); font:inherit; font-size:15px; font-weight:600; text-align:left; cursor:pointer; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
-/* tabs share the project-card hover: dimmed at rest; hover undims, outlines in pomegranate and grows slightly. The selected tab is filled pomegranate */
+/* tabs share the project-card hover: dimmed at rest; hover undims, outlines in pomegranate and grows slightly. The current tab is filled pomegranate; on hover it gets an outline ring and grows */
 .lw-tab.is-active{background:var(--lw-accent); border-color:var(--lw-accent); color:var(--lw-on-accent)}
-@media (hover: hover){ .lw-tab:not(.is-active):hover{border-color:var(--lw-accent); box-shadow:inset 0 0 0 1px var(--lw-accent); color:var(--lw-ink); transform:scale(1.02)} }
+@media (hover: hover){
+ .lw-tab:not(.is-active):hover{border-color:var(--lw-accent); box-shadow:inset 0 0 0 1px var(--lw-accent); color:var(--lw-ink); transform:scale(1.02)}
+ .lw-tab.is-active:hover{outline:2px solid var(--lw-accent); outline-offset:2px; transform:scale(1.02)}
+}
 .lw-tabnum{font-size:12px; opacity:.85}
 .lw-side-foot{display:flex; flex-direction:column; gap:6px; padding-top:8px; border-top:1px solid var(--lw-line); font-size:14px}
 .lw-main{flex:1 1 auto; min-width:0; padding:40px 48px 120px}
@@ -63,20 +66,8 @@ html{scroll-behavior:smooth}
 .lw-extra{background:var(--lw-surface); border-radius:18px; overflow:hidden; display:flex; flex-direction:column}
 .lw-extra img{display:block; width:100%; aspect-ratio:16/10; object-fit:cover; background:var(--lw-ink)}
 .lw-extra-body{padding:20px 22px 24px; display:flex; flex-direction:column; gap:10px; flex:1}
-.lw-extra h2, .lw-gsec h2{margin:0; font-size:26px; line-height:1.15; font-weight:700; letter-spacing:-0.02em}
+.lw-extra h2{margin:0; font-size:26px; line-height:1.15; font-weight:700; letter-spacing:-0.02em}
 .lw-extra p{margin:0; font-size:15px; line-height:1.55}
-.lw-gsec{display:flex; flex-direction:column; gap:12px}
-.lw-ghead{display:flex; justify-content:space-between; align-items:flex-end; gap:12px}
-.lw-row{display:flex; gap:18px; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; padding:8px 6px 18px; margin:0 -6px}
-.lw-row::-webkit-scrollbar{display:none}
-.lw-gcard{flex:none; width:300px; scroll-snap-align:start; padding:0; border:none; background:transparent; text-align:left; font:inherit; color:inherit; cursor:zoom-in; transition:transform .3s cubic-bezier(.2,.7,.2,1)}
-.lw-gcard:hover{transform:scale(1.03)}
-.lw-gcard img{display:block; width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:14px; background:var(--lw-surface)}
-.lw-gcap{display:flex; gap:10px; margin-top:10px; font-size:14px; line-height:1.4}
-.lw-track{height:3px; background:var(--lw-line); border-radius:2px; overflow:hidden}
-.lw-track div{height:3px; background:var(--lw-accent); transition:width .2s}
-.lw-icon{width:44px; height:44px; flex:none; border-radius:50%; border:1px solid var(--lw-ink); background:transparent; color:var(--lw-ink); font:inherit; font-size:16px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; transition:background .2s, color .2s}
-.lw-icon:hover{background:var(--lw-ink); color:var(--lw-bg)}
 .lw-rrow{display:grid; grid-template-columns:120px minmax(0,1fr); gap:14px; padding:14px 0; border-top:1px solid var(--lw-line)}
 .lw-rrow b{font-size:16px}
 .lw-rrow small{font-size:14px; line-height:1.45; color:var(--lw-muted)}
@@ -110,20 +101,19 @@ html{scroll-behavior:smooth}
  .lw-meta{grid-template-columns:repeat(2, minmax(0,1fr))}
  .lw-sec{grid-template-columns:1fr; gap:12px; scroll-margin-top:190px}
  .lw-imgs.c2, .lw-two{grid-template-columns:1fr}
- .lw-gcard{width:76%}
  .lw-lb figure{padding:64px 16px}
 }
 @media (prefers-reduced-motion: reduce){
  html{scroll-behavior:auto}
- .lw-card, .lw-gcard, .lw-tab{transition:none}
- .lw-card:hover, .lw-gcard:hover, .lw-tab:not(.is-active):hover{transform:none}
+ .lw-card, .lw-tab{transition:none}
+ .lw-card:hover, .lw-tab:not(.is-active):hover, .lw-tab.is-active:hover{transform:none}
 }
 
 body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
 .lw-skip{position:absolute; left:-9999px; top:8px; z-index:2000; padding:10px 14px; border-radius:8px; background:var(--lw-ink); color:var(--lw-on-accent) !important}
 .lw-skip:focus{left:8px}
 .lw-imgs img{cursor:zoom-in}
-.lw-gcard img, .lw-extra img{height:auto}
+.lw-extra img{height:auto}
 .lw-about-toggle{white-space:nowrap; flex:none}
 .lw-portrait{filter:none; object-position:50% 30%}
 /* --- project cards: darkened image with the name on top. Three sizes: resting band, hover (2x, shade lifted), clicked (the whole image) --- */
@@ -176,25 +166,35 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
  .lw-fab{animation:none}
  .lw-card, .lw-card::before, .lw-drawer, .lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{transition:none}
 }
-/* --- extras + gallery share the project-card hover: shade lifts, pomegranate outline, slight grow.
+/* --- extras share the project-card hover: shade lifts, pomegranate outline, slight grow.
    Touch screens never hover, so they show the images unshaded. --- */
 .lw-shade{position:relative; display:block}
-.lw-row{padding:10px 8px 18px; margin:0 -8px; scroll-padding:0 8px}
-.lw-gcard .lw-shade{border-radius:14px; overflow:hidden; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s}
 .lw-extra{position:relative; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
 .lw-extra .lw-pill::after{content:""; position:absolute; inset:0; border-radius:18px}
 @media (hover: hover){
  .lw-shade::after{content:""; position:absolute; inset:0; background:color-mix(in srgb, var(--lw-ink) 42%, transparent); transition:opacity .5s; pointer-events:none}
- .lw-extra:hover .lw-shade::after, .lw-gcard:hover .lw-shade::after{opacity:0}
+ .lw-extra:hover .lw-shade::after{opacity:0}
  .lw-extra:hover{outline-color:var(--lw-accent); transform:scale(1.02)}
- .lw-gcard:hover .lw-shade{outline-color:var(--lw-accent)}
 }
-.lw-gcard:focus-visible{outline:none}
-.lw-gcard:focus-visible .lw-shade{outline:3px solid var(--lw-accent)}
-.lw-gcard:focus-visible .lw-shade::after{opacity:0}
+/* --- gallery: one even grid of tiles, a short label over a darkened image, same hover as the project cards --- */
+.lw-tiles{display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:18px}
+.lw-tile{position:relative; display:block; aspect-ratio:4/5; padding:0; border:0; border-radius:18px; overflow:hidden; background:var(--lw-ink); color:var(--lw-on-accent); font:inherit; text-align:left; cursor:zoom-in; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
+.lw-tile .lw-tile-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+.lw-tile::before{content:""; position:absolute; inset:0; z-index:1; background:color-mix(in srgb, var(--lw-ink) 42%, transparent); transition:opacity .5s}
+.lw-tile::after{content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(to top, color-mix(in srgb, var(--lw-ink) 80%, transparent) 0, transparent 45%)}
+.lw-tile-name{position:absolute; left:18px; right:18px; bottom:16px; z-index:2; font-size:22px; line-height:1.1; font-weight:700; letter-spacing:-0.02em; text-shadow:0 1px 14px color-mix(in srgb, var(--lw-ink) 60%, transparent)}
+@media (hover: hover){
+ .lw-tile:hover{outline-color:var(--lw-accent); transform:scale(1.03)}
+ .lw-tile:hover::before{opacity:0}
+}
+@media (max-width: 860px){
+ .lw-tiles{grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px}
+ .lw-tile{border-radius:14px}
+ .lw-tile-name{left:12px; right:12px; bottom:10px; font-size:17px}
+}
 @media (prefers-reduced-motion: reduce){
- .lw-extra, .lw-shade::after{transition:none}
- .lw-extra:hover{transform:none}
+ .lw-extra, .lw-shade::after, .lw-tile, .lw-tile::before{transition:none}
+ .lw-extra:hover, .lw-tile:hover{transform:none}
 }
 .lw-contact{display:flex; flex-direction:column; max-width:760px}
 .lw-crow{display:grid; grid-template-columns:130px minmax(0,1fr) auto; align-items:center; gap:16px; padding:18px 4px; border-top:1px solid var(--lw-line); color:var(--lw-ink) !important; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:-0.01em; overflow-wrap:anywhere}

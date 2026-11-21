@@ -113,19 +113,13 @@ for k, tag, name, desc, url, alt in EXTRAS:
            f'<h2>{e(name)}</h2><p>{e(desc)}</p><a class="lw-pill" style="margin-top:auto;align-self:flex-start;color:var(--lw-on-accent)" href="{e(href)}" target="_blank" rel="noopener">Open tool ↗</a></div></article>')
 extras_html = f'<div class="lw-two">{ex}</div>'
 
-# ---------- gallery ----------
-gs = ""
-for gi, (gid, title, items) in enumerate(GALLERY):
-    cards_g = "".join(
-        f'<button class="lw-gcard" type="button" aria-label="View {e(cap)}" data-lbopen="{gid}" data-i="{i}">'
-        f'<span class="lw-shade">{img(k, cap, extra=f" data-lb=\"{gid}\"")}</span><span class="lw-gcap"><span>{e(cap)}</span></span></button>'
-        for i, (k, cap) in enumerate(items))
-    gs += (f'<section class="lw-gsec" aria-labelledby="g-{gid}"><div class="lw-ghead">'
-           f'<h2 id="g-{gid}">{e(title)}</h2>'
-           f'<div style="display:flex;gap:8px"><button class="lw-icon" type="button" data-row="{gid}" data-dir="-1" aria-label="Scroll {e(title)} left">←</button>'
-           f'<button class="lw-icon" type="button" data-row="{gid}" data-dir="1" aria-label="Scroll {e(title)} right">→</button></div></div>'
-           f'<div class="lw-row" id="row-{gid}">{cards_g}</div><div class="lw-track"><div id="prog-{gid}" style="width:6%"></div></div></section>')
-gallery_html = f'<div style="display:flex;flex-direction:column;gap:48px">{gs}</div>'
+# ---------- gallery: one even grid of tiles; a tile opens the viewer at its first piece ----------
+def tile(i, label, items):
+    pieces = [{"src": f'{MEDIA}{k}.jpg?v={META[k]["v"]}', "alt": cap} for k, cap in items]
+    more = f", {len(items)} pieces" if len(items) > 1 else ""
+    return (f'<button class="lw-tile" type="button" aria-label="View {e(label)}{more}" data-lbset="{e(json.dumps(pieces))}">'
+            f'{img(items[0][0], items[0][1], "lw-tile-img", lazy=i > 5)}<span class="lw-tile-name">{e(label)}</span></button>')
+gallery_html = f'<div class="lw-tiles">{"".join(tile(i, label, items) for i, (label, items) in enumerate(GALLERY))}</div>'
 
 # ---------- resume ----------
 def rrow(r):
@@ -240,7 +234,7 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-skip{position:absolute; left:-9999px; top:8px; z-index:2000; padding:10px 14px; border-radius:8px; background:#2A1F1E; color:#FFFFFF !important}
 .lw-skip:focus{left:8px}
 .lw-imgs img{cursor:zoom-in}
-.lw-gcard img, .lw-extra img{height:auto}
+.lw-extra img{height:auto}
 .lw-about-toggle{white-space:nowrap; flex:none}
 .lw-portrait{filter:none; object-position:50% 30%}
 /* --- project cards: darkened image with the name on top. Three sizes: resting band, hover (2x, shade lifted), clicked (the whole image) --- */
@@ -293,25 +287,35 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
  .lw-fab{animation:none}
  .lw-card, .lw-card::before, .lw-drawer, .lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{transition:none}
 }
-/* --- extras + gallery share the project-card hover: shade lifts, pomegranate outline, slight grow.
+/* --- extras share the project-card hover: shade lifts, pomegranate outline, slight grow.
    Touch screens never hover, so they show the images unshaded. --- */
 .lw-shade{position:relative; display:block}
-.lw-row{padding:10px 8px 18px; margin:0 -8px; scroll-padding:0 8px}
-.lw-gcard .lw-shade{border-radius:14px; overflow:hidden; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s}
 .lw-extra{position:relative; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
 .lw-extra .lw-pill::after{content:""; position:absolute; inset:0; border-radius:18px}
 @media (hover: hover){
  .lw-shade::after{content:""; position:absolute; inset:0; background:color-mix(in srgb, #2A1F1E 42%, transparent); transition:opacity .5s; pointer-events:none}
- .lw-extra:hover .lw-shade::after, .lw-gcard:hover .lw-shade::after{opacity:0}
+ .lw-extra:hover .lw-shade::after{opacity:0}
  .lw-extra:hover{outline-color:#8E2F3A; transform:scale(1.02)}
- .lw-gcard:hover .lw-shade{outline-color:#8E2F3A}
 }
-.lw-gcard:focus-visible{outline:none}
-.lw-gcard:focus-visible .lw-shade{outline:3px solid #8E2F3A}
-.lw-gcard:focus-visible .lw-shade::after{opacity:0}
+/* --- gallery: one even grid of tiles, a short label over a darkened image, same hover as the project cards --- */
+.lw-tiles{display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:18px}
+.lw-tile{position:relative; display:block; aspect-ratio:4/5; padding:0; border:0; border-radius:18px; overflow:hidden; background:#2A1F1E; color:#FFFFFF; font:inherit; text-align:left; cursor:zoom-in; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
+.lw-tile .lw-tile-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+.lw-tile::before{content:""; position:absolute; inset:0; z-index:1; background:color-mix(in srgb, #2A1F1E 42%, transparent); transition:opacity .5s}
+.lw-tile::after{content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(to top, color-mix(in srgb, #2A1F1E 80%, transparent) 0, transparent 45%)}
+.lw-tile-name{position:absolute; left:18px; right:18px; bottom:16px; z-index:2; font-size:22px; line-height:1.1; font-weight:700; letter-spacing:-0.02em; text-shadow:0 1px 14px color-mix(in srgb, #2A1F1E 60%, transparent)}
+@media (hover: hover){
+ .lw-tile:hover{outline-color:#8E2F3A; transform:scale(1.03)}
+ .lw-tile:hover::before{opacity:0}
+}
+@media (max-width: 860px){
+ .lw-tiles{grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px}
+ .lw-tile{border-radius:14px}
+ .lw-tile-name{left:12px; right:12px; bottom:10px; font-size:17px}
+}
 @media (prefers-reduced-motion: reduce){
- .lw-extra, .lw-shade::after{transition:none}
- .lw-extra:hover{transform:none}
+ .lw-extra, .lw-shade::after, .lw-tile, .lw-tile::before{transition:none}
+ .lw-extra:hover, .lw-tile:hover{transform:none}
 }
 .lw-contact{display:flex; flex-direction:column; max-width:760px}
 .lw-crow{display:grid; grid-template-columns:130px minmax(0,1fr) auto; align-items:center; gap:16px; padding:18px 4px; border-top:1px solid #D2CABF; color:#2A1F1E !important; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:-0.01em; overflow-wrap:anywhere}
@@ -378,7 +382,12 @@ js = r"""(function () {
     if (push) history.replaceState(null, '', name === 'projects' ? location.pathname : '#' + name);
     window.scrollTo({ top: 0, behavior: smooth });
   }
-  $$('.lw-tab').forEach(function (b) { b.addEventListener('click', function () { showTab(b.getAttribute('data-tab'), true); }); });
+  $$('.lw-tab').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (!b.classList.contains('is-active')) { showTab(b.getAttribute('data-tab'), true); return; }
+      if (openId) { closeProject(true); history.replaceState(null, '', location.pathname); }
+    });
+  });
 
   // ---------- about toggle (phones) ----------
   var about = $('[data-about]');
@@ -468,36 +477,24 @@ js = r"""(function () {
     a.addEventListener('click', function (ev) { ev.preventDefault(); scrollToEl(document.getElementById(a.getAttribute('data-chap'))); });
   });
 
-  // ---------- gallery rows ----------
-  $$('[data-row]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      var row = document.getElementById('row-' + b.getAttribute('data-row'));
-      row.scrollBy({ left: Number(b.getAttribute('data-dir')) * Math.max(320, row.clientWidth * 0.8), behavior: smooth });
-    });
-  });
-  $$('.lw-row').forEach(function (row) {
-    var bar = document.getElementById('prog-' + row.id.replace('row-', ''));
-    row.addEventListener('scroll', function () {
-      var max = row.scrollWidth - row.clientWidth; var p = max > 0 ? row.scrollLeft / max * 100 : 100;
-      bar.style.width = Math.max(6, p) + '%';
-    }, { passive: true });
-  });
-
   // ---------- lightbox ----------
   var lb = $('#lb'), lbImg = $('#lb-img'), lbCap = $('#lb-cap'), lbCount = $('#lb-count');
   var list = [], idx = 0, lastFocus = null;
   function render() {
     var im = list[idx]; lbImg.src = im.src; lbImg.alt = im.alt; lbCap.textContent = im.alt; lbCount.textContent = (idx + 1) + ' / ' + list.length;
+    var single = list.length < 2; lbCount.hidden = single; $$('[data-lbstep]', lb).forEach(function (b) { b.hidden = single; });
+  }
+  function openList(items, i, from) {
+    list = items; if (!list.length) return; idx = i; lastFocus = from || document.activeElement; render(); lb.hidden = false;
+    $('[data-lbclose]', lb).focus({ preventScroll: true });
   }
   function openLb(group, i, from) {
-    list = $$('img[data-lb="' + group + '"]').map(function (im) { return { src: im.currentSrc || im.src, alt: im.alt }; });
-    if (!list.length) return; idx = i; lastFocus = from || document.activeElement; render(); lb.hidden = false;
-    $('[data-lbclose]', lb).focus({ preventScroll: true });
+    openList($$('img[data-lb="' + group + '"]').map(function (im) { return { src: im.currentSrc || im.src, alt: im.alt }; }), i, from);
   }
   function closeLb() { lb.hidden = true; if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true }); }
   function step(dlt) { idx = (idx + dlt + list.length) % list.length; render(); }
-  $$('[data-lbopen]').forEach(function (b) {
-    b.addEventListener('click', function () { openLb(b.getAttribute('data-lbopen'), Number(b.getAttribute('data-i')), b); });
+  $$('[data-lbset]').forEach(function (b) {
+    b.addEventListener('click', function () { openList(JSON.parse(b.getAttribute('data-lbset')), 0, b); });
   });
   $$('.lw-imgs img[data-lb]').forEach(function (im) {
     im.addEventListener('click', function () {

@@ -16,9 +16,12 @@ html{scroll-behavior:smooth}
 .lw-about-toggle{display:none; align-items:center; min-height:40px; padding:0 14px; border-radius:999px; border:1px solid #2A1F1E; background:transparent; color:#2A1F1E; font:inherit; font-size:13px; font-weight:600; cursor:pointer}
 .lw-tabs{display:flex; flex-direction:column; gap:6px}
 .lw-tab{display:flex; justify-content:space-between; align-items:center; gap:10px; width:100%; min-height:46px; padding:10px 14px; border-radius:10px; border:1px solid #D2CABF; background:transparent; color:#6A5F58; font:inherit; font-size:15px; font-weight:600; text-align:left; cursor:pointer; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
-/* tabs share the project-card hover: dimmed at rest; hover undims, outlines in pomegranate and grows slightly. The selected tab is filled pomegranate */
+/* tabs share the project-card hover: dimmed at rest; hover undims, outlines in pomegranate and grows slightly. The current tab is filled pomegranate; on hover it gets an outline ring and grows */
 .lw-tab.is-active{background:#8E2F3A; border-color:#8E2F3A; color:#FFFFFF}
-@media (hover: hover){ .lw-tab:not(.is-active):hover{border-color:#8E2F3A; box-shadow:inset 0 0 0 1px #8E2F3A; color:#2A1F1E; transform:scale(1.02)} }
+@media (hover: hover){
+ .lw-tab:not(.is-active):hover{border-color:#8E2F3A; box-shadow:inset 0 0 0 1px #8E2F3A; color:#2A1F1E; transform:scale(1.02)}
+ .lw-tab.is-active:hover{outline:2px solid #8E2F3A; outline-offset:2px; transform:scale(1.02)}
+}
 .lw-tabnum{font-size:12px; opacity:.85}
 .lw-side-foot{display:flex; flex-direction:column; gap:6px; padding-top:8px; border-top:1px solid #D2CABF; font-size:14px}
 .lw-main{flex:1 1 auto; min-width:0; padding:40px 48px 120px}
@@ -63,20 +66,8 @@ html{scroll-behavior:smooth}
 .lw-extra{background:#D4CBBE; border-radius:18px; overflow:hidden; display:flex; flex-direction:column}
 .lw-extra img{display:block; width:100%; aspect-ratio:16/10; object-fit:cover; background:#2A1F1E}
 .lw-extra-body{padding:20px 22px 24px; display:flex; flex-direction:column; gap:10px; flex:1}
-.lw-extra h2, .lw-gsec h2{margin:0; font-size:26px; line-height:1.15; font-weight:700; letter-spacing:-0.02em}
+.lw-extra h2{margin:0; font-size:26px; line-height:1.15; font-weight:700; letter-spacing:-0.02em}
 .lw-extra p{margin:0; font-size:15px; line-height:1.55}
-.lw-gsec{display:flex; flex-direction:column; gap:12px}
-.lw-ghead{display:flex; justify-content:space-between; align-items:flex-end; gap:12px}
-.lw-row{display:flex; gap:18px; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; padding:8px 6px 18px; margin:0 -6px}
-.lw-row::-webkit-scrollbar{display:none}
-.lw-gcard{flex:none; width:300px; scroll-snap-align:start; padding:0; border:none; background:transparent; text-align:left; font:inherit; color:inherit; cursor:zoom-in; transition:transform .3s cubic-bezier(.2,.7,.2,1)}
-.lw-gcard:hover{transform:scale(1.03)}
-.lw-gcard img{display:block; width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:14px; background:#D4CBBE}
-.lw-gcap{display:flex; gap:10px; margin-top:10px; font-size:14px; line-height:1.4}
-.lw-track{height:3px; background:#D2CABF; border-radius:2px; overflow:hidden}
-.lw-track div{height:3px; background:#8E2F3A; transition:width .2s}
-.lw-icon{width:44px; height:44px; flex:none; border-radius:50%; border:1px solid #2A1F1E; background:transparent; color:#2A1F1E; font:inherit; font-size:16px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; transition:background .2s, color .2s}
-.lw-icon:hover{background:#2A1F1E; color:#E4DED5}
 .lw-rrow{display:grid; grid-template-columns:120px minmax(0,1fr); gap:14px; padding:14px 0; border-top:1px solid #D2CABF}
 .lw-rrow b{font-size:16px}
 .lw-rrow small{font-size:14px; line-height:1.45; color:#6A5F58}
@@ -110,11 +101,10 @@ html{scroll-behavior:smooth}
  .lw-meta{grid-template-columns:repeat(2, minmax(0,1fr))}
  .lw-sec{grid-template-columns:1fr; gap:12px; scroll-margin-top:190px}
  .lw-imgs.c2, .lw-two{grid-template-columns:1fr}
- .lw-gcard{width:76%}
  .lw-lb figure{padding:64px 16px}
 }
 @media (prefers-reduced-motion: reduce){
  html{scroll-behavior:auto}
- .lw-card, .lw-gcard, .lw-tab{transition:none}
- .lw-card:hover, .lw-gcard:hover, .lw-tab:not(.is-active):hover{transform:none}
+ .lw-card, .lw-tab{transition:none}
+ .lw-card:hover, .lw-tab:not(.is-active):hover, .lw-tab.is-active:hover{transform:none}
 }
