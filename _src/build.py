@@ -212,7 +212,7 @@ doc = f'''<!doctype html>
 <a class="lw-skip" href="#main">Skip to content</a>
 <div class="lw-shell">
 <aside class="lw-side" aria-label="About and navigation">
-<div class="lw-id"><button class="lw-me" type="button" data-collapse disabled aria-label="Collapse the open project">{img("portrait2", "Portrait of Landon Warnecke", "lw-portrait", lazy=False)}</button>
+<div class="lw-id"><button class="lw-me" type="button" data-home aria-label="Back to projects">{img("portrait2", "Portrait of Landon Warnecke", "lw-portrait", lazy=False)}</button>
 <div style="display:flex;flex-direction:column;gap:4px;min-width:0"><span class="lw-nm">Landon Warnecke</span></div>
 <button class="lw-about-toggle" type="button" aria-expanded="false" data-about>About me</button></div>
 <div class="lw-bio"><p>{e(BIO)}</p></div>
@@ -249,12 +249,8 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-extra img{height:auto}
 .lw-about-toggle{white-space:nowrap; flex:none}
 .lw-portrait{filter:none; object-position:50% 30%; box-sizing:border-box; border:2px solid transparent; transition:border-color .2s}
-/* portrait shares the card hover: dimmed at rest, undims with a pomegranate border on hover (touch screens show it plain) */
-@media (hover: hover){
- .lw-me::after{content:""; position:absolute; inset:0; border-radius:inherit; background:color-mix(in srgb, #2A1F1E 42%, transparent); transition:opacity .3s; pointer-events:none}
- .lw-me:hover::after{opacity:0}
- .lw-me:hover .lw-portrait{border-color:#8E2F3A}
-}
+/* portrait: shown as is; a pomegranate border on hover. Clicking it goes back to Projects (collapsing an open project) */
+@media (hover: hover){ .lw-me:hover .lw-portrait{border-color:#8E2F3A} }
 /* --- project cards: darkened image with the name on top. Three sizes: resting band, hover (2x, shade lifted), clicked (the whole image) --- */
 .lw-list{gap:0}
 .lw-proj{padding-bottom:22px; scroll-margin-top:16px}
@@ -295,8 +291,7 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-chapbar.is-docked .lw-chapname:hover{color:#8E2F3A}
 @media (max-width: 860px){ .lw-chapname{font-size:14px} }
 /* --- portrait collapses the open project; floating button when the portrait is off screen --- */
-.lw-me{position:relative; flex:none; padding:0; border:0; background:none; border-radius:12px; cursor:default; line-height:0}
-.lw-me:not([disabled]){cursor:pointer}
+.lw-me{position:relative; flex:none; padding:0; border:0; background:none; border-radius:12px; cursor:pointer; line-height:0}
 .lw-fab{position:fixed; right:22px; bottom:22px; z-index:50; width:56px; height:56px; border-radius:50%; border:0; background:#8E2F3A; color:#FFFFFF; font:inherit; font-size:30px; font-weight:700; line-height:1; cursor:pointer; box-shadow:0 10px 28px color-mix(in srgb, #2A1F1E 28%, transparent); transition:background .15s, transform .15s}
 .lw-fab:hover{background:#6E2029; transform:scale(1.06)}
 .lw-fab:focus-visible{outline:3px solid #2A1F1E; outline-offset:3px}
@@ -462,12 +457,19 @@ js = r"""(function () {
     history.replaceState(null, '', '#' + id);
   }
 
-  // ---------- collapse the open project: floating "−" (bottom right, desktop) or the profile photo ----------
-  var me = $('.lw-me'), fab = $('.lw-fab');
+  // ---------- collapse the open project: floating "−" (bottom right, desktop) ----------
+  var fab = $('.lw-fab');
   function syncCollapse() {
-    if (me) me.disabled = !openId;
     if (fab) fab.hidden = !openId;
   }
+  // ---------- profile photo: back to Projects (from another tab), else collapse the open project, else to the top ----------
+  $$('[data-home]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (!$('.lw-tab[data-tab="projects"]').classList.contains('is-active')) { showTab('projects', true); return; }
+      if (openId) { closeProject(true); history.replaceState(null, '', location.pathname); }
+      else window.scrollTo({ top: 0, behavior: smooth });
+    });
+  });
   $$('[data-collapse]').forEach(function (b) {
     b.addEventListener('click', function () {
       if (!openId) return; closeProject(true); history.replaceState(null, '', location.pathname);

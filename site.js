@@ -76,12 +76,19 @@
     history.replaceState(null, '', '#' + id);
   }
 
-  // ---------- collapse the open project: floating "−" (bottom right, desktop) or the profile photo ----------
-  var me = $('.lw-me'), fab = $('.lw-fab');
+  // ---------- collapse the open project: floating "−" (bottom right, desktop) ----------
+  var fab = $('.lw-fab');
   function syncCollapse() {
-    if (me) me.disabled = !openId;
     if (fab) fab.hidden = !openId;
   }
+  // ---------- profile photo: back to Projects (from another tab), else collapse the open project, else to the top ----------
+  $$('[data-home]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (!$('.lw-tab[data-tab="projects"]').classList.contains('is-active')) { showTab('projects', true); return; }
+      if (openId) { closeProject(true); history.replaceState(null, '', location.pathname); }
+      else window.scrollTo({ top: 0, behavior: smooth });
+    });
+  });
   $$('[data-collapse]').forEach(function (b) {
     b.addEventListener('click', function () {
       if (!openId) return; closeProject(true); history.replaceState(null, '', location.pathname);
