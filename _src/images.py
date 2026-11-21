@@ -30,7 +30,7 @@ HERO_W = 2400
 # key: (source, crop). crop None = the whole photo; otherwise
 # (center x, center y, crop width as a fraction of the source width (>1 pads with the backdrop color), aspect ratio w/h)
 HEROES = {
-    "h_wedge":  ("WEDGE/DSC07271-2.jpg", None),
+    "h_wedge":  ("WEDGE/DSC07293-4.jpg", None),   # the uncropped close-up with napkins
     "h_axio":   ("AXIO/untitled.14.png", None),
     "h_anar":   ("ANAR KARI/Pomegranate.png", None),
     "h_andon":  ("ANDON/DSC07529.jpg", None),

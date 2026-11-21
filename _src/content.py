@@ -6,18 +6,23 @@ BIO = ("Industrial design student at Western Washington University. I enjoy solv
 # section: (slug, title, [paragraph html], [(img, alt)], cols)
 PROJECTS = [
     dict(id="wedge", num="01", name="WEDGE", kind="NAPKIN HOLDER", hero="h_wedge",
-         alt="WEDGE, a folded metal napkin holder",
+         alt="WEDGE napkin holder, close-up with a stack of napkins",
          line="A napkin holder folded from a single sheet of metal.",
          meta=[("Type", "Napkin holder"), ("Material", "Sheet metal"), ("Year", "[TO CONFIRM]")],
          sections=[
              ("overview", "Overview", ["A napkin holder made from one folded sheet of metal. [TO WRITE: the brief or constraint, and who it is for.]"],
               [("wedge_overview", "WEDGE napkin holder in brushed metal")], 1),
-             ("ideation", "Ideation", ["Sketches and quick paper models explored folded, wedge-shaped forms that hold a stack of napkins upright."],
-              [("wedge_sk1", "WEDGE sketch sheet"), ("wedge_sk2", "WEDGE paper model sketches"), ("wedge_paper1", "Paper sketch model holding napkins"), ("wedge_paper2", "Paper sketch model, side view")], 2),
+             ("ideation", "Ideation", ["Thumbnail sheets led to five concepts: Pen & Paper, Stilt, Slab, Plat and Nook. Marker studies and quick paper models then explored folded, wedge-shaped forms that hold a stack of napkins upright."],
+              [("wedge_th1", "Napkin holder concept development thumbnails"), ("wedge_th2", "Napkin holder thumbnail sketches"),
+               ("wedge_th3", "Napkin holder thumbnail sketches, folded and split forms"), ("wedge_pen", "Pen & Paper concept sketch"),
+               ("wedge_stilt", "Stilt concept sketch"), ("wedge_sk1", "Slab concept sketch"),
+               ("wedge_plat", "Plat concept sketch"), ("wedge_nook", "Nook concept sketch"),
+               ("wedge_forms", "Marker studies of folded wedge forms"), ("wedge_sk2", "Marker sketches of folded forms, with notes"),
+               ("wedge_paper1", "Paper sketch model holding napkins"), ("wedge_paper2", "Paper sketch model, side view")], 2),
              ("construction", "Construction", ["The form was cut and bent from sheet metal in the shop. [TO CONFIRM: tools and finishing process.]"],
               [("wedge_build", "WEDGE construction: bending sheet metal in the shop"), ("wedge_detail", "WEDGE bend detail")], 2),
-             ("final", "Final", ["The finished holder on the kitchen table."],
-              [("wedge_ctx", "WEDGE holding napkins on a restaurant table"), ("wedge_f3", "WEDGE close-up with napkins")], 2),
+             ("final", "Final", ["The finished holder in use on a restaurant table."],
+              [("wedge_ctx", "WEDGE holding napkins on a restaurant table")], 1),
          ]),
     dict(id="axio", num="02", name="AXIO", kind="FACE WASH + MOISTURIZER", hero="h_axio",
          alt="AXIO amber face wash and moisturizer bottles",
@@ -219,4 +224,4 @@ CONTACT = [
 TURNSTILE_SITEKEY = "0x4AAAAAAGLgEPURgpzYe-UI"
 
 # Vertical focus of each card image when the card is collapsed (CSS object-position y). Default 50%.
-HERO_FOCUS = {"wedge": "30%", "axio": "25%", "anar": "55%", "andon": "35%", "moai": "20%", "fern": "40%", "bubble": "30%"}
+HERO_FOCUS = {"wedge": "45%", "axio": "25%", "anar": "55%", "andon": "35%", "moai": "20%", "fern": "40%", "bubble": "30%"}
