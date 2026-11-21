@@ -8,7 +8,7 @@ PROJECTS = [
     dict(id="wedge", num="01", name="WEDGE", kind="NAPKIN HOLDER", hero="h_wedge",
          alt="WEDGE, a folded metal napkin holder",
          line="A napkin holder folded from a single sheet of metal.",
-         meta=[("Type", "Napkin holder"), ("Material", "Sheet metal"), ("Role", "Solo"), ("Year", "[TO CONFIRM]")],
+         meta=[("Type", "Napkin holder"), ("Material", "Sheet metal"), ("Year", "[TO CONFIRM]")],
          sections=[
              ("overview", "Overview", ["A napkin holder made from one folded sheet of metal. [TO WRITE: the brief or constraint, and who it is for.]"],
               [("wedge_overview", "WEDGE napkin holder in brushed metal")], 1),
@@ -22,7 +22,7 @@ PROJECTS = [
     dict(id="axio", num="02", name="AXIO", kind="FACE WASH + MOISTURIZER", hero="h_axio",
          alt="AXIO amber face wash and moisturizer bottles",
          line="A face wash and moisturizer pair that complement each other in form, color, material and purpose.",
-         meta=[("Type", "Personal care bottles"), ("Role", "Solo"), ("Tools", "Illustrator, Rhino, KeyShot"), ("Features", "Refillable, gel + foam")],
+         meta=[("Type", "Personal care bottles"), ("Tools", "Illustrator, Rhino, KeyShot"), ("Features", "Refillable, gel + foam")],
          sections=[
              ("brief", "Brief", ["Design a face wash and moisturizer pair that relate to and complement each other. They have to stand upright without tipping; be easy to handle, open, pour and close; hold about 8 to 12 ounces; and have an original form that stands apart from competitors."], [], 1),
              ("research", "Research", ["<strong>User:</strong> Jordan Williams, 32, a style-driven urban creative. He's a freelance photographer and content producer in Los Angeles who rents a loft-style apartment and lives alone.",
@@ -66,7 +66,7 @@ PROJECTS = [
     dict(id="andon", num="04", name="ANDON", kind="TABLE LIGHT", hero="h_andon",
          alt="ANDON table light glowing in a dark room",
          line="A framed table light whose paper insert shapes a soft, graded glow.",
-         meta=[("Type", "Table light"), ("Role", "Solo"), ("Date", "March 2026"), ("Materials", "[TO CONFIRM]")],
+         meta=[("Type", "Table light"), ("Date", "March 2026"), ("Materials", "[TO CONFIRM]")],
          sections=[
              ("inspiration", "Inspiration", ["Geometric, simple, fun. References included Venini glass, Vanessa Veck, lithophanes and Lite Brite."],
               [("andon_inspo", "ANDON inspiration board"), ("andon_ref", "Reference lanterns and lights")], 2),
@@ -82,7 +82,7 @@ PROJECTS = [
     dict(id="moai", num="05", name="MOAI", kind="DESKTOP AC UNIT", hero="h_moai",
          alt="MOAI desktop AC unit, rendered in black",
          line="A small, quiet desktop air conditioner for the home office.",
-         meta=[("Type", "Desktop AC unit"), ("Role", "Solo"), ("User", "Home office"), ("Tools", "Rhino, KeyShot")],
+         meta=[("Type", "Desktop AC unit"), ("User", "Home office"), ("Tools", "Rhino, KeyShot")],
          sections=[
              ("research", "Research", ["<strong>User group:</strong> home office. <strong>Priorities:</strong> small footprint, quiet, ease of use."],
               [("moai_research", "MOAI research and ideation board")], 1),
@@ -134,7 +134,7 @@ PROJECTS = [
     dict(id="vivarium", num="08", name="Vivarium", kind="COMING SOON", hero="c_viv", soon=True,
          alt="Vivarium, blurred preview",
          line="Coming soon: a climate-controlled enclosure for first-time reptile and amphibian keepers. GIA project.",
-         meta=[("Type", "Climate-controlled enclosure"), ("Program", "GIA"), ("Role", "Solo"), ("Status", "In progress")],
+         meta=[("Type", "Climate-controlled enclosure"), ("Program", "GIA"), ("Status", "In progress")],
          sections=[
              ("user", "The user", ["<strong>Avery Daniels</strong>, 23, a first-time keeper setting up a first enclosure at home. Avery wants a healthy animal and the companionship that comes with it, and worries about getting the habitat wrong without knowing it."],
               [("viv_user", "Vivarium user profile")], 1),
