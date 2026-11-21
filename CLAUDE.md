@@ -1,6 +1,6 @@
 # landonwarnecke.com — how this site is built and published
 
-Static portfolio for Landon Schmidt-Warnecke (industrial design, WWU). No build step: plain HTML/CSS/JS.
+Static portfolio for Landon Warnecke (industrial design, Western Washington University; the site shows the name "Landon Warnecke"). No build step: plain HTML/CSS/JS.
 
 ## Files
 - `index.html` — the whole site, pre-rendered (projects, extras, gallery, resume). Generated; edit content at the source (below) and regenerate rather than hand-editing when possible.
