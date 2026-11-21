@@ -124,4 +124,24 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
 .lw-imgs img{cursor:zoom-in}
 .lw-card-img, .lw-gcard img, .lw-extra img{height:auto}
 .lw-about-toggle{white-space:nowrap; flex:none}
+.lw-portrait{filter:none; object-position:50% 30%}
+.lw-list{gap:28px}
+.lw-card{outline:2px solid transparent; outline-offset:0; transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s, outline-color .2s, opacity .25s}
+.lw-card[aria-expanded="true"]{outline-color:var(--lw-accent)}
+@media (hover: hover){
+ .lw-card:hover{outline-color:var(--lw-accent)}
+ .lw-list:has(.lw-card:hover) .lw-card:not(:hover){opacity:.55}
+}
+.lw-card-img, .lw-soon{aspect-ratio:21/9}
+.lw-card-body{padding:14px 20px 16px}
+.lw-card-name{font-size:26px}
+.lw-contact{display:flex; flex-direction:column; max-width:760px}
+.lw-crow{display:grid; grid-template-columns:130px minmax(0,1fr) auto; align-items:center; gap:16px; padding:18px 4px; border-top:1px solid var(--lw-line); color:var(--lw-ink) !important; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:-0.01em; overflow-wrap:anywhere}
+.lw-crow:last-child{border-bottom:1px solid var(--lw-line)}
+a.lw-crow:hover{color:var(--lw-accent) !important}
+.lw-crow .lw-mono{font-size:12px; font-weight:400; color:var(--lw-muted); letter-spacing:.08em}
+@media (max-width: 860px){
+ .lw-crow{grid-template-columns:minmax(0,1fr) auto; font-size:17px; row-gap:4px}
+ .lw-crow .lw-mono{grid-column:1 / -1}
+}
 [hidden]{display:none !important}

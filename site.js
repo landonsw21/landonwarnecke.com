@@ -36,7 +36,6 @@
     var art = document.getElementById('p-' + id); if (!art) return;
     var btn = $('.lw-card', art); var d = document.getElementById('d-' + id);
     d.hidden = !open; btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    $('[data-label]', btn).textContent = open ? 'Close −' : btn.getAttribute('data-open-label');
   }
   function closeProject(scroll) {
     if (!openId) return; var id = openId; setCard(id, false); openId = null;
@@ -127,7 +126,7 @@
   function route() {
     var h = location.hash.replace('#', '');
     if (!h) return;
-    if (['extras', 'gallery', 'resume', 'projects'].indexOf(h) >= 0) { showTab(h, false); return; }
+    if (['extras', 'gallery', 'resume', 'contact', 'projects'].indexOf(h) >= 0) { showTab(h, false); return; }
     if (document.getElementById('p-' + h)) { openProject(h); }
   }
   route();
