@@ -1,0 +1,215 @@
+"""Copy for the portfolio prototype, drafted from Landon's decks. [TO WRITE]/[TO CONFIRM] mark unsourced facts."""
+
+BIO = ("Industrial design student at Western Washington University. I enjoy solving everyday problems "
+       "with objects that are practical, playful, and well made.")
+
+# section: (slug, title, [paragraph html], [(img, alt)], cols)
+PROJECTS = [
+    dict(id="wedge", num="01", name="WEDGE", kind="NAPKIN HOLDER", hero="h_wedge",
+         alt="WEDGE, a folded metal napkin holder",
+         line="A napkin holder folded from a single sheet of metal.",
+         meta=[("Type", "Napkin holder"), ("Material", "Sheet metal"), ("Role", "Solo"), ("Year", "[TO CONFIRM]")],
+         sections=[
+             ("overview", "Overview", ["A napkin holder made from one folded sheet of metal. [TO WRITE: the brief or constraint, and who it is for.]"],
+              [("wedge_overview", "WEDGE napkin holder in brushed metal")], 1),
+             ("ideation", "Ideation", ["Sketches and quick paper models explored folded, wedge-shaped forms that hold a stack of napkins upright."],
+              [("wedge_sk1", "WEDGE sketch sheet"), ("wedge_sk2", "WEDGE paper model sketches"), ("wedge_paper1", "Paper sketch model holding napkins"), ("wedge_paper2", "Paper sketch model, side view")], 2),
+             ("construction", "Construction", ["The form was cut and bent from sheet metal in the shop. [TO CONFIRM: tools and finishing process.]"],
+              [("wedge_build", "WEDGE construction: bending sheet metal in the shop"), ("wedge_detail", "WEDGE bend detail")], 2),
+             ("final", "Final", ["The finished holder on the kitchen table."],
+              [("wedge_ctx", "WEDGE holding napkins on a restaurant table"), ("wedge_f3", "WEDGE close-up with napkins")], 2),
+         ]),
+    dict(id="axio", num="02", name="AXIO", kind="FACE WASH + MOISTURIZER", hero="h_axio",
+         alt="AXIO amber face wash and moisturizer bottles",
+         line="Two bottles that complement each other in form, color, material and purpose.",
+         meta=[("Type", "Personal care bottles"), ("Role", "Solo"), ("Tools", "Illustrator, Rhino, KeyShot"), ("Features", "Refillable, gel + foam")],
+         sections=[
+             ("brief", "Brief", ["Design a face wash and moisturizer pair that relate to and complement each other. They have to stand upright without tipping; be easy to handle, open, pour and close; hold about 8 to 12 ounces; and have an original form that stands apart from competitors."], [], 1),
+             ("research", "Research", ["<strong>User:</strong> Jordan Williams, 32, a style-driven urban creative. He's a freelance photographer and content producer in Los Angeles who rents a loft-style apartment and lives alone.",
+                                       "Research covered materials and manufacturing (PET injection molding versus blown glass), finishes, trends, psychographics and buying behavior. Pain points with current products: <strong>masculine, loud, underperforming</strong>."],
+              [("axio_persona", "Persona: Jordan Williams at home")], 1),
+             ("insights", "Insights", ["<strong>Timeless:</strong> an elegant form and CMF that lasts, instead of chasing trends.",
+                                       "<strong>Authentic:</strong> form and CMF reflect the function and quality of the product.",
+                                       "<strong>Cohesive:</strong> the bottles have hierarchy together and individually, with a small footprint for limited counter space.",
+                                       "<strong>Premium:</strong> the dispensing mechanism should feel sturdy and match the intention involved in face care."], [], 1),
+             ("ideation", "Ideation", ["Pump explorations played with dynamic hierarchy between the two bottles, then six dispensing directions: press-down open, pump in profile, removable cap, gel pump, flip cap and foam pump."],
+              [("axio_sk1", "AXIO bottle sketches"), ("axio_sk2", "AXIO dispensing ideation sketches"), ("axio_foam1", "AXIO pump exploration foam models"), ("axio_foam2", "AXIO foam models with a lilac variant")], 2),
+             ("refinement", "Refinement", ["Profiles were drawn in Illustrator, modeled in Rhino and tested as foam models in multiple orientations."],
+              [("axio_rhino", "AXIO Rhino model"), ("axio_foam3", "AXIO foam models in multiple orientations"), ("axio_foam4", "AXIO refined foam model"), ("axio_foam5", "AXIO refined foam pair")], 2),
+             ("cmf", "CMF", ["Inspiration: lifestyle quality; presentation and image; premium, brand-aware; intentional, authentic, refined.",
+                             "Palette: <strong>Cambridge Brown</strong> (refined, timeless), <strong>Whispy Clouds</strong> (elegant, authentic) and <strong>Black Onyx</strong> (premium, performance)."],
+              [("axio_cmf", "AXIO CMF inspiration board"), ("axio_palette", "AXIO color palette: Cambridge Brown, Whispy Clouds, Black Onyx")], 2),
+             ("final", "Final", ["Amber bottles with black dispensing heads: refillable, with gel and foam dispensing."],
+              [("axio_f1", "AXIO final render, two amber bottles"), ("axio_f2", "AXIO pump dispensing render"), ("axio_f3", "AXIO bottles on white")], 2),
+         ]),
+    dict(id="anar", num="03", name="ANAR KARI", kind="POMEGRANATE TOOLSET", hero="h_anar",
+         alt="Anar Kari pomegranate bowl and muddler, stained with pomegranate juice",
+         line="A wood and aluminum toolset that honors the careful ritual of preparing pomegranates.",
+         meta=[("Type", "Kitchen toolset"), ("Course", "ID 210"), ("Team", "Dhwani & Landon"), ("Materials", "Wood, aluminum sheet")],
+         sections=[
+             ("objective", "Objective", ["<strong>Problem space:</strong> pomegranates can be difficult to prepare with current tools while still respecting the fruit.",
+                                         "<strong>Objective:</strong> create a set of tools designed to enhance the pomegranate preparation experience, using wood and aluminum sheet metal."], [], 1),
+             ("research", "Research", ["Cultural understanding came from interviews about users, dishes and the ritual around the fruit. We tested current products, including mortar and pestle and hammering or shaking, and studied blade length and shape, bowl size and pestle shape."],
+              [("anar_r1", "Research insights: cultural understanding"), ("anar_r2", "Research insights: current products and testing")], 2),
+             ("drivers", "Design drivers", ["<strong>Opportunity:</strong> current pomegranate tools often use violent or forceful methods of removing seeds, taking away from the delicate, caring process.",
+                                            "Honor the careful, delicate process. Connect to the cultural, familial and ritual process. Be designed uniquely and recognizably for pomegranates."],
+              [("anar_mood", "Anar Kari moodboard")], 1),
+             ("ideation", "Ideation", ["Shared nostalgia around pomegranates, family traditions and target tasks (fruit preparation, juicing and tea making) guided concept development."],
+              [("anar_sk1", "Anar Kari concept sketches"), ("anar_sk2", "Anar Kari bowl form sketches")], 2),
+             ("prototypes", "Prototypes", ["Prototypes and aril studies refined the bowl, muddler and blade forms."],
+              [("anar_p1", "Foam prototype of bowl and muddler"), ("anar_p2", "Wood prototypes"), ("anar_p3", "Testing a wood prototype by hand"), ("anar_clay", "Aril exploration in clay")], 2),
+             ("build", "Build + staining", ["Built in the shop, then stained with fresh pomegranate juice. We tested blended or crushed, brushed or soaked, boiled and gradient methods."],
+              [("anar_b1", "Turning the bowl on the lathe"), ("anar_b2", "Clamping during the build"), ("anar_stain", "Pomegranate juice staining tests")], 2),
+             ("final", "Final + testing", ["The final set includes a scoring knife, a muddler and a bowl with a spout, tested through scoring, pressing, separating and pouring."],
+              [("anar_f1", "Anar Kari bowl and muddler"), ("anar_f2", "Anar Kari final set"), ("anar_f3", "Muddler and scoring knife detail"), ("anar_t1", "Scoring a pomegranate"), ("anar_t2", "Separating arils into the bowl"), ("anar_t3", "Pouring juice from the spout")], 2),
+         ]),
+    dict(id="andon", num="04", name="ANDON", kind="TABLE LIGHT", hero="h_andon",
+         alt="ANDON table light glowing in a dark room",
+         line="A framed table light whose paper insert shapes a soft, graded glow.",
+         meta=[("Type", "Table light"), ("Role", "Solo"), ("Date", "March 2026"), ("Materials", "[TO CONFIRM]")],
+         sections=[
+             ("inspiration", "Inspiration", ["Geometric, simple, fun. References included Venini glass, Vanessa Veck, lithophanes and Lite Brite."],
+              [("andon_inspo", "ANDON inspiration board"), ("andon_ref", "Reference lanterns and lights")], 2),
+             ("ideation", "Ideation", ["Sketches explored lantern forms and how a paper insert could shape the light."],
+              [("andon_sk1", "ANDON lantern sketches"), ("andon_sk2", "ANDON form sketches")], 2),
+             ("exploration", "Light studies", ["Paper and card studies tested folds, cut patterns and layers, and were photographed lit to compare the patterns they cast."],
+              [("andon_l1", "Layered paper light study"), ("andon_l2", "Paper column light study"), ("andon_l3", "Folded paper cube light study"), ("andon_l4", "Pleated paper disc study"), ("andon_t1", "Cut pattern test in the frame"), ("andon_t2", "Cut pattern test casting shadows")], 2),
+             ("refinement", "Refinement", ["The insert profile was refined through a series of lit tests."],
+              [("andon_r1", "Insert profile test"), ("andon_r2", "Insert profile test, alternate"), ("andon_r3", "Cut insert templates")], 2),
+             ("final", "Final", ["The finished light, at night and in a room."],
+              [("andon_f1", "ANDON close-up glowing"), ("andon_f2", "ANDON at dusk"), ("andon_f3", "ANDON by a window in daylight"), ("andon_f4", "ANDON in a dark room")], 2),
+         ]),
+    dict(id="moai", num="05", name="MOAI", kind="DESKTOP AC UNIT", hero="h_moai",
+         alt="MOAI desktop AC unit, rendered in black",
+         line="A small, quiet desktop air conditioner for the home office.",
+         meta=[("Type", "Desktop AC unit"), ("Role", "Solo"), ("User", "Home office"), ("Tools", "Rhino, KeyShot")],
+         sections=[
+             ("research", "Research", ["<strong>User group:</strong> home office. <strong>Priorities:</strong> small footprint, quiet, ease of use."],
+              [("moai_research", "MOAI research and ideation board")], 1),
+             ("ideation", "Ideation", ["Directions included a desk clip-on, a windowsill unit, surround cooling, a desktop unit and multidirectional airflow."],
+              [("moai_sk1", "MOAI sketch sheet"), ("moai_sk2", "MOAI final sketch sheet")], 2),
+             ("refinement", "Refinement", ["The desktop direction was refined in sketches and foam models."],
+              [("moai_m1", "MOAI foam sketch models"), ("moai_m2", "MOAI refined foam model"), ("moai_m3", "MOAI foam model on a desk"), ("moai_m4", "MOAI model with comparison objects")], 2),
+             ("final", "Final", ["Final renders detail the light slider, louvre tab and USB-C power, alongside a fisheye render from KeyShot."],
+              [("moai_f1", "MOAI render with light slider"), ("moai_f2", "MOAI louvres lit blue"), ("moai_f3", "MOAI power button detail"), ("moai_f4", "MOAI USB-C port detail"), ("moai_fish", "MOAI fisheye render")], 2),
+         ]),
+    dict(id="fern", num="06", name="Fern", kind="PLEIN AIR WATERCOLOR BAG", hero="h_fern",
+         alt="Fern watercolor bag open with brushes and paints",
+         line="A watercolor bag that moves with plein air artists, with less setup and cleanup.",
+         meta=[("Type", "Soft goods"), ("Course", "ID 230"), ("Date", "June 2026"), ("Materials", "Sunforger canvas, elastic, foam")],
+         sections=[
+             ("user", "User", ["<strong>Raul Beardsley</strong>, a plein air watercolorist. Pigments and materials get lost in larger bags. Pigment and water collect, creating mold and mildew. Water is hard to store and use in current setups."], [], 1),
+             ("question", "How might we", ["<span style=\"font-size:24px; line-height:1.3; font-weight:600; letter-spacing:-0.02em\">How might we help plein air watercolor artists transition between environments, while minimizing friction from setup and cleanup?</span>"],
+              [("fern_story", "Fern storyboard")], 1),
+             ("research", "Research", ["A survey of existing watercolor kits, rolls and pouches."],
+              [("fern_kits", "Existing watercolor kits and pouches")], 1),
+             ("ideation", "Ideation", ["Sketches explored bag layouts and closures."],
+              [("fern_sketch", "Fern ideation sketches")], 1),
+             ("prototyping", "Prototyping", ["Canvas sketch models, then sewn prototypes."],
+              [("fern_models", "Fern canvas sketch models"), ("fern_proto", "Sewing Fern prototypes")], 2),
+             ("cmf", "CMF", ["<strong>Sage Sunforger canvas</strong> resists water and mildew. <strong>Brown cloth</strong> marks the touchpoints, <strong>terracotta and tan elastic</strong> close it and <strong>foam pads</strong> give it structure. The elastic was dyed by hand."],
+              [("fern_dye", "Hand-dyeing the elastic"), ("fern_cmf", "Fern CMF board")], 2),
+             ("final", "Final", ["Fern in hand, packed and open."],
+              [("fern_f1", "Fern carried closed under the arm"), ("fern_f2", "Fern held closed in one hand"), ("fern_f3", "Fern open while painting"), ("fern_f4", "Fern laid flat with supplies")], 2),
+         ]),
+    dict(id="bubble", num="07", name="Bubble", kind="KIDS' ALARM CLOCK + TIMER", hero="h_bubble",
+         alt="Bubble alarm clock in coral, teal and yellow",
+         line="A playful alarm clock and removable timer that helps kids build healthy habits around time.",
+         meta=[("Type", "Consumer electronics"), ("Team", "Landon & Zetta Prendergast"), ("Users", "Kids 6–12"), ("Deliverables", "Form, UI, CMF spec")],
+         sections=[
+             ("research", "Research", ["<strong>Pain points:</strong> reliance on phones many are trying to get away from; annoying or jarring sounds; screens too bright or too dark; complicated interfaces that make alarms hard to set.",
+                                       "From interviews: “I’m not allowed to keep my phone or other tech in my room at night.”"], [], 1),
+             ("user", "Target user", ["Kids and students ages 6 to 12. They need a non-disruptive device for sleep and studying, value autonomy and customization, and like playful forms that reflect their personality."], [], 1),
+             ("insights", "Insights", ["Many kids don’t have phones but still need alarms and timers. Healthy time-management habits matter at this age, and kids are still learning to tell time. The clock should promote healthy habits around time while helping with daily routines."],
+              [("bubble_mood", "Bubble moodboard")], 1),
+             ("ideation", "Ideation + form", ["Sketches and form studies converged on a round, bubble-like body."],
+              [("bubble_sketch", "Bubble sketches"), ("bubble_form", "Bubble form exploration"), ("bubble_line", "Bubble line drawing")], 2),
+             ("interface", "Interface", ["Time, date, alarm, menu, volume, brightness and sounds, kept to as few physical buttons as possible."],
+              [("bubble_ui", "Bubble user interface screens")], 1),
+             ("cmf", "CMF", ["Energetic, playful, approachable, whimsical. Teal hard plastic (Pantone 5483 C), bright red soft plastic and silicone (179 C), dark red hard plastic (492 C) and matte yellow plastic (141 C)."],
+              [("bubble_cmf", "Bubble CMF palette"), ("bubble_spec", "Bubble CMF spec sheet")], 2),
+             ("final", "Final", ["An e-ink display, turn-and-click ring, battery, wireless charging coil, PCB, speaker module and magnets. The timer comes off the base for studying or free time."],
+              [("bubble_exploded", "Bubble exploded view render"), ("bubble_r1", "Bubble main clock face and timer setting"), ("bubble_r3", "Bubble timer on a desk")], 2),
+         ]),
+    dict(id="vivarium", num="08", name="Vivarium", kind="COMING SOON", hero="c_viv", soon=True,
+         alt="Vivarium, blurred preview",
+         line="A climate-controlled enclosure for first-time reptile and amphibian keepers. GIA project, in progress.",
+         meta=[("Type", "Climate-controlled enclosure"), ("Program", "GIA"), ("Role", "Solo"), ("Status", "In progress")],
+         sections=[
+             ("user", "The user", ["<strong>Avery Daniels</strong>, 23, a first-time keeper setting up a first enclosure at home. Avery wants a healthy animal and the companionship that comes with it, and worries about getting the habitat wrong without knowing it."],
+              [("viv_user", "Vivarium user profile")], 1),
+             ("journey", "Journey", ["Pick an animal, buy the kit, set it up, check it, keep it right. Pain points: live feeding, cleaning the tank, misting, knowing the right temperature and opposing climate controls."],
+              [("viv_journey", "Vivarium user journey and pain points")], 1),
+             ("insights", "Insights", ["<strong>Too much falls on the keeper.</strong> The right numbers depend on the animal, checking takes several tools and a reading only says so much.",
+                                       "<strong>Climate goes wrong quietly.</strong> One number hides the gradient, humidity swings with every misting, light serves different functions, and the three pull against each other."],
+              [("viv_insight", "Insight: too much falls on the keeper"), ("viv_climate", "Insight: climate goes wrong quietly")], 2),
+             ("question", "How might we", ["<span style=\"font-size:24px; line-height:1.3; font-weight:600; letter-spacing:-0.02em\">How might we help first-time keepers take better care of their animals in an easy to set up and maintain habitat?</span>"], [], 1),
+             ("principles", "Principles", ["<strong>Lead with the answer:</strong> right or not, at a glance, with numbers on request. <strong>System knowledge:</strong> the product knows each animal’s targets. <strong>Measure each zone:</strong> warm side, cool side, basking spot. <strong>One thing to set up:</strong> one consolidated point of information."],
+              [("viv_mood1", "Vivarium moodboard: planted greenhouse"), ("viv_mood2", "Vivarium moodboard: dark materials")], 2),
+             ("next", "Coming soon", ["The final design is in progress. [TO WRITE: expected date or what to look for.]"], [], 1),
+         ]),
+]
+
+GALLERY = [
+    ("sketch", "Sketches & drawings", [
+        ("g_trees", "Tree textures, graphite studies"), ("g_still", "Still life, line drawing"), ("g_maple", "Japanese maple study sheet"),
+        ("g_frog", "Poison dart frog study sheet"), ("g_pom", "Pomegranate study sheet"), ("g_venini", "Venini vases, sketching"),
+        ("g_class2", "Form sketch in marker"), ("g_headphones", "Headphone ideation in marker")]),
+    ("ceramics", "Ceramics & jewelry", [
+        ("g_ceramics", "Ceramics: tea set and bowls"), ("g_jewelry", "Jewelry forms in brass, bronze and copper")]),
+    ("forms", "Form & line studies", [
+        ("g_forms", "Form studies"), ("g_lines", "Line studies in wire"), ("g_forms2", "Form studies, sheet and wire"),
+        ("g_120a", "ID 120 form and space study"), ("g_120b", "ID 120 form and space study"), ("g_120c", "ID 120 form study"), ("g_120d", "ID 120 line study")]),
+    ("other", "Other projects", [
+        ("g_pivot", "PIVOT: flip-up loupe holder + headlight"), ("g_penguino", "Penguino: handheld gaming device"), ("g_ovo", "OVO: video game packaging"),
+        ("g_lighter", "Lighter: CMF for brand"), ("g_rain", "Rain Roller"), ("g_uzumaki", "Uzumaki: wire and parchment lamp"),
+        ("g_elmer", "ELMER: cardboard and ID magazine"), ("g_handheld", "Handheld: Shinkansen"), ("g_rowing", "MI Rowing logo design"),
+        ("g_record", "Record table for a vinyl collection and turntable")]),
+]
+
+EXTRAS = [
+    ("x_fisheye", "TOOL · KEYSHOT", "Fisheye Studio",
+     "A ray-optical fisheye engine for KeyShot renders. Load a capture, warp it with concentric rings and local pins, then save your edits.",
+     "https://landonsw21.github.io/landonwarnecke.com/editor.html", "Fisheye Studio editor with a demo scene in Greige and Pomegranate"),
+    ("x_perspective", "TOOL · DRAWING", "Perspective Studio",
+     "A browser-based perspective drafting tool, from 1-point up to a full 360° 6-point view, with 3D model import and PNG, JPG or PDF export.",
+     "perspective-studio/", "Perspective Studio drafting a two-point perspective"),
+]
+
+RESUME = {
+    "education": [
+        ("2024 – now", "Western Washington University", "B.S. Industrial Design [TO CONFIRM degree name] · Bellingham, WA"),
+        ("2023 – 2024", "Bellevue College", "Drawing and sculpture coursework · Bellevue, WA"),
+        ("2021 – 2023", "Arizona State University", "Mechanical Engineering · Tempe, AZ"),
+    ],
+    "experience": [
+        ("2023 – 2024", "Pacific Sunwear", "Associate → Assistant Manager"),
+        ("Summer 2022", "Mercer Island Thrift Store", "Sales Associate"),
+        ("2019", "QFC", "Courtesy Clerk"),
+    ],
+    "skills": [
+        ("Design + visualization", "Illustrator, Photoshop, InDesign, Premiere Pro, Affinity Suite, Figma, Vizcom"),
+        ("CAD + rendering", "Rhino, Fusion 360, SketchUp, KeyShot"),
+        ("Making", "Arduino, soldering, 3D printing, laser cutting, sewing"),
+        ("Working style", "Problem solving, attention to detail, collaboration, adaptability"),
+    ],
+    "languages": "English, German",
+    "activities": [
+        ("2012 – 2021", "Destination Imagination", "Team problem-solving challenge; placed 2nd in the world in our division"),
+        ("2017 – 2019", "High school tennis", "Captain of the JV team"),
+    ],
+    "interests": "Toys and games, lighting, home goods, consumer electronics, manga, chess, Pokémon, climbing",
+}
+
+CONTACT = [
+    ("EMAIL", "landon.warnecke@gmail.com", "mailto:landon.warnecke@gmail.com"),
+    ("LINKEDIN", "Landon Warnecke", "https://www.linkedin.com/in/landon-schmidt-warnecke-008637195"),
+    ("INSTAGRAM", "@landons_kitchenette", "https://www.instagram.com/landons_kitchenette/"),
+    ("GITHUB", "github.com/landonsw21", "https://github.com/landonsw21"),
+]
+
+# Cloudflare Turnstile site key (public). The secret lives only in the Worker's settings.
+TURNSTILE_SITEKEY = "[TURNSTILE SITEKEY]"
+
+# Vertical focus of each card image when the card is collapsed (CSS object-position y). Default 50%.
+HERO_FOCUS = {"wedge": "20%", "axio": "0%", "anar": "62%", "andon": "15%", "moai": "10%", "fern": "40%", "bubble": "30%"}
