@@ -7,8 +7,10 @@
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
-/*.js
-  Cache-Control: public, max-age=86400
+# site.css / site.js are linked with ?v=<content hash> (see _src/build.py), so they can be cached for a year.
+# Everything else keeps Cloudflare Pages' default (browsers and the edge re-check on every visit).
+/site.css
+  Cache-Control: public, max-age=31536000, immutable
 
-/*.css
-  Cache-Control: public, max-age=86400
+/site.js
+  Cache-Control: public, max-age=31536000, immutable

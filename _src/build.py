@@ -551,6 +551,15 @@ js = r"""(function () {
 })();
 """
 
+# Version each stylesheet/script link by its content so a new deploy is never masked by a cached old file.
+import hashlib
+def _ver(text):
+    return hashlib.sha1(text.encode()).hexdigest()[:10]
+for _old, _new in [('href="theme.css"', 'href="theme.css?v=' + _ver(open(os.path.join(REPO, "theme.css")).read()) + '"'),
+                   ('href="site.css"', 'href="site.css?v=' + _ver(css) + '"'),
+                   ('src="site.js"', 'src="site.js?v=' + _ver(js) + '"')]:
+    assert doc.count(_old) == 1, _old
+    doc = doc.replace(_old, _new)
 open(os.path.join(REPO, "index.html"), "w").write(doc)
 open(os.path.join(REPO, "site.css"), "w").write(css)
 open(os.path.join(REPO, "site.js"), "w").write(js)
