@@ -1,0 +1,94 @@
+/*
+  landonwarnecke.com — shared palette (Greige + Pomegranate)
+
+  This one file colors the portfolio (index.html), Fisheye Studio (fisheye.html, editor.html,
+  fisheye-demo.js) and Perspective Studio (perspective-studio/). Change a value here, push,
+  and all three update. The portfolio always uses the light set; the tools switch to the dark
+  set when the visitor's system is in dark mode (or when a tool sets data-theme="dark").
+
+  Perspective Studio's drawing colors (VP1/VP2 rays, guides) are functional and are NOT
+  controlled here, by design.
+*/
+:root {
+  color-scheme: light;
+  /* surfaces */
+  --lw-bg: #E4DED5;          /* page background (greige) */
+  --lw-surface: #D4CBBE;     /* cards, canvas surround */
+  --lw-panel: #ECE7E0;       /* side panels, drawers */
+  --lw-paper: #FFFFFF;       /* drawing paper / inputs */
+  --lw-stage: #D4CBBE;       /* tool viewport background */
+  /* text + lines */
+  --lw-ink: #2A1F1E;
+  --lw-muted: #6A5F58;
+  --lw-line: #D2CABF;
+  --lw-line-strong: #B9AEA1;
+  /* accent (pomegranate) */
+  --lw-accent: #8E2F3A;
+  --lw-accent-hover: #6E2029;
+  --lw-on-accent: #FFFFFF;
+  --lw-accent-soft: #EBD9D7;
+  --lw-danger: #B43C2F;
+  /* 3D demo scenes (Fisheye Studio) */
+  --lw-scene-sky-a: #CFC6B8;
+  --lw-scene-sky-b: #F1ECE5;
+  --lw-scene-ground-a: #C2B7A8;
+  --lw-scene-ground-b: #A99C8C;
+  --lw-scene-tint-a: #8E2F3A;
+  --lw-scene-tint-b: #C49A6C;
+  --lw-scene-void: #D4CBBE;
+  /* type */
+  --lw-font-sans: Manrope, system-ui, sans-serif;
+  --lw-font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --lw-bg: #1D1817;
+    --lw-surface: #2A2321;
+    --lw-panel: #241E1C;
+    --lw-paper: #FFFFFF;
+    --lw-stage: #141010;
+    --lw-ink: #EFE8E1;
+    --lw-muted: #B3A79E;
+    --lw-line: #3A3230;
+    --lw-line-strong: #554A45;
+    --lw-accent: #D9737E;
+    --lw-accent-hover: #E58C95;
+    --lw-on-accent: #1D1817;
+    --lw-accent-soft: #4A2A2E;
+    --lw-danger: #EF7B6C;
+    --lw-scene-sky-a: #141010;
+    --lw-scene-sky-b: #3A302D;
+    --lw-scene-ground-a: #2A2321;
+    --lw-scene-ground-b: #4A3E3A;
+    --lw-scene-tint-a: #D9737E;
+    --lw-scene-tint-b: #C9A27A;
+    --lw-scene-void: #141010;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --lw-bg: #1D1817;
+  --lw-surface: #2A2321;
+  --lw-panel: #241E1C;
+  --lw-paper: #FFFFFF;
+  --lw-stage: #141010;
+  --lw-ink: #EFE8E1;
+  --lw-muted: #B3A79E;
+  --lw-line: #3A3230;
+  --lw-line-strong: #554A45;
+  --lw-accent: #D9737E;
+  --lw-accent-hover: #E58C95;
+  --lw-on-accent: #1D1817;
+  --lw-accent-soft: #4A2A2E;
+  --lw-danger: #EF7B6C;
+  --lw-scene-sky-a: #141010;
+  --lw-scene-sky-b: #3A302D;
+  --lw-scene-ground-a: #2A2321;
+  --lw-scene-ground-b: #4A3E3A;
+  --lw-scene-tint-a: #D9737E;
+  --lw-scene-tint-b: #C9A27A;
+  --lw-scene-void: #141010;
+}

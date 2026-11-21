@@ -37,6 +37,7 @@
   uniform float u_radialChroma;
   uniform float u_vignette;
   uniform bool u_ssaa;
+  uniform vec3 u_skyA, u_skyB, u_groundA, u_groundB, u_tintA, u_tintB, u_void;
 
   const float PI = 3.141592653589793;
 
@@ -70,7 +71,7 @@
   }
 
   vec3 traceScene(vec3 rayDir, vec2 mouseRot) {
-    if (length(rayDir) < 0.1) return vec3(0.05, 0.06, 0.05);
+    if (length(rayDir) < 0.1) return u_void;
 
     // Orbit camera matrix
     float pitch = mouseRot.y * 1.5;
@@ -80,7 +81,7 @@
     vec3 rd = rotY * rotX * rayDir;
 
     // Atmospheric ground and sky
-    vec3 sky = mix(vec3(0.08, 0.11, 0.09), vec3(0.22, 0.28, 0.24), rd.y * 0.5 + 0.5);
+    vec3 sky = mix(u_skyA, u_skyB, rd.y * 0.5 + 0.5);
     vec3 col = sky;
 
     // Ground plane with perspective grid
@@ -88,7 +89,7 @@
       float t = -2.5 / rd.y;
       vec3 p = rd * t;
       float grid = step(0.95, fract(p.x * 0.4)) + step(0.95, fract(p.z * 0.4));
-      vec3 ground = mix(vec3(0.12, 0.15, 0.13), vec3(0.25, 0.32, 0.26), min(1.0, grid) * 0.6);
+      vec3 ground = mix(u_groundA, u_groundB, min(1.0, grid) * 0.6);
       ground *= exp(-t * 0.04);
       col = mix(sky, ground, smoothstep(-0.01, -0.05, rd.y));
     }
@@ -111,11 +112,11 @@
         if (hitT > 0.0 && hitT < closestT) {
           closestT = hitT;
           vec3 n = normalize(rd * hitT - center);
-          vec3 tint = mix(vec3(0.83, 0.96, 0.58), vec3(0.96, 0.68, 0.45), 0.5 + 0.5 * sin(fi * 1.7));
+          vec3 tint = mix(u_tintA, u_tintB, 0.5 + 0.5 * sin(fi * 1.7));
           float diff = max(0.0, dot(n, lightDir));
           float spec = pow(max(0.0, dot(reflect(-lightDir, n), -rd)), 40.0);
           float rim = pow(1.0 - max(0.0, dot(n, -rd)), 3.0);
-          col = tint * (0.2 + 0.75 * diff) + vec3(0.95, 0.98, 0.92) * spec * 0.85 + rim * 0.15;
+          col = tint * (0.2 + 0.75 * diff) + vec3(1.0, 0.97, 0.95) * spec * 0.85 + rim * 0.15;
         }
       }
     }
@@ -129,7 +130,7 @@
     // Full-frame radial chromatic aberration
     float disp = u_radialChroma * 0.008 * (rho * rho);
     vec3 dir = unprojectRay(p, u_fov, u_mode);
-    if (length(dir) < 0.1) return vec3(0.05, 0.06, 0.05);
+    if (length(dir) < 0.1) return u_void;
 
     vec3 col = traceScene(dir, mouseRot);
 
@@ -219,6 +220,23 @@
   const uChroma = gl.getUniformLocation(program, 'u_radialChroma');
   const uVignette = gl.getUniformLocation(program, 'u_vignette');
   const uSSAA = gl.getUniformLocation(program, 'u_ssaa');
+  // Palette from theme.css (re-read when the system light/dark setting changes)
+  const themeNames = { u_skyA: '--lw-scene-sky-a', u_skyB: '--lw-scene-sky-b', u_groundA: '--lw-scene-ground-a', u_groundB: '--lw-scene-ground-b', u_tintA: '--lw-scene-tint-a', u_tintB: '--lw-scene-tint-b', u_void: '--lw-scene-void' };
+  const themeLocs = {}; Object.keys(themeNames).forEach((k) => { themeLocs[k] = gl.getUniformLocation(program, k); });
+  function hexVec(v, fallback) {
+    const m = /^#?([0-9a-f]{6})$/i.exec((v || '').trim());
+    if (!m) return fallback;
+    const n = parseInt(m[1], 16);
+    return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
+  }
+  let themeVals = {};
+  function readTheme() {
+    const cs = getComputedStyle(document.documentElement);
+    Object.keys(themeNames).forEach((k) => { themeVals[k] = hexVec(cs.getPropertyValue(themeNames[k]), [0.5, 0.5, 0.5]); });
+  }
+  readTheme();
+  if (window.matchMedia) matchMedia('(prefers-color-scheme: dark)').addEventListener('change', readTheme);
+  function applyTheme() { Object.keys(themeLocs).forEach((k) => { if (themeLocs[k]) gl.uniform3fv(themeLocs[k], themeVals[k]); }); }
 
   // UI State
   let mode = 0; // Equisolid
@@ -327,6 +345,7 @@
 
     gl.uniform2f(uRes, canvas.width, canvas.height);
     gl.uniform1f(uTime, elapsed);
+    applyTheme();
     gl.uniform2f(uMouse, mouseX, mouseY);
     gl.uniform1i(uMode, mode);
     gl.uniform1f(uFov, fov);
