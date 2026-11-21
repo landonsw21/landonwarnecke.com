@@ -113,6 +113,11 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
 .lw-skip:focus{left:8px}
 .lw-imgs img{cursor:zoom-in}
 .lw-imgs.c2 .is-wide{grid-column:1 / -1}
+.lw-palette{display:flex; flex-wrap:wrap; gap:16px 28px; padding-top:4px}
+.lw-sw{display:grid; grid-template-columns:48px auto; column-gap:12px; align-items:center}
+.lw-sw i{grid-row:1 / span 2; width:48px; height:48px; border-radius:10px; border:1px solid var(--lw-line)}
+.lw-sw b{align-self:end; font-size:15px; line-height:1.25}
+.lw-sw small{align-self:start; font-size:12px; line-height:1.35; color:var(--lw-muted)}
 .lw-extra img{height:auto}
 .lw-about-toggle{white-space:nowrap; flex:none}
 .lw-portrait{filter:none; object-position:50% 30%}
@@ -127,9 +132,9 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
 .lw-card-img.is-blur{filter:blur(14px) saturate(.9); transform:scale(1.12)}
 .lw-card::before{content:""; position:absolute; inset:0; z-index:1; background:color-mix(in srgb, var(--lw-ink) 42%, transparent); transition:opacity .5s}
 .lw-card::after{content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(to top, color-mix(in srgb, var(--lw-ink) 88%, transparent) 0, color-mix(in srgb, var(--lw-ink) 62%, transparent) 34%, transparent 72%)}
-.lw-card-body{position:absolute; left:0; right:0; bottom:0; z-index:2; display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end; flex-wrap:nowrap; gap:4px; padding:18px 22px 18px; text-shadow:0 1px 14px color-mix(in srgb, var(--lw-ink) 45%, transparent)}
-.lw-card-name{font-size:30px; line-height:1.05; font-weight:700; letter-spacing:-0.03em; color:var(--lw-on-accent)}
-.lw-card-line{font-size:15px; line-height:1.45; max-width:640px; color:var(--lw-on-accent); opacity:.92; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden}
+.lw-card-body{position:absolute; left:0; right:0; bottom:0; z-index:2; display:flex; flex-direction:row; align-items:baseline; justify-content:flex-start; flex-wrap:nowrap; gap:14px; padding:18px 22px 18px; text-shadow:0 1px 14px color-mix(in srgb, var(--lw-ink) 45%, transparent)}
+.lw-card-name{flex:none; white-space:nowrap; font-size:30px; line-height:1.05; font-weight:700; letter-spacing:-0.03em; color:var(--lw-on-accent)}
+.lw-card-line{min-width:0; font-size:15px; line-height:1.45; color:var(--lw-on-accent); opacity:.92; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 .lw-card:focus-visible{outline:3px solid var(--lw-accent); outline-offset:3px}
 @media (hover: hover){
  .lw-proj:hover .lw-unit{outline-color:var(--lw-accent)}
@@ -166,9 +171,9 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
 @media (max-width: 860px){
  .lw-proj{padding-bottom:14px; scroll-margin-top:124px}
  .lw-card{--h:clamp(118px, 18svh, 150px)}
- .lw-card-body{padding:12px 14px; gap:2px}
+ .lw-card-body{padding:12px 14px; gap:10px}
  .lw-card-name{font-size:22px}
- .lw-card-line{font-size:14px; -webkit-line-clamp:1}
+ .lw-card-line{font-size:14px}
  .lw-me, .lw-me .lw-portrait{border-radius:50%}
  .lw-fab{display:none !important}
 }

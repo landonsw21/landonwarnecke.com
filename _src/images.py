@@ -6,11 +6,14 @@ and HEIC photos (uses sips). Sources are looked up in the ID copy folder; overri
 usage (from the repo root):
   python3 _src/images.py heroes [h_wedge h_axio ...]   re-crop the project card images (all if none named)
   python3 _src/images.py crop KEY X0 Y0 X1 Y1   trim portfolio-media/KEY.jpg in place (fractions 0-1, e.g. to cut slide titles)
-  python3 _src/images.py sheet KEY COLS SOURCE... [--width 2400] [--rotate 90]   combine scanned pages into one sheet (cropped to the drawings, even rows)
+  python3 _src/images.py sheet KEY COLS SOURCE... [--width 2400] [--rotate 90] [--photos]   combine scanned pages into one sheet
+        (cropped to the drawings, even rows); --photos makes a board of whole photos instead (moodboards)
   python3 _src/images.py cut KEY PROJECT/file.dxf   a laser-cut DXF as portfolio-media/KEY.svg (sheet outline + part)
   python3 _src/images.py add KEY SOURCE [--width 1800] [--rotate 90]
         SOURCE: a path, "PROJECT/file name.jpg" (searched inside that ID copy project folder),
-                "PDF:PROJECT/deck.pdf:PAGE", or a .HEIC file. --rotate turns it clockwise.
+                "PDF:PROJECT/deck.pdf:PAGE", "PDFIMG:PROJECT/deck.pdf:OBJ" (an image embedded in a PDF, at its
+                own resolution; find OBJ with python3 _src/pdfimg.py deck.pdf OUTDIR), or a .HEIC file.
+                --rotate turns it clockwise. Transparent sources are flattened onto the site's panel colour.
   then: python3 _src/build.py
 
 Card images are full frames showing one product (the whole photo unless a crop is given below).
@@ -38,7 +41,7 @@ HEROES = {
     "h_andon":  ("ANDON/DSC07529.jpg", None),
     "h_moai":   ("MOAI/untitled.82.png", None),
     "h_fern":   ("Fern/DSC07706.png", None),
-    "h_bubble": ("PDF:Bubble/Bubble.pdf:12", (0.653, 0.50, 0.62, 1.5)),   # the clock, not the whole bedroom page
+    "h_bubble": ("PDFIMG:Bubble/Bubble.pdf:1063", None),   # the nightstand render itself, not the deck page
 }
 
 
@@ -66,6 +69,15 @@ def resolve(src):
     if src.startswith("PDF:"):
         _, rel, page = src.split(":")
         return pdf_page(rel, page)
+    if src.startswith("PDFIMG:"):   # an image embedded in a PDF, at its own resolution (see pdfimg.py)
+        _, rel, obj = src.split(":")
+        os.makedirs(CACHE, exist_ok=True)
+        out = os.path.join(CACHE, rel.replace("/", "_").replace(" ", "_") + f"_obj{obj}.png")
+        if not os.path.exists(out):
+            sys.path.insert(0, HERE)
+            import pdfimg
+            pdfimg.extract(os.path.join(ID_COPY, rel), obj).save(out)
+        return out
     if os.path.isabs(src) or os.path.exists(src):
         path = src
     else:
@@ -78,6 +90,16 @@ def resolve(src):
             subprocess.run(["sips", "-s", "format", "jpeg", "-s", "formatOptions", "95", path, "--out", jpg], check=True, capture_output=True)
         path = jpg
     return path
+
+
+def flat(im, bg=(236, 231, 224)):
+    """RGB on the site's panel colour wherever the source is transparent (cut-out renders, UI screens)."""
+    im = ImageOps.exif_transpose(im)
+    if im.mode in ("RGBA", "LA", "P"):
+        im = im.convert("RGBA")
+        base = Image.new("RGB", im.size, bg); base.paste(im, mask=im.split()[3])
+        return base
+    return im.convert("RGB")
 
 
 def save(im, key):
@@ -106,7 +128,7 @@ def crop(im, cx, cy, wf, ar):
 def heroes(keys):
     for key in keys or HEROES:
         src, box = HEROES[key]
-        c = ImageOps.exif_transpose(Image.open(resolve(src))).convert("RGB")
+        c = flat(Image.open(resolve(src)))
         if box:
             c = crop(c, *box)
         if c.width > HERO_W:
@@ -115,7 +137,7 @@ def heroes(keys):
 
 
 def add(key, src, width=1800, rotate=0):
-    im = ImageOps.exif_transpose(Image.open(resolve(src))).convert("RGB")
+    im = flat(Image.open(resolve(src)))
     if rotate:
         im = im.rotate(-rotate, expand=True)
     if im.width > width:
@@ -146,19 +168,22 @@ def drawn(im, side=0.02, top=0.01, footer=0.05, pad=0.02):
     return page.crop((max(0, cols[0] * s - p), max(0, rows[0] * s - p), min(im.width, (cols[-1] + 1) * s + p), min(im.height, (rows[-1] + 1) * s + p)))
 
 
-def sheet(key, cols, sources, width=2400, rotate=0, gap=64, margin=40):
+def sheet(key, cols, sources, width=2400, rotate=0, gap=64, margin=40, photos=False):
     """Combine scanned drawing pages into one sheet: each page cropped to its drawings, then set in rows
-    of `cols` that fill the width with even gaps (each row's height follows its pages' shapes)."""
+    of `cols` that fill the width with even gaps (each row's height follows its pages' shapes).
+    photos=True: a board of photos instead (kept whole, tight gaps in the site's panel colour)."""
     pages = []
+    if photos:
+        gap, margin = 16, 0
     for src in sources:
-        im = ImageOps.exif_transpose(Image.open(resolve(src))).convert("RGB")
+        im = flat(Image.open(resolve(src)))
         if rotate:
             im = im.rotate(-rotate, expand=True)
-        pages.append(drawn(im))
+        pages.append(im if photos else drawn(im))
     rows = [pages[i:i + cols] for i in range(0, len(pages), cols)]
     inner = width - 2 * margin
     heights = [(inner - gap * (len(r) - 1)) / sum(p.width / p.height for p in r) for r in rows]
-    out = Image.new("RGB", (width, round(2 * margin + sum(heights) + gap * (len(rows) - 1))), "white")
+    out = Image.new("RGB", (width, round(2 * margin + sum(heights) + gap * (len(rows) - 1))), (236, 231, 224) if photos else "white")
     y = margin
     for r, h in zip(rows, heights):
         x = margin
@@ -171,7 +196,7 @@ def sheet(key, cols, sources, width=2400, rotate=0, gap=64, margin=40):
 
 
 def cut(key, dxf):
-    """A laser-cut DXF (SPLINE + LINE entities, inches) as an SVG drawing: sheet outline in grey, the part in pomegranate."""
+    """A laser-cut DXF (SPLINE + LINE entities, inches) as an SVG drawing in pomegranate: the sheet outline and the part."""
     path = dxf if os.path.isabs(dxf) or os.path.exists(dxf) else find_in_project(*dxf.split("/", 1))
     lines = open(path, encoding="latin-1").read().splitlines()
     pairs = [(c.strip(), v.strip()) for c, v in zip(lines[0::2], lines[1::2])]
@@ -214,7 +239,7 @@ def cut(key, dxf):
     d = lambda group: " ".join("M" + " L".join(f"{(x - x0 + m) * u:.1f},{(y1 - y + m) * u:.1f}" for x, y in s) for s in group)
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w:.0f} {h:.0f}" width="{w:.0f}" height="{h:.0f}">'
            f'<rect width="100%" height="100%" fill="#ECE7E0"/><g fill="none" stroke-linecap="round" stroke-linejoin="round">'
-           f'<path stroke="#B9AEA1" stroke-width="3" d="{d([s for s in segs if edge(s)])}"/>'
+           f'<path stroke="#8E2F3A" stroke-width="3" d="{d([s for s in segs if edge(s)])}"/>'
            f'<path stroke="#8E2F3A" stroke-width="4" d="{d([s for s in segs if not edge(s)])}"/></g></svg>')
     open(os.path.join(OUT, key + ".svg"), "w").write(svg)
     print(f"{key}.svg  sheet {x1 - x0:.2f} x {y1 - y0:.2f} in  {len(svg) // 1024} KB")
@@ -236,14 +261,15 @@ if __name__ == "__main__":
         cut(args[1], args[2])
     elif args[0] == "sheet":
         opts, pos, it = {"--width": 2400, "--rotate": 0}, [], iter(args[1:])
+        photos = "--photos" in args
         for a in it:
             if a in opts:
                 opts[a] = int(next(it))
-            else:
+            elif a != "--photos":
                 pos.append(a)
         if len(pos) < 3:
             sys.exit(__doc__)
-        sheet(pos[0], int(pos[1]), pos[2:], opts["--width"], opts["--rotate"])
+        sheet(pos[0], int(pos[1]), pos[2:], opts["--width"], opts["--rotate"], photos=photos)
     else:
         opts = {"--width": 1800, "--rotate": 0}
         pos = []
