@@ -6,7 +6,7 @@ and HEIC photos (uses sips). Sources are looked up in the ID copy folder; overri
 usage (from the repo root):
   python3 _src/images.py heroes [h_wedge h_axio ...]   re-crop the project card images (all if none named)
   python3 _src/images.py crop KEY X0 Y0 X1 Y1   trim portfolio-media/KEY.jpg in place (fractions 0-1, e.g. to cut slide titles)
-  python3 _src/images.py sheet KEY COLS SOURCE... [--width 2400] [--rotate 90]   tile drawing pages into one image
+  python3 _src/images.py sheet KEY COLS SOURCE... [--width 2400] [--rotate 90]   combine scanned pages into one sheet (cropped to the drawings, even rows)
   python3 _src/images.py cut KEY PROJECT/file.dxf   a laser-cut DXF as portfolio-media/KEY.svg (sheet outline + part)
   python3 _src/images.py add KEY SOURCE [--width 1800] [--rotate 90]
         SOURCE: a path, "PROJECT/file name.jpg" (searched inside that ID copy project folder),
@@ -129,22 +129,44 @@ def trim(key, x0, y0, x1, y1):
     save(im.crop((round(x0 * im.width), round(y0 * im.height), round(x1 * im.width), round(y1 * im.height))), key)
 
 
-def sheet(key, cols, sources, width=2400, rotate=0, edge=0.0):
-    """Tile several drawing pages into one image, edge to edge on white (`edge` trims that fraction of each page's border)."""
+def drawn(im, side=0.02, top=0.01, footer=0.05, pad=0.02):
+    """The part of a scanned page that holds drawings. The scanner's edge lines (`side`, `top`) and the
+    name + date line along the bottom (`footer`) are painted out, and marks smaller than a few pen
+    strokes (pencil specks) don't count toward the crop."""
+    page = im.copy()
+    sw, th, fh = round(im.width * side), round(im.height * top), round(im.height * footer)
+    for box in ((0, 0, im.width, th), (0, im.height - fh, im.width, im.height), (0, 0, sw, im.height), (im.width - sw, 0, im.width, im.height)):
+        page.paste((255, 255, 255), box)
+    s = 16   # look at the page in 16 px cells; a row or column needs ink in 3+ cells to count
+    ink = page.convert("L").point(lambda v: 255 if v < 200 else 0).resize((im.width // s, im.height // s), Image.BOX)
+    px, w, h = ink.load(), im.width // s, im.height // s
+    rows = [y for y in range(h) if sum(px[x, y] > 60 for x in range(w)) >= 3]
+    cols = [x for x in range(w) if sum(px[x, y] > 60 for y in range(h)) >= 3]
+    p = round(pad * max(im.width, im.height))
+    return page.crop((max(0, cols[0] * s - p), max(0, rows[0] * s - p), min(im.width, (cols[-1] + 1) * s + p), min(im.height, (rows[-1] + 1) * s + p)))
+
+
+def sheet(key, cols, sources, width=2400, rotate=0, gap=64, margin=40):
+    """Combine scanned drawing pages into one sheet: each page cropped to its drawings, then set in rows
+    of `cols` that fill the width with even gaps (each row's height follows its pages' shapes)."""
     pages = []
     for src in sources:
         im = ImageOps.exif_transpose(Image.open(resolve(src))).convert("RGB")
         if rotate:
             im = im.rotate(-rotate, expand=True)
-        dx, dy = round(im.width * edge), round(im.height * edge)
-        pages.append(im.crop((dx, dy, im.width - dx, im.height - dy)))
-    cw = width // cols
-    ch = round(cw * pages[0].height / pages[0].width)
-    rows = (len(pages) + cols - 1) // cols
-    out = Image.new("RGB", (cw * cols, ch * rows), "white")
-    for i, im in enumerate(pages):
-        im.thumbnail((cw, ch), Image.LANCZOS)
-        out.paste(im, ((i % cols) * cw + (cw - im.width) // 2, (i // cols) * ch + (ch - im.height) // 2))
+        pages.append(drawn(im))
+    rows = [pages[i:i + cols] for i in range(0, len(pages), cols)]
+    inner = width - 2 * margin
+    heights = [(inner - gap * (len(r) - 1)) / sum(p.width / p.height for p in r) for r in rows]
+    out = Image.new("RGB", (width, round(2 * margin + sum(heights) + gap * (len(rows) - 1))), "white")
+    y = margin
+    for r, h in zip(rows, heights):
+        x = margin
+        for p in r:
+            w = round(h * p.width / p.height)
+            out.paste(p.resize((w, round(h)), Image.LANCZOS), (round(x), round(y)))
+            x += w + gap
+        y += h + gap
     save(out, key)
 
 
