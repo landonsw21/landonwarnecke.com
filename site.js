@@ -60,7 +60,7 @@
     }
   }
   function closeProject(scroll, instant) {
-    if (!openId) return; var id = openId; setCard(id, false, instant); openId = null; syncCollapse();
+    if (!openId) return; var id = openId; setCard(id, false, instant); resetTitle(id); openId = null; syncCollapse();
     if (scroll) scrollToEl(document.getElementById('p-' + id));
   }
   function openProject(id, scroll) {
@@ -68,7 +68,7 @@
     if (openId && openId !== id) {
       // close the other project instantly, keeping the clicked card where it is on screen
       var before = art.getBoundingClientRect().top;
-      setCard(openId, false, true);
+      setCard(openId, false, true); resetTitle(openId);
       window.scrollBy({ top: art.getBoundingClientRect().top - before, behavior: 'instant' });
     }
     setCard(id, true); openId = id; updateChapters(); syncCollapse();
@@ -96,13 +96,40 @@
   $$('[data-next]').forEach(function (b) { b.addEventListener('click', function () { openProject(b.getAttribute('data-next')); }); });
 
   // ---------- chapter bar: highlight the section under the bar ----------
+  // ---------- the open project's title shrinks into the section bar as you scroll (it never leaves the screen) ----------
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function resetTitle(id) {
+    var art = document.getElementById('p-' + id); if (!art) return;
+    ['.lw-card-name', '.lw-card-line'].forEach(function (sel) { var el = $(sel, art); if (el) el.style.opacity = ''; });
+    var bar = $('.lw-chapbar', art); if (!bar) return;
+    bar.style.setProperty('--p', 0); bar.classList.remove('is-docked');
+    var name = $('.lw-chapname', bar); name.style.opacity = ''; name.tabIndex = -1;
+  }
+  function dockTitle(bar) {
+    var art = document.getElementById('p-' + openId), card = $('.lw-card', art);
+    var title = $('.lw-card-name', art), line = $('.lw-card-line', art), name = $('.lw-chapname', bar);
+    var stuck = parseFloat(getComputedStyle(bar).top) || 0;   // where the bar sticks (under the phone header on phones)
+    var cr = card.getBoundingClientRect(), br = bar.getBoundingClientRect(), tr = title.getBoundingClientRect();
+    var span = Math.min(300, cr.height * 0.5);   // scroll distance over which the title travels into the bar
+    var p = Math.max(0, Math.min(1, 1 - (cr.bottom - stuck) / span)), k = p * p * (3 - 2 * p);
+    var h = name.offsetHeight;
+    bar.style.setProperty('--slot', (name.offsetWidth + 24) + 'px'); bar.style.setProperty('--p', k);
+    var x = lerp(tr.left - br.left, 16, k), y = lerp(tr.top - br.top, (br.height - h) / 2, k), sc = lerp(tr.height / h, 1, k);
+    name.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + sc.toFixed(3) + ')';
+    var hs = h * sc, c = Math.max(0, Math.min(1, 0.5 + (y + hs / 2) / hs));   // white while over the photo, dark once inside the bar
+    name.style.color = c >= 1 ? '' : 'rgb(' + [Math.round(lerp(255, 42, c)), Math.round(lerp(255, 31, c)), Math.round(lerp(255, 30, c))].join(',') + ')';
+    name.style.textShadow = c >= 1 ? '' : '0 1px 14px rgba(42,31,30,' + (0.6 * (1 - c)).toFixed(2) + ')';
+    var moving = p > 0;
+    name.style.opacity = moving ? 1 : 0; title.style.opacity = moving ? 0 : '';
+    if (line) line.style.opacity = moving ? Math.max(0, 0.92 * (1 - p * 2.5)).toFixed(2) : '';
+    bar.classList.toggle('is-docked', p >= 1); name.tabIndex = p >= 1 ? 0 : -1;
+  }
+  window.addEventListener('resize', function () { updateChapters(); });
   function updateChapters() {
     if (!openId) return;
     var d = document.getElementById('d-' + openId); if (!d || d.hidden) return;
     var bar = $('.lw-chapbar', d); var line = bar.getBoundingClientRect().bottom + 24;
-    var title = $('#p-' + openId + ' .lw-card-name');
-    var named = !!title && title.getBoundingClientRect().bottom < (parseFloat(getComputedStyle(bar).top) || 0) + 4;   // title scrolled past the bar's stuck line
-    bar.classList.toggle('has-name', named); $('.lw-chapname', bar).tabIndex = named ? 0 : -1;
+    dockTitle(bar);
     var secs = $$('[data-chapter]', d); var cur = secs[0];
     secs.forEach(function (s) { if (s.getBoundingClientRect().top <= line) cur = s; });
     var id = cur && cur.getAttribute('data-chapter');

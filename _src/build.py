@@ -105,7 +105,7 @@ for i, p in enumerate(PROJECTS):
         f'<span class="lw-card-name">{e(p["name"])}</span><span class="lw-card-line">{e(p["line"])}</span>'
         f'</span></button>'
         f'<div id="d-{pid}" class="lw-drawer" hidden><div class="lw-drawer-in">'
-        f'<nav class="lw-chapbar" aria-label="{e(p["name"])} sections"><button class="lw-chapname" type="button" data-top="{pid}" tabindex="-1">{e(p["name"])}</button><div class="lw-chaps">{chaps}</div>'
+        f'<nav class="lw-chapbar" aria-label="{e(p["name"])} sections"><span class="lw-chapslot" aria-hidden="true"></span><button class="lw-chapname" type="button" data-top="{pid}" tabindex="-1">{e(p["name"])}</button><div class="lw-chaps">{chaps}</div>'
         f'</nav>'
         f'<div class="lw-dbody"><dl class="lw-meta">{meta}</dl>{secs}'
         f'<div class="lw-dfoot"><button class="lw-pill" type="button" data-next="{nxt["id"]}">Next: {e(nxt["name"])} →</button></div></div></div></div></div></article>')
@@ -273,12 +273,16 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-drawer-in{min-height:0; min-width:0; overflow:clip}
 .lw-drawer.is-settled .lw-drawer-in{overflow:visible}
 .lw-chapbar{border-radius:0}
-/* --- the project name slides into the section bar once its title has scrolled away; clicking it goes back to the project's top --- */
-.lw-chapname{flex:none; max-width:0; margin-right:-10px; padding:8px 0; overflow:hidden; white-space:nowrap; border:0; border-right:1px solid transparent; background:none; color:#2A1F1E; font:inherit; font-size:15px; font-weight:700; letter-spacing:-0.01em; cursor:pointer; opacity:0; transform:translateY(-70%); transition:max-width .35s cubic-bezier(.2,.7,.2,1), margin .35s cubic-bezier(.2,.7,.2,1), padding .35s cubic-bezier(.2,.7,.2,1), opacity .25s, transform .35s cubic-bezier(.2,.7,.2,1), border-color .35s, color .2s}
-.lw-chapbar.has-name .lw-chapname{max-width:240px; margin-right:0; padding:8px 14px 8px 10px; opacity:1; transform:none; border-right-color:#D2CABF}
-.lw-chapname:hover{color:#8E2F3A}
+/* --- the open project's title never leaves the screen: as you scroll it shrinks, turns dark and lands at the section bar's left end
+   (site.js drives it from the scroll position: --p is 0 with the title on the photo, 1 once it is docked in the bar) --- */
+.lw-chapbar{--p:0}
+.lw-chapslot{position:relative; flex:none; align-self:stretch; width:calc(var(--p) * var(--slot, 0px)); margin-right:calc((var(--p) - 1) * 10px)}
+.lw-chapslot::after{content:""; position:absolute; right:0; top:10px; bottom:10px; width:1px; background:#D2CABF; opacity:var(--p)}
+.lw-chapname{position:absolute; left:0; top:0; z-index:1; padding:0; border:0; background:none; color:#2A1F1E; font:inherit; font-size:15px; line-height:1.05; font-weight:700; letter-spacing:-0.03em; white-space:nowrap; cursor:pointer; opacity:0; pointer-events:none; transform-origin:0 0}
+.lw-chapname::before{content:""; position:absolute; inset:-10px -8px}
+.lw-chapbar.is-docked .lw-chapname{pointer-events:auto}
+.lw-chapbar.is-docked .lw-chapname:hover{color:#8E2F3A}
 @media (max-width: 860px){ .lw-chapname{font-size:14px} }
-@media (prefers-reduced-motion: reduce){ .lw-chapname{transition:none} }
 /* --- portrait collapses the open project; floating button when the portrait is off screen --- */
 .lw-me{position:relative; flex:none; padding:0; border:0; background:none; border-radius:12px; cursor:default; line-height:0}
 .lw-me:not([disabled]){cursor:pointer}
@@ -431,7 +435,7 @@ js = r"""(function () {
     }
   }
   function closeProject(scroll, instant) {
-    if (!openId) return; var id = openId; setCard(id, false, instant); openId = null; syncCollapse();
+    if (!openId) return; var id = openId; setCard(id, false, instant); resetTitle(id); openId = null; syncCollapse();
     if (scroll) scrollToEl(document.getElementById('p-' + id));
   }
   function openProject(id, scroll) {
@@ -439,7 +443,7 @@ js = r"""(function () {
     if (openId && openId !== id) {
       // close the other project instantly, keeping the clicked card where it is on screen
       var before = art.getBoundingClientRect().top;
-      setCard(openId, false, true);
+      setCard(openId, false, true); resetTitle(openId);
       window.scrollBy({ top: art.getBoundingClientRect().top - before, behavior: 'instant' });
     }
     setCard(id, true); openId = id; updateChapters(); syncCollapse();
@@ -467,13 +471,40 @@ js = r"""(function () {
   $$('[data-next]').forEach(function (b) { b.addEventListener('click', function () { openProject(b.getAttribute('data-next')); }); });
 
   // ---------- chapter bar: highlight the section under the bar ----------
+  // ---------- the open project's title shrinks into the section bar as you scroll (it never leaves the screen) ----------
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function resetTitle(id) {
+    var art = document.getElementById('p-' + id); if (!art) return;
+    ['.lw-card-name', '.lw-card-line'].forEach(function (sel) { var el = $(sel, art); if (el) el.style.opacity = ''; });
+    var bar = $('.lw-chapbar', art); if (!bar) return;
+    bar.style.setProperty('--p', 0); bar.classList.remove('is-docked');
+    var name = $('.lw-chapname', bar); name.style.opacity = ''; name.tabIndex = -1;
+  }
+  function dockTitle(bar) {
+    var art = document.getElementById('p-' + openId), card = $('.lw-card', art);
+    var title = $('.lw-card-name', art), line = $('.lw-card-line', art), name = $('.lw-chapname', bar);
+    var stuck = parseFloat(getComputedStyle(bar).top) || 0;   // where the bar sticks (under the phone header on phones)
+    var cr = card.getBoundingClientRect(), br = bar.getBoundingClientRect(), tr = title.getBoundingClientRect();
+    var span = Math.min(300, cr.height * 0.5);   // scroll distance over which the title travels into the bar
+    var p = Math.max(0, Math.min(1, 1 - (cr.bottom - stuck) / span)), k = p * p * (3 - 2 * p);
+    var h = name.offsetHeight;
+    bar.style.setProperty('--slot', (name.offsetWidth + 24) + 'px'); bar.style.setProperty('--p', k);
+    var x = lerp(tr.left - br.left, 16, k), y = lerp(tr.top - br.top, (br.height - h) / 2, k), sc = lerp(tr.height / h, 1, k);
+    name.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + sc.toFixed(3) + ')';
+    var hs = h * sc, c = Math.max(0, Math.min(1, 0.5 + (y + hs / 2) / hs));   // white while over the photo, dark once inside the bar
+    name.style.color = c >= 1 ? '' : 'rgb(' + [Math.round(lerp(255, 42, c)), Math.round(lerp(255, 31, c)), Math.round(lerp(255, 30, c))].join(',') + ')';
+    name.style.textShadow = c >= 1 ? '' : '0 1px 14px rgba(42,31,30,' + (0.6 * (1 - c)).toFixed(2) + ')';
+    var moving = p > 0;
+    name.style.opacity = moving ? 1 : 0; title.style.opacity = moving ? 0 : '';
+    if (line) line.style.opacity = moving ? Math.max(0, 0.92 * (1 - p * 2.5)).toFixed(2) : '';
+    bar.classList.toggle('is-docked', p >= 1); name.tabIndex = p >= 1 ? 0 : -1;
+  }
+  window.addEventListener('resize', function () { updateChapters(); });
   function updateChapters() {
     if (!openId) return;
     var d = document.getElementById('d-' + openId); if (!d || d.hidden) return;
     var bar = $('.lw-chapbar', d); var line = bar.getBoundingClientRect().bottom + 24;
-    var title = $('#p-' + openId + ' .lw-card-name');
-    var named = !!title && title.getBoundingClientRect().bottom < (parseFloat(getComputedStyle(bar).top) || 0) + 4;   // title scrolled past the bar's stuck line
-    bar.classList.toggle('has-name', named); $('.lw-chapname', bar).tabIndex = named ? 0 : -1;
+    dockTitle(bar);
     var secs = $$('[data-chapter]', d); var cur = secs[0];
     secs.forEach(function (s) { if (s.getBoundingClientRect().top <= line) cur = s; });
     var id = cur && cur.getAttribute('data-chapter');
