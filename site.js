@@ -18,7 +18,7 @@
       if (on && row.scrollWidth > row.clientWidth) row.scrollLeft = b.offsetLeft - row.offsetLeft - 16;
     });
     $$('.lw-pane').forEach(function (p) { p.hidden = p.getAttribute('data-pane') !== name; });
-    closeProject(false);
+    closeProject(false, true);
     $('.lw-side').classList.remove('is-about');
     if (name === 'contact' && typeof loadTurnstile === 'function') loadTurnstile();
     if (push) history.replaceState(null, '', name === 'projects' ? location.pathname : '#' + name);
@@ -35,21 +35,58 @@
   });
 
   // ---------- project drawers (one open at a time) ----------
-  function setCard(id, open) {
+  // The drawer slides open from under its card (grid rows 0fr -> 1fr) and is display:none once closed.
+  function setCard(id, open, instant) {
     var art = document.getElementById('p-' + id); if (!art) return;
     var btn = $('.lw-card', art); var d = document.getElementById('d-' + id);
-    d.hidden = !open; btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    art.classList.toggle('is-open', open);
+    clearTimeout(d._t); d.classList.remove('is-settled');
+    if (open) {
+      d.hidden = false;
+      if (instant || reduce) { d.classList.add('is-open', 'is-settled'); return; }
+      void d.offsetHeight;
+      d.classList.add('is-open');
+      d._t = setTimeout(function () { d.classList.add('is-settled'); }, 600);
+    } else {
+      d.classList.remove('is-open');
+      if (instant || reduce) { d.hidden = true; return; }
+      d._t = setTimeout(function () { if (!d.classList.contains('is-open')) d.hidden = true; }, 600);
+    }
   }
-  function closeProject(scroll) {
-    if (!openId) return; var id = openId; setCard(id, false); openId = null;
+  function closeProject(scroll, instant) {
+    if (!openId) return; var id = openId; setCard(id, false, instant); openId = null; syncCollapse();
     if (scroll) scrollToEl(document.getElementById('p-' + id));
   }
   function openProject(id, scroll) {
-    if (openId && openId !== id) setCard(openId, false);
-    setCard(id, true); openId = id; updateChapters();
-    if (scroll !== false) scrollToEl(document.getElementById('p-' + id));
+    var art = document.getElementById('p-' + id);
+    if (openId && openId !== id) {
+      // close the other project instantly, keeping the clicked card where it is on screen
+      var before = art.getBoundingClientRect().top;
+      setCard(openId, false, true);
+      window.scrollBy({ top: art.getBoundingClientRect().top - before, behavior: 'instant' });
+    }
+    setCard(id, true); openId = id; updateChapters(); syncCollapse();
+    if (scroll !== false) scrollToEl(art);
     history.replaceState(null, '', '#' + id);
   }
+
+  // ---------- collapse from the portrait, or the floating "−" when the portrait is off screen ----------
+  var me = $('.lw-me'), fab = $('.lw-fab'), portraitVisible = true;
+  function syncCollapse() {
+    if (me) me.disabled = !openId;
+    if (fab) fab.hidden = !(openId && !portraitVisible);
+  }
+  if (window.IntersectionObserver && me) {
+    new IntersectionObserver(function (entries) {
+      portraitVisible = entries[entries.length - 1].isIntersecting; syncCollapse();
+    }).observe(me);
+  }
+  $$('[data-collapse]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (!openId) return; closeProject(true); history.replaceState(null, '', location.pathname);
+    });
+  });
   $$('[data-toggle]').forEach(function (b) {
     b.addEventListener('click', function () {
       var id = b.getAttribute('data-toggle');

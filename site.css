@@ -122,19 +122,61 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
 .lw-skip{position:absolute; left:-9999px; top:8px; z-index:2000; padding:10px 14px; border-radius:8px; background:var(--lw-ink); color:var(--lw-on-accent) !important}
 .lw-skip:focus{left:8px}
 .lw-imgs img{cursor:zoom-in}
-.lw-card-img, .lw-gcard img, .lw-extra img{height:auto}
+.lw-gcard img, .lw-extra img{height:auto}
 .lw-about-toggle{white-space:nowrap; flex:none}
 .lw-portrait{filter:none; object-position:50% 30%}
-.lw-list{gap:28px}
-.lw-card{outline:2px solid transparent; outline-offset:0; transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s, outline-color .2s, opacity .25s}
-.lw-card[aria-expanded="true"]{outline-color:var(--lw-accent)}
+/* --- project cards: darkened image with text on top; hover doubles the height and lifts the shade --- */
+.lw-list{gap:0}
+.lw-proj{padding-bottom:22px; scroll-margin-top:16px}
+.lw-proj:last-child{padding-bottom:0}
+.lw-unit{border-radius:18px; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s}
+.lw-card{--h:clamp(170px, calc((100svh - 140px) / 3), 280px); position:relative; display:block; width:100%; height:var(--h); padding:0; border:0; border-radius:18px; overflow:hidden; background:var(--lw-ink); color:var(--lw-on-accent); text-align:left; cursor:pointer; transform:none; box-shadow:none; transition:height .5s cubic-bezier(.2,.7,.2,1), border-radius .3s}
+.lw-card:hover{transform:none; box-shadow:none}
+.lw-card-img{position:absolute; inset:0; width:100%; height:100%; aspect-ratio:auto; object-fit:cover; object-position:50% var(--fy, 50%); background:var(--lw-ink)}
+.lw-card-img.is-blur{filter:blur(14px) saturate(.9); transform:scale(1.12)}
+.lw-card::before{content:""; position:absolute; inset:0; z-index:1; background:color-mix(in srgb, var(--lw-ink) 42%, transparent); transition:opacity .5s}
+.lw-card::after{content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(to top, color-mix(in srgb, var(--lw-ink) 88%, transparent) 0, color-mix(in srgb, var(--lw-ink) 62%, transparent) 34%, transparent 72%)}
+.lw-card-body{position:absolute; left:0; right:0; bottom:0; z-index:2; display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end; flex-wrap:nowrap; gap:4px; padding:18px 22px 18px; text-shadow:0 1px 14px color-mix(in srgb, var(--lw-ink) 45%, transparent)}
+.lw-card-kind{font-size:12px; letter-spacing:.08em; color:var(--lw-on-accent); opacity:.9}
+.lw-card-name{font-size:30px; line-height:1.05; font-weight:700; letter-spacing:-0.03em; color:var(--lw-on-accent)}
+.lw-card-line{font-size:15px; line-height:1.45; max-width:640px; color:var(--lw-on-accent); opacity:.92; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden}
+.lw-card:focus-visible{outline:3px solid var(--lw-accent); outline-offset:3px}
+.lw-proj.is-open .lw-unit{outline-color:var(--lw-accent)}
+.lw-proj.is-open .lw-card{height:calc(var(--h) * 2); border-radius:18px 18px 0 0}
+.lw-proj.is-open .lw-card::before{opacity:0}
 @media (hover: hover){
- .lw-card:hover{outline-color:var(--lw-accent)}
- .lw-list:has(.lw-card:hover) .lw-card:not(:hover){opacity:.55}
+ .lw-proj:hover .lw-unit{outline-color:var(--lw-accent)}
+ .lw-proj:hover .lw-card{height:calc(var(--h) * 2)}
+ .lw-proj:hover .lw-card::before{opacity:0}
 }
-.lw-card-img, .lw-soon{aspect-ratio:21/9}
-.lw-card-body{padding:14px 20px 16px}
-.lw-card-name{font-size:26px}
+/* --- drawer hangs straight off its card and slides open --- */
+.lw-drawer{margin-top:0; border-top:0; border-radius:0 0 18px 18px; display:grid; grid-template-columns:minmax(0, 1fr); grid-template-rows:0fr; transition:grid-template-rows .55s cubic-bezier(.2,.7,.2,1)}
+.lw-drawer.is-open{grid-template-rows:1fr}
+.lw-drawer-in{min-height:0; min-width:0; overflow:clip}
+.lw-drawer.is-settled .lw-drawer-in{overflow:visible}
+.lw-chapbar{border-radius:0}
+/* --- portrait collapses the open project; floating button when the portrait is off screen --- */
+.lw-me{position:relative; flex:none; padding:0; border:0; background:none; border-radius:12px; cursor:default; line-height:0}
+.lw-me:not([disabled]){cursor:pointer}
+.lw-me-badge{position:absolute; right:-6px; bottom:-6px; width:26px; height:26px; border-radius:50%; background:var(--lw-accent); color:var(--lw-on-accent); font-size:20px; font-weight:700; line-height:24px; text-align:center; box-shadow:0 0 0 3px var(--lw-bg); opacity:0; transform:scale(.6); transition:opacity .2s, transform .2s}
+.lw-me:not([disabled]) .lw-me-badge{opacity:1; transform:none}
+.lw-me:not([disabled]):hover .lw-me-badge{background:var(--lw-accent-hover); transform:scale(1.1)}
+.lw-fab{position:fixed; right:22px; bottom:22px; z-index:50; width:56px; height:56px; border-radius:50%; border:0; background:var(--lw-accent); color:var(--lw-on-accent); font:inherit; font-size:30px; font-weight:700; line-height:1; cursor:pointer; box-shadow:0 10px 28px color-mix(in srgb, var(--lw-ink) 28%, transparent); transition:background .15s, transform .15s}
+.lw-fab:hover{background:var(--lw-accent-hover); transform:scale(1.06)}
+.lw-fab:focus-visible{outline:3px solid var(--lw-ink); outline-offset:3px}
+@media (max-width: 860px){
+ .lw-proj{padding-bottom:14px; scroll-margin-top:124px}
+ .lw-card{--h:clamp(118px, 18svh, 150px)}
+ .lw-card-body{padding:12px 14px; gap:2px}
+ .lw-card-kind{font-size:11px}
+ .lw-card-name{font-size:22px}
+ .lw-card-line{font-size:14px; -webkit-line-clamp:1}
+ .lw-me, .lw-me .lw-portrait{border-radius:50%}
+ .lw-me-badge, .lw-fab{display:none !important}
+}
+@media (prefers-reduced-motion: reduce){
+ .lw-card, .lw-card::before, .lw-drawer, .lw-me-badge{transition:none}
+}
 .lw-contact{display:flex; flex-direction:column; max-width:760px}
 .lw-crow{display:grid; grid-template-columns:130px minmax(0,1fr) auto; align-items:center; gap:16px; padding:18px 4px; border-top:1px solid var(--lw-line); color:var(--lw-ink) !important; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:-0.01em; overflow-wrap:anywhere}
 .lw-crow:last-child{border-bottom:1px solid var(--lw-line)}
