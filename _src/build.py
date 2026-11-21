@@ -109,7 +109,7 @@ projects_html = f'<div class="lw-list">{"".join(cards)}</div>'
 ex = ""
 for k, tag, name, desc, url, alt in EXTRAS:
     href = FISHEYE if name == "Fisheye Studio" else url
-    ex += (f'<article class="lw-extra">{img(k, alt)}<div class="lw-extra-body">'
+    ex += (f'<article class="lw-extra"><span class="lw-shade">{img(k, alt)}</span><div class="lw-extra-body">'
            f'<h2>{e(name)}</h2><p>{e(desc)}</p><a class="lw-pill" style="margin-top:auto;align-self:flex-start;color:var(--lw-on-accent)" href="{e(href)}" target="_blank" rel="noopener">Open tool ↗</a></div></article>')
 extras_html = f'<div class="lw-two">{ex}</div>'
 
@@ -118,7 +118,7 @@ gs = ""
 for gi, (gid, title, items) in enumerate(GALLERY):
     cards_g = "".join(
         f'<button class="lw-gcard" type="button" aria-label="View {e(cap)}" data-lbopen="{gid}" data-i="{i}">'
-        f'{img(k, cap, extra=f" data-lb=\"{gid}\"")}<span class="lw-gcap"><span>{e(cap)}</span></span></button>'
+        f'<span class="lw-shade">{img(k, cap, extra=f" data-lb=\"{gid}\"")}</span><span class="lw-gcap"><span>{e(cap)}</span></span></button>'
         for i, (k, cap) in enumerate(items))
     gs += (f'<section class="lw-gsec" aria-labelledby="g-{gid}"><div class="lw-ghead">'
            f'<h2 id="g-{gid}">{e(title)}</h2>'
@@ -292,6 +292,26 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 @media (prefers-reduced-motion: reduce){
  .lw-fab{animation:none}
  .lw-card, .lw-card::before, .lw-drawer, .lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{transition:none}
+}
+/* --- extras + gallery share the project-card hover: shade lifts, pomegranate outline, slight grow.
+   Touch screens never hover, so they show the images unshaded. --- */
+.lw-shade{position:relative; display:block}
+.lw-row{padding:10px 8px 18px; margin:0 -8px; scroll-padding:0 8px}
+.lw-gcard .lw-shade{border-radius:14px; overflow:hidden; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s}
+.lw-extra{position:relative; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
+.lw-extra .lw-pill::after{content:""; position:absolute; inset:0; border-radius:18px}
+@media (hover: hover){
+ .lw-shade::after{content:""; position:absolute; inset:0; background:color-mix(in srgb, #2A1F1E 42%, transparent); transition:opacity .5s; pointer-events:none}
+ .lw-extra:hover .lw-shade::after, .lw-gcard:hover .lw-shade::after{opacity:0}
+ .lw-extra:hover{outline-color:#8E2F3A; transform:scale(1.02)}
+ .lw-gcard:hover .lw-shade{outline-color:#8E2F3A}
+}
+.lw-gcard:focus-visible{outline:none}
+.lw-gcard:focus-visible .lw-shade{outline:3px solid #8E2F3A}
+.lw-gcard:focus-visible .lw-shade::after{opacity:0}
+@media (prefers-reduced-motion: reduce){
+ .lw-extra, .lw-shade::after{transition:none}
+ .lw-extra:hover{transform:none}
 }
 .lw-contact{display:flex; flex-direction:column; max-width:760px}
 .lw-crow{display:grid; grid-template-columns:130px minmax(0,1fr) auto; align-items:center; gap:16px; padding:18px 4px; border-top:1px solid #D2CABF; color:#2A1F1E !important; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:-0.01em; overflow-wrap:anywhere}

@@ -175,6 +175,26 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
  .lw-fab{animation:none}
  .lw-card, .lw-card::before, .lw-drawer, .lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{transition:none}
 }
+/* --- extras + gallery share the project-card hover: shade lifts, pomegranate outline, slight grow.
+   Touch screens never hover, so they show the images unshaded. --- */
+.lw-shade{position:relative; display:block}
+.lw-row{padding:10px 8px 18px; margin:0 -8px; scroll-padding:0 8px}
+.lw-gcard .lw-shade{border-radius:14px; overflow:hidden; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s}
+.lw-extra{position:relative; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
+.lw-extra .lw-pill::after{content:""; position:absolute; inset:0; border-radius:18px}
+@media (hover: hover){
+ .lw-shade::after{content:""; position:absolute; inset:0; background:color-mix(in srgb, var(--lw-ink) 42%, transparent); transition:opacity .5s; pointer-events:none}
+ .lw-extra:hover .lw-shade::after, .lw-gcard:hover .lw-shade::after{opacity:0}
+ .lw-extra:hover{outline-color:var(--lw-accent); transform:scale(1.02)}
+ .lw-gcard:hover .lw-shade{outline-color:var(--lw-accent)}
+}
+.lw-gcard:focus-visible{outline:none}
+.lw-gcard:focus-visible .lw-shade{outline:3px solid var(--lw-accent)}
+.lw-gcard:focus-visible .lw-shade::after{opacity:0}
+@media (prefers-reduced-motion: reduce){
+ .lw-extra, .lw-shade::after{transition:none}
+ .lw-extra:hover{transform:none}
+}
 .lw-contact{display:flex; flex-direction:column; max-width:760px}
 .lw-crow{display:grid; grid-template-columns:130px minmax(0,1fr) auto; align-items:center; gap:16px; padding:18px 4px; border-top:1px solid var(--lw-line); color:var(--lw-ink) !important; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:-0.01em; overflow-wrap:anywhere}
 .lw-crow:last-child{border-bottom:1px solid var(--lw-line)}
