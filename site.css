@@ -15,9 +15,10 @@ html{scroll-behavior:smooth}
 .lw-bio p{margin:0; font-size:14px; line-height:1.6}
 .lw-about-toggle{display:none; align-items:center; min-height:40px; padding:0 14px; border-radius:999px; border:1px solid var(--lw-ink); background:transparent; color:var(--lw-ink); font:inherit; font-size:13px; font-weight:600; cursor:pointer}
 .lw-tabs{display:flex; flex-direction:column; gap:6px}
-.lw-tab{display:flex; justify-content:space-between; align-items:center; gap:10px; width:100%; min-height:46px; padding:10px 14px; border-radius:10px; border:1px solid var(--lw-line); background:transparent; color:var(--lw-ink); font:inherit; font-size:15px; font-weight:600; text-align:left; cursor:pointer; transition:background .2s, color .2s, border-color .2s}
-.lw-tab:hover{background:var(--lw-surface)}
-.lw-tab.is-active{background:var(--lw-accent); border-color:var(--lw-accent); color:var(--lw-on-accent)}
+.lw-tab{display:flex; justify-content:space-between; align-items:center; gap:10px; width:100%; min-height:46px; padding:10px 14px; border-radius:10px; border:1px solid var(--lw-line); background:transparent; color:var(--lw-muted); font:inherit; font-size:15px; font-weight:600; text-align:left; cursor:pointer; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
+/* tabs share the project-card states: dimmed at rest; hover undims, outlines in pomegranate and grows slightly; the selected tab keeps the outline */
+.lw-tab.is-active{border-color:var(--lw-accent); box-shadow:inset 0 0 0 1px var(--lw-accent); color:var(--lw-ink)}
+@media (hover: hover){ .lw-tab:not(.is-active):hover{border-color:var(--lw-accent); box-shadow:inset 0 0 0 1px var(--lw-accent); color:var(--lw-ink); transform:scale(1.02)} }
 .lw-tabnum{font-size:12px; opacity:.85}
 .lw-side-foot{display:flex; flex-direction:column; gap:6px; padding-top:8px; border-top:1px solid var(--lw-line); font-size:14px}
 .lw-main{flex:1 1 auto; min-width:0; padding:40px 48px 120px}
@@ -114,8 +115,8 @@ html{scroll-behavior:smooth}
 }
 @media (prefers-reduced-motion: reduce){
  html{scroll-behavior:auto}
- .lw-card, .lw-gcard{transition:none}
- .lw-card:hover, .lw-gcard:hover{transform:none}
+ .lw-card, .lw-gcard, .lw-tab{transition:none}
+ .lw-card:hover, .lw-gcard:hover, .lw-tab:not(.is-active):hover{transform:none}
 }
 
 body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}

@@ -15,9 +15,10 @@ html{scroll-behavior:smooth}
 .lw-bio p{margin:0; font-size:14px; line-height:1.6}
 .lw-about-toggle{display:none; align-items:center; min-height:40px; padding:0 14px; border-radius:999px; border:1px solid #2A1F1E; background:transparent; color:#2A1F1E; font:inherit; font-size:13px; font-weight:600; cursor:pointer}
 .lw-tabs{display:flex; flex-direction:column; gap:6px}
-.lw-tab{display:flex; justify-content:space-between; align-items:center; gap:10px; width:100%; min-height:46px; padding:10px 14px; border-radius:10px; border:1px solid #D2CABF; background:transparent; color:#2A1F1E; font:inherit; font-size:15px; font-weight:600; text-align:left; cursor:pointer; transition:background .2s, color .2s, border-color .2s}
-.lw-tab:hover{background:#D4CBBE}
-.lw-tab.is-active{background:#8E2F3A; border-color:#8E2F3A; color:#FFFFFF}
+.lw-tab{display:flex; justify-content:space-between; align-items:center; gap:10px; width:100%; min-height:46px; padding:10px 14px; border-radius:10px; border:1px solid #D2CABF; background:transparent; color:#6A5F58; font:inherit; font-size:15px; font-weight:600; text-align:left; cursor:pointer; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
+/* tabs share the project-card states: dimmed at rest; hover undims, outlines in pomegranate and grows slightly; the selected tab keeps the outline */
+.lw-tab.is-active{border-color:#8E2F3A; box-shadow:inset 0 0 0 1px #8E2F3A; color:#2A1F1E}
+@media (hover: hover){ .lw-tab:not(.is-active):hover{border-color:#8E2F3A; box-shadow:inset 0 0 0 1px #8E2F3A; color:#2A1F1E; transform:scale(1.02)} }
 .lw-tabnum{font-size:12px; opacity:.85}
 .lw-side-foot{display:flex; flex-direction:column; gap:6px; padding-top:8px; border-top:1px solid #D2CABF; font-size:14px}
 .lw-main{flex:1 1 auto; min-width:0; padding:40px 48px 120px}
@@ -114,6 +115,6 @@ html{scroll-behavior:smooth}
 }
 @media (prefers-reduced-motion: reduce){
  html{scroll-behavior:auto}
- .lw-card, .lw-gcard{transition:none}
- .lw-card:hover, .lw-gcard:hover{transform:none}
+ .lw-card, .lw-gcard, .lw-tab{transition:none}
+ .lw-card:hover, .lw-gcard:hover, .lw-tab:not(.is-active):hover{transform:none}
 }
