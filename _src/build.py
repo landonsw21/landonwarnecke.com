@@ -301,7 +301,7 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
  .lw-card{--h:clamp(118px, 18svh, 150px)}
  .lw-card-body{padding:12px 14px; gap:10px}
  .lw-card-name{font-size:22px}
- .lw-card-line{font-size:14px}
+ .lw-card-line{font-size:14px; white-space:normal; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2}
  .lw-me, .lw-me .lw-portrait{border-radius:50%}
  .lw-fab{display:none !important}
 }
