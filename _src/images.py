@@ -13,11 +13,12 @@ usage (from the repo root):
         from _src/labels/KEY.json: source, output width, text size, the x where label text starts (right side) or
         ends (left side), and per label its text, side, line height y and the point "at" on the part (optional "x" moves
         that label's text), all in output pixels
-  python3 _src/images.py add KEY SOURCE [--width 1800] [--rotate 90]
+  python3 _src/images.py add KEY SOURCE [--width 1800] [--rotate 90] [--flip]
         SOURCE: a path, "PROJECT/file name.jpg" (searched inside that ID copy project folder),
                 "PDF:PROJECT/deck.pdf:PAGE", "PDFIMG:PROJECT/deck.pdf:OBJ" (an image embedded in a PDF, at its
                 own resolution; find OBJ with python3 _src/pdfimg.py deck.pdf OUTDIR), or a .HEIC file.
-                --rotate turns it clockwise. Transparent sources are flattened onto the site's panel colour.
+                --rotate turns it clockwise; --flip mirrors it left to right (e.g. to face the same way as its sketch).
+                Transparent sources are flattened onto the site's panel colour.
   then: python3 _src/build.py
 
 Card images are full frames showing one product (the whole photo unless a crop is given below).
@@ -140,8 +141,10 @@ def heroes(keys):
         save(c, key)
 
 
-def add(key, src, width=1800, rotate=0):
+def add(key, src, width=1800, rotate=0, flip=False):
     im = flat(Image.open(resolve(src)))
+    if flip:
+        im = ImageOps.mirror(im)
     if rotate:
         im = im.rotate(-rotate, expand=True)
     if im.width > width:
@@ -316,8 +319,8 @@ if __name__ == "__main__":
         for a in it:
             if a in opts:
                 opts[a] = int(next(it))
-            else:
+            elif a != "--flip":
                 pos.append(a)
         if len(pos) != 2:
             sys.exit(__doc__)
-        add(pos[0], pos[1], opts["--width"], opts["--rotate"])
+        add(pos[0], pos[1], opts["--width"], opts["--rotate"], flip="--flip" in args)
