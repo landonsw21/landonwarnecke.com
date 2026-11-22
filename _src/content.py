@@ -87,11 +87,11 @@ PROJECTS = [
              ("ideation", "Ideation", ["Sketches explored lantern forms and how a paper insert could shape the light."],
               [("andon_sk1", "ANDON lantern sketches"), ("andon_sk2", "ANDON form sketches")], 2),
              ("exploration", "Light studies", ["Paper and card studies tested folds, cut patterns and layers, and were photographed lit to compare the patterns they cast."],
-              [("andon_l1", "Layered paper light study"), ("andon_l2", "Paper column light study"), ("andon_l3", "Folded paper cube light study"), ("andon_l4", "Pleated paper disc study"), ("andon_t1", "Cut pattern test in the frame"), ("andon_t2", "Cut pattern test casting shadows")], 2),
+              [("andon_folds", "Folding pattern studies lit from behind", "wide"), ("andon_l1", "Layered paper light study"), ("andon_l2", "Paper column light study"), ("andon_l3", "Folded paper cube light study"), ("andon_l4", "Pleated paper disc study"), ("andon_inserts", "Ten cut-pattern inserts tested lit in the lamp box", "wide")], 2),
              ("refinement", "Refinement", ["The insert profile was refined through a series of lit tests."],
               [("andon_r3", "Cut insert templates", "wide"), ("andon_r1", "Insert profile test"), ("andon_r2", "Insert profile test, alternate")], 2),
              ("final", "Final", [],
-              [("andon_f1", "ANDON close-up glowing"), ("andon_f2", "ANDON at dusk"), ("andon_f3", "ANDON by a window in daylight"), ("andon_f4", "ANDON in a dark room")], 2),
+              [("andon_f2", "ANDON lit against a dark backdrop"), ("andon_f1", "ANDON close-up glowing"), ("andon_f3", "ANDON by a window in daylight"), ("andon_f4", "ANDON in a dark room")], 2),
          ]),
     dict(id="moai", num="05", name="MOAI", kind="DESKTOP AC UNIT", hero="h_moai",
          alt="MOAI desktop AC unit, rendered in black",
@@ -267,4 +267,4 @@ CONTACT = [
 TURNSTILE_SITEKEY = "0x4AAAAAAGLgEPURgpzYe-UI"
 
 # Vertical focus of each card image when the card is collapsed (CSS object-position y). Default 50%.
-HERO_FOCUS = {"wedge": "45%", "axio": "25%", "anar": "55%", "andon": "35%", "moai": "20%", "fern": "50%", "bubble": "50%"}
+HERO_FOCUS = {"wedge": "45%", "axio": "25%", "anar": "55%", "andon": "45%", "moai": "20%", "fern": "50%", "bubble": "50%"}
