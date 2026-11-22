@@ -292,7 +292,7 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 /* --- portrait collapses the open project; floating button when the portrait is off screen --- */
 .lw-me{position:relative; flex:none; padding:0; border:0; background:none; border-radius:12px; cursor:pointer; line-height:0}
 .lw-fab{position:fixed; right:22px; bottom:22px; z-index:50; width:56px; height:56px; border-radius:50%; border:0; background:#8E2F3A; color:#FFFFFF; font:inherit; font-size:30px; font-weight:700; line-height:1; cursor:pointer; box-shadow:0 10px 28px color-mix(in srgb, #2A1F1E 28%, transparent); transition:background .15s, transform .15s}
-.lw-fab:hover{background:#6E2029; transform:scale(1.06)}
+.lw-fab:hover{outline:2px solid #8E2F3A; outline-offset:2px; transform:scale(1.06)}
 .lw-fab:focus-visible{outline:3px solid #2A1F1E; outline-offset:3px}
 .lw-fab:not([hidden]){animation:lw-fab-in .28s cubic-bezier(.2,.7,.2,1)}
 @keyframes lw-fab-in{from{opacity:0; transform:scale(.6)}to{opacity:1; transform:none}}
