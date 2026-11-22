@@ -30,6 +30,7 @@ Static portfolio for Landon Warnecke (industrial design, Western Washington Univ
 1. The card photo is the project's highest-fidelity, most context-giving picture of the final model.
 2. The case study then starts from the brief and rough sketches and climbs in fidelity (sketches, models, prototypes, CAD) section by section and within each section.
 3. Final-model photos and renders appear only at the end, in Final (never in the Overview or brief).
+4. Check every sketch and scan is upright before adding it: titles and notes read left to right, products stand on their bases. Many scans and phone photos of sheets come in sideways; fix with `images.py add ... --rotate 90` (or 270), never by rotating the web copy.
 
 ## Design system
 Greige + Pomegranate, defined once in `theme.css` as `--lw-*` custom properties (light set + dark set).
