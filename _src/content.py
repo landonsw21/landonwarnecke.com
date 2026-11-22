@@ -8,7 +8,7 @@ PROJECTS = [
     dict(id="wedge", num="01", name="WEDGE", kind="NAPKIN HOLDER", hero="h_wedge",
          alt="WEDGE napkin holder, close-up with a stack of napkins",
          line="Napkin holder",
-         meta=[("Type", "Napkin holder folded from one metal sheet")],
+         meta=[("Type", "Sheet-metal napkin holder for restaurants")],
          sections=[
              ("overview", "Overview", ["A napkin holder made from one folded sheet of metal. [TO WRITE: the brief or constraint, and who it is for.]"],
               [("wedge_overview", "WEDGE napkin holder in brushed metal")], 1),
@@ -30,8 +30,8 @@ PROJECTS = [
          ]),
     dict(id="axio", num="02", name="AXIO", kind="FACE WASH + MOISTURIZER", hero="h_axio",
          alt="AXIO amber face wash and moisturizer bottles",
-         line="Skincare bottle pair",
-         meta=[("Type", "Refillable face wash and moisturizer bottle pair"), ("Tools", "Illustrator, Rhino, KeyShot")],
+         line="Skincare set",
+         meta=[("Type", "Refillable face wash and moisturizer bottles"), ("Tools", "Illustrator, Rhino, KeyShot")],
          sections=[
              ("brief", "Brief", ["Design a face wash and moisturizer pair that complement each other in form, color, material and purpose. They have to stand upright without tipping; be easy to handle, open, pour and close; hold about 8 to 12 ounces; and have an original form that stands apart from competitors."], [], 1),
              ("research", "Research", ["<strong>User:</strong> Jordan Williams, 32, a style-driven urban creative. He's a freelance photographer and content producer in Los Angeles who rents a loft-style apartment and lives alone.",
@@ -55,7 +55,7 @@ PROJECTS = [
     dict(id="anar", num="03", name="ANAR KARI", kind="POMEGRANATE TOOLSET", hero="h_anar",
          alt="Anar Kari pomegranate bowl and muddler, stained with pomegranate juice",
          line="Pomegranate toolset",
-         meta=[("Type", "Wood and aluminum tools for preparing pomegranates"), ("Team", "Dhwani & Landon")],
+         meta=[("Type", "Wood and aluminum kitchen tools"), ("Team", "Dhwani & Landon")],
          sections=[
              ("objective", "Objective", ["A wood and aluminum toolset that honors the careful ritual of preparing pomegranates.",
                                          "<strong>Problem space:</strong> pomegranates can be difficult to prepare with current tools while still respecting the fruit.",
@@ -95,7 +95,7 @@ PROJECTS = [
          ]),
     dict(id="moai", num="05", name="MOAI", kind="DESKTOP AC UNIT", hero="h_moai",
          alt="MOAI desktop AC unit, rendered in black",
-         line="Desktop air conditioner",
+         line="Desktop AC unit",
          meta=[("Type", "Small, quiet air conditioner for home offices"), ("Tools", "Rhino, KeyShot")],
          sections=[
              ("overview", "Overview", ["A small, quiet desktop air conditioner for the home office."], [], 1),
@@ -111,7 +111,7 @@ PROJECTS = [
     dict(id="fern", num="06", name="Fern", kind="PLEIN AIR WATERCOLOR BAG", hero="h_fern",
          alt="Fern watercolor bag open with brushes and paints",
          line="Watercolor bag",
-         meta=[("Type", "Watercolor bag that moves with plein air artists"), ("Materials", "Sunforger canvas, elastic, foam"), ("Users", "Plein air watercolorists")],
+         meta=[("Type", "Watercolor bag that moves with plein air artists"), ("Materials", "Sunforger canvas, elastic, foam")],
          sections=[
              ("overview", "Overview", ["A watercolor bag that moves with plein air artists, with less setup and cleanup."], [], 1),
              ("user", "User", ["<strong>Raul Beardsley</strong>, a plein air watercolorist. Pigments and materials get lost in larger bags. Pigment and water collect, creating mold and mildew. Water is hard to store and use in current setups."], [], 1),
