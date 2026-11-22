@@ -8,7 +8,8 @@ usage (from the repo root):
   python3 _src/images.py crop KEY X0 Y0 X1 Y1   trim portfolio-media/KEY.jpg in place (fractions 0-1, e.g. to cut slide titles)
   python3 _src/images.py sheet KEY COLS SOURCE... [--width 2400] [--rotate 90] [--photos] [--aspect 3:4]   combine scanned pages into one sheet
         (cropped to the drawings, even rows); --photos makes a board of whole photos instead (moodboards);
-        --aspect center-crops every photo to that shape first, so the board is an even grid
+        --aspect center-crops every photo to that shape first, so the board is an even grid; a single source can
+        set its own shape as SOURCE@1:1 (e.g. a row of square photos above rows of 3:4 ones)
   python3 _src/images.py cut KEY PROJECT/file.dxf   a laser-cut DXF as portfolio-media/KEY.svg (sheet outline + part)
   python3 _src/images.py label KEY   a render with part labels in the site's font (Manrope, ink, leader lines),
         from _src/labels/KEY.json: source, output width, text size, the x where label text starts (right side) or
@@ -184,11 +185,16 @@ def sheet(key, cols, sources, width=2400, rotate=0, gap=64, margin=40, photos=Fa
     if photos:
         gap, margin = 16, 0
     for src in sources:
+        shape = aspect
+        if "@" in src and ":" in src.rsplit("@", 1)[1]:
+            src, wh = src.rsplit("@", 1)
+            w, h = wh.split(":")
+            shape = float(w) / float(h)
         im = flat(Image.open(resolve(src)))
         if rotate:
             im = im.rotate(-rotate, expand=True)
-        if aspect:
-            im = crop(im, 0.5, 0.5, 1, aspect)
+        if shape:
+            im = crop(im, 0.5, 0.5, 1, shape)
         pages.append(im if photos else drawn(im))
     rows = [pages[i:i + cols] for i in range(0, len(pages), cols)]
     inner = width - 2 * margin
