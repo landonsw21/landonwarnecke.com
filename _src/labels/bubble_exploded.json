@@ -1,0 +1,16 @@
+{
+ "source": "Bubble/untitled.66.png",
+ "width": 2400,
+ "size": 46,
+ "text_x": {"left": 560, "right": 1960},
+ "labels": [
+  {"text": "Control ring",           "side": "right", "y": 190,  "at": [850, 300]},
+  {"text": "PCB",                    "side": "right", "y": 360,  "at": [1040, 500]},
+  {"text": "Speaker module",         "side": "right", "y": 530,  "at": [1330, 660]},
+  {"text": "Magnets",                "side": "right", "y": 700,  "at": [1595, 850]},
+  {"text": "E-ink display",          "side": "left",  "y": 800,  "at": [790, 640]},
+  {"text": "Turn + click ring",      "side": "left",  "y": 950,  "at": [935, 880]},
+  {"text": "Battery",                "side": "left",  "y": 1100, "at": [1300, 1010]},
+  {"text": "Wireless charging coil", "side": "left",  "y": 1250, "at": [1400, 1040]}
+ ]
+}

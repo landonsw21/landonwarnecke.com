@@ -147,9 +147,9 @@ PROJECTS = [
              ("cmf", "CMF", ["Energetic, playful, approachable, whimsical.",
                              '<span class="lw-palette"><span class="lw-sw"><i style="background:#54849C"></i><b>Teal</b><small>Pantone 5483 C · hard plastic</small></span><span class="lw-sw"><i style="background:#E03C31"></i><b>Bright red</b><small>Pantone 179 C · soft plastic, silicone</small></span><span class="lw-sw"><i style="background:#91323B"></i><b>Dark red</b><small>Pantone 492 C · hard plastic</small></span><span class="lw-sw"><i style="background:#F0B46C"></i><b>Yellow</b><small>Pantone 141 C · matte plastic</small></span></span>'],
               [("bubble_cmfboard", "Bubble CMF references")], 1),
-             ("final", "Final", ["An e-ink display, turn-and-click ring, battery, wireless charging coil, PCB, speaker module and magnets. The timer comes off the base for studying or free time."],
+             ("final", "Final", ["The timer comes off the base for studying or free time."],
               [("bubble_face", "Bubble main clock face"), ("bubble_timer", "Setting the timer"),
-               ("bubble_exploded", "Bubble exploded view render"), ("bubble_r3", "Bubble timer on a desk")], 2),
+               ("bubble_exploded", "Bubble exploded view, labeled: control ring, PCB, speaker module, magnets, e-ink display, turn + click ring, battery and wireless charging coil", "full"), ("bubble_r3", "Bubble timer on a desk")], 2),
          ]),
     dict(id="vivarium", num="08", name="Vivarium", kind="COMING SOON", hero="c_viv", soon=True,
          alt="Vivarium, blurred preview",
@@ -266,4 +266,4 @@ CONTACT = [
 TURNSTILE_SITEKEY = "0x4AAAAAAGLgEPURgpzYe-UI"
 
 # Vertical focus of each card image when the card is collapsed (CSS object-position y). Default 50%.
-HERO_FOCUS = {"wedge": "45%", "axio": "25%", "anar": "55%", "andon": "35%", "moai": "20%", "fern": "40%", "bubble": "30%"}
+HERO_FOCUS = {"wedge": "45%", "axio": "25%", "anar": "55%", "andon": "35%", "moai": "20%", "fern": "40%", "bubble": "50%"}

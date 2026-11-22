@@ -60,7 +60,6 @@ html{scroll-behavior:smooth}
 .lw-imgs{display:grid; gap:12px}
 .lw-imgs.c2{grid-template-columns:repeat(2, minmax(0,1fr))}
 .lw-imgs img{display:block; width:100%; height:auto; border-radius:10px; background:#D4CBBE; cursor:zoom-in}
-.lw-dfoot{display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; padding-top:24px; border-top:1px solid #D2CABF}
 .lw-two{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:24px}
 .lw-extra{background:#D4CBBE; border-radius:18px; overflow:hidden; display:flex; flex-direction:column}
 .lw-extra img{display:block; width:100%; aspect-ratio:16/10; object-fit:cover; background:#2A1F1E}

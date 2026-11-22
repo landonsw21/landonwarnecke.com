@@ -100,7 +100,6 @@
       if (openId === id) { closeProject(true); history.replaceState(null, '', location.pathname); } else openProject(id);
     });
   });
-  $$('[data-next]').forEach(function (b) { b.addEventListener('click', function () { openProject(b.getAttribute('data-next')); }); });
 
   // ---------- chapter bar: highlight the section under the bar ----------
   // ---------- the open project's title shrinks into the section bar as you scroll (it never leaves the screen) ----------

@@ -81,7 +81,6 @@ def head_block(label, title, sub, right=""):
 cards = []
 for i, p in enumerate(PROJECTS):
     pid = p["id"]
-    nxt = PROJECTS[(i + 1) % len(PROJECTS)]
     focus = HERO_FOCUS.get(pid, "50%")
     media = img(p["hero"], p["alt"], "lw-card-img" + (" is-blur" if p.get("soon") else ""), lazy=i > 2)
     hm = META.get(p["hero"], {"w": 2, "h": 1})
@@ -92,12 +91,16 @@ for i, p in enumerate(PROJECTS):
     for j, (slug, title, paras, imgs, cols) in enumerate(p["sections"]):
         cid = f"{pid}-{slug}"
         body = "".join(f"<p>{clean(t)}</p>" for t in paras if clean(t))
-        if imgs:
-            cls = "lw-imgs c2" if cols == 2 and len(imgs) > 1 else "lw-imgs"
-            # an image given as (key, alt, "wide") spans both columns
-            body += f'<div class="{cls}">' + "".join(img(k, a, "is-wide" if w else "", extra=f' data-lb="{pid}"') for k, a, *w in imgs) + "</div>"
+        # an image given as (key, alt, "wide") spans both image columns; (key, alt, "full") comes after the
+        # section's text and pictures and spans the whole section, under its heading too
+        flag = lambda t: t[2] if len(t) > 2 else ""
+        grid = [t for t in imgs if flag(t) != "full"]
+        full = "".join(f'<div class="lw-imgs lw-full">{img(t[0], t[1], extra=f" data-lb=\"{pid}\"")}</div>' for t in imgs if flag(t) == "full")
+        if grid:
+            cls = "lw-imgs c2" if cols == 2 and len(grid) > 1 else "lw-imgs"
+            body += f'<div class="{cls}">' + "".join(img(t[0], t[1], "is-wide" if flag(t) == "wide" else "", extra=f' data-lb="{pid}"') for t in grid) + "</div>"
         secs += (f'<section id="{cid}" class="lw-sec" data-chapter="{cid}"><h3>{e(title)}</h3>'
-                 f'<div class="lw-sec-body">{body}</div></section>')
+                 f'<div class="lw-sec-body">{body}</div>{full}</section>')
     cards.append(
         f'<article id="p-{pid}" class="lw-proj" data-project="{pid}"><div class="lw-unit">'
         f'<button class="lw-card" type="button" aria-expanded="false" aria-controls="d-{pid}" data-toggle="{pid}" style="--fy:{focus};--ar:{ar:.4f}">{media}'
@@ -108,7 +111,7 @@ for i, p in enumerate(PROJECTS):
         f'<nav class="lw-chapbar" aria-label="{e(p["name"])} sections"><span class="lw-chapslot" aria-hidden="true"></span><button class="lw-chapname" type="button" data-top="{pid}" tabindex="-1">{e(p["name"])}</button><div class="lw-chaps">{chaps}</div>'
         f'</nav>'
         f'<div class="lw-dbody"><dl class="lw-meta">{meta}</dl>{secs}'
-        f'<div class="lw-dfoot"><button class="lw-pill" type="button" data-next="{nxt["id"]}">Next: {e(nxt["name"])} →</button></div></div></div></div></div></article>')
+        f'</div></div></div></div></article>')
 projects_html = f'<div class="lw-list">{"".join(cards)}</div>'
 
 # ---------- extras ----------
@@ -241,6 +244,7 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-skip:focus{left:8px}
 .lw-imgs img{cursor:zoom-in}
 .lw-imgs.c2 .is-wide{grid-column:1 / -1}
+.lw-full{grid-column:1 / -1}
 .lw-palette{display:flex; flex-wrap:wrap; gap:16px 28px; padding-top:4px}
 .lw-sw{display:grid; grid-template-columns:48px auto; column-gap:12px; align-items:center}
 .lw-sw i{grid-row:1 / span 2; width:48px; height:48px; border-radius:10px; border:1px solid #D2CABF}
@@ -371,7 +375,6 @@ a.lw-crow:hover{color:#8E2F3A !important}
 .lw-fstatus.is-err{color:#B43C2F; font-weight:600}
 @media (max-width: 860px){ .lw-frow{grid-template-columns:1fr} .lw-tabs::after{content:""; flex:0 0 10px} }
 .lw-main{padding-top:32px}
-.lw-dfoot{justify-content:flex-end}
 .lw-rtop{display:flex; justify-content:flex-end; margin-bottom:24px}
 @media (max-width: 860px){ .lw-main{padding-top:20px} }
 [hidden]{display:none !important}
@@ -481,7 +484,6 @@ js = r"""(function () {
       if (openId === id) { closeProject(true); history.replaceState(null, '', location.pathname); } else openProject(id);
     });
   });
-  $$('[data-next]').forEach(function (b) { b.addEventListener('click', function () { openProject(b.getAttribute('data-next')); }); });
 
   // ---------- chapter bar: highlight the section under the bar ----------
   // ---------- the open project's title shrinks into the section bar as you scroll (it never leaves the screen) ----------

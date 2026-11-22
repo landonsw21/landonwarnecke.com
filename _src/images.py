@@ -9,6 +9,9 @@ usage (from the repo root):
   python3 _src/images.py sheet KEY COLS SOURCE... [--width 2400] [--rotate 90] [--photos]   combine scanned pages into one sheet
         (cropped to the drawings, even rows); --photos makes a board of whole photos instead (moodboards)
   python3 _src/images.py cut KEY PROJECT/file.dxf   a laser-cut DXF as portfolio-media/KEY.svg (sheet outline + part)
+  python3 _src/images.py label KEY   a render with part labels in the site's font (Manrope, ink, leader lines),
+        from _src/labels/KEY.json: source, output width, text size, the x where label text starts (right side) or
+        ends (left side), and per label its text, side, line height y and the point "at" on the part, all in output pixels
   python3 _src/images.py add KEY SOURCE [--width 1800] [--rotate 90]
         SOURCE: a path, "PROJECT/file name.jpg" (searched inside that ID copy project folder),
                 "PDF:PROJECT/deck.pdf:PAGE", "PDFIMG:PROJECT/deck.pdf:OBJ" (an image embedded in a PDF, at its
@@ -41,7 +44,7 @@ HEROES = {
     "h_andon":  ("ANDON/DSC07529.jpg", None),
     "h_moai":   ("MOAI/untitled.82.png", None),
     "h_fern":   ("Fern/DSC07706.png", None),
-    "h_bubble": ("PDFIMG:Bubble/Bubble.pdf:1063", None),   # the nightstand render itself, not the deck page
+    "h_bubble": ("PDFIMG:Bubble/Bubble.pdf:1063", (0.68, 0.25, 0.62, 1.5)),   # the nightstand render, zoomed in on the clock
 }
 
 
@@ -195,6 +198,37 @@ def sheet(key, cols, sources, width=2400, rotate=0, gap=64, margin=40, photos=Fa
     save(out, key)
 
 
+FONT = os.path.join(HERE, "tools", "fonts", "Manrope[wght].ttf")
+INK = (42, 31, 30)
+
+
+def label(key):
+    """A render with labelled parts: each label is text in Manrope Medium with a leader line that runs level from
+    the text, then at 45 degrees to a dot on the part (drawn at 2x, then scaled down for smooth lines)."""
+    import json
+    from PIL import ImageDraw, ImageFont
+    spec = json.load(open(os.path.join(HERE, "labels", key + ".json")))
+    w, k = spec["width"], 2
+    im = flat(Image.open(resolve(spec["source"])))
+    im = im.resize((w * k, round(im.height * w * k / im.width)), Image.LANCZOS)
+    d = ImageDraw.Draw(im)
+    font = ImageFont.truetype(FONT, spec["size"] * k)
+    font.set_variation_by_axes([500])
+    lw, r, gap = 3 * k, 8 * k, 22 * k
+    for lab in spec["labels"]:
+        ax, ay = lab["at"][0] * k, lab["at"][1] * k
+        y = lab["y"] * k
+        right = lab["side"] == "right"
+        tx = spec["text_x"]["right" if right else "left"] * k
+        # 45-degree run from the dot to the label's height, then level to the text
+        ex = ax + abs(ay - y) if right else ax - abs(ay - y)
+        end = tx - gap if right else tx + gap
+        d.line([(ax, ay), (ex, y), (end, y)], fill=INK, width=lw, joint="curve")
+        d.ellipse([ax - r, ay - r, ax + r, ay + r], fill=INK)
+        d.text((tx, y), lab["text"], font=font, fill=INK, anchor="lm" if right else "rm")
+    save(im.resize((w, round(im.height / k)), Image.LANCZOS), key)
+
+
 def cut(key, dxf):
     """A laser-cut DXF (SPLINE + LINE entities, inches) as an SVG drawing in pomegranate: the sheet outline and the part."""
     path = dxf if os.path.isabs(dxf) or os.path.exists(dxf) else find_in_project(*dxf.split("/", 1))
@@ -247,7 +281,7 @@ def cut(key, dxf):
 
 if __name__ == "__main__":
     args = sys.argv[1:]
-    if not args or args[0] not in ("heroes", "add", "crop", "sheet", "cut"):
+    if not args or args[0] not in ("heroes", "add", "crop", "sheet", "cut", "label"):
         sys.exit(__doc__)
     if args[0] == "heroes":
         heroes(args[1:])
@@ -255,6 +289,10 @@ if __name__ == "__main__":
         if len(args) != 6:
             sys.exit(__doc__)
         trim(args[1], *map(float, args[2:]))
+    elif args[0] == "label":
+        if len(args) != 2:
+            sys.exit(__doc__)
+        label(args[1])
     elif args[0] == "cut":
         if len(args) != 3:
             sys.exit(__doc__)
