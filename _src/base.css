@@ -50,9 +50,10 @@ html{scroll-behavior:smooth}
  .lw-chap.is-active:hover{box-shadow:inset 0 0 0 1px #8E2F3A, inset 0 0 0 3px #ECE7E0; transform:scale(1.04)}
 }
 .lw-dbody{padding:28px 32px 32px; display:flex; flex-direction:column; gap:52px}
-.lw-meta{margin:0; padding-bottom:24px; border-bottom:1px solid #D2CABF; display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:16px}
+.lw-meta{margin:0; padding-bottom:24px; border-bottom:1px solid #D2CABF; display:grid; grid-template-columns:max-content minmax(0,1fr); column-gap:20px; row-gap:8px; align-items:baseline}
+.lw-meta > div{display:contents}
 .lw-meta dt{font-size:11px; color:#6A5F58}
-.lw-meta dd{margin:4px 0 0; font-size:15px; line-height:1.35; font-weight:600}
+.lw-meta dd{margin:0; font-size:15px; line-height:1.35; font-weight:600}
 .lw-sec{display:grid; grid-template-columns:180px minmax(0,1fr); gap:28px; scroll-margin-top:80px}
 .lw-sec h3{margin:0; font-size:22px; line-height:1.2; font-weight:700; letter-spacing:-0.02em}
 .lw-sec-body{display:flex; flex-direction:column; gap:16px; min-width:0}
@@ -97,7 +98,7 @@ html{scroll-behavior:smooth}
  .lw-h1{font-size:32px}
  .lw-chapbar{top:122px}
  .lw-dbody{padding:20px 16px 24px; gap:36px}
- .lw-meta{grid-template-columns:repeat(2, minmax(0,1fr))}
+ .lw-meta{column-gap:14px}
  .lw-sec{grid-template-columns:1fr; gap:12px; scroll-margin-top:190px}
  .lw-imgs.c2, .lw-imgs.c3, .lw-two{grid-template-columns:1fr}
  .lw-lb figure{padding:64px 16px}
