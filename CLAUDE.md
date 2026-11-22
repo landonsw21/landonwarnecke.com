@@ -26,6 +26,11 @@ Static portfolio for Landon Warnecke (industrial design, Western Washington Univ
   - Debugging: Worker → Observability → Events logs each POST; a Turnstile rejection logs Cloudflare's error codes (e.g. `invalid-input-secret` = wrong TURNSTILE_SECRET). Turnstile always fails inside automated browsers (e.g. the Claude app's browser pane), so test in a normal browser.
   - Workers Builds settings: root directory `contact-worker`, deploy command `npx wrangler deploy`, no build command.
 
+## Image order (every project)
+1. The card photo is the project's highest-fidelity, most context-giving picture of the final model.
+2. The case study then starts from the brief and rough sketches and climbs in fidelity (sketches, models, prototypes, CAD) section by section and within each section.
+3. Final-model photos and renders appear only at the end, in Final (never in the Overview or brief).
+
 ## Design system
 Greige + Pomegranate, defined once in `theme.css` as `--lw-*` custom properties (light set + dark set).
 - The portfolio forces the light set (`<html data-theme="light">`); the tools follow the visitor's system light/dark setting.
