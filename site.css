@@ -16,11 +16,11 @@ html{scroll-behavior:smooth}
 .lw-about-toggle{display:none; align-items:center; min-height:40px; padding:0 14px; border-radius:10px; border:1px solid var(--lw-ink); background:transparent; color:var(--lw-ink); font:inherit; font-size:13px; font-weight:600; cursor:pointer}
 .lw-tabs{display:flex; flex-direction:column; gap:6px}
 .lw-tab{display:flex; justify-content:space-between; align-items:center; gap:10px; width:100%; min-height:46px; padding:10px 14px; border-radius:10px; border:1px solid var(--lw-line); background:transparent; color:var(--lw-muted); font:inherit; font-size:15px; font-weight:600; text-align:left; cursor:pointer; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
-/* tabs share the project-card hover: dimmed at rest; hover undims, outlines in pomegranate and grows slightly. The current tab is filled pomegranate; on hover it gets an outline ring and grows */
+/* tabs share the project-card hover: dimmed at rest; hover undims, outlines in pomegranate and grows slightly. The current tab is filled pomegranate; on hover a light ring shows just inside its pomegranate edge (drawn inside the tab, so it never crowds its neighbours) and it grows slightly */
 .lw-tab.is-active{background:var(--lw-accent); border-color:var(--lw-accent); color:var(--lw-on-accent)}
 @media (hover: hover){
  .lw-tab:not(.is-active):hover{border-color:var(--lw-accent); box-shadow:inset 0 0 0 1px var(--lw-accent); color:var(--lw-ink); transform:scale(1.02)}
- .lw-tab.is-active:hover{outline:2px solid var(--lw-accent); outline-offset:2px; transform:scale(1.02)}
+ .lw-tab.is-active:hover{box-shadow:inset 0 0 0 1px var(--lw-accent), inset 0 0 0 3px var(--lw-panel); transform:scale(1.02)}
 }
 .lw-tabnum{font-size:12px; opacity:.85}
 .lw-side-foot{display:flex; flex-direction:column; gap:6px; padding-top:8px; border-top:1px solid var(--lw-line); font-size:14px}
@@ -43,11 +43,11 @@ html{scroll-behavior:smooth}
 .lw-chaps{display:flex; gap:6px; padding:6px; overflow-x:auto; flex:1; min-width:0; scrollbar-width:none}
 .lw-chaps::-webkit-scrollbar{display:none}
 .lw-chap{flex:none; padding:8px 13px; border-radius:10px; border:1px solid var(--lw-line); color:var(--lw-muted) !important; text-decoration:none; font-size:13px; font-weight:600; white-space:nowrap; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
-/* section links share the tab states: dimmed at rest; hover undims, outlines in pomegranate and grows slightly; the current section is filled pomegranate */
+/* section links share the tab states: dimmed at rest; hover undims, outlines in pomegranate and grows slightly; the current section is filled pomegranate and shows the tabs' inner light ring on hover */
 .lw-chap.is-active{background:var(--lw-accent); border-color:var(--lw-accent); color:var(--lw-on-accent) !important}
 @media (hover: hover){
  .lw-chap:not(.is-active):hover{border-color:var(--lw-accent); box-shadow:inset 0 0 0 1px var(--lw-accent); color:var(--lw-ink) !important; transform:scale(1.04)}
- .lw-chap.is-active:hover{outline:2px solid var(--lw-accent); outline-offset:2px; transform:scale(1.04)}
+ .lw-chap.is-active:hover{box-shadow:inset 0 0 0 1px var(--lw-accent), inset 0 0 0 3px var(--lw-panel); transform:scale(1.04)}
 }
 .lw-dbody{padding:28px 32px 32px; display:flex; flex-direction:column; gap:52px}
 .lw-meta{margin:0; padding-bottom:24px; border-bottom:1px solid var(--lw-line); display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:16px}
@@ -164,8 +164,8 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
 @media (max-width: 860px){ .lw-chapname{font-size:14px} }
 /* --- portrait collapses the open project; floating button when the portrait is off screen --- */
 .lw-me{position:relative; flex:none; padding:0; border:0; background:none; border-radius:12px; cursor:pointer; line-height:0}
-.lw-fab{position:fixed; right:22px; bottom:22px; z-index:50; width:56px; height:56px; border-radius:50%; border:0; background:var(--lw-accent); color:var(--lw-on-accent); font:inherit; font-size:30px; font-weight:700; line-height:1; cursor:pointer; box-shadow:0 10px 28px color-mix(in srgb, var(--lw-ink) 28%, transparent); transition:background .15s, transform .15s}
-.lw-fab:hover{outline:2px solid var(--lw-accent); outline-offset:2px; transform:scale(1.06)}
+.lw-fab{position:fixed; right:22px; bottom:22px; z-index:50; width:56px; height:56px; border-radius:50%; border:0; background:var(--lw-accent); color:var(--lw-on-accent); font:inherit; font-size:30px; font-weight:700; line-height:1; cursor:pointer; box-shadow:0 10px 28px color-mix(in srgb, var(--lw-ink) 28%, transparent); transition:background .15s, box-shadow .2s, transform .15s}
+.lw-fab:hover{box-shadow:inset 0 0 0 2px var(--lw-accent), inset 0 0 0 4px var(--lw-panel), 0 10px 28px color-mix(in srgb, var(--lw-ink) 28%, transparent); transform:scale(1.06)}
 .lw-fab:focus-visible{outline:3px solid var(--lw-ink); outline-offset:3px}
 .lw-fab:not([hidden]){animation:lw-fab-in .28s cubic-bezier(.2,.7,.2,1)}
 @keyframes lw-fab-in{from{opacity:0; transform:scale(.6)}to{opacity:1; transform:none}}

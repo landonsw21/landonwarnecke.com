@@ -16,11 +16,11 @@ html{scroll-behavior:smooth}
 .lw-about-toggle{display:none; align-items:center; min-height:40px; padding:0 14px; border-radius:10px; border:1px solid #2A1F1E; background:transparent; color:#2A1F1E; font:inherit; font-size:13px; font-weight:600; cursor:pointer}
 .lw-tabs{display:flex; flex-direction:column; gap:6px}
 .lw-tab{display:flex; justify-content:space-between; align-items:center; gap:10px; width:100%; min-height:46px; padding:10px 14px; border-radius:10px; border:1px solid #D2CABF; background:transparent; color:#6A5F58; font:inherit; font-size:15px; font-weight:600; text-align:left; cursor:pointer; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
-/* tabs share the project-card hover: dimmed at rest; hover undims, outlines in pomegranate and grows slightly. The current tab is filled pomegranate; on hover it gets an outline ring and grows */
+/* tabs share the project-card hover: dimmed at rest; hover undims, outlines in pomegranate and grows slightly. The current tab is filled pomegranate; on hover a light ring shows just inside its pomegranate edge (drawn inside the tab, so it never crowds its neighbours) and it grows slightly */
 .lw-tab.is-active{background:#8E2F3A; border-color:#8E2F3A; color:#FFFFFF}
 @media (hover: hover){
  .lw-tab:not(.is-active):hover{border-color:#8E2F3A; box-shadow:inset 0 0 0 1px #8E2F3A; color:#2A1F1E; transform:scale(1.02)}
- .lw-tab.is-active:hover{outline:2px solid #8E2F3A; outline-offset:2px; transform:scale(1.02)}
+ .lw-tab.is-active:hover{box-shadow:inset 0 0 0 1px #8E2F3A, inset 0 0 0 3px #ECE7E0; transform:scale(1.02)}
 }
 .lw-tabnum{font-size:12px; opacity:.85}
 .lw-side-foot{display:flex; flex-direction:column; gap:6px; padding-top:8px; border-top:1px solid #D2CABF; font-size:14px}
@@ -43,11 +43,11 @@ html{scroll-behavior:smooth}
 .lw-chaps{display:flex; gap:6px; padding:6px; overflow-x:auto; flex:1; min-width:0; scrollbar-width:none}
 .lw-chaps::-webkit-scrollbar{display:none}
 .lw-chap{flex:none; padding:8px 13px; border-radius:10px; border:1px solid #D2CABF; color:#6A5F58 !important; text-decoration:none; font-size:13px; font-weight:600; white-space:nowrap; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
-/* section links share the tab states: dimmed at rest; hover undims, outlines in pomegranate and grows slightly; the current section is filled pomegranate */
+/* section links share the tab states: dimmed at rest; hover undims, outlines in pomegranate and grows slightly; the current section is filled pomegranate and shows the tabs' inner light ring on hover */
 .lw-chap.is-active{background:#8E2F3A; border-color:#8E2F3A; color:#FFFFFF !important}
 @media (hover: hover){
  .lw-chap:not(.is-active):hover{border-color:#8E2F3A; box-shadow:inset 0 0 0 1px #8E2F3A; color:#2A1F1E !important; transform:scale(1.04)}
- .lw-chap.is-active:hover{outline:2px solid #8E2F3A; outline-offset:2px; transform:scale(1.04)}
+ .lw-chap.is-active:hover{box-shadow:inset 0 0 0 1px #8E2F3A, inset 0 0 0 3px #ECE7E0; transform:scale(1.04)}
 }
 .lw-dbody{padding:28px 32px 32px; display:flex; flex-direction:column; gap:52px}
 .lw-meta{margin:0; padding-bottom:24px; border-bottom:1px solid #D2CABF; display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:16px}
