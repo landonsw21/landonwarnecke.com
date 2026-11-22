@@ -7,8 +7,8 @@ BIO = ("Industrial design student at Western Washington University. I enjoy solv
 PROJECTS = [
     dict(id="wedge", num="01", name="WEDGE", kind="NAPKIN HOLDER", hero="h_wedge",
          alt="WEDGE napkin holder, close-up with a stack of napkins",
-         line="Folded sheet-metal napkin holder",
-         meta=[("Type", "Sheet-metal napkin holder")],
+         line="Napkin holder",
+         meta=[("Type", "Napkin holder folded from one metal sheet")],
          sections=[
              ("overview", "Overview", ["A napkin holder made from one folded sheet of metal. [TO WRITE: the brief or constraint, and who it is for.]"],
               [("wedge_overview", "WEDGE napkin holder in brushed metal")], 1),
@@ -30,8 +30,8 @@ PROJECTS = [
          ]),
     dict(id="axio", num="02", name="AXIO", kind="FACE WASH + MOISTURIZER", hero="h_axio",
          alt="AXIO amber face wash and moisturizer bottles",
-         line="Face wash and moisturizer pair",
-         meta=[("Type", "Refillable gel and foam bottles"), ("Tools", "Illustrator, Rhino, KeyShot")],
+         line="Skincare bottle pair",
+         meta=[("Type", "Refillable face wash and moisturizer bottle pair"), ("Tools", "Illustrator, Rhino, KeyShot")],
          sections=[
              ("brief", "Brief", ["Design a face wash and moisturizer pair that complement each other in form, color, material and purpose. They have to stand upright without tipping; be easy to handle, open, pour and close; hold about 8 to 12 ounces; and have an original form that stands apart from competitors."], [], 1),
              ("research", "Research", ["<strong>User:</strong> Jordan Williams, 32, a style-driven urban creative. He's a freelance photographer and content producer in Los Angeles who rents a loft-style apartment and lives alone.",
@@ -54,8 +54,8 @@ PROJECTS = [
          ]),
     dict(id="anar", num="03", name="ANAR KARI", kind="POMEGRANATE TOOLSET", hero="h_anar",
          alt="Anar Kari pomegranate bowl and muddler, stained with pomegranate juice",
-         line="Pomegranate preparation toolset",
-         meta=[("Type", "Wood and aluminum kitchen toolset"), ("Team", "Dhwani & Landon")],
+         line="Pomegranate toolset",
+         meta=[("Type", "Wood and aluminum tools for preparing pomegranates"), ("Team", "Dhwani & Landon")],
          sections=[
              ("objective", "Objective", ["A wood and aluminum toolset that honors the careful ritual of preparing pomegranates.",
                                          "<strong>Problem space:</strong> pomegranates can be difficult to prepare with current tools while still respecting the fruit.",
@@ -77,8 +77,8 @@ PROJECTS = [
          ]),
     dict(id="andon", num="04", name="ANDON", kind="TABLE LIGHT", hero="h_andon",
          alt="ANDON table light glowing in a dark room",
-         line="Table light with paper insert",
-         meta=[("Type", "Yupo and polystyrene table light")],
+         line="Table light",
+         meta=[("Type", "Framed table light with a glowing paper insert"), ("Materials", "Yupo, polystyrene")],
          sections=[
              ("overview", "Overview", ["A framed table light whose paper insert shapes a soft, graded glow."], [], 1),
              ("inspiration", "Inspiration", ["Geometric, simple, fun. References included Venini glass, Vanessa Veck, lithophanes and Lite Brite."],
@@ -95,8 +95,8 @@ PROJECTS = [
          ]),
     dict(id="moai", num="05", name="MOAI", kind="DESKTOP AC UNIT", hero="h_moai",
          alt="MOAI desktop AC unit, rendered in black",
-         line="Quiet desktop air conditioner",
-         meta=[("Type", "Desktop AC unit"), ("User", "Home office"), ("Tools", "Rhino, KeyShot")],
+         line="Desktop air conditioner",
+         meta=[("Type", "Small, quiet air conditioner for home offices"), ("Tools", "Rhino, KeyShot")],
          sections=[
              ("overview", "Overview", ["A small, quiet desktop air conditioner for the home office."], [], 1),
              ("research", "Research", ["<strong>User group:</strong> home office. <strong>Priorities:</strong> small footprint, quiet, ease of use."],
@@ -110,8 +110,8 @@ PROJECTS = [
          ]),
     dict(id="fern", num="06", name="Fern", kind="PLEIN AIR WATERCOLOR BAG", hero="h_fern",
          alt="Fern watercolor bag open with brushes and paints",
-         line="Plein air watercolor bag",
-         meta=[("Type", "Soft goods in Sunforger canvas, elastic and foam")],
+         line="Watercolor bag",
+         meta=[("Type", "Watercolor bag that moves with plein air artists"), ("Materials", "Sunforger canvas, elastic, foam"), ("Users", "Plein air watercolorists")],
          sections=[
              ("overview", "Overview", ["A watercolor bag that moves with plein air artists, with less setup and cleanup."], [], 1),
              ("user", "User", ["<strong>Raul Beardsley</strong>, a plein air watercolorist. Pigments and materials get lost in larger bags. Pigment and water collect, creating mold and mildew. Water is hard to store and use in current setups."], [], 1),
@@ -131,7 +131,7 @@ PROJECTS = [
     dict(id="bubble", num="07", name="Bubble", kind="KIDS' ALARM CLOCK + TIMER", hero="h_bubble",
          alt="Bubble alarm clock in coral, teal and yellow",
          line="Kids' alarm clock and timer",
-         meta=[("Type", "Consumer electronics"), ("Team", "Landon & Zetta Prendergast"), ("Users", "Kids 6–12"), ("Deliverables", "Form, UI, CMF spec")],
+         meta=[("Type", "Playful alarm clock with a removable timer"), ("Team", "Landon & Zetta Prendergast"), ("Users", "Kids 6–12")],
          sections=[
              ("overview", "Overview", ["A playful alarm clock and removable timer that helps kids build healthy habits around time."], [], 1),
              ("research", "Research", ["<strong>Pain points:</strong> reliance on phones many are trying to get away from; annoying or jarring sounds; screens too bright or too dark; complicated interfaces that make alarms hard to set.",
@@ -154,7 +154,7 @@ PROJECTS = [
     dict(id="vivarium", num="08", name="Vivarium", kind="COMING SOON", hero="c_viv", soon=True,
          alt="Vivarium, blurred preview",
          line="Coming soon: climate-controlled enclosure",
-         meta=[("Type", "Climate-controlled enclosure"), ("Program", "GIA"), ("Status", "In progress")],
+         meta=[("Type", "Climate-controlled enclosure for first-time reptile and amphibian keepers"), ("Status", "In progress")],
          sections=[
              ("overview", "Overview", ["A climate-controlled enclosure for first-time reptile and amphibian keepers. A GIA project."], [], 1),
              ("user", "The user", ["<strong>Avery Daniels</strong>, 23, a first-time keeper setting up a first enclosure at home. Avery wants a healthy animal and the companionship that comes with it, and worries about getting the habitat wrong without knowing it."],
