@@ -112,7 +112,6 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
 .lw-skip:focus{left:8px}
 .lw-imgs img{cursor:zoom-in}
 .lw-imgs.c2 .is-wide{grid-column:1 / -1}
-.lw-full{grid-column:1 / -1}
 .lw-palette{display:flex; flex-wrap:wrap; gap:16px 28px; padding-top:4px}
 .lw-sw{display:grid; grid-template-columns:48px auto; column-gap:12px; align-items:center}
 .lw-sw i{grid-row:1 / span 2; width:48px; height:48px; border-radius:10px; border:1px solid var(--lw-line)}

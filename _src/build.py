@@ -91,16 +91,12 @@ for i, p in enumerate(PROJECTS):
     for j, (slug, title, paras, imgs, cols) in enumerate(p["sections"]):
         cid = f"{pid}-{slug}"
         body = "".join(f"<p>{clean(t)}</p>" for t in paras if clean(t))
-        # an image given as (key, alt, "wide") spans both image columns; (key, alt, "full") comes after the
-        # section's text and pictures and spans the whole section, under its heading too
-        flag = lambda t: t[2] if len(t) > 2 else ""
-        grid = [t for t in imgs if flag(t) != "full"]
-        full = "".join(f'<div class="lw-imgs lw-full">{img(t[0], t[1], extra=f" data-lb=\"{pid}\"")}</div>' for t in imgs if flag(t) == "full")
-        if grid:
-            cls = "lw-imgs c2" if cols == 2 and len(grid) > 1 else "lw-imgs"
-            body += f'<div class="{cls}">' + "".join(img(t[0], t[1], "is-wide" if flag(t) == "wide" else "", extra=f' data-lb="{pid}"') for t in grid) + "</div>"
+        if imgs:
+            cls = "lw-imgs c2" if cols == 2 and len(imgs) > 1 else "lw-imgs"
+            # an image given as (key, alt, "wide") spans both columns
+            body += f'<div class="{cls}">' + "".join(img(k, a, "is-wide" if w else "", extra=f' data-lb="{pid}"') for k, a, *w in imgs) + "</div>"
         secs += (f'<section id="{cid}" class="lw-sec" data-chapter="{cid}"><h3>{e(title)}</h3>'
-                 f'<div class="lw-sec-body">{body}</div>{full}</section>')
+                 f'<div class="lw-sec-body">{body}</div></section>')
     cards.append(
         f'<article id="p-{pid}" class="lw-proj" data-project="{pid}"><div class="lw-unit">'
         f'<button class="lw-card" type="button" aria-expanded="false" aria-controls="d-{pid}" data-toggle="{pid}" style="--fy:{focus};--ar:{ar:.4f}">{media}'
@@ -244,7 +240,6 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-skip:focus{left:8px}
 .lw-imgs img{cursor:zoom-in}
 .lw-imgs.c2 .is-wide{grid-column:1 / -1}
-.lw-full{grid-column:1 / -1}
 .lw-palette{display:flex; flex-wrap:wrap; gap:16px 28px; padding-top:4px}
 .lw-sw{display:grid; grid-template-columns:48px auto; column-gap:12px; align-items:center}
 .lw-sw i{grid-row:1 / span 2; width:48px; height:48px; border-radius:10px; border:1px solid #D2CABF}
