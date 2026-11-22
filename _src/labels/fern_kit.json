@@ -1,0 +1,13 @@
+{
+ "source": "Fern/DSC07706.png",
+ "width": 2400,
+ "size": 46,
+ "text_x": {"left": 330, "right": 1960},
+ "labels": [
+  {"text": "Brushes",                        "side": "left",  "y": 250,  "at": [1180, 400]},
+  {"text": "Cleaning rag",                   "side": "left",  "y": 430,  "at": [640, 650]},
+  {"text": "Water bottle",                   "side": "left",  "y": 1000, "at": [650, 880]},
+  {"text": "Pen and pencil",                 "side": "right", "y": 180,  "at": [1440, 240]},
+  {"text": "Altoids tin (palette, pigment)", "side": "right", "y": 1290, "at": [900, 720], "x": 1530}
+ ]
+}

@@ -59,6 +59,7 @@ html{scroll-behavior:smooth}
 .lw-sec-body p{margin:0; font-size:16px; line-height:1.6; max-width:700px}
 .lw-imgs{display:grid; gap:12px}
 .lw-imgs.c2{grid-template-columns:repeat(2, minmax(0,1fr))}
+.lw-imgs.c3{grid-template-columns:repeat(3, minmax(0,1fr))}
 .lw-imgs img{display:block; width:100%; height:auto; border-radius:10px; background:#D4CBBE; cursor:zoom-in}
 .lw-two{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:24px}
 .lw-extra{background:#D4CBBE; border-radius:18px; overflow:hidden; display:flex; flex-direction:column}
@@ -98,7 +99,7 @@ html{scroll-behavior:smooth}
  .lw-dbody{padding:20px 16px 24px; gap:36px}
  .lw-meta{grid-template-columns:repeat(2, minmax(0,1fr))}
  .lw-sec{grid-template-columns:1fr; gap:12px; scroll-margin-top:190px}
- .lw-imgs.c2, .lw-two{grid-template-columns:1fr}
+ .lw-imgs.c2, .lw-imgs.c3, .lw-two{grid-template-columns:1fr}
  .lw-lb figure{padding:64px 16px}
 }
 @media (prefers-reduced-motion: reduce){

@@ -92,7 +92,7 @@ for i, p in enumerate(PROJECTS):
         cid = f"{pid}-{slug}"
         body = "".join(f"<p>{clean(t)}</p>" for t in paras if clean(t))
         if imgs:
-            cls = "lw-imgs c2" if cols == 2 and len(imgs) > 1 else "lw-imgs"
+            cls = f"lw-imgs c{cols}" if cols in (2, 3) and len(imgs) > 1 else "lw-imgs"
             # an image given as (key, alt, "wide") spans both columns
             body += f'<div class="{cls}">' + "".join(img(k, a, "is-wide" if w else "", extra=f' data-lb="{pid}"') for k, a, *w in imgs) + "</div>"
         secs += (f'<section id="{cid}" class="lw-sec" data-chapter="{cid}"><h3>{e(title)}</h3>'
@@ -239,7 +239,7 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-skip{position:absolute; left:-9999px; top:8px; z-index:2000; padding:10px 14px; border-radius:8px; background:#2A1F1E; color:#FFFFFF !important}
 .lw-skip:focus{left:8px}
 .lw-imgs img{cursor:zoom-in}
-.lw-imgs.c2 .is-wide{grid-column:1 / -1}
+.lw-imgs.c2 .is-wide, .lw-imgs.c3 .is-wide{grid-column:1 / -1}
 .lw-palette{display:flex; flex-wrap:wrap; gap:16px 28px; padding-top:4px}
 .lw-sw{display:grid; grid-template-columns:48px auto; column-gap:12px; align-items:center}
 .lw-sw i{grid-row:1 / span 2; width:48px; height:48px; border-radius:10px; border:1px solid #D2CABF}

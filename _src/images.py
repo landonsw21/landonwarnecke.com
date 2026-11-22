@@ -11,7 +11,8 @@ usage (from the repo root):
   python3 _src/images.py cut KEY PROJECT/file.dxf   a laser-cut DXF as portfolio-media/KEY.svg (sheet outline + part)
   python3 _src/images.py label KEY   a render with part labels in the site's font (Manrope, ink, leader lines),
         from _src/labels/KEY.json: source, output width, text size, the x where label text starts (right side) or
-        ends (left side), and per label its text, side, line height y and the point "at" on the part, all in output pixels
+        ends (left side), and per label its text, side, line height y and the point "at" on the part (optional "x" moves
+        that label's text), all in output pixels
   python3 _src/images.py add KEY SOURCE [--width 1800] [--rotate 90]
         SOURCE: a path, "PROJECT/file name.jpg" (searched inside that ID copy project folder),
                 "PDF:PROJECT/deck.pdf:PAGE", "PDFIMG:PROJECT/deck.pdf:OBJ" (an image embedded in a PDF, at its
@@ -43,7 +44,7 @@ HEROES = {
     "h_anar":   ("ANAR KARI/Pomegranate.png", None),
     "h_andon":  ("ANDON/DSC07529.jpg", None),
     "h_moai":   ("MOAI/untitled.82.png", None),
-    "h_fern":   ("Fern/DSC07706.png", None),
+    "h_fern":   ("Fern/DSC07676.png", (0.5, 0.56, 0.85, 1.5)),   # painting from the open kit (DSC07706 is soft)
     "h_bubble": ("PDFIMG:Bubble/Bubble.pdf:1063", (0.68, 0.25, 0.62, 1.5)),   # the nightstand render, zoomed in on the clock
 }
 
@@ -219,7 +220,7 @@ def label(key):
         ax, ay = lab["at"][0] * k, lab["at"][1] * k
         y = lab["y"] * k
         right = lab["side"] == "right"
-        tx = spec["text_x"]["right" if right else "left"] * k
+        tx = lab.get("x", spec["text_x"]["right" if right else "left"]) * k
         # 45-degree run from the dot to the label's height, then level to the text
         ex = ax + abs(ay - y) if right else ax - abs(ay - y)
         end = tx - gap if right else tx + gap

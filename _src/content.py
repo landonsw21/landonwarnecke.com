@@ -102,11 +102,11 @@ PROJECTS = [
              ("research", "Research", ["<strong>User group:</strong> home office. <strong>Priorities:</strong> small footprint, quiet, ease of use."],
               [("moai_thumbs", "MOAI thumbnail sketches"), ("moai_concepts", "MOAI concept sketches"), ("moai_desk", "MOAI sketch model at a desk")], 1),
              ("ideation", "Ideation", ["Directions included a desk clip-on, a windowsill unit, surround cooling, a desktop unit and multidirectional airflow."],
-              [("moai_sk1", "MOAI sketch sheet"), ("moai_sk2", "MOAI final sketch sheet")], 2),
+              [("moai_sk1", "MOAI sketch sheet")], 2),
              ("refinement", "Refinement", ["The desktop direction was refined in sketches and foam models."],
               [("moai_m1", "MOAI foam sketch models"), ("moai_m2", "MOAI refined foam model"), ("moai_m3", "MOAI foam model on a desk"), ("moai_m4", "MOAI model with comparison objects")], 2),
-             ("final", "Final", ["Final renders detail the light slider, louvre tab and USB-C power, alongside a fisheye render from KeyShot."],
-              [("moai_f1", "MOAI render with light slider"), ("moai_f2", "MOAI louvres lit blue"), ("moai_f3", "MOAI power button detail"), ("moai_f4", "MOAI USB-C port detail"), ("moai_fish", "MOAI fisheye render")], 2),
+             ("final", "Final", ["Final renders detail the light slider, louvre tab and USB-C power."],
+              [("moai_f1", "MOAI render with light slider", "wide"), ("moai_f2", "MOAI louvres lit blue"), ("moai_f3", "MOAI power button detail"), ("moai_f4", "MOAI USB-C port detail")], 3),
          ]),
     dict(id="fern", num="06", name="Fern", kind="PLEIN AIR WATERCOLOR BAG", hero="h_fern",
          alt="Fern watercolor bag open with brushes and paints",
@@ -126,7 +126,7 @@ PROJECTS = [
              ("cmf", "CMF", ["<strong>Sage Sunforger canvas</strong> resists water and mildew. <strong>Brown cloth</strong> marks the touchpoints, <strong>terracotta and tan elastic</strong> close it and <strong>foam pads</strong> give it structure. The elastic was dyed by hand."],
               [("fern_cmfboard", "Fern materials, and hand-dyeing the elastic")], 1),
              ("final", "Final", [],
-              [("fern_f1", "Fern carried closed under the arm"), ("fern_f2", "Fern held closed in one hand"), ("fern_f3", "Fern open while painting"), ("fern_f4", "Fern laid flat with supplies")], 2),
+              [("fern_f3", "Fern open while painting", "wide"), ("fern_kit", "Fern open, labeled: brushes, pen and pencil, cleaning rag, water bottle and an Altoids tin for palette and pigment", "wide"), ("fern_f2", "Fern held closed in one hand"), ("fern_f1", "Fern carried closed at the side")], 2),
          ]),
     dict(id="bubble", num="07", name="Bubble", kind="KIDS' ALARM CLOCK + TIMER", hero="h_bubble",
          alt="Bubble alarm clock in coral, teal and yellow",
@@ -267,4 +267,4 @@ CONTACT = [
 TURNSTILE_SITEKEY = "0x4AAAAAAGLgEPURgpzYe-UI"
 
 # Vertical focus of each card image when the card is collapsed (CSS object-position y). Default 50%.
-HERO_FOCUS = {"wedge": "45%", "axio": "25%", "anar": "55%", "andon": "35%", "moai": "20%", "fern": "40%", "bubble": "50%"}
+HERO_FOCUS = {"wedge": "45%", "axio": "25%", "anar": "55%", "andon": "35%", "moai": "20%", "fern": "50%", "bubble": "50%"}
