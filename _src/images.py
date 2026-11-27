@@ -47,7 +47,7 @@ HEROES = {
     "h_axio":   ("AXIO/untitled.14.png", None),
     "h_anar":   ("ANAR KARI/Pomegranate.png", None),
     "h_andon":  ("ANDON/DSC07550.jpg", None),   # lit at dusk by the window
-    "h_moai":   ("MOAI/untitled.82.png", (0.49, 0.25, 0.5, 1.5)),   # zoomed in on the interface face (power, light slider, cooling)
+    "h_moai":   ("MOAI/untitled.82.png", (0.49, 0.25, 0.7, 1.5)),   # pulled in on the interface face (power, light slider, cooling), whole top of the unit
     "h_fern":   ("Fern/DSC07676.png", (0.5, 0.56, 0.85, 1.5)),   # painting from the open kit (DSC07706 is soft)
     "h_bubble": ("PDFIMG:Bubble/Bubble.pdf:1063", (0.68, 0.25, 0.62, 1.5)),   # the nightstand render, zoomed in on the clock
 }
