@@ -25,8 +25,8 @@ usage (from the repo root):
   then: python3 _src/build.py
 
 Card images are full frames showing one product (the whole photo unless a crop is given below).
-A card has three sizes: resting (a thin band of the image), hover (2x the band) and clicked (the whole
-image, at its own aspect ratio). Which band shows while resting/hovering is set per project in
+A card has two sizes: resting (a band of the image, 384px tall on desktop) and clicked (the whole
+image, at its own aspect ratio); hover only undims it. Which band shows while resting is set per project in
 content.py (HERO_FOCUS, CSS object-position y); build.py reads each image's aspect ratio itself.
 """
 import os, sys, subprocess, tempfile

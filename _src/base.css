@@ -17,8 +17,7 @@ html{scroll-behavior:smooth}
 .lw-menu{display:contents}
 .lw-menu-btn{display:none; flex:none; align-items:center; justify-content:center; width:44px; height:44px; margin-left:auto; padding:0; border:0; border-radius:10px; background:transparent; color:#2A1F1E; cursor:pointer}
 .lw-menu-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; transition:transform .25s}
-/* desktop: one fixed 256px column, as wide as a resting project card is tall, so the frame and the cards echo each
-   other. Same contents and order as the original; inside it the photo (80x100) and the name (20px, on two lines) lead, the tabs follow (16px),
+/* desktop: one fixed 256px column (resting project cards are 1.5x that, 384px, tall). Same contents and order as the original; inside it the photo (80x100) and the name (20px, on two lines) lead, the tabs follow (16px),
    About me is a quiet caption (14px, muted) and the footer is smallest. It never changes size. Phones use the header + menu below. */
 @media (min-width: 861px){
  .lw-side{width:256px; padding:32px 16px; gap:24px}

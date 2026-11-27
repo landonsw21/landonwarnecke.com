@@ -242,11 +242,12 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-extra img{height:auto}
 /* portrait: shown as is; a pomegranate border on hover. Clicking it goes back to Projects (collapsing an open project) */
 @media (hover: hover){ .lw-me:hover::after{box-shadow:inset 0 0 0 2px #8E2F3A} }
-/* --- project cards: darkened image with the name on top. Three sizes: resting band, hover (2x, shade lifted), clicked (the whole image) --- */
+/* --- project cards: darkened image with the name on top. Two sizes: resting band (384px desktop) and clicked (the whole image);
+   hover only lifts the shade and draws the pomegranate outline (no growth) --- */
 .lw-proj{padding-bottom:24px; scroll-margin-top:16px}
 .lw-proj:last-child{padding-bottom:0}
 .lw-unit{container-type:inline-size; border-radius:18px; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s}
-.lw-card{--h:256px; position:relative; display:block; width:100%; height:var(--h); padding:0; border:0; border-radius:18px; overflow:hidden; background:#2A1F1E; color:#FFFFFF; text-align:left; cursor:pointer; transition:height .5s cubic-bezier(.2,.7,.2,1), border-radius .3s}
+.lw-card{--h:384px; position:relative; display:block; width:100%; height:var(--h); padding:0; border:0; border-radius:18px; overflow:hidden; background:#2A1F1E; color:#FFFFFF; text-align:left; cursor:pointer; transition:height .5s cubic-bezier(.2,.7,.2,1), border-radius .3s}
 .lw-card-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% var(--fy, 50%); background:#2A1F1E}
 .lw-card-img.is-blur{filter:blur(14px) saturate(.9); transform:scale(1.12)}
 .lw-card::before{content:""; position:absolute; inset:0; z-index:1; background:color-mix(in srgb, #2A1F1E 42%, transparent); transition:opacity .5s}
@@ -257,7 +258,6 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-card:focus-visible{outline:3px solid #8E2F3A; outline-offset:3px}
 @media (hover: hover){
  .lw-proj:hover .lw-unit{outline-color:#8E2F3A}
- .lw-proj:hover .lw-card{height:calc(var(--h) * 2)}
  .lw-proj:hover .lw-card::before{opacity:0}
 }
 .lw-proj.is-open .lw-unit{outline-color:#8E2F3A}
