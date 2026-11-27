@@ -33,6 +33,11 @@ Static portfolio for Landon Warnecke (industrial design, Western Washington Univ
 4. Check every sketch and scan is upright before adding it: titles and notes read left to right, products stand on their bases. Many scans and phone photos of sheets come in sideways; fix with `images.py add ... --rotate 90` (or 270), never by rotating the web copy.
 
 ## Design system
+Proportions (keep every new value on these; base.css says the same at the top):
+- Spacing: 4, 8, 12, 16, 24, 32, 48 px (120 only for the page bottom). Gaps between cards/tiles and the inset of everything inside a card, project drawer or tile: 24 desktop, 16 phones (the drawer's 1px border is counted, so its padding is 23 / 15). Page edges: 32 top, 48 sides desktop; 16 phones. Case-study sections 48 apart (32 phones).
+- Text: 12 (mono labels), 14 (secondary, chips, buttons in cards), 16 (body, tabs, card lines), 20 (name, resume headings, contact links), 24 (section and card headings), 30 (project card titles). Side-by-side section headings sit on the baseline of their first text line.
+- Corners: 10 for controls, images, inputs and the portrait; 18 for cards, drawers, tiles and extras. Touch targets 44-48 tall.
+- Inside an open project the title on the photo, the section chips, the docked title and the text all share one left edge (site.js docks the title at the bar's padding).
 Greige + Pomegranate, defined once in `theme.css` as `--lw-*` custom properties (light set + dark set).
 - The portfolio forces the light set (`<html data-theme="light">`); the tools follow the visitor's system light/dark setting.
 - To change the palette: edit the values in `theme.css` (both the light block and the two identical dark blocks), commit, push. Keep text contrast at 4.5:1 or better.

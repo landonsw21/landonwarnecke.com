@@ -72,11 +72,6 @@ def clean(text):
     return _PLACEHOLDER.sub("", text).strip()
 
 
-def head_block(label, title, sub, right=""):
-    return (f'<header class="lw-head"><div style="display:flex;flex-direction:column;gap:10px;max-width:640px">'
-            f'{f'<span class="lw-mono lw-label">{label}</span>' if label else ''}<h1 class="lw-h1">{title}</h1>{f'<p class="lw-sub">{sub}</p>' if sub else ''}</div>{right}</header>')
-
-
 # ---------- projects ----------
 cards = []
 for i, p in enumerate(PROJECTS):
@@ -128,22 +123,22 @@ gallery_html = f'<div class="lw-tiles">{"".join(tile(i, label, items) for i, (la
 
 # ---------- resume ----------
 def rrow(r):
-    return (f'<div class="lw-rrow"><span class="lw-mono lw-label" style="padding-top:3px">{e(r[0])}</span>'
-            f'<div style="display:flex;flex-direction:column;gap:3px"><b>{e(clean(r[1]))}</b><small>{e(clean(r[2]))}</small></div></div>')
+    return (f'<div class="lw-rrow"><span class="lw-mono lw-label">{e(r[0])}</span>'
+            f'<div style="display:flex;flex-direction:column;gap:4px"><b>{e(clean(r[1]))}</b><small>{e(clean(r[2]))}</small></div></div>')
 
 
-skills = "".join(f'<div class="lw-rrow" style="grid-template-columns:170px minmax(0,1fr)"><b style="font-size:14px">{e(a)}</b>'
-                 f'<span style="font-size:15px;line-height:1.5">{e(b)}</span></div>' for a, b in RESUME["skills"])
+skills = "".join(f'<div class="lw-rrow" style="grid-template-columns:176px minmax(0,1fr)"><b style="font-size:14px">{e(a)}</b>'
+                 f'<span style="font-size:14px;line-height:1.5">{e(b)}</span></div>' for a, b in RESUME["skills"])
 pdf = RESUME.get("pdf")
 resume_html = ((f'<div class="lw-rtop"><a class="lw-pill" style="color:var(--lw-on-accent)" href="{e(pdf)}" download>Download PDF ↓</a></div>' if pdf else "")
-               + '<div class="lw-two" style="gap:40px"><div style="display:flex;flex-direction:column;gap:36px">'
+               + '<div class="lw-two" style="gap:48px"><div style="display:flex;flex-direction:column;gap:32px">'
                + f'<section class="lw-rblock"><h2>Education</h2>{"".join(rrow(r) for r in RESUME["education"])}</section>'
                + f'<section class="lw-rblock"><h2>Experience</h2>{"".join(rrow(r) for r in RESUME["experience"])}</section>'
                + f'<section class="lw-rblock"><h2>Activities</h2>{"".join(rrow(r) for r in RESUME["activities"])}</section></div>'
-               + '<div style="display:flex;flex-direction:column;gap:36px">'
+               + '<div style="display:flex;flex-direction:column;gap:32px">'
                + f'<section class="lw-rblock"><h2>Skills</h2>{skills}</section>'
-               + f'<section class="lw-rblock"><h2>Languages</h2><p class="lw-rrow" style="display:block;margin:0;font-size:15px">{e(RESUME["languages"])}</p></section>'
-               + f'<section class="lw-rblock"><h2>Interests</h2><p class="lw-rrow" style="display:block;margin:0;font-size:15px;line-height:1.55">{e(RESUME["interests"])}</p></section></div></div>')
+               + f'<section class="lw-rblock"><h2>Languages</h2><p class="lw-rrow" style="display:block;margin:0;font-size:14px;line-height:1.6">{e(RESUME["languages"])}</p></section>'
+               + f'<section class="lw-rblock"><h2>Interests</h2><p class="lw-rrow" style="display:block;margin:0;font-size:14px;line-height:1.6">{e(RESUME["interests"])}</p></section></div></div>')
 
 tabs = [("projects", "Projects"), ("extras", "Extras"), ("gallery", "Gallery"), ("resume", "Resume"), ("contact", "Contact")]
 tab_btns = "".join(
@@ -167,8 +162,7 @@ cform = (f'<form class="lw-form" id="cform" data-sitekey="{e(TURNSTILE_SITEKEY)}
          '<p class="lw-fstatus" id="cform-status" role="status" aria-live="polite"></p></div>'
          '<noscript><p class="lw-fstatus">The form needs JavaScript. You can also use the links below.</p></noscript>'
          '</form>')
-contact_html = (head_block(None, "Contact me", "")
-                + f'<div class="lw-contact-wrap">{cform}<div class="lw-contact">{crows}</div></div>')
+contact_html = (f'<div class="lw-contact-wrap">{cform}<div class="lw-contact">{crows}</div></div>')
 panes = {"projects": projects_html, "contact": contact_html, "extras": extras_html, "gallery": gallery_html, "resume": resume_html}
 main = "".join(f'<div class="lw-pane" id="tab-{k}" data-pane="{k}"{"" if k == "projects" else " hidden"}>{panes[k]}</div>' for k, _ in tabs)
 
@@ -216,16 +210,16 @@ doc = f'''<!doctype html>
 <button class="lw-about-toggle" type="button" aria-expanded="false" data-about>About me</button></div>
 <div class="lw-bio"><p>{e(BIO)}</p></div>
 <nav class="lw-tabs" aria-label="Sections">{tab_btns}</nav>
-<div class="lw-side-foot"><span style="font-size:13px;color:var(--lw-muted)">© 2026 Landon Warnecke</span></div>
+<div class="lw-side-foot"><span style="color:var(--lw-muted)">© 2026 Landon Warnecke</span></div>
 </aside>
 <main class="lw-main" id="main">{main}</main>
 </div>
 <section class="lw-lb" id="lb" aria-label="Image viewer" hidden>
 <button class="lw-lb-bg" type="button" data-lbclose aria-label="Close image viewer"></button>
 <figure><img id="lb-img" src="" alt=""><figcaption><span class="lw-mono" id="lb-count" style="font-size:12px;color:rgba(255,255,255,.75)"></span><span id="lb-cap"></span></figcaption></figure>
-<button class="lw-lbicon" type="button" style="left:18px;top:50%;margin-top:-24px" data-lbstep="-1" aria-label="Previous image">←</button>
-<button class="lw-lbicon" type="button" style="right:18px;top:50%;margin-top:-24px" data-lbstep="1" aria-label="Next image">→</button>
-<button class="lw-lbicon" type="button" style="right:18px;top:18px" data-lbclose aria-label="Close">×</button>
+<button class="lw-lbicon" type="button" style="left:24px;top:50%;margin-top:-24px" data-lbstep="-1" aria-label="Previous image">←</button>
+<button class="lw-lbicon" type="button" style="right:24px;top:50%;margin-top:-24px" data-lbstep="1" aria-label="Next image">→</button>
+<button class="lw-lbicon" type="button" style="right:24px;top:24px" data-lbclose aria-label="Close">×</button>
 </section>
 </div>
 <button class="lw-fab" type="button" data-collapse hidden aria-label="Collapse the open project" title="Collapse project"><span aria-hidden="true">−</span></button>
@@ -236,34 +230,29 @@ doc = f'''<!doctype html>
 
 css = tokenize(BUILD5_CSS) + r"""
 body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
-.lw-skip{position:absolute; left:-9999px; top:8px; z-index:2000; padding:10px 14px; border-radius:8px; background:#2A1F1E; color:#FFFFFF !important}
+.lw-skip{position:absolute; left:-9999px; top:8px; z-index:2000; padding:12px 16px; border-radius:10px; background:#2A1F1E; color:#FFFFFF !important}
 .lw-skip:focus{left:8px}
-.lw-imgs img{cursor:zoom-in}
 .lw-imgs.c2 .is-wide, .lw-imgs.c3 .is-wide{grid-column:1 / -1}
-.lw-palette{display:flex; flex-wrap:wrap; gap:16px 28px; padding-top:4px}
+.lw-palette{display:flex; flex-wrap:wrap; gap:16px 32px; padding-top:4px}
 .lw-sw{display:grid; grid-template-columns:48px auto; column-gap:12px; align-items:center}
 .lw-sw i{grid-row:1 / span 2; width:48px; height:48px; border-radius:10px; border:1px solid #D2CABF}
-.lw-sw b{align-self:end; font-size:15px; line-height:1.25}
+.lw-sw b{align-self:end; font-size:16px; line-height:1.25}
 .lw-sw small{align-self:start; font-size:12px; line-height:1.35; color:#6A5F58}
 .lw-extra img{height:auto}
-.lw-about-toggle{white-space:nowrap; flex:none}
-.lw-portrait{filter:none; object-position:50% 30%; box-sizing:border-box; border:2px solid transparent; transition:border-color .2s}
 /* portrait: shown as is; a pomegranate border on hover. Clicking it goes back to Projects (collapsing an open project) */
 @media (hover: hover){ .lw-me:hover .lw-portrait{border-color:#8E2F3A} }
 /* --- project cards: darkened image with the name on top. Three sizes: resting band, hover (2x, shade lifted), clicked (the whole image) --- */
-.lw-list{gap:0}
-.lw-proj{padding-bottom:22px; scroll-margin-top:16px}
+.lw-proj{padding-bottom:24px; scroll-margin-top:16px}
 .lw-proj:last-child{padding-bottom:0}
 .lw-unit{container-type:inline-size; border-radius:18px; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s}
-.lw-card{--h:clamp(170px, calc((100svh - 140px) / 3), 280px); position:relative; display:block; width:100%; height:var(--h); padding:0; border:0; border-radius:18px; overflow:hidden; background:#2A1F1E; color:#FFFFFF; text-align:left; cursor:pointer; transform:none; box-shadow:none; transition:height .5s cubic-bezier(.2,.7,.2,1), border-radius .3s}
-.lw-card:hover{transform:none; box-shadow:none}
-.lw-card-img{position:absolute; inset:0; width:100%; height:100%; aspect-ratio:auto; object-fit:cover; object-position:50% var(--fy, 50%); background:#2A1F1E}
+.lw-card{--h:clamp(170px, calc((100svh - 140px) / 3), 280px); position:relative; display:block; width:100%; height:var(--h); padding:0; border:0; border-radius:18px; overflow:hidden; background:#2A1F1E; color:#FFFFFF; text-align:left; cursor:pointer; transition:height .5s cubic-bezier(.2,.7,.2,1), border-radius .3s}
+.lw-card-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% var(--fy, 50%); background:#2A1F1E}
 .lw-card-img.is-blur{filter:blur(14px) saturate(.9); transform:scale(1.12)}
 .lw-card::before{content:""; position:absolute; inset:0; z-index:1; background:color-mix(in srgb, #2A1F1E 42%, transparent); transition:opacity .5s}
 .lw-card::after{content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(to top, color-mix(in srgb, #2A1F1E 88%, transparent) 0, color-mix(in srgb, #2A1F1E 62%, transparent) 34%, transparent 72%)}
-.lw-card-body{position:absolute; left:0; right:0; bottom:0; z-index:2; display:flex; flex-direction:row; align-items:baseline; justify-content:flex-start; flex-wrap:nowrap; gap:14px; padding:18px 22px 18px; text-shadow:0 1px 14px color-mix(in srgb, #2A1F1E 45%, transparent)}
+.lw-card-body{position:absolute; left:0; right:0; bottom:0; z-index:2; display:flex; flex-direction:row; align-items:baseline; justify-content:flex-start; flex-wrap:nowrap; gap:12px; padding:24px; text-shadow:0 1px 14px color-mix(in srgb, #2A1F1E 45%, transparent)}
 .lw-card-name{flex:none; white-space:nowrap; font-size:30px; line-height:1.05; font-weight:700; letter-spacing:-0.03em; color:#FFFFFF}
-.lw-card-line{min-width:0; font-size:15px; line-height:1.45; color:#FFFFFF; opacity:.92; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.lw-card-line{min-width:0; font-size:16px; line-height:1.45; color:#FFFFFF; opacity:.92; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 .lw-card:focus-visible{outline:3px solid #8E2F3A; outline-offset:3px}
 @media (hover: hover){
  .lw-proj:hover .lw-unit{outline-color:#8E2F3A}
@@ -274,33 +263,32 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{height:min(calc(100cqw / var(--ar, 2)), 86svh); border-radius:18px 18px 0 0; transition:height .6s cubic-bezier(.2,.7,.2,1), border-radius .3s}
 .lw-proj.is-open .lw-card::before{opacity:0}
 /* --- drawer hangs straight off its card and slides open --- */
-.lw-drawer{margin-top:0; border-top:0; border-radius:0 0 18px 18px; display:grid; grid-template-columns:minmax(0, 1fr); grid-template-rows:0fr; transition:grid-template-rows .55s cubic-bezier(.2,.7,.2,1)}
+.lw-drawer{display:grid; grid-template-columns:minmax(0, 1fr); grid-template-rows:0fr; transition:grid-template-rows .55s cubic-bezier(.2,.7,.2,1)}
 .lw-drawer.is-open{grid-template-rows:1fr}
 .lw-drawer-in{min-height:0; min-width:0; overflow:clip}
 .lw-drawer.is-settled .lw-drawer-in{overflow:visible}
-.lw-chapbar{border-radius:0}
 /* --- the open project's title never leaves the screen: as you scroll it shrinks, turns dark and lands at the section bar's left end
    (site.js drives it from the scroll position: --p is 0 with the title on the photo, 1 once it is docked in the bar) --- */
 .lw-chapbar{--p:0}
-.lw-chapslot{position:relative; flex:none; align-self:stretch; width:calc(var(--p) * var(--slot, 0px)); margin-right:calc((var(--p) - 1) * 10px)}
-.lw-chapslot::after{content:""; position:absolute; right:0; top:10px; bottom:10px; width:1px; background:#D2CABF; opacity:var(--p)}
-.lw-chapname{position:absolute; left:0; top:0; z-index:1; padding:0; border:0; background:none; color:#2A1F1E; font:inherit; font-size:15px; line-height:1.05; font-weight:700; letter-spacing:-0.03em; white-space:nowrap; cursor:pointer; opacity:0; pointer-events:none; transform-origin:0 0}
+.lw-chapslot{position:relative; flex:none; align-self:stretch; width:calc(var(--p) * var(--slot, 0px)); margin-right:calc((var(--p) - 1) * 12px)}
+.lw-chapslot::after{content:""; position:absolute; right:0; top:8px; bottom:8px; width:1px; background:#D2CABF; opacity:var(--p)}
+.lw-chapname{position:absolute; left:0; top:0; z-index:1; padding:0; border:0; background:none; color:#2A1F1E; font:inherit; font-size:16px; line-height:1.05; font-weight:700; letter-spacing:-0.03em; white-space:nowrap; cursor:pointer; opacity:0; pointer-events:none; transform-origin:0 0}
 .lw-chapname::before{content:""; position:absolute; inset:-10px -8px}
 .lw-chapbar.is-docked .lw-chapname{pointer-events:auto}
 .lw-chapbar.is-docked .lw-chapname:hover{color:#8E2F3A}
 @media (max-width: 860px){ .lw-chapname{font-size:14px} }
 /* --- portrait collapses the open project; floating button when the portrait is off screen --- */
-.lw-me{position:relative; flex:none; padding:0; border:0; background:none; border-radius:12px; cursor:pointer; line-height:0}
-.lw-fab{position:fixed; right:22px; bottom:22px; z-index:50; width:56px; height:56px; border-radius:50%; border:0; background:#8E2F3A; color:#FFFFFF; font:inherit; font-size:30px; font-weight:700; line-height:1; cursor:pointer; box-shadow:0 10px 28px color-mix(in srgb, #2A1F1E 28%, transparent); transition:background .15s, box-shadow .2s, transform .15s}
+.lw-me{position:relative; flex:none; padding:0; border:0; background:none; border-radius:10px; cursor:pointer; line-height:0}
+.lw-fab{position:fixed; right:24px; bottom:24px; z-index:50; width:56px; height:56px; border-radius:50%; border:0; background:#8E2F3A; color:#FFFFFF; font:inherit; font-size:30px; font-weight:700; line-height:1; cursor:pointer; box-shadow:0 10px 28px color-mix(in srgb, #2A1F1E 28%, transparent); transition:background .15s, box-shadow .2s, transform .15s}
 .lw-fab:hover{box-shadow:inset 0 0 0 2px #8E2F3A, inset 0 0 0 4px #ECE7E0, 0 10px 28px color-mix(in srgb, #2A1F1E 28%, transparent); transform:scale(1.06)}
 .lw-fab:focus-visible{outline:3px solid #2A1F1E; outline-offset:3px}
 .lw-fab:not([hidden]){animation:lw-fab-in .28s cubic-bezier(.2,.7,.2,1)}
 @keyframes lw-fab-in{from{opacity:0; transform:scale(.6)}to{opacity:1; transform:none}}
 @media (max-width: 860px){
- .lw-proj{padding-bottom:14px; scroll-margin-top:124px}
+ .lw-proj{padding-bottom:16px; scroll-margin-top:126px}
  .lw-card{--h:clamp(118px, 18svh, 150px)}
- .lw-card-body{padding:12px 14px; gap:10px}
- .lw-card-name{font-size:22px}
+ .lw-card-body{padding:16px; gap:8px}
+ .lw-card-name{font-size:24px}
  .lw-card-line{font-size:14px; white-space:normal; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2}
  .lw-me, .lw-me .lw-portrait{border-radius:50%}
  .lw-fab{display:none !important}
@@ -320,58 +308,55 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
  .lw-extra:hover{outline-color:#8E2F3A; transform:scale(1.02)}
 }
 /* --- gallery: one even grid of tiles, a short label over a darkened image, same hover as the project cards --- */
-.lw-tiles{display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:18px}
+.lw-tiles{display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:24px}
 .lw-tile{position:relative; display:block; aspect-ratio:4/5; padding:0; border:0; border-radius:18px; overflow:hidden; background:#2A1F1E; color:#FFFFFF; font:inherit; text-align:left; cursor:zoom-in; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
 .lw-tile .lw-tile-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
 .lw-tile::before{content:""; position:absolute; inset:0; z-index:1; background:color-mix(in srgb, #2A1F1E 42%, transparent); transition:opacity .5s}
 .lw-tile::after{content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(to top, color-mix(in srgb, #2A1F1E 80%, transparent) 0, transparent 45%)}
-.lw-tile-name{position:absolute; left:18px; right:18px; bottom:16px; z-index:2; font-size:22px; line-height:1.1; font-weight:700; letter-spacing:-0.02em; text-shadow:0 1px 14px color-mix(in srgb, #2A1F1E 60%, transparent)}
+.lw-tile-name{position:absolute; left:24px; right:24px; bottom:24px; z-index:2; font-size:24px; line-height:1.1; font-weight:700; letter-spacing:-0.02em; text-shadow:0 1px 14px color-mix(in srgb, #2A1F1E 60%, transparent)}
 @media (hover: hover){
- .lw-tile:hover{outline-color:#8E2F3A; transform:scale(1.03)}
+ .lw-tile:hover{outline-color:#8E2F3A; transform:scale(1.02)}
  .lw-tile:hover::before{opacity:0}
 }
 @media (max-width: 860px){
- .lw-tiles{grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px}
- .lw-tile{border-radius:14px}
- .lw-tile-name{left:12px; right:12px; bottom:10px; font-size:17px}
+ .lw-tiles{grid-template-columns:repeat(2, minmax(0, 1fr)); gap:16px}
+ .lw-tile-name{left:16px; right:16px; bottom:16px; font-size:16px}
 }
 @media (prefers-reduced-motion: reduce){
  .lw-extra, .lw-shade::after, .lw-tile, .lw-tile::before{transition:none}
  .lw-extra:hover, .lw-tile:hover{transform:none}
 }
 .lw-contact{display:flex; flex-direction:column; max-width:760px}
-.lw-crow{display:grid; grid-template-columns:130px minmax(0,1fr) auto; align-items:center; gap:16px; padding:18px 4px; border-top:1px solid #D2CABF; color:#2A1F1E !important; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:-0.01em; overflow-wrap:anywhere}
+.lw-crow{display:grid; grid-template-columns:128px minmax(0,1fr) auto; align-items:center; gap:16px; padding:16px 0; border-top:1px solid #D2CABF; color:#2A1F1E !important; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:-0.01em; overflow-wrap:anywhere}
 .lw-crow:last-child{border-bottom:1px solid #D2CABF}
 a.lw-crow:hover{color:#8E2F3A !important}
 .lw-crow .lw-mono{font-size:12px; font-weight:400; color:#6A5F58; letter-spacing:.08em}
 @media (max-width: 860px){
- .lw-crow{grid-template-columns:minmax(0,1fr) auto; font-size:17px; row-gap:4px}
+ .lw-crow{grid-template-columns:minmax(0,1fr) auto; font-size:16px; row-gap:4px}
  .lw-crow .lw-mono{grid-column:1 / -1}
 }
-.lw-contact-wrap{display:flex; flex-direction:column; gap:56px; max-width:760px}
-.lw-form{display:flex; flex-direction:column; gap:18px}
-.lw-frow{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+.lw-contact-wrap{display:flex; flex-direction:column; gap:48px; max-width:760px}
+.lw-form{display:flex; flex-direction:column; gap:24px}
+.lw-frow{display:grid; grid-template-columns:1fr 1fr; gap:24px}
 .lw-field{display:flex; flex-direction:column; gap:8px; min-width:0}
 .lw-field .lw-mono{font-size:12px; color:#6A5F58; letter-spacing:.08em}
-.lw-field input, .lw-field textarea{font:inherit; font-size:17px; color:#2A1F1E; background:#ECE7E0; border:1px solid #B9AEA1; border-radius:10px; padding:13px 14px; width:100%; box-sizing:border-box; transition:border-color .15s, box-shadow .15s}
+.lw-field input, .lw-field textarea{font:inherit; font-size:16px; color:#2A1F1E; background:#ECE7E0; border:1px solid #B9AEA1; border-radius:10px; padding:12px 16px; width:100%; box-sizing:border-box; transition:border-color .15s, box-shadow .15s}
 .lw-field textarea{resize:vertical; min-height:150px; line-height:1.5}
 .lw-field input:hover, .lw-field textarea:hover{border-color:#6A5F58}
 .lw-field input:focus, .lw-field textarea:focus{outline:none; border-color:#8E2F3A; box-shadow:0 0 0 3px color-mix(in srgb, #8E2F3A 22%, transparent)}
 .lw-hp{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden}
 .lw-ts:empty{display:none}
-.lw-factions{display:flex; align-items:center; gap:18px; flex-wrap:wrap}
-.lw-send{font:inherit; font-size:16px; font-weight:700; color:#FFFFFF; background:#8E2F3A; border:0; border-radius:10px; padding:14px 26px; cursor:pointer; transition:background .15s, transform .15s}
+.lw-factions{display:flex; align-items:center; gap:16px; flex-wrap:wrap}
+.lw-send{font:inherit; font-size:16px; font-weight:700; color:#FFFFFF; background:#8E2F3A; border:0; border-radius:10px; min-height:48px; padding:0 24px; cursor:pointer; transition:background .15s, transform .15s}
 .lw-send:hover{background:#6E2029}
 .lw-send:active{transform:scale(.98)}
 .lw-send:focus-visible{outline:2px solid #2A1F1E; outline-offset:3px}
 .lw-send[disabled]{opacity:.6; cursor:progress}
-.lw-fstatus{margin:0; font-size:15px; color:#6A5F58}
+.lw-fstatus{margin:0; font-size:14px; color:#6A5F58}
 .lw-fstatus.is-ok{color:#2A1F1E; font-weight:600}
 .lw-fstatus.is-err{color:#B43C2F; font-weight:600}
 @media (max-width: 860px){ .lw-frow{grid-template-columns:1fr} .lw-tabs::after{content:""; flex:0 0 10px} }
-.lw-main{padding-top:32px}
 .lw-rtop{display:flex; justify-content:flex-end; margin-bottom:24px}
-@media (max-width: 860px){ .lw-main{padding-top:20px} }
 [hidden]{display:none !important}
 """
 
@@ -498,8 +483,8 @@ js = r"""(function () {
     var span = Math.min(300, cr.height * 0.5);   // scroll distance over which the title travels into the bar
     var p = Math.max(0, Math.min(1, 1 - (cr.bottom - stuck) / span)), k = p * p * (3 - 2 * p);
     var h = name.offsetHeight;
-    bar.style.setProperty('--slot', (name.offsetWidth + 24) + 'px'); bar.style.setProperty('--p', k);
-    var x = lerp(tr.left - br.left, 16, k), y = lerp(tr.top - br.top, (br.height - h) / 2, k), sc = lerp(tr.height / h, 1, k);
+    bar.style.setProperty('--slot', (name.offsetWidth + 12) + 'px'); bar.style.setProperty('--p', k);
+    var x = lerp(tr.left - br.left, parseFloat(getComputedStyle(bar).paddingLeft) || 0, k), y = lerp(tr.top - br.top, (br.height - h) / 2, k), sc = lerp(tr.height / h, 1, k);
     name.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + sc.toFixed(3) + ')';
     var hs = h * sc, c = Math.max(0, Math.min(1, 0.5 + (y + hs / 2) / hs));   // white while over the photo, dark once inside the bar
     name.style.color = c >= 1 ? '' : 'rgb(' + [Math.round(lerp(255, 42, c)), Math.round(lerp(255, 31, c)), Math.round(lerp(255, 30, c))].join(',') + ')';

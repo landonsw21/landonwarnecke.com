@@ -119,8 +119,8 @@
     var span = Math.min(300, cr.height * 0.5);   // scroll distance over which the title travels into the bar
     var p = Math.max(0, Math.min(1, 1 - (cr.bottom - stuck) / span)), k = p * p * (3 - 2 * p);
     var h = name.offsetHeight;
-    bar.style.setProperty('--slot', (name.offsetWidth + 24) + 'px'); bar.style.setProperty('--p', k);
-    var x = lerp(tr.left - br.left, 16, k), y = lerp(tr.top - br.top, (br.height - h) / 2, k), sc = lerp(tr.height / h, 1, k);
+    bar.style.setProperty('--slot', (name.offsetWidth + 12) + 'px'); bar.style.setProperty('--p', k);
+    var x = lerp(tr.left - br.left, parseFloat(getComputedStyle(bar).paddingLeft) || 0, k), y = lerp(tr.top - br.top, (br.height - h) / 2, k), sc = lerp(tr.height / h, 1, k);
     name.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + sc.toFixed(3) + ')';
     var hs = h * sc, c = Math.max(0, Math.min(1, 0.5 + (y + hs / 2) / hs));   // white while over the photo, dark once inside the bar
     name.style.color = c >= 1 ? '' : 'rgb(' + [Math.round(lerp(255, 42, c)), Math.round(lerp(255, 31, c)), Math.round(lerp(255, 30, c))].join(',') + ')';

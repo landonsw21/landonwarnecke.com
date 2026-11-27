@@ -1,4 +1,5 @@
-
+/* Proportions: spacing 4/8/12/16/24/32/48 px; card, drawer and tile insets 24 (16 on phones); text 12/14/16/20/24/30 px;
+   corners 10 (controls, images) and 18 (cards, panels). See CLAUDE.md, Design system. */
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Archivo:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 html{scroll-behavior:smooth}
 .lw-root{background:var(--lw-bg); color:var(--lw-ink); width:100%; -webkit-font-smoothing:antialiased}
@@ -6,56 +7,47 @@ html{scroll-behavior:smooth}
 .lw-root a{color:var(--lw-accent)}
 .lw-mono{font-family:'IBM Plex Mono', ui-monospace, monospace; letter-spacing:0.08em}
 .lw-shell{display:flex; align-items:flex-start}
-.lw-side{width:340px; flex:none; position:sticky; top:0; max-height:100vh; overflow-y:auto; scrollbar-width:thin; padding:32px 28px 26px; display:flex; flex-direction:column; gap:22px; border-right:1px solid var(--lw-line); background:var(--lw-bg); z-index:10}
-.lw-id{display:flex; flex-direction:row; align-items:center; gap:14px}
-.lw-portrait{width:84px; height:104px; flex:none; object-fit:cover; object-position:50% 20%; border-radius:12px; display:block; filter:grayscale(1)}
-.lw-nm{font-size:21px; font-weight:700; line-height:1.1; letter-spacing:-0.02em}
-.lw-role{font-size:14px; line-height:1.4; color:var(--lw-muted)}
+.lw-side{width:340px; flex:none; position:sticky; top:0; max-height:100vh; overflow-y:auto; scrollbar-width:thin; padding:32px; display:flex; flex-direction:column; gap:24px; border-right:1px solid var(--lw-line); background:var(--lw-bg); z-index:10}
+.lw-id{display:flex; flex-direction:row; align-items:center; gap:16px}
+.lw-portrait{width:80px; height:100px; flex:none; object-fit:cover; object-position:50% 30%; border-radius:10px; display:block; box-sizing:border-box; border:2px solid transparent; transition:border-color .2s}
+.lw-nm{font-size:20px; font-weight:700; line-height:1.1; letter-spacing:-0.02em}
 .lw-bio{display:flex; flex-direction:column; gap:8px}
 .lw-bio p{margin:0; font-size:14px; line-height:1.6}
-.lw-about-toggle{display:none; align-items:center; min-height:40px; padding:0 14px; border-radius:10px; border:1px solid var(--lw-ink); background:transparent; color:var(--lw-ink); font:inherit; font-size:13px; font-weight:600; cursor:pointer}
-.lw-tabs{display:flex; flex-direction:column; gap:6px}
-.lw-tab{display:flex; justify-content:space-between; align-items:center; gap:10px; width:100%; min-height:46px; padding:10px 14px; border-radius:10px; border:1px solid var(--lw-line); background:transparent; color:var(--lw-muted); font:inherit; font-size:15px; font-weight:600; text-align:left; cursor:pointer; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
+.lw-about-toggle{display:none; flex:none; align-items:center; min-height:44px; padding:0 16px; border-radius:10px; border:1px solid var(--lw-ink); background:transparent; color:var(--lw-ink); font:inherit; font-size:14px; font-weight:600; white-space:nowrap; cursor:pointer}
+.lw-tabs{display:flex; flex-direction:column; gap:8px}
+.lw-tab{display:flex; justify-content:space-between; align-items:center; gap:8px; width:100%; min-height:48px; padding:12px 16px; border-radius:10px; border:1px solid var(--lw-line); background:transparent; color:var(--lw-muted); font:inherit; font-size:16px; font-weight:600; text-align:left; cursor:pointer; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
 /* tabs share the project-card hover: dimmed at rest; hover undims, outlines in pomegranate and grows slightly. The current tab is filled pomegranate; on hover a light ring shows just inside its pomegranate edge (drawn inside the tab, so it never crowds its neighbours) and it grows slightly */
 .lw-tab.is-active{background:var(--lw-accent); border-color:var(--lw-accent); color:var(--lw-on-accent)}
 @media (hover: hover){
  .lw-tab:not(.is-active):hover{border-color:var(--lw-accent); box-shadow:inset 0 0 0 1px var(--lw-accent); color:var(--lw-ink); transform:scale(1.02)}
  .lw-tab.is-active:hover{box-shadow:inset 0 0 0 1px var(--lw-accent), inset 0 0 0 3px var(--lw-panel); transform:scale(1.02)}
 }
-.lw-tabnum{font-size:12px; opacity:.85}
-.lw-side-foot{display:flex; flex-direction:column; gap:6px; padding-top:8px; border-top:1px solid var(--lw-line); font-size:14px}
-.lw-main{flex:1 1 auto; min-width:0; padding:40px 48px 120px}
-.lw-head{display:flex; justify-content:space-between; align-items:flex-end; gap:20px; flex-wrap:wrap; margin-bottom:32px}
-.lw-h1{margin:0; font-size:44px; line-height:1.05; font-weight:700; letter-spacing:-0.035em}
-.lw-sub{margin:0; font-size:16px; line-height:1.55; color:var(--lw-muted); max-width:640px}
+.lw-side-foot{display:flex; flex-direction:column; gap:8px; padding-top:16px; border-top:1px solid var(--lw-line); font-size:14px}
+.lw-main{flex:1 1 auto; min-width:0; padding:32px 48px 120px}
 .lw-label{font-size:12px; color:var(--lw-muted)}
-.lw-list{display:flex; flex-direction:column; gap:40px}
-.lw-card{display:block; width:100%; padding:0; border:none; text-align:left; font:inherit; color:inherit; cursor:pointer; background:var(--lw-surface); border-radius:18px; overflow:hidden; transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s}
-.lw-card:hover{transform:scale(1.015); box-shadow:0 18px 40px color-mix(in srgb, var(--lw-ink) 16%, transparent)}
-.lw-card-img{display:block; width:100%; aspect-ratio:16/9; object-fit:cover; background:var(--lw-surface)}
-.lw-card-body{display:flex; align-items:flex-end; justify-content:space-between; gap:16px; padding:18px 22px 20px; flex-wrap:wrap}
-.lw-card-text{display:flex; flex-direction:column; gap:6px; min-width:0; flex:1 1 320px}
-.lw-card-name{font-size:30px; line-height:1.05; font-weight:700; letter-spacing:-0.03em}
-.lw-card-line{font-size:15px; line-height:1.45; max-width:560px}
-.lw-pill{flex:none; display:inline-flex; align-items:center; min-height:44px; padding:0 18px; border-radius:10px; background:var(--lw-accent); color:var(--lw-on-accent); font-size:14px; font-weight:600; border:none; font-family:inherit; cursor:pointer; text-decoration:none}
-.lw-drawer{margin-top:16px; background:var(--lw-panel); border:1px solid var(--lw-line); border-radius:18px}
-.lw-chapbar{position:sticky; top:0; z-index:4; display:flex; align-items:center; gap:10px; padding:4px 6px; background:color-mix(in srgb, var(--lw-panel) 95%, transparent); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-bottom:1px solid var(--lw-line); border-radius:18px 18px 0 0}
-.lw-chaps{display:flex; gap:6px; padding:6px; overflow-x:auto; flex:1; min-width:0; scrollbar-width:none}
+.lw-list{display:flex; flex-direction:column}
+.lw-pill{flex:none; display:inline-flex; align-items:center; min-height:44px; padding:0 16px; border-radius:10px; background:var(--lw-accent); color:var(--lw-on-accent); font-size:14px; font-weight:600; border:none; font-family:inherit; cursor:pointer; text-decoration:none}
+.lw-drawer{background:var(--lw-panel); border:1px solid var(--lw-line); border-top:0; border-radius:0 0 18px 18px}
+.lw-chapbar{position:sticky; top:0; z-index:4; display:flex; align-items:center; gap:12px; padding:2px 23px; background:color-mix(in srgb, var(--lw-panel) 95%, transparent); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-bottom:1px solid var(--lw-line)}
+.lw-chaps{display:flex; gap:8px; padding:6px 4px; margin:0 -4px; overflow-x:auto; flex:1; min-width:0; scrollbar-width:none}
 .lw-chaps::-webkit-scrollbar{display:none}
-.lw-chap{flex:none; padding:8px 13px; border-radius:10px; border:1px solid var(--lw-line); color:var(--lw-muted) !important; text-decoration:none; font-size:13px; font-weight:600; white-space:nowrap; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
+.lw-chap{flex:none; padding:8px 12px; border-radius:10px; border:1px solid var(--lw-line); color:var(--lw-muted) !important; text-decoration:none; font-size:14px; font-weight:600; white-space:nowrap; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
 /* section links share the tab states: dimmed at rest; hover undims, outlines in pomegranate and grows slightly; the current section is filled pomegranate and shows the tabs' inner light ring on hover */
 .lw-chap.is-active{background:var(--lw-accent); border-color:var(--lw-accent); color:var(--lw-on-accent) !important}
 @media (hover: hover){
  .lw-chap:not(.is-active):hover{border-color:var(--lw-accent); box-shadow:inset 0 0 0 1px var(--lw-accent); color:var(--lw-ink) !important; transform:scale(1.04)}
  .lw-chap.is-active:hover{box-shadow:inset 0 0 0 1px var(--lw-accent), inset 0 0 0 3px var(--lw-panel); transform:scale(1.04)}
 }
-.lw-dbody{padding:28px 32px 32px; display:flex; flex-direction:column; gap:52px}
-.lw-meta{margin:0; padding-bottom:24px; border-bottom:1px solid var(--lw-line); display:grid; grid-template-columns:max-content minmax(0,1fr); column-gap:20px; row-gap:8px; align-items:baseline}
+.lw-chap:focus-visible{outline-offset:1px}
+.lw-dbody{padding:32px 23px; display:flex; flex-direction:column; gap:48px}
+.lw-meta{margin:0; padding-bottom:24px; border-bottom:1px solid var(--lw-line); display:grid; grid-template-columns:max-content minmax(0,1fr); column-gap:24px; row-gap:8px; align-items:baseline}
 .lw-meta > div{display:contents}
-.lw-meta dt{font-size:11px; color:var(--lw-muted)}
-.lw-meta dd{margin:0; font-size:15px; line-height:1.35; font-weight:600}
-.lw-sec{display:grid; grid-template-columns:180px minmax(0,1fr); gap:28px; scroll-margin-top:80px}
-.lw-sec h3{margin:0; font-size:22px; line-height:1.2; font-weight:700; letter-spacing:-0.02em}
+.lw-meta dt{font-size:12px; color:var(--lw-muted)}
+.lw-meta dd{margin:0; font-size:16px; line-height:1.35; font-weight:600}
+.lw-sec{display:grid; grid-template-columns:176px minmax(0,1fr); gap:32px; scroll-margin-top:80px}
+.lw-sec h3{margin:0; font-size:24px; line-height:1.2; font-weight:700; letter-spacing:-0.02em}
+/* side by side (desktop), the heading sits on the same baseline as the first line of its text */
+@media (min-width: 861px){ .lw-sec h3{margin-top:-5px} }
 .lw-sec-body{display:flex; flex-direction:column; gap:16px; min-width:0}
 .lw-sec-body p{margin:0; font-size:16px; line-height:1.6; max-width:700px}
 .lw-imgs{display:grid; gap:12px}
@@ -65,41 +57,38 @@ html{scroll-behavior:smooth}
 .lw-two{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:24px}
 .lw-extra{background:var(--lw-surface); border-radius:18px; overflow:hidden; display:flex; flex-direction:column}
 .lw-extra img{display:block; width:100%; aspect-ratio:16/10; object-fit:cover; background:var(--lw-ink)}
-.lw-extra-body{padding:20px 22px 24px; display:flex; flex-direction:column; gap:10px; flex:1}
-.lw-extra h2{margin:0; font-size:26px; line-height:1.15; font-weight:700; letter-spacing:-0.02em}
-.lw-extra p{margin:0; font-size:15px; line-height:1.55}
-.lw-rrow{display:grid; grid-template-columns:120px minmax(0,1fr); gap:14px; padding:14px 0; border-top:1px solid var(--lw-line)}
+.lw-extra-body{padding:24px; display:flex; flex-direction:column; gap:12px; flex:1}
+.lw-extra h2{margin:0; font-size:24px; line-height:1.15; font-weight:700; letter-spacing:-0.02em}
+.lw-extra p{margin:0; font-size:16px; line-height:1.6}
+.lw-rrow{display:grid; grid-template-columns:120px minmax(0,1fr); align-items:baseline; gap:16px; padding:16px 0; border-top:1px solid var(--lw-line)}
 .lw-rrow b{font-size:16px}
 .lw-rrow small{font-size:14px; line-height:1.45; color:var(--lw-muted)}
-.lw-rblock h2{margin:0 0 6px; font-size:20px; font-weight:700; letter-spacing:-0.01em}
+.lw-rblock h2{margin:0 0 8px; font-size:20px; font-weight:700; letter-spacing:-0.01em}
 .lw-lb{position:fixed; inset:0; z-index:1000; background:rgba(26,18,17,.92); display:flex; align-items:center; justify-content:center}
 .lw-lb-bg{position:absolute; inset:0; border:none; background:transparent; cursor:zoom-out}
-.lw-lb figure{position:relative; margin:0; width:100%; height:100%; max-width:1200px; padding:24px 84px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; pointer-events:none}
-.lw-lb img{display:block; max-width:100%; max-height:calc(100% - 80px); object-fit:contain; border-radius:8px; pointer-events:auto}
-.lw-lb figcaption{display:flex; gap:14px; align-items:baseline; color:var(--lw-on-accent); font-size:15px; pointer-events:auto}
-.lw-lbicon{position:absolute; width:48px; height:48px; border-radius:50%; border:1px solid rgba(255,255,255,.6); background:transparent; color:var(--lw-on-accent); font:inherit; font-size:18px; cursor:pointer}
+.lw-lb figure{position:relative; margin:0; width:100%; height:100%; max-width:1200px; padding:24px 80px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; pointer-events:none}
+.lw-lb img{display:block; max-width:100%; max-height:calc(100% - 80px); object-fit:contain; border-radius:10px; pointer-events:auto}
+.lw-lb figcaption{display:flex; gap:16px; align-items:baseline; color:var(--lw-on-accent); font-size:14px; pointer-events:auto}
+.lw-lbicon{position:absolute; width:48px; height:48px; border-radius:50%; border:1px solid rgba(255,255,255,.6); background:transparent; color:var(--lw-on-accent); font:inherit; font-size:20px; cursor:pointer}
 .lw-lbicon:hover{background:rgba(255,255,255,.14)}
 .lw-root :focus-visible{outline:2px solid var(--lw-accent); outline-offset:3px}
 @media (max-width: 860px){
  .lw-shell{flex-direction:column; align-items:stretch}
- .lw-side{width:auto; max-height:none; overflow:visible; padding:12px 16px; gap:10px; border-right:none; border-bottom:1px solid var(--lw-line)}
+ .lw-side{width:auto; max-height:none; overflow:visible; padding:12px 16px; gap:12px; border-right:none; border-bottom:1px solid var(--lw-line)}
  .lw-id{gap:12px}
  .lw-portrait{width:44px; height:44px; border-radius:50%}
- .lw-nm{font-size:17px}
- .lw-role{display:none}
+ .lw-nm{font-size:16px}
  .lw-about-toggle{display:inline-flex; margin-left:auto}
  .lw-bio{display:none}
  .lw-side.is-about .lw-bio{display:flex}
  .lw-tabs{flex-direction:row; overflow-x:auto; scrollbar-width:none}
  .lw-tab{width:auto; flex:none; min-height:44px; padding:8px 16px}
- .lw-tabnum{display:none}
  .lw-side-foot{display:none}
- .lw-main{padding:20px 16px 80px}
- .lw-h1{font-size:32px}
- .lw-chapbar{top:122px}
- .lw-dbody{padding:20px 16px 24px; gap:36px}
- .lw-meta{column-gap:14px}
- .lw-sec{grid-template-columns:1fr; gap:12px; scroll-margin-top:190px}
+ .lw-main{padding:16px 16px 80px}
+ .lw-chapbar{top:124px; padding:2px 15px}
+ .lw-dbody{padding:24px 15px; gap:32px}
+ .lw-meta{column-gap:16px}
+ .lw-sec{grid-template-columns:1fr; gap:12px; scroll-margin-top:192px}
  .lw-imgs.c2, .lw-imgs.c3, .lw-two{grid-template-columns:1fr}
  .lw-lb figure{padding:64px 16px}
 }
@@ -110,34 +99,29 @@ html{scroll-behavior:smooth}
 }
 
 body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
-.lw-skip{position:absolute; left:-9999px; top:8px; z-index:2000; padding:10px 14px; border-radius:8px; background:var(--lw-ink); color:var(--lw-on-accent) !important}
+.lw-skip{position:absolute; left:-9999px; top:8px; z-index:2000; padding:12px 16px; border-radius:10px; background:var(--lw-ink); color:var(--lw-on-accent) !important}
 .lw-skip:focus{left:8px}
-.lw-imgs img{cursor:zoom-in}
 .lw-imgs.c2 .is-wide, .lw-imgs.c3 .is-wide{grid-column:1 / -1}
-.lw-palette{display:flex; flex-wrap:wrap; gap:16px 28px; padding-top:4px}
+.lw-palette{display:flex; flex-wrap:wrap; gap:16px 32px; padding-top:4px}
 .lw-sw{display:grid; grid-template-columns:48px auto; column-gap:12px; align-items:center}
 .lw-sw i{grid-row:1 / span 2; width:48px; height:48px; border-radius:10px; border:1px solid var(--lw-line)}
-.lw-sw b{align-self:end; font-size:15px; line-height:1.25}
+.lw-sw b{align-self:end; font-size:16px; line-height:1.25}
 .lw-sw small{align-self:start; font-size:12px; line-height:1.35; color:var(--lw-muted)}
 .lw-extra img{height:auto}
-.lw-about-toggle{white-space:nowrap; flex:none}
-.lw-portrait{filter:none; object-position:50% 30%; box-sizing:border-box; border:2px solid transparent; transition:border-color .2s}
 /* portrait: shown as is; a pomegranate border on hover. Clicking it goes back to Projects (collapsing an open project) */
 @media (hover: hover){ .lw-me:hover .lw-portrait{border-color:var(--lw-accent)} }
 /* --- project cards: darkened image with the name on top. Three sizes: resting band, hover (2x, shade lifted), clicked (the whole image) --- */
-.lw-list{gap:0}
-.lw-proj{padding-bottom:22px; scroll-margin-top:16px}
+.lw-proj{padding-bottom:24px; scroll-margin-top:16px}
 .lw-proj:last-child{padding-bottom:0}
 .lw-unit{container-type:inline-size; border-radius:18px; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s}
-.lw-card{--h:clamp(170px, calc((100svh - 140px) / 3), 280px); position:relative; display:block; width:100%; height:var(--h); padding:0; border:0; border-radius:18px; overflow:hidden; background:var(--lw-ink); color:var(--lw-on-accent); text-align:left; cursor:pointer; transform:none; box-shadow:none; transition:height .5s cubic-bezier(.2,.7,.2,1), border-radius .3s}
-.lw-card:hover{transform:none; box-shadow:none}
-.lw-card-img{position:absolute; inset:0; width:100%; height:100%; aspect-ratio:auto; object-fit:cover; object-position:50% var(--fy, 50%); background:var(--lw-ink)}
+.lw-card{--h:clamp(170px, calc((100svh - 140px) / 3), 280px); position:relative; display:block; width:100%; height:var(--h); padding:0; border:0; border-radius:18px; overflow:hidden; background:var(--lw-ink); color:var(--lw-on-accent); text-align:left; cursor:pointer; transition:height .5s cubic-bezier(.2,.7,.2,1), border-radius .3s}
+.lw-card-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% var(--fy, 50%); background:var(--lw-ink)}
 .lw-card-img.is-blur{filter:blur(14px) saturate(.9); transform:scale(1.12)}
 .lw-card::before{content:""; position:absolute; inset:0; z-index:1; background:color-mix(in srgb, var(--lw-ink) 42%, transparent); transition:opacity .5s}
 .lw-card::after{content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(to top, color-mix(in srgb, var(--lw-ink) 88%, transparent) 0, color-mix(in srgb, var(--lw-ink) 62%, transparent) 34%, transparent 72%)}
-.lw-card-body{position:absolute; left:0; right:0; bottom:0; z-index:2; display:flex; flex-direction:row; align-items:baseline; justify-content:flex-start; flex-wrap:nowrap; gap:14px; padding:18px 22px 18px; text-shadow:0 1px 14px color-mix(in srgb, var(--lw-ink) 45%, transparent)}
+.lw-card-body{position:absolute; left:0; right:0; bottom:0; z-index:2; display:flex; flex-direction:row; align-items:baseline; justify-content:flex-start; flex-wrap:nowrap; gap:12px; padding:24px; text-shadow:0 1px 14px color-mix(in srgb, var(--lw-ink) 45%, transparent)}
 .lw-card-name{flex:none; white-space:nowrap; font-size:30px; line-height:1.05; font-weight:700; letter-spacing:-0.03em; color:var(--lw-on-accent)}
-.lw-card-line{min-width:0; font-size:15px; line-height:1.45; color:var(--lw-on-accent); opacity:.92; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.lw-card-line{min-width:0; font-size:16px; line-height:1.45; color:var(--lw-on-accent); opacity:.92; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 .lw-card:focus-visible{outline:3px solid var(--lw-accent); outline-offset:3px}
 @media (hover: hover){
  .lw-proj:hover .lw-unit{outline-color:var(--lw-accent)}
@@ -148,33 +132,32 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
 .lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{height:min(calc(100cqw / var(--ar, 2)), 86svh); border-radius:18px 18px 0 0; transition:height .6s cubic-bezier(.2,.7,.2,1), border-radius .3s}
 .lw-proj.is-open .lw-card::before{opacity:0}
 /* --- drawer hangs straight off its card and slides open --- */
-.lw-drawer{margin-top:0; border-top:0; border-radius:0 0 18px 18px; display:grid; grid-template-columns:minmax(0, 1fr); grid-template-rows:0fr; transition:grid-template-rows .55s cubic-bezier(.2,.7,.2,1)}
+.lw-drawer{display:grid; grid-template-columns:minmax(0, 1fr); grid-template-rows:0fr; transition:grid-template-rows .55s cubic-bezier(.2,.7,.2,1)}
 .lw-drawer.is-open{grid-template-rows:1fr}
 .lw-drawer-in{min-height:0; min-width:0; overflow:clip}
 .lw-drawer.is-settled .lw-drawer-in{overflow:visible}
-.lw-chapbar{border-radius:0}
 /* --- the open project's title never leaves the screen: as you scroll it shrinks, turns dark and lands at the section bar's left end
    (site.js drives it from the scroll position: --p is 0 with the title on the photo, 1 once it is docked in the bar) --- */
 .lw-chapbar{--p:0}
-.lw-chapslot{position:relative; flex:none; align-self:stretch; width:calc(var(--p) * var(--slot, 0px)); margin-right:calc((var(--p) - 1) * 10px)}
-.lw-chapslot::after{content:""; position:absolute; right:0; top:10px; bottom:10px; width:1px; background:var(--lw-line); opacity:var(--p)}
-.lw-chapname{position:absolute; left:0; top:0; z-index:1; padding:0; border:0; background:none; color:var(--lw-ink); font:inherit; font-size:15px; line-height:1.05; font-weight:700; letter-spacing:-0.03em; white-space:nowrap; cursor:pointer; opacity:0; pointer-events:none; transform-origin:0 0}
+.lw-chapslot{position:relative; flex:none; align-self:stretch; width:calc(var(--p) * var(--slot, 0px)); margin-right:calc((var(--p) - 1) * 12px)}
+.lw-chapslot::after{content:""; position:absolute; right:0; top:8px; bottom:8px; width:1px; background:var(--lw-line); opacity:var(--p)}
+.lw-chapname{position:absolute; left:0; top:0; z-index:1; padding:0; border:0; background:none; color:var(--lw-ink); font:inherit; font-size:16px; line-height:1.05; font-weight:700; letter-spacing:-0.03em; white-space:nowrap; cursor:pointer; opacity:0; pointer-events:none; transform-origin:0 0}
 .lw-chapname::before{content:""; position:absolute; inset:-10px -8px}
 .lw-chapbar.is-docked .lw-chapname{pointer-events:auto}
 .lw-chapbar.is-docked .lw-chapname:hover{color:var(--lw-accent)}
 @media (max-width: 860px){ .lw-chapname{font-size:14px} }
 /* --- portrait collapses the open project; floating button when the portrait is off screen --- */
-.lw-me{position:relative; flex:none; padding:0; border:0; background:none; border-radius:12px; cursor:pointer; line-height:0}
-.lw-fab{position:fixed; right:22px; bottom:22px; z-index:50; width:56px; height:56px; border-radius:50%; border:0; background:var(--lw-accent); color:var(--lw-on-accent); font:inherit; font-size:30px; font-weight:700; line-height:1; cursor:pointer; box-shadow:0 10px 28px color-mix(in srgb, var(--lw-ink) 28%, transparent); transition:background .15s, box-shadow .2s, transform .15s}
+.lw-me{position:relative; flex:none; padding:0; border:0; background:none; border-radius:10px; cursor:pointer; line-height:0}
+.lw-fab{position:fixed; right:24px; bottom:24px; z-index:50; width:56px; height:56px; border-radius:50%; border:0; background:var(--lw-accent); color:var(--lw-on-accent); font:inherit; font-size:30px; font-weight:700; line-height:1; cursor:pointer; box-shadow:0 10px 28px color-mix(in srgb, var(--lw-ink) 28%, transparent); transition:background .15s, box-shadow .2s, transform .15s}
 .lw-fab:hover{box-shadow:inset 0 0 0 2px var(--lw-accent), inset 0 0 0 4px var(--lw-panel), 0 10px 28px color-mix(in srgb, var(--lw-ink) 28%, transparent); transform:scale(1.06)}
 .lw-fab:focus-visible{outline:3px solid var(--lw-ink); outline-offset:3px}
 .lw-fab:not([hidden]){animation:lw-fab-in .28s cubic-bezier(.2,.7,.2,1)}
 @keyframes lw-fab-in{from{opacity:0; transform:scale(.6)}to{opacity:1; transform:none}}
 @media (max-width: 860px){
- .lw-proj{padding-bottom:14px; scroll-margin-top:124px}
+ .lw-proj{padding-bottom:16px; scroll-margin-top:126px}
  .lw-card{--h:clamp(118px, 18svh, 150px)}
- .lw-card-body{padding:12px 14px; gap:10px}
- .lw-card-name{font-size:22px}
+ .lw-card-body{padding:16px; gap:8px}
+ .lw-card-name{font-size:24px}
  .lw-card-line{font-size:14px; white-space:normal; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2}
  .lw-me, .lw-me .lw-portrait{border-radius:50%}
  .lw-fab{display:none !important}
@@ -194,56 +177,53 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
  .lw-extra:hover{outline-color:var(--lw-accent); transform:scale(1.02)}
 }
 /* --- gallery: one even grid of tiles, a short label over a darkened image, same hover as the project cards --- */
-.lw-tiles{display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:18px}
+.lw-tiles{display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:24px}
 .lw-tile{position:relative; display:block; aspect-ratio:4/5; padding:0; border:0; border-radius:18px; overflow:hidden; background:var(--lw-ink); color:var(--lw-on-accent); font:inherit; text-align:left; cursor:zoom-in; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
 .lw-tile .lw-tile-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
 .lw-tile::before{content:""; position:absolute; inset:0; z-index:1; background:color-mix(in srgb, var(--lw-ink) 42%, transparent); transition:opacity .5s}
 .lw-tile::after{content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(to top, color-mix(in srgb, var(--lw-ink) 80%, transparent) 0, transparent 45%)}
-.lw-tile-name{position:absolute; left:18px; right:18px; bottom:16px; z-index:2; font-size:22px; line-height:1.1; font-weight:700; letter-spacing:-0.02em; text-shadow:0 1px 14px color-mix(in srgb, var(--lw-ink) 60%, transparent)}
+.lw-tile-name{position:absolute; left:24px; right:24px; bottom:24px; z-index:2; font-size:24px; line-height:1.1; font-weight:700; letter-spacing:-0.02em; text-shadow:0 1px 14px color-mix(in srgb, var(--lw-ink) 60%, transparent)}
 @media (hover: hover){
- .lw-tile:hover{outline-color:var(--lw-accent); transform:scale(1.03)}
+ .lw-tile:hover{outline-color:var(--lw-accent); transform:scale(1.02)}
  .lw-tile:hover::before{opacity:0}
 }
 @media (max-width: 860px){
- .lw-tiles{grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px}
- .lw-tile{border-radius:14px}
- .lw-tile-name{left:12px; right:12px; bottom:10px; font-size:17px}
+ .lw-tiles{grid-template-columns:repeat(2, minmax(0, 1fr)); gap:16px}
+ .lw-tile-name{left:16px; right:16px; bottom:16px; font-size:16px}
 }
 @media (prefers-reduced-motion: reduce){
  .lw-extra, .lw-shade::after, .lw-tile, .lw-tile::before{transition:none}
  .lw-extra:hover, .lw-tile:hover{transform:none}
 }
 .lw-contact{display:flex; flex-direction:column; max-width:760px}
-.lw-crow{display:grid; grid-template-columns:130px minmax(0,1fr) auto; align-items:center; gap:16px; padding:18px 4px; border-top:1px solid var(--lw-line); color:var(--lw-ink) !important; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:-0.01em; overflow-wrap:anywhere}
+.lw-crow{display:grid; grid-template-columns:128px minmax(0,1fr) auto; align-items:center; gap:16px; padding:16px 0; border-top:1px solid var(--lw-line); color:var(--lw-ink) !important; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:-0.01em; overflow-wrap:anywhere}
 .lw-crow:last-child{border-bottom:1px solid var(--lw-line)}
 a.lw-crow:hover{color:var(--lw-accent) !important}
 .lw-crow .lw-mono{font-size:12px; font-weight:400; color:var(--lw-muted); letter-spacing:.08em}
 @media (max-width: 860px){
- .lw-crow{grid-template-columns:minmax(0,1fr) auto; font-size:17px; row-gap:4px}
+ .lw-crow{grid-template-columns:minmax(0,1fr) auto; font-size:16px; row-gap:4px}
  .lw-crow .lw-mono{grid-column:1 / -1}
 }
-.lw-contact-wrap{display:flex; flex-direction:column; gap:56px; max-width:760px}
-.lw-form{display:flex; flex-direction:column; gap:18px}
-.lw-frow{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+.lw-contact-wrap{display:flex; flex-direction:column; gap:48px; max-width:760px}
+.lw-form{display:flex; flex-direction:column; gap:24px}
+.lw-frow{display:grid; grid-template-columns:1fr 1fr; gap:24px}
 .lw-field{display:flex; flex-direction:column; gap:8px; min-width:0}
 .lw-field .lw-mono{font-size:12px; color:var(--lw-muted); letter-spacing:.08em}
-.lw-field input, .lw-field textarea{font:inherit; font-size:17px; color:var(--lw-ink); background:var(--lw-panel); border:1px solid var(--lw-line-strong); border-radius:10px; padding:13px 14px; width:100%; box-sizing:border-box; transition:border-color .15s, box-shadow .15s}
+.lw-field input, .lw-field textarea{font:inherit; font-size:16px; color:var(--lw-ink); background:var(--lw-panel); border:1px solid var(--lw-line-strong); border-radius:10px; padding:12px 16px; width:100%; box-sizing:border-box; transition:border-color .15s, box-shadow .15s}
 .lw-field textarea{resize:vertical; min-height:150px; line-height:1.5}
 .lw-field input:hover, .lw-field textarea:hover{border-color:var(--lw-muted)}
 .lw-field input:focus, .lw-field textarea:focus{outline:none; border-color:var(--lw-accent); box-shadow:0 0 0 3px color-mix(in srgb, var(--lw-accent) 22%, transparent)}
 .lw-hp{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden}
 .lw-ts:empty{display:none}
-.lw-factions{display:flex; align-items:center; gap:18px; flex-wrap:wrap}
-.lw-send{font:inherit; font-size:16px; font-weight:700; color:var(--lw-on-accent); background:var(--lw-accent); border:0; border-radius:10px; padding:14px 26px; cursor:pointer; transition:background .15s, transform .15s}
+.lw-factions{display:flex; align-items:center; gap:16px; flex-wrap:wrap}
+.lw-send{font:inherit; font-size:16px; font-weight:700; color:var(--lw-on-accent); background:var(--lw-accent); border:0; border-radius:10px; min-height:48px; padding:0 24px; cursor:pointer; transition:background .15s, transform .15s}
 .lw-send:hover{background:var(--lw-accent-hover)}
 .lw-send:active{transform:scale(.98)}
 .lw-send:focus-visible{outline:2px solid var(--lw-ink); outline-offset:3px}
 .lw-send[disabled]{opacity:.6; cursor:progress}
-.lw-fstatus{margin:0; font-size:15px; color:var(--lw-muted)}
+.lw-fstatus{margin:0; font-size:14px; color:var(--lw-muted)}
 .lw-fstatus.is-ok{color:var(--lw-ink); font-weight:600}
 .lw-fstatus.is-err{color:var(--lw-danger); font-weight:600}
 @media (max-width: 860px){ .lw-frow{grid-template-columns:1fr} .lw-tabs::after{content:""; flex:0 0 10px} }
-.lw-main{padding-top:32px}
 .lw-rtop{display:flex; justify-content:flex-end; margin-bottom:24px}
-@media (max-width: 860px){ .lw-main{padding-top:20px} }
 [hidden]{display:none !important}
