@@ -267,4 +267,4 @@ CONTACT = [
 TURNSTILE_SITEKEY = "0x4AAAAAAGLgEPURgpzYe-UI"
 
 # Vertical focus of each card image when the card is collapsed (CSS object-position y). Default 50%.
-HERO_FOCUS = {"wedge": "45%", "axio": "25%", "anar": "55%", "andon": "45%", "moai": "30%", "fern": "50%", "bubble": "50%"}
+HERO_FOCUS = {"wedge": "45%", "axio": "22%", "anar": "48%", "andon": "38%", "moai": "30%", "fern": "45%", "bubble": "46%"}
