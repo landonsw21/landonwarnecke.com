@@ -26,22 +26,37 @@
   }
   $$('.lw-tab').forEach(function (b) {
     b.addEventListener('click', function () {
-      setMenu(false);
+      setMenu(false); setRail(true);
       if (!b.classList.contains('is-active')) { showTab(b.getAttribute('data-tab'), true); return; }
       if (openId) { closeProject(true); history.replaceState(null, '', location.pathname); }
     });
   });
 
   // ---------- phones: tapping the name row (photo, name or arrow) drops the menu (about + tabs) over the page ----------
-  var side = $('.lw-side'), menuBtn = $('[data-menu]'), me = $('.lw-me');
+  var side = $('.lw-side'), shell = $('.lw-shell'), menuBtn = $('[data-menu]'), me = $('.lw-me');
   var phone = window.matchMedia('(max-width: 860px)');
-  function setMenu(on) {
-    side.classList.toggle('is-menu', on);
-    if (menuBtn) { menuBtn.setAttribute('aria-expanded', on ? 'true' : 'false'); menuBtn.setAttribute('aria-label', on ? 'Close menu' : 'Open menu'); }
+  function labelArrow() {
+    if (!menuBtn) return;
+    var open = phone.matches ? side.classList.contains('is-menu') : !shell.classList.contains('is-rail');
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menuBtn.setAttribute('aria-label', phone.matches ? (open ? 'Close menu' : 'Open menu') : (open ? 'Minimize sidebar' : 'Expand sidebar'));
   }
+  function setMenu(on) { side.classList.toggle('is-menu', on); labelArrow(); }
+  // desktop: the left column minimizes to a slim rail (any click in the page, or a tab choice) and opens again,
+  // pushing the page back, when the rail is clicked (photo, arrow or the rail itself; its tabs just switch sections)
+  function setRail(on) { if (phone.matches) return; shell.classList.toggle('is-rail', on); labelArrow(); }
+  $('.lw-main').addEventListener('click', function () { setRail(true); });
+  side.addEventListener('click', function (e) {
+    if (phone.matches) return;
+    if (shell.classList.contains('is-rail')) {
+      if (e.target.closest('.lw-tab')) return;
+      e.stopPropagation(); setRail(false);   // capture: the photo opens the column here instead of going back to Projects
+    } else if (e.target.closest('[data-menu]')) setRail(true);
+  }, true);
   function syncPhone() {
     if (!phone.matches) setMenu(false);
     if (me) me.setAttribute('aria-label', phone.matches ? 'Menu' : 'Back to projects');
+    labelArrow();
   }
   $('.lw-id').addEventListener('click', function (e) {
     if (!phone.matches) return;   // desktop: the photo goes back to Projects (below)
@@ -78,7 +93,7 @@
     }
   }
   function closeProject(scroll, instant) {
-    if (!openId) return; var id = openId; setCard(id, false, instant); resetTitle(id); openId = null; syncCollapse();
+    if (!openId) return; var id = openId; setCard(id, false, instant); resetTitle(id); openId = null;
     if (scroll) scrollToEl(document.getElementById('p-' + id));
   }
   function openProject(id, scroll) {
@@ -89,16 +104,21 @@
       setCard(openId, false, true); resetTitle(openId);
       window.scrollBy({ top: art.getBoundingClientRect().top - before, behavior: 'instant' });
     }
-    setCard(id, true); openId = id; updateChapters(); syncCollapse();
+    setCard(id, true); openId = id; updateChapters();
     if (scroll !== false) scrollToEl(art);
     history.replaceState(null, '', '#' + id);
   }
 
-  // ---------- collapse the open project: floating "−" (bottom right, desktop) ----------
-  var fab = $('.lw-fab');
-  function syncCollapse() {
-    if (fab) fab.hidden = !openId;
-  }
+  // ---------- desktop: clicking an open project's text or background closes it (images, links, the section bar and
+  // other controls keep their own actions; selecting text doesn't close it) ----------
+  document.addEventListener('click', function (e) {
+    if (!openId || phone.matches || e.defaultPrevented) return;
+    var d = document.getElementById('d-' + openId);
+    if (!d || !d.contains(e.target)) return;
+    if (e.target.closest('a, button, img, input, textarea, select, label, .lw-chapbar')) return;
+    if (window.getSelection && String(window.getSelection()).length) return;
+    closeProject(true); history.replaceState(null, '', location.pathname);
+  });
   // ---------- profile photo: back to Projects (from another tab), else collapse the open project, else to the top ----------
   $$('[data-home]').forEach(function (b) {
     b.addEventListener('click', function () {
@@ -106,11 +126,6 @@
       if (!$('.lw-tab[data-tab="projects"]').classList.contains('is-active')) { showTab('projects', true); return; }
       if (openId) { closeProject(true); history.replaceState(null, '', location.pathname); }
       else window.scrollTo({ top: 0, behavior: smooth });
-    });
-  });
-  $$('[data-collapse]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      if (!openId) return; closeProject(true); history.replaceState(null, '', location.pathname);
     });
   });
   $$('[data-toggle]').forEach(function (b) {

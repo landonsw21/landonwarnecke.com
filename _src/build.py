@@ -224,7 +224,6 @@ doc = f'''<!doctype html>
 <button class="lw-lbicon" type="button" style="right:24px;top:24px" data-lbclose aria-label="Close">×</button>
 </section>
 </div>
-<button class="lw-fab" type="button" data-collapse hidden aria-label="Collapse the open project" title="Collapse project"><span aria-hidden="true">−</span></button>
 <script src="site.js" defer></script>
 </body>
 </html>
@@ -279,13 +278,8 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-chapbar.is-docked .lw-chapname{pointer-events:auto}
 .lw-chapbar.is-docked .lw-chapname:hover{color:#8E2F3A}
 @media (max-width: 860px){ .lw-chapname{font-size:14px} }
-/* --- portrait collapses the open project; floating button when the portrait is off screen --- */
+/* --- portrait: back to Projects / collapses the open project --- */
 .lw-me{position:relative; flex:none; padding:0; border:0; background:none; border-radius:10px; cursor:pointer; line-height:0}
-.lw-fab{position:fixed; right:24px; bottom:24px; z-index:50; width:56px; height:56px; border-radius:50%; border:0; background:#8E2F3A; color:#FFFFFF; font:inherit; font-size:30px; font-weight:700; line-height:1; cursor:pointer; box-shadow:0 10px 28px color-mix(in srgb, #2A1F1E 28%, transparent); transition:background .15s, box-shadow .2s, transform .15s}
-.lw-fab:hover{box-shadow:inset 0 0 0 2px #8E2F3A, inset 0 0 0 4px #ECE7E0, 0 10px 28px color-mix(in srgb, #2A1F1E 28%, transparent); transform:scale(1.06)}
-.lw-fab:focus-visible{outline:3px solid #2A1F1E; outline-offset:3px}
-.lw-fab:not([hidden]){animation:lw-fab-in .28s cubic-bezier(.2,.7,.2,1)}
-@keyframes lw-fab-in{from{opacity:0; transform:scale(.6)}to{opacity:1; transform:none}}
 @media (max-width: 860px){
  .lw-proj{padding-bottom:16px; scroll-margin-top:70px}
  .lw-card{--h:clamp(118px, 18svh, 150px)}
@@ -293,10 +287,8 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
  .lw-card-name{font-size:24px}
  .lw-card-line{font-size:14px; white-space:normal; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2}
  .lw-me, .lw-me .lw-portrait{border-radius:50%}
- .lw-fab{display:none !important}
 }
 @media (prefers-reduced-motion: reduce){
- .lw-fab{animation:none}
  .lw-card, .lw-card::before, .lw-drawer, .lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{transition:none}
 }
 /* --- extras share the project-card hover: shade lifts, pomegranate outline, slight grow.
@@ -392,22 +384,37 @@ js = r"""(function () {
   }
   $$('.lw-tab').forEach(function (b) {
     b.addEventListener('click', function () {
-      setMenu(false);
+      setMenu(false); setRail(true);
       if (!b.classList.contains('is-active')) { showTab(b.getAttribute('data-tab'), true); return; }
       if (openId) { closeProject(true); history.replaceState(null, '', location.pathname); }
     });
   });
 
   // ---------- phones: tapping the name row (photo, name or arrow) drops the menu (about + tabs) over the page ----------
-  var side = $('.lw-side'), menuBtn = $('[data-menu]'), me = $('.lw-me');
+  var side = $('.lw-side'), shell = $('.lw-shell'), menuBtn = $('[data-menu]'), me = $('.lw-me');
   var phone = window.matchMedia('(max-width: 860px)');
-  function setMenu(on) {
-    side.classList.toggle('is-menu', on);
-    if (menuBtn) { menuBtn.setAttribute('aria-expanded', on ? 'true' : 'false'); menuBtn.setAttribute('aria-label', on ? 'Close menu' : 'Open menu'); }
+  function labelArrow() {
+    if (!menuBtn) return;
+    var open = phone.matches ? side.classList.contains('is-menu') : !shell.classList.contains('is-rail');
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menuBtn.setAttribute('aria-label', phone.matches ? (open ? 'Close menu' : 'Open menu') : (open ? 'Minimize sidebar' : 'Expand sidebar'));
   }
+  function setMenu(on) { side.classList.toggle('is-menu', on); labelArrow(); }
+  // desktop: the left column minimizes to a slim rail (any click in the page, or a tab choice) and opens again,
+  // pushing the page back, when the rail is clicked (photo, arrow or the rail itself; its tabs just switch sections)
+  function setRail(on) { if (phone.matches) return; shell.classList.toggle('is-rail', on); labelArrow(); }
+  $('.lw-main').addEventListener('click', function () { setRail(true); });
+  side.addEventListener('click', function (e) {
+    if (phone.matches) return;
+    if (shell.classList.contains('is-rail')) {
+      if (e.target.closest('.lw-tab')) return;
+      e.stopPropagation(); setRail(false);   // capture: the photo opens the column here instead of going back to Projects
+    } else if (e.target.closest('[data-menu]')) setRail(true);
+  }, true);
   function syncPhone() {
     if (!phone.matches) setMenu(false);
     if (me) me.setAttribute('aria-label', phone.matches ? 'Menu' : 'Back to projects');
+    labelArrow();
   }
   $('.lw-id').addEventListener('click', function (e) {
     if (!phone.matches) return;   // desktop: the photo goes back to Projects (below)
@@ -444,7 +451,7 @@ js = r"""(function () {
     }
   }
   function closeProject(scroll, instant) {
-    if (!openId) return; var id = openId; setCard(id, false, instant); resetTitle(id); openId = null; syncCollapse();
+    if (!openId) return; var id = openId; setCard(id, false, instant); resetTitle(id); openId = null;
     if (scroll) scrollToEl(document.getElementById('p-' + id));
   }
   function openProject(id, scroll) {
@@ -455,16 +462,21 @@ js = r"""(function () {
       setCard(openId, false, true); resetTitle(openId);
       window.scrollBy({ top: art.getBoundingClientRect().top - before, behavior: 'instant' });
     }
-    setCard(id, true); openId = id; updateChapters(); syncCollapse();
+    setCard(id, true); openId = id; updateChapters();
     if (scroll !== false) scrollToEl(art);
     history.replaceState(null, '', '#' + id);
   }
 
-  // ---------- collapse the open project: floating "−" (bottom right, desktop) ----------
-  var fab = $('.lw-fab');
-  function syncCollapse() {
-    if (fab) fab.hidden = !openId;
-  }
+  // ---------- desktop: clicking an open project's text or background closes it (images, links, the section bar and
+  // other controls keep their own actions; selecting text doesn't close it) ----------
+  document.addEventListener('click', function (e) {
+    if (!openId || phone.matches || e.defaultPrevented) return;
+    var d = document.getElementById('d-' + openId);
+    if (!d || !d.contains(e.target)) return;
+    if (e.target.closest('a, button, img, input, textarea, select, label, .lw-chapbar')) return;
+    if (window.getSelection && String(window.getSelection()).length) return;
+    closeProject(true); history.replaceState(null, '', location.pathname);
+  });
   // ---------- profile photo: back to Projects (from another tab), else collapse the open project, else to the top ----------
   $$('[data-home]').forEach(function (b) {
     b.addEventListener('click', function () {
@@ -472,11 +484,6 @@ js = r"""(function () {
       if (!$('.lw-tab[data-tab="projects"]').classList.contains('is-active')) { showTab('projects', true); return; }
       if (openId) { closeProject(true); history.replaceState(null, '', location.pathname); }
       else window.scrollTo({ top: 0, behavior: smooth });
-    });
-  });
-  $$('[data-collapse]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      if (!openId) return; closeProject(true); history.replaceState(null, '', location.pathname);
     });
   });
   $$('[data-toggle]').forEach(function (b) {
