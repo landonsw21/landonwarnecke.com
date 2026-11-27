@@ -384,33 +384,22 @@ js = r"""(function () {
   }
   $$('.lw-tab').forEach(function (b) {
     b.addEventListener('click', function () {
-      setMenu(false); setRail(true);
+      setMenu(false);
       if (!b.classList.contains('is-active')) { showTab(b.getAttribute('data-tab'), true); return; }
       if (openId) { closeProject(true); history.replaceState(null, '', location.pathname); }
     });
   });
 
   // ---------- phones: tapping the name row (photo, name or arrow) drops the menu (about + tabs) over the page ----------
-  var side = $('.lw-side'), shell = $('.lw-shell'), menuBtn = $('[data-menu]'), me = $('.lw-me');
+  var side = $('.lw-side'), menuBtn = $('[data-menu]'), me = $('.lw-me');
   var phone = window.matchMedia('(max-width: 860px)');
   function labelArrow() {
     if (!menuBtn) return;
-    var open = phone.matches ? side.classList.contains('is-menu') : !shell.classList.contains('is-rail');
+    var open = side.classList.contains('is-menu');
     menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    menuBtn.setAttribute('aria-label', phone.matches ? (open ? 'Close menu' : 'Open menu') : (open ? 'Minimize sidebar' : 'Expand sidebar'));
+    menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
   }
   function setMenu(on) { side.classList.toggle('is-menu', on); labelArrow(); }
-  // desktop: the left column minimizes to a slim rail (any click in the page, or a tab choice) and opens again,
-  // pushing the page back, when the rail is clicked (photo, arrow or the rail itself; its tabs just switch sections)
-  function setRail(on) { if (phone.matches) return; shell.classList.toggle('is-rail', on); labelArrow(); }
-  $('.lw-main').addEventListener('click', function () { setRail(true); });
-  side.addEventListener('click', function (e) {
-    if (phone.matches) return;
-    if (shell.classList.contains('is-rail')) {
-      if (e.target.closest('.lw-tab')) return;
-      e.stopPropagation(); setRail(false);   // capture: the photo opens the column here instead of going back to Projects
-    } else if (e.target.closest('[data-menu]')) setRail(true);
-  }, true);
   function syncPhone() {
     if (!phone.matches) setMenu(false);
     if (me) me.setAttribute('aria-label', phone.matches ? 'Menu' : 'Back to projects');

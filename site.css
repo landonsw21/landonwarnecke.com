@@ -17,22 +17,16 @@ html{scroll-behavior:smooth}
 .lw-menu{display:contents}
 .lw-menu-btn{display:none; flex:none; align-items:center; justify-content:center; width:44px; height:44px; margin-left:auto; padding:0; border:0; border-radius:10px; background:transparent; color:var(--lw-ink); cursor:pointer}
 .lw-menu-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; transition:transform .25s}
-/* desktop: the left column has two states. Open (as designed) with an arrow pointing left to minimize it; minimized to an
-   80px rail (round photo, arrow pointing right, the tabs written top to bottom). The rail opens again by pushing the page back. */
+/* desktop: one fixed 160px column. Same contents and order as the original (photo beside the name, About me,
+   tabs, footer), scaled down so projects get the width; it never changes size. Phones use the header + menu below. */
 @media (min-width: 861px){
- .lw-side{transition:width .35s cubic-bezier(.2,.7,.2,1), padding .35s cubic-bezier(.2,.7,.2,1)}
- .lw-menu-btn{display:inline-flex; position:absolute; top:8px; right:8px; width:40px; height:40px; color:var(--lw-muted)}   /* open column: in its empty top-right corner, so the name keeps one line */
- .lw-menu-btn:hover{color:var(--lw-accent)}
- .lw-menu-btn svg{transform:rotate(90deg)}
- .lw-shell.is-rail .lw-side{width:80px; padding:32px 16px; align-items:center; cursor:pointer}
- .lw-shell.is-rail .lw-id{flex-direction:column; gap:16px}
- .lw-shell.is-rail .lw-me, .lw-shell.is-rail .lw-portrait{border-radius:50%}
- .lw-shell.is-rail .lw-portrait{width:48px; height:48px}
- .lw-shell.is-rail .lw-nm, .lw-shell.is-rail .lw-bio, .lw-shell.is-rail .lw-side-foot{display:none}
- .lw-shell.is-rail .lw-menu-btn{position:static; width:44px; height:44px; margin-left:0; color:var(--lw-ink)}
- .lw-shell.is-rail .lw-menu-btn svg{transform:rotate(-90deg)}
- .lw-shell.is-rail .lw-tabs{align-items:center}
- .lw-shell.is-rail .lw-tab{width:48px; min-height:0; padding:16px 0; justify-content:center; writing-mode:vertical-rl; font-size:14px}
+ .lw-side{width:160px; padding:32px 16px; gap:16px}
+ .lw-id{gap:8px}
+ .lw-portrait{width:40px; height:50px}
+ .lw-nm{font-size:16px; line-height:1.15}
+ .lw-bio p{font-size:14px; line-height:1.5}
+ .lw-tab{min-height:44px; padding:10px 12px; font-size:14px}
+ .lw-side-foot{padding-top:12px; font-size:12px}
 }
 .lw-tabs{display:flex; flex-direction:column; gap:8px}
 .lw-tab{display:flex; justify-content:space-between; align-items:center; gap:8px; width:100%; min-height:48px; padding:12px 16px; border-radius:10px; border:1px solid var(--lw-line); background:transparent; color:var(--lw-muted); font:inherit; font-size:16px; font-weight:600; text-align:left; cursor:pointer; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
@@ -112,7 +106,6 @@ html{scroll-behavior:smooth}
 @keyframes lw-menu-in{from{opacity:0; transform:translateY(-8px)}to{opacity:1; transform:none}}
 @media (prefers-reduced-motion: reduce){
  html{scroll-behavior:auto}
- .lw-side{transition:none}
  .lw-side.is-menu .lw-menu{animation:none}
  .lw-menu-btn svg{transition:none}
  .lw-card, .lw-tab, .lw-chap{transition:none}
