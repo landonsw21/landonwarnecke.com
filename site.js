@@ -19,25 +19,43 @@
     });
     $$('.lw-pane').forEach(function (p) { p.hidden = p.getAttribute('data-pane') !== name; });
     closeProject(false, true);
-    $('.lw-side').classList.remove('is-about');
+    setMenu(false);
     if (name === 'contact' && typeof loadTurnstile === 'function') loadTurnstile();
     if (push) history.replaceState(null, '', name === 'projects' ? location.pathname : '#' + name);
     window.scrollTo({ top: 0, behavior: smooth });
   }
   $$('.lw-tab').forEach(function (b) {
     b.addEventListener('click', function () {
+      setMenu(false);
       if (!b.classList.contains('is-active')) { showTab(b.getAttribute('data-tab'), true); return; }
       if (openId) { closeProject(true); history.replaceState(null, '', location.pathname); }
     });
   });
 
-  // ---------- about toggle (phones) ----------
-  var about = $('[data-about]');
-  if (about) about.addEventListener('click', function () {
-    var side = $('.lw-side'); var on = !side.classList.contains('is-about');
-    side.classList.toggle('is-about', on); about.setAttribute('aria-expanded', on ? 'true' : 'false');
-    about.textContent = on ? 'Hide about' : 'About me';
+  // ---------- phones: tapping the name row (photo, name or arrow) drops the menu (about + tabs) over the page ----------
+  var side = $('.lw-side'), menuBtn = $('[data-menu]'), me = $('.lw-me');
+  var phone = window.matchMedia('(max-width: 860px)');
+  function setMenu(on) {
+    side.classList.toggle('is-menu', on);
+    if (menuBtn) { menuBtn.setAttribute('aria-expanded', on ? 'true' : 'false'); menuBtn.setAttribute('aria-label', on ? 'Close menu' : 'Open menu'); }
+  }
+  function syncPhone() {
+    if (!phone.matches) setMenu(false);
+    if (me) me.setAttribute('aria-label', phone.matches ? 'Menu' : 'Back to projects');
+  }
+  $('.lw-id').addEventListener('click', function (e) {
+    if (!phone.matches) return;   // desktop: the photo goes back to Projects (below)
+    e.stopPropagation();
+    setMenu(!side.classList.contains('is-menu'));
   });
+  document.addEventListener('click', function (e) {   // a tap outside only closes the menu (it doesn't also open what's underneath)
+    if (side.classList.contains('is-menu') && !side.contains(e.target)) { e.preventDefault(); e.stopPropagation(); setMenu(false); }
+  }, true);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && side.classList.contains('is-menu')) { setMenu(false); if (menuBtn) menuBtn.focus(); }
+  });
+  if (phone.addEventListener) phone.addEventListener('change', syncPhone);
+  syncPhone();
 
   // ---------- project drawers (one open at a time) ----------
   // The drawer slides open from under its card (grid rows 0fr -> 1fr) and is display:none once closed.
@@ -84,6 +102,7 @@
   // ---------- profile photo: back to Projects (from another tab), else collapse the open project, else to the top ----------
   $$('[data-home]').forEach(function (b) {
     b.addEventListener('click', function () {
+      if (phone.matches) return;   // phones: the photo opens the menu instead
       if (!$('.lw-tab[data-tab="projects"]').classList.contains('is-active')) { showTab('projects', true); return; }
       if (openId) { closeProject(true); history.replaceState(null, '', location.pathname); }
       else window.scrollTo({ top: 0, behavior: smooth });

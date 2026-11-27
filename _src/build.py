@@ -207,10 +207,12 @@ doc = f'''<!doctype html>
 <aside class="lw-side" aria-label="About and navigation">
 <div class="lw-id"><button class="lw-me" type="button" data-home aria-label="Back to projects">{img("portrait2", "Portrait of Landon Warnecke", "lw-portrait", lazy=False)}</button>
 <div style="display:flex;flex-direction:column;gap:4px;min-width:0"><span class="lw-nm">Landon Warnecke</span></div>
-<button class="lw-about-toggle" type="button" aria-expanded="false" data-about>About me</button></div>
+<button class="lw-menu-btn" type="button" aria-expanded="false" aria-controls="lw-menu" aria-label="Open menu" data-menu><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></div>
+<div class="lw-menu" id="lw-menu">
 <div class="lw-bio"><p>{e(BIO)}</p></div>
 <nav class="lw-tabs" aria-label="Sections">{tab_btns}</nav>
 <div class="lw-side-foot"><span style="color:var(--lw-muted)">© 2026 Landon Warnecke</span></div>
+</div>
 </aside>
 <main class="lw-main" id="main">{main}</main>
 </div>
@@ -285,7 +287,7 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-fab:not([hidden]){animation:lw-fab-in .28s cubic-bezier(.2,.7,.2,1)}
 @keyframes lw-fab-in{from{opacity:0; transform:scale(.6)}to{opacity:1; transform:none}}
 @media (max-width: 860px){
- .lw-proj{padding-bottom:16px; scroll-margin-top:126px}
+ .lw-proj{padding-bottom:16px; scroll-margin-top:70px}
  .lw-card{--h:clamp(118px, 18svh, 150px)}
  .lw-card-body{padding:16px; gap:8px}
  .lw-card-name{font-size:24px}
@@ -355,7 +357,7 @@ a.lw-crow:hover{color:#8E2F3A !important}
 .lw-fstatus{margin:0; font-size:14px; color:#6A5F58}
 .lw-fstatus.is-ok{color:#2A1F1E; font-weight:600}
 .lw-fstatus.is-err{color:#B43C2F; font-weight:600}
-@media (max-width: 860px){ .lw-frow{grid-template-columns:1fr} .lw-tabs::after{content:""; flex:0 0 10px} }
+@media (max-width: 860px){ .lw-frow{grid-template-columns:1fr} }
 .lw-rtop{display:flex; justify-content:flex-end; margin-bottom:24px}
 [hidden]{display:none !important}
 """
@@ -383,25 +385,43 @@ js = r"""(function () {
     });
     $$('.lw-pane').forEach(function (p) { p.hidden = p.getAttribute('data-pane') !== name; });
     closeProject(false, true);
-    $('.lw-side').classList.remove('is-about');
+    setMenu(false);
     if (name === 'contact' && typeof loadTurnstile === 'function') loadTurnstile();
     if (push) history.replaceState(null, '', name === 'projects' ? location.pathname : '#' + name);
     window.scrollTo({ top: 0, behavior: smooth });
   }
   $$('.lw-tab').forEach(function (b) {
     b.addEventListener('click', function () {
+      setMenu(false);
       if (!b.classList.contains('is-active')) { showTab(b.getAttribute('data-tab'), true); return; }
       if (openId) { closeProject(true); history.replaceState(null, '', location.pathname); }
     });
   });
 
-  // ---------- about toggle (phones) ----------
-  var about = $('[data-about]');
-  if (about) about.addEventListener('click', function () {
-    var side = $('.lw-side'); var on = !side.classList.contains('is-about');
-    side.classList.toggle('is-about', on); about.setAttribute('aria-expanded', on ? 'true' : 'false');
-    about.textContent = on ? 'Hide about' : 'About me';
+  // ---------- phones: tapping the name row (photo, name or arrow) drops the menu (about + tabs) over the page ----------
+  var side = $('.lw-side'), menuBtn = $('[data-menu]'), me = $('.lw-me');
+  var phone = window.matchMedia('(max-width: 860px)');
+  function setMenu(on) {
+    side.classList.toggle('is-menu', on);
+    if (menuBtn) { menuBtn.setAttribute('aria-expanded', on ? 'true' : 'false'); menuBtn.setAttribute('aria-label', on ? 'Close menu' : 'Open menu'); }
+  }
+  function syncPhone() {
+    if (!phone.matches) setMenu(false);
+    if (me) me.setAttribute('aria-label', phone.matches ? 'Menu' : 'Back to projects');
+  }
+  $('.lw-id').addEventListener('click', function (e) {
+    if (!phone.matches) return;   // desktop: the photo goes back to Projects (below)
+    e.stopPropagation();
+    setMenu(!side.classList.contains('is-menu'));
   });
+  document.addEventListener('click', function (e) {   // a tap outside only closes the menu (it doesn't also open what's underneath)
+    if (side.classList.contains('is-menu') && !side.contains(e.target)) { e.preventDefault(); e.stopPropagation(); setMenu(false); }
+  }, true);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && side.classList.contains('is-menu')) { setMenu(false); if (menuBtn) menuBtn.focus(); }
+  });
+  if (phone.addEventListener) phone.addEventListener('change', syncPhone);
+  syncPhone();
 
   // ---------- project drawers (one open at a time) ----------
   // The drawer slides open from under its card (grid rows 0fr -> 1fr) and is display:none once closed.
@@ -448,6 +468,7 @@ js = r"""(function () {
   // ---------- profile photo: back to Projects (from another tab), else collapse the open project, else to the top ----------
   $$('[data-home]').forEach(function (b) {
     b.addEventListener('click', function () {
+      if (phone.matches) return;   // phones: the photo opens the menu instead
       if (!$('.lw-tab[data-tab="projects"]').classList.contains('is-active')) { showTab('projects', true); return; }
       if (openId) { closeProject(true); history.replaceState(null, '', location.pathname); }
       else window.scrollTo({ top: 0, behavior: smooth });

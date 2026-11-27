@@ -13,7 +13,10 @@ html{scroll-behavior:smooth}
 .lw-nm{font-size:20px; font-weight:700; line-height:1.1; letter-spacing:-0.02em}
 .lw-bio{display:flex; flex-direction:column; gap:8px}
 .lw-bio p{margin:0; font-size:14px; line-height:1.6}
-.lw-about-toggle{display:none; flex:none; align-items:center; min-height:44px; padding:0 16px; border-radius:10px; border:1px solid #2A1F1E; background:transparent; color:#2A1F1E; font:inherit; font-size:14px; font-weight:600; white-space:nowrap; cursor:pointer}
+/* desktop: the menu is simply the side column (about, tabs, footer); the arrow only shows on phones */
+.lw-menu{display:contents}
+.lw-menu-btn{display:none; flex:none; align-items:center; justify-content:center; width:44px; height:44px; margin-left:auto; padding:0; border:0; border-radius:10px; background:transparent; color:#2A1F1E; cursor:pointer}
+.lw-menu-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; transition:transform .25s}
 .lw-tabs{display:flex; flex-direction:column; gap:8px}
 .lw-tab{display:flex; justify-content:space-between; align-items:center; gap:8px; width:100%; min-height:48px; padding:12px 16px; border-radius:10px; border:1px solid #D2CABF; background:transparent; color:#6A5F58; font:inherit; font-size:16px; font-weight:600; text-align:left; cursor:pointer; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
 /* tabs share the project-card hover: dimmed at rest; hover undims, outlines in pomegranate and grows slightly. The current tab is filled pomegranate; on hover a light ring shows just inside its pomegranate edge (drawn inside the tab, so it never crowds its neighbours) and it grows slightly */
@@ -74,26 +77,28 @@ html{scroll-behavior:smooth}
 .lw-root :focus-visible{outline:2px solid #8E2F3A; outline-offset:3px}
 @media (max-width: 860px){
  .lw-shell{flex-direction:column; align-items:stretch}
- .lw-side{width:auto; max-height:none; overflow:visible; padding:12px 16px; gap:12px; border-right:none; border-bottom:1px solid #D2CABF}
- .lw-id{gap:12px}
+ .lw-side{width:auto; max-height:none; overflow:visible; padding:12px 16px; gap:0; border-right:none; border-bottom:1px solid #D2CABF}
+ .lw-id{gap:12px; cursor:pointer; -webkit-tap-highlight-color:transparent}
  .lw-portrait{width:44px; height:44px; border-radius:50%}
  .lw-nm{font-size:16px}
- .lw-about-toggle{display:inline-flex; margin-left:auto}
- .lw-bio{display:none}
- .lw-side.is-about .lw-bio{display:flex}
- .lw-tabs{flex-direction:row; overflow-x:auto; scrollbar-width:none}
- .lw-tab{width:auto; flex:none; min-height:44px; padding:8px 16px}
+ .lw-menu-btn{display:inline-flex}
+ .lw-side.is-menu .lw-menu-btn svg{transform:rotate(180deg)}
+ .lw-menu{display:none; position:absolute; left:0; right:0; top:100%; flex-direction:column; gap:16px; max-height:calc(100svh - 69px); overflow-y:auto; padding:16px; background:#E4DED5; border-bottom:1px solid #D2CABF; box-shadow:0 16px 32px rgba(42,31,30,.16)}
+ .lw-side.is-menu .lw-menu{display:flex; animation:lw-menu-in .2s cubic-bezier(.2,.7,.2,1)}
  .lw-side-foot{display:none}
  .lw-main{padding:16px 16px 80px}
- .lw-chapbar{top:124px; padding:2px 15px}
+ .lw-chapbar{top:68px; padding:2px 15px}
  .lw-dbody{padding:24px 15px; gap:32px}
  .lw-meta{column-gap:16px}
- .lw-sec{grid-template-columns:1fr; gap:12px; scroll-margin-top:192px}
+ .lw-sec{grid-template-columns:1fr; gap:12px; scroll-margin-top:136px}
  .lw-imgs.c2, .lw-imgs.c3, .lw-two{grid-template-columns:1fr}
  .lw-lb figure{padding:64px 16px}
 }
+@keyframes lw-menu-in{from{opacity:0; transform:translateY(-8px)}to{opacity:1; transform:none}}
 @media (prefers-reduced-motion: reduce){
  html{scroll-behavior:auto}
+ .lw-side.is-menu .lw-menu{animation:none}
+ .lw-menu-btn svg{transition:none}
  .lw-card, .lw-tab, .lw-chap{transition:none}
  .lw-card:hover, .lw-tab:not(.is-active):hover, .lw-tab.is-active:hover, .lw-chap:not(.is-active):hover, .lw-chap.is-active:hover{transform:none}
 }
