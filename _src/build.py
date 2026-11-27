@@ -246,7 +246,7 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-proj{padding-bottom:24px; scroll-margin-top:16px}
 .lw-proj:last-child{padding-bottom:0}
 .lw-unit{container-type:inline-size; border-radius:18px; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s}
-.lw-card{--h:clamp(170px, calc((100svh - 140px) / 3), 280px); position:relative; display:block; width:100%; height:var(--h); padding:0; border:0; border-radius:18px; overflow:hidden; background:#2A1F1E; color:#FFFFFF; text-align:left; cursor:pointer; transition:height .5s cubic-bezier(.2,.7,.2,1), border-radius .3s}
+.lw-card{--h:256px; position:relative; display:block; width:100%; height:var(--h); padding:0; border:0; border-radius:18px; overflow:hidden; background:#2A1F1E; color:#FFFFFF; text-align:left; cursor:pointer; transition:height .5s cubic-bezier(.2,.7,.2,1), border-radius .3s}
 .lw-card-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% var(--fy, 50%); background:#2A1F1E}
 .lw-card-img.is-blur{filter:blur(14px) saturate(.9); transform:scale(1.12)}
 .lw-card::before{content:""; position:absolute; inset:0; z-index:1; background:color-mix(in srgb, #2A1F1E 42%, transparent); transition:opacity .5s}
