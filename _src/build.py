@@ -257,8 +257,8 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-card-line{min-width:0; font-size:16px; line-height:1.45; color:#FFFFFF; opacity:.92; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 .lw-card:focus-visible{outline:3px solid #8E2F3A; outline-offset:3px}
 @media (hover: hover){
- .lw-proj:hover .lw-unit{outline-color:#8E2F3A}
- .lw-proj:hover .lw-card::before{opacity:0}
+ .lw-proj.is-hover .lw-unit{outline-color:#8E2F3A}
+ .lw-proj.is-hover .lw-card::before{opacity:0}
 }
 .lw-proj.is-open .lw-unit{outline-color:#8E2F3A}
 .lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{height:min(calc(100cqw / var(--ar, 2)), 86svh); border-radius:18px 18px 0 0; transition:height .6s cubic-bezier(.2,.7,.2,1), border-radius .3s}
@@ -299,8 +299,8 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-extra .lw-pill::after{content:""; position:absolute; inset:0; border-radius:18px}
 @media (hover: hover){
  .lw-shade::after{content:""; position:absolute; inset:0; background:color-mix(in srgb, #2A1F1E 42%, transparent); transition:opacity .5s; pointer-events:none}
- .lw-extra:hover .lw-shade::after{opacity:0}
- .lw-extra:hover{outline-color:#8E2F3A; transform:scale(1.02)}
+ .lw-extra.is-hover .lw-shade::after{opacity:0}
+ .lw-extra.is-hover{outline-color:#8E2F3A; transform:scale(1.02)}
 }
 /* --- gallery: one even grid of tiles, a short label over a darkened image, same hover as the project cards --- */
 .lw-tiles{display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:24px}
@@ -310,8 +310,8 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-tile::after{content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(to top, color-mix(in srgb, #2A1F1E 80%, transparent) 0, transparent 45%)}
 .lw-tile-name{position:absolute; left:24px; right:24px; bottom:24px; z-index:2; font-size:24px; line-height:1.1; font-weight:700; letter-spacing:-0.02em; text-shadow:0 1px 14px color-mix(in srgb, #2A1F1E 60%, transparent)}
 @media (hover: hover){
- .lw-tile:hover{outline-color:#8E2F3A; transform:scale(1.02)}
- .lw-tile:hover::before{opacity:0}
+ .lw-tile.is-hover{outline-color:#8E2F3A; transform:scale(1.02)}
+ .lw-tile.is-hover::before{opacity:0}
 }
 @media (max-width: 860px){
  .lw-tiles{grid-template-columns:repeat(2, minmax(0, 1fr)); gap:16px}
@@ -319,7 +319,7 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 }
 @media (prefers-reduced-motion: reduce){
  .lw-extra, .lw-shade::after, .lw-tile, .lw-tile::before{transition:none}
- .lw-extra:hover, .lw-tile:hover{transform:none}
+ .lw-extra.is-hover, .lw-tile.is-hover{transform:none}
 }
 .lw-contact{display:flex; flex-direction:column; max-width:760px}
 .lw-crow{display:grid; grid-template-columns:128px minmax(0,1fr) auto; align-items:center; gap:16px; padding:16px 0; border-top:1px solid #D2CABF; color:#2A1F1E !important; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:-0.01em; overflow-wrap:anywhere}
@@ -623,6 +623,30 @@ js = r"""(function () {
       });
     });
   }
+
+  // ---------- hover that keeps up with scrolling: browsers only re-check :hover once a scroll (e.g. a trackpad swipe)
+  // ends, so the card under a still cursor lit up late. The script keeps .is-hover on the project card, gallery tile or
+  // extra under the mouse, checking again on every scroll frame. ----------
+  var HOVERABLE = '.lw-proj, .lw-tile, .lw-extra', px = -1, py = -1, hovered = null, hoverQueued = false;
+  function setHover(el) {
+    if (el === hovered) return;
+    if (hovered) hovered.classList.remove('is-hover');
+    hovered = el; if (el) el.classList.add('is-hover');
+  }
+  function hoverAt() {
+    hoverQueued = false;
+    if (px < 0) return setHover(null);
+    var t = document.elementFromPoint(px, py);
+    setHover(t && t.closest ? t.closest(HOVERABLE) : null);
+  }
+  document.addEventListener('pointermove', function (e) {
+    if (e.pointerType !== 'mouse') return;
+    px = e.clientX; py = e.clientY; hoverAt();
+  }, { passive: true });
+  window.addEventListener('scroll', function () {
+    if (px >= 0 && !hoverQueued) { hoverQueued = true; requestAnimationFrame(hoverAt); }
+  }, { passive: true });
+  document.documentElement.addEventListener('mouseleave', function () { px = -1; setHover(null); });
 
   // ---------- deep links: #gallery, #resume, #extras, #axio ----------
   function route() {

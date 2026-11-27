@@ -265,6 +265,30 @@
     });
   }
 
+  // ---------- hover that keeps up with scrolling: browsers only re-check :hover once a scroll (e.g. a trackpad swipe)
+  // ends, so the card under a still cursor lit up late. The script keeps .is-hover on the project card, gallery tile or
+  // extra under the mouse, checking again on every scroll frame. ----------
+  var HOVERABLE = '.lw-proj, .lw-tile, .lw-extra', px = -1, py = -1, hovered = null, hoverQueued = false;
+  function setHover(el) {
+    if (el === hovered) return;
+    if (hovered) hovered.classList.remove('is-hover');
+    hovered = el; if (el) el.classList.add('is-hover');
+  }
+  function hoverAt() {
+    hoverQueued = false;
+    if (px < 0) return setHover(null);
+    var t = document.elementFromPoint(px, py);
+    setHover(t && t.closest ? t.closest(HOVERABLE) : null);
+  }
+  document.addEventListener('pointermove', function (e) {
+    if (e.pointerType !== 'mouse') return;
+    px = e.clientX; py = e.clientY; hoverAt();
+  }, { passive: true });
+  window.addEventListener('scroll', function () {
+    if (px >= 0 && !hoverQueued) { hoverQueued = true; requestAnimationFrame(hoverAt); }
+  }, { passive: true });
+  document.documentElement.addEventListener('mouseleave', function () { px = -1; setHover(null); });
+
   // ---------- deep links: #gallery, #resume, #extras, #axio ----------
   function route() {
     var h = location.hash.replace('#', '');
