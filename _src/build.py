@@ -241,7 +241,7 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-sw small{align-self:start; font-size:12px; line-height:1.35; color:#6A5F58}
 .lw-extra img{height:auto}
 /* portrait: shown as is; a pomegranate border on hover. Clicking it goes back to Projects (collapsing an open project) */
-@media (hover: hover){ .lw-me:hover .lw-portrait{border-color:#8E2F3A} }
+@media (hover: hover){ .lw-me:hover::after{box-shadow:inset 0 0 0 2px #8E2F3A} }
 /* --- project cards: darkened image with the name on top. Three sizes: resting band, hover (2x, shade lifted), clicked (the whole image) --- */
 .lw-proj{padding-bottom:24px; scroll-margin-top:16px}
 .lw-proj:last-child{padding-bottom:0}
@@ -280,6 +280,7 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 @media (max-width: 860px){ .lw-chapname{font-size:14px} }
 /* --- portrait: back to Projects / collapses the open project --- */
 .lw-me{position:relative; flex:none; padding:0; border:0; background:none; border-radius:10px; cursor:pointer; line-height:0}
+.lw-me::after{content:""; position:absolute; inset:0; border-radius:inherit; box-shadow:inset 0 0 0 2px transparent; transition:box-shadow .2s; pointer-events:none}   /* hover ring drawn inside the photo, so the photo lines up with the tabs */
 @media (max-width: 860px){
  .lw-proj{padding-bottom:16px; scroll-margin-top:70px}
  .lw-card{--h:clamp(118px, 18svh, 150px)}

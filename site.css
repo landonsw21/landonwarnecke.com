@@ -9,7 +9,7 @@ html{scroll-behavior:smooth}
 .lw-shell{display:flex; align-items:flex-start}
 .lw-side{width:340px; flex:none; position:sticky; top:0; max-height:100vh; overflow-y:auto; scrollbar-width:thin; padding:32px; display:flex; flex-direction:column; gap:24px; border-right:1px solid var(--lw-line); background:var(--lw-bg); z-index:10}
 .lw-id{display:flex; flex-direction:row; align-items:center; gap:16px}
-.lw-portrait{width:80px; height:100px; flex:none; object-fit:cover; object-position:50% 30%; border-radius:10px; display:block; box-sizing:border-box; border:2px solid transparent; transition:border-color .2s}
+.lw-portrait{width:80px; height:100px; flex:none; object-fit:cover; object-position:50% 30%; border-radius:10px; display:block}
 .lw-nm{font-size:20px; font-weight:700; line-height:1.1; letter-spacing:-0.02em}
 .lw-bio{display:flex; flex-direction:column; gap:8px}
 .lw-bio p{margin:0; font-size:14px; line-height:1.6}
@@ -18,13 +18,12 @@ html{scroll-behavior:smooth}
 .lw-menu-btn{display:none; flex:none; align-items:center; justify-content:center; width:44px; height:44px; margin-left:auto; padding:0; border:0; border-radius:10px; background:transparent; color:var(--lw-ink); cursor:pointer}
 .lw-menu-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; transition:transform .25s}
 /* desktop: one fixed 256px column, as wide as a resting project card is tall, so the frame and the cards echo each
-   other. Same contents and order as the original; inside it the name leads (one line, 20px), the tabs follow (16px),
+   other. Same contents and order as the original; inside it the photo (80x100) and the name (20px, on two lines) lead, the tabs follow (16px),
    About me is a quiet caption (14px, muted) and the footer is smallest. It never changes size. Phones use the header + menu below. */
 @media (min-width: 861px){
  .lw-side{width:256px; padding:32px 16px; gap:24px}
- .lw-id{gap:12px}
- .lw-portrait{width:48px; height:60px}
- .lw-nm{font-size:20px; line-height:1.15; white-space:nowrap}
+ .lw-id{gap:16px}
+ .lw-nm{font-size:20px; line-height:1.15}
  .lw-bio p{font-size:14px; line-height:1.6; color:var(--lw-muted)}
  .lw-tab{min-height:44px; padding:10px 16px; font-size:16px}
  .lw-side-foot{padding-top:16px; font-size:12px}
@@ -124,7 +123,7 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
 .lw-sw small{align-self:start; font-size:12px; line-height:1.35; color:var(--lw-muted)}
 .lw-extra img{height:auto}
 /* portrait: shown as is; a pomegranate border on hover. Clicking it goes back to Projects (collapsing an open project) */
-@media (hover: hover){ .lw-me:hover .lw-portrait{border-color:var(--lw-accent)} }
+@media (hover: hover){ .lw-me:hover::after{box-shadow:inset 0 0 0 2px var(--lw-accent)} }
 /* --- project cards: darkened image with the name on top. Three sizes: resting band, hover (2x, shade lifted), clicked (the whole image) --- */
 .lw-proj{padding-bottom:24px; scroll-margin-top:16px}
 .lw-proj:last-child{padding-bottom:0}
@@ -163,6 +162,7 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
 @media (max-width: 860px){ .lw-chapname{font-size:14px} }
 /* --- portrait: back to Projects / collapses the open project --- */
 .lw-me{position:relative; flex:none; padding:0; border:0; background:none; border-radius:10px; cursor:pointer; line-height:0}
+.lw-me::after{content:""; position:absolute; inset:0; border-radius:inherit; box-shadow:inset 0 0 0 2px transparent; transition:box-shadow .2s; pointer-events:none}   /* hover ring drawn inside the photo, so the photo lines up with the tabs */
 @media (max-width: 860px){
  .lw-proj{padding-bottom:16px; scroll-margin-top:70px}
  .lw-card{--h:clamp(118px, 18svh, 150px)}
