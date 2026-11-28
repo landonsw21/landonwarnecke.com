@@ -169,13 +169,12 @@ PROJECTS = [
 # Gallery: one grid of tiles. Each tile is (label shown on the tile, pieces); the first piece is the tile's image,
 # and clicking opens the image viewer at it (arrows step through the tile's pieces; captions show there).
 GALLERY = [   # (name, one line, images): the first image is the tile and the page's hero; the rest run in process order
-    ("Sketches", "Concept sheets, nature and object studies, and marker ideation.", [
+    ("Sketches", "Concept sheets and studies of nature and objects.", [
         ("g_vases", "Glass vessel studies"), ("g_vases2", "Venini vase studies"), ("g_wayfinder", "Wayfinder concept sheet"),
         ("g_klink", "Klink & Klang, ergonomic VR controllers"), ("g_domino", "Domino, dual power bank"),
         ("g_punchy", "Punchy, a punching machine that fights back"), ("g_projectx", "Project X, a Hot Wheels concept"),
         ("g_samba", "adidas Samba, Japan version"), ("g_trees", "Tree textures, graphite studies"), ("g_still", "Still life, line drawing"),
-        ("g_maple", "Japanese maple study sheet"), ("g_frog", "Poison dart frog study sheet"), ("g_pom", "Pomegranate study sheet"),
-        ("g_headphones", "Headphone ideation in marker"), ("g_headphones2", "Headphone ideation in marker")]),
+        ("g_maple", "Japanese maple study sheet"), ("g_frog", "Poison dart frog study sheet"), ("g_pom", "Pomegranate study sheet")]),
     ("Form studies", "Studies in ribbon, volume, line and plane, then color.", [
         ("g_fs_4177", "Ribbon study"), ("g_fs_4181", "Ribbon study, arches"), ("g_fs_4183", "Ribbon study, loops"),
         ("g_fs_4171", "Volume study, stacked planes"), ("g_fs_4174", "Volume study"),
