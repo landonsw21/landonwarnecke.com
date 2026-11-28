@@ -29,8 +29,10 @@
     b.addEventListener('click', function () {
       setMenu(false);
       if (!b.classList.contains('is-active')) { showTab(b.getAttribute('data-tab'), true); return; }
-      if (openId) { closeProject(true); history.replaceState(null, '', location.pathname); }
-      if (gOpen) backToGallery();
+      // the current tab again: first it closes what's open (a project, a gallery piece); with nothing open it goes to the top
+      if (openId) { closeProject(true); history.replaceState(null, '', location.pathname); return; }
+      if (gOpen) { backToGallery(); return; }
+      window.scrollTo({ top: 0, behavior: smooth });
     });
   });
 
