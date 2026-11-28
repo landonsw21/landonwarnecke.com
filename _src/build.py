@@ -285,6 +285,7 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-skip:focus{left:8px}
 .lw-imgs.c2 .is-wide, .lw-imgs.c3 .is-wide, .lw-imgs .lw-jrow{grid-column:1 / -1}
 .lw-palette{display:flex; flex-wrap:wrap; gap:16px 32px; padding-top:4px}
+.lw-sec-body p:has(> .lw-palette){max-width:none}   /* the swatches take the full width, so three fit on one line */
 .lw-sw{display:grid; grid-template-columns:48px auto; column-gap:12px; align-items:center}
 .lw-sw i{grid-row:1 / span 2; width:48px; height:48px; border-radius:var(--r-s); border:1px solid #D2CABF}
 .lw-sw b{align-self:end; font-size:16px; line-height:1.25}
