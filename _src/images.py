@@ -110,9 +110,12 @@ def flat(im, bg=(236, 231, 224)):
     return im.convert("RGB")
 
 
+QUALITY = {"h_andon": 90, "h_bubble": 90}   # JPEG quality per image (default 80): smoother gradients for these two cards
+
+
 def save(im, key):
     path = os.path.join(OUT, key + ".jpg")
-    im.save(path, quality=80, optimize=True, progressive=True)
+    im.save(path, quality=QUALITY.get(key, 80), optimize=True, progressive=True)
     print(f"{key}.jpg  {im.width}x{im.height}  {os.path.getsize(path) // 1024} KB")
 
 
