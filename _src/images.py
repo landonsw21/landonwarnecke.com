@@ -16,7 +16,7 @@ usage (from the repo root):
         from _src/labels/KEY.json: source, output width, text size, the x where label text starts (right side) or
         ends (left side), and per label its text, side, line height y and the point "at" on the part (optional "x" moves
         that label's text), all in output pixels
-  python3 _src/images.py add KEY SOURCE [--width 1800] [--rotate 90] [--flip]
+  python3 _src/images.py add KEY SOURCE [--width 1800] [--rotate 90] [--flip] [--box X0 Y0 X1 Y1]
         SOURCE: a path, "PROJECT/file name.jpg" (searched inside that ID copy project folder),
                 "PDF:PROJECT/deck.pdf:PAGE", "PDFIMG:PROJECT/deck.pdf:OBJ" (an image embedded in a PDF, at its
                 own resolution; find OBJ with python3 _src/pdfimg.py deck.pdf OUTDIR), or a .HEIC file.
@@ -147,12 +147,15 @@ def heroes(keys):
         save(c, key)
 
 
-def add(key, src, width=1800, rotate=0, flip=False):
+def add(key, src, width=1800, rotate=0, flip=False, box=None):
     im = flat(Image.open(resolve(src)))
     if flip:
         im = ImageOps.mirror(im)
     if rotate:
         im = im.rotate(-rotate, expand=True)
+    if box:   # crop the source (fractions x0 y0 x1 y1) before resizing, so the kept area gets the full width
+        x0, y0, x1, y1 = box
+        im = im.crop((round(x0 * im.width), round(y0 * im.height), round(x1 * im.width), round(y1 * im.height)))
     if im.width > width:
         im = im.resize((width, round(im.height * width / im.width)), Image.LANCZOS)
     save(im, key)
@@ -387,13 +390,15 @@ if __name__ == "__main__":
         sheet(pos[0], int(pos[1]), pos[2:], opts["--width"], opts["--rotate"], gap=opts["--gap"], margin=min(40, opts["--gap"]), photos=photos, aspect=aspect, match=match)
     else:
         opts = {"--width": 1800, "--rotate": 0}
-        pos = []
+        pos, box = [], None
         it = iter(args[1:])
         for a in it:
             if a in opts:
                 opts[a] = int(next(it))
+            elif a == "--box":
+                box = [float(next(it)) for _ in range(4)]
             elif a != "--flip":
                 pos.append(a)
         if len(pos) != 2:
             sys.exit(__doc__)
-        add(pos[0], pos[1], opts["--width"], opts["--rotate"], flip="--flip" in args)
+        add(pos[0], pos[1], opts["--width"], opts["--rotate"], flip="--flip" in args, box=box)
