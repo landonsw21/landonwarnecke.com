@@ -114,8 +114,7 @@ PROJECTS = [
              ("overview", "Overview", ["A face wash and moisturizer pair for a style-driven urban creative, who finds today's products masculine, loud and underperforming. "
                                        "He wants a refillable set that fits a small counter, with a sturdy, premium pump."], [], 1),
              ("ideation", "Ideation", [],
-              [("axio_sketches", "AXIO ideation sketches: bottle pairs that nest, contrast, stand apart or unify, and dispensing heads", "wide"),
-               ("axio_concepts", "Five refined concept sketches of the bottle pair", "wide"),
+              [("axio_sketches", "AXIO sketches: bottle pairs that nest, contrast, stand apart or unify, dispensing heads, and five refined concepts", "wide"),
                ("axio_foam2", "Foam sketch models with pumps, testing the hierarchy between the two bottles", "wide")], 1),
              ("refinement", "Refinement", ["The dispensing head, angles and profiles were refined in sketches, Illustrator and foam."],
               [("axio_dispense", "Six dispensing heads on the tapered pair: press-down open, pump in profile (starred), removable cap, gel pump, flip cap and foam pump"),
