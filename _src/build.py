@@ -87,7 +87,7 @@ for i, p in enumerate(PROJECTS):
         cid = f"{pid}-{slug}"
         body = "".join(f"<p>{clean(t)}</p>" for t in paras if clean(t))
         if imgs:
-            cls = f"lw-imgs c{cols}" if cols in (2, 3, 5) and len(imgs) > 1 else "lw-imgs"
+            cls = f"lw-imgs c{cols}" if cols in (2, 3) and len(imgs) > 1 else "lw-imgs"
             # an image given as (key, alt, "wide") spans all the columns; a list of images is one full-width row at a
             # shared height, each as wide as its shape needs (a portrait beside a landscape takes about a third)
             def one(it):
@@ -283,7 +283,7 @@ css = tokenize(BUILD5_CSS) + r"""
 body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-skip{position:absolute; left:-9999px; top:8px; z-index:2000; padding:12px 16px; border-radius:var(--r-s); background:#2A1F1E; color:#FFFFFF !important}
 .lw-skip:focus{left:8px}
-.lw-imgs.c2 .is-wide, .lw-imgs.c3 .is-wide, .lw-imgs.c5 .is-wide, .lw-imgs .lw-jrow{grid-column:1 / -1}
+.lw-imgs.c2 .is-wide, .lw-imgs.c3 .is-wide, .lw-imgs .lw-jrow{grid-column:1 / -1}
 .lw-palette{display:flex; flex-wrap:wrap; gap:16px 32px; padding-top:4px}
 .lw-sw{display:grid; grid-template-columns:48px auto; column-gap:12px; align-items:center}
 .lw-sw i{grid-row:1 / span 2; width:48px; height:48px; border-radius:var(--r-s); border:1px solid #D2CABF}
