@@ -212,8 +212,15 @@ GALLERY = [   # (name, one line, images): the first image is the tile and the pa
     ("ELMER", "A wearable elephant head, from cardboard structure to finished piece.", [
         ("g_elmer", "ELMER, worn"), ("g_elmer2", "ELMER cardboard structure"), ("g_elmer3", "ELMER in progress"),
         ("g_elmer4", "ELMER in progress"), ("g_elmer5", "ELMER on a plinth")]),
-    ("Handheld", "A Shinkansen-inspired handheld, from digital model to assembled piece.", [
-        ("g_handheld", "Handheld: Shinkansen, digital"), ("g_handheld2", "Handheld: Shinkansen, assembled")]),
+    ("Handheld", "A digital photograph stitching everyday handheld objects into one pencil-like form, to show the cylinder they all share.", [
+        ("g_handheld", "Handheld: everyday objects stitched into one pencil-like form"),
+        ("g_handheld2", "Handheld in progress: the objects cut out and arranged"),
+        ("g_hh_stack", "Handheld in progress: stacking the objects along one axis")]),
+    ("Shinkansen", "Cyanotypes with Japanese rail tickets: castles, torii and temples printed in blue.", [
+        ("g_shinkansen", "Shinkansen: cyanotype of Japanese castles over rail tickets"),
+        ("g_shk_tests", "Cyanotype tests: flowers, leaves and a Buddha"),
+        ("g_shk_prints", "Cyanotype prints of Japanese landmarks and a rail ticket"),
+        ("g_shk_strip", "Long cyanotype print of torii and pagodas")]),
     ("Rowing logo", "A logo for MI Rowing, from sketches and type options to shirts.", [
         ("g_rowing", "MI Rowing logo"), ("g_rowing5", "MI Rowing logo sketches"), ("g_rowing4", "MI Rowing logo options"),
         ("g_rowing2", "MI Rowing logo on a shirt"), ("g_rowing3", "MI Rowing logo on a shirt")]),
