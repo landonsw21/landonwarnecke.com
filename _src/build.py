@@ -328,7 +328,7 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-me::after{content:""; position:absolute; inset:0; border-radius:inherit; box-shadow:inset 0 0 0 2px transparent; transition:box-shadow .2s; pointer-events:none}   /* hover ring drawn inside the photo, so the photo lines up with the tabs */
 @media (max-width: 860px){
  .lw-proj{padding-bottom:16px; scroll-margin-top:70px}
- .lw-card{--h:clamp(118px, 18svh, 150px)}
+ .lw-card{--h:clamp(236px, 36svh, 300px)}
  .lw-card-body{padding:16px; gap:8px}
  .lw-card-name{font-size:24px}
  .lw-card-line{font-size:14px; white-space:normal; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2}
