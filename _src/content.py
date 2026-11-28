@@ -144,7 +144,7 @@ PROJECTS = [
              ("refinement", "Refinement", ["The insert profile was refined through a series of lit tests."],
               [("andon_work", "Drawing insert templates beside the lamp"), ("andon_r3", "Cut insert templates"), ("andon_profiles", "Five insert profiles tested lit in the lamp", "wide")], 2),
              ("final", "Final", [],
-              [("andon_f2", "ANDON lit against a dark backdrop", "wide"), ("andon_f1", "ANDON close-up glowing"), ("andon_f3", "ANDON by a window in daylight")], 2),
+              [("andon_f2", "ANDON lit against a dark backdrop"), ("andon_f3", "ANDON by a window in daylight")], 1),
          ]),
     dict(id="vivarium", num="08", name="Vivarium", kind="COMING SOON", hero="c_viv", soon=True,
          alt="Vivarium, blurred preview",
