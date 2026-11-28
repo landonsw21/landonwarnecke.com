@@ -20,8 +20,6 @@ PROJECTS = [
                ("wedge_plat", "Plat concept sketch"), ("wedge_m_plat", "Plat sketch model"),
                ("wedge_nook", "Nook concept sketch"), ("wedge_m_nook", "Nook sketch model"),
                ("wedge_sk1", "Slab concept sketch"), ("wedge_m_slab", "Slab sketch model")], 2),
-             ("refinement", "Refinement", ["Marker studies refined the folded, wedge-shaped profile."],
-              [("wedge_refine", "Marker studies refining the folded wedge profile")], 1),
              ("construction", "Construction", ["The flat blank was cut from a 13.5 × 6 in sheet of metal, then bent and finished in the shop. [TO CONFIRM: cutting method and finishing process.]"],
               [("wedge_shop", "Working the metal at the bench grinder"), ("wedge_blank", "WEDGE in progress: the bent metal blank"),
                ("wedge_cut", "WEDGE cut pattern: the flat blank inside a 13.5 × 6 in sheet", "wide")], 2),

@@ -6,7 +6,7 @@ and HEIC photos (uses sips). Sources are looked up in the ID copy folder; overri
 usage (from the repo root):
   python3 _src/images.py heroes [h_wedge h_axio ...]   re-crop the project card images (all if none named)
   python3 _src/images.py crop KEY X0 Y0 X1 Y1   trim portfolio-media/KEY.jpg in place (fractions 0-1, e.g. to cut slide titles)
-  python3 _src/images.py sheet KEY COLS SOURCE... [--width 2400] [--rotate 90] [--photos] [--aspect 3:4]   combine scanned pages into one sheet
+  python3 _src/images.py sheet KEY COLS SOURCE... [--width 2400] [--rotate 90] [--gap 64] [--photos] [--aspect 3:4]   combine scanned pages into one sheet
         (cropped to the drawings, even rows); --photos makes a board of whole photos instead (moodboards);
         --aspect center-crops every photo to that shape first, so the board is an even grid; a single source can
         set its own shape as SOURCE@1:1 (e.g. a row of square photos above rows of 3:4 ones) and its own clockwise
@@ -317,7 +317,7 @@ if __name__ == "__main__":
             sys.exit(__doc__)
         cut(args[1], args[2])
     elif args[0] == "sheet":
-        opts, pos, it = {"--width": 2400, "--rotate": 0}, [], iter(args[1:])
+        opts, pos, it = {"--width": 2400, "--rotate": 0, "--gap": 64}, [], iter(args[1:])
         photos, aspect = "--photos" in args, None
         for a in it:
             if a in opts:
@@ -329,7 +329,7 @@ if __name__ == "__main__":
                 pos.append(a)
         if len(pos) < 3:
             sys.exit(__doc__)
-        sheet(pos[0], int(pos[1]), pos[2:], opts["--width"], opts["--rotate"], photos=photos, aspect=aspect)
+        sheet(pos[0], int(pos[1]), pos[2:], opts["--width"], opts["--rotate"], gap=opts["--gap"], margin=min(40, opts["--gap"]), photos=photos, aspect=aspect)
     else:
         opts = {"--width": 1800, "--rotate": 0}
         pos = []
