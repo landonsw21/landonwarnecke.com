@@ -6,7 +6,7 @@ and HEIC photos (uses sips). Sources are looked up in the ID copy folder; overri
 usage (from the repo root):
   python3 _src/images.py heroes [h_wedge h_axio ...]   re-crop the project card images (all if none named)
   python3 _src/images.py crop KEY X0 Y0 X1 Y1   trim portfolio-media/KEY.jpg in place (fractions 0-1, e.g. to cut slide titles)
-  python3 _src/images.py sheet KEY COLS SOURCE... [--width 2400] [--rotate 90] [--gap 64] [--photos] [--aspect 3:4]   combine scanned pages into one sheet
+  python3 _src/images.py sheet KEY COLS SOURCE... [--width 2400] [--rotate 90] [--gap 64] [--photos] [--aspect 3:4] [--match]   combine scanned pages into one sheet
         (cropped to the drawings, even rows); --photos makes a board of whole photos instead (moodboards);
         --aspect center-crops every photo to that shape first, so the board is an even grid; a single source can
         set its own shape as SOURCE@1:1 (e.g. a row of square photos above rows of 3:4 ones) and its own clockwise
@@ -181,7 +181,42 @@ def drawn(im, side=0.02, top=0.01, footer=0.05, pad=0.02):
     return page.crop((max(0, cols[0] * s - p), max(0, rows[0] * s - p), min(im.width, (cols[-1] + 1) * s + p), min(im.height, (rows[-1] + 1) * s + p)))
 
 
-def sheet(key, cols, sources, width=2400, rotate=0, gap=64, margin=40, photos=False, aspect=None):
+def match_tone(pages):
+    """Grade photos toward one look (needs numpy + scikit-image). In Lab: each page's lightness is mapped through its
+    5th/50th/95th percentiles onto the group's medians (its own gradients stay); then its color is matched level by
+    level: in 8 bands of lightness, the page's mean a/b moves to the group's median for that band, so shadows,
+    midtones and the lit paper each line up (a single shift would turn one page's shadows gray)."""
+    import numpy as np
+    from skimage.color import rgb2lab, lab2rgb
+    labs = [rgb2lab(np.asarray(p, float) / 255) for p in pages]
+    qs = [np.percentile(lab[..., 0][::4, ::4], [5, 50, 95]) for lab in labs]
+    tq = np.median(qs, axis=0)
+    for lab, q in zip(labs, qs):
+        lab[..., 0] = np.interp(lab[..., 0], [0, *q, 100], [0, *tq, 100])
+    lo, hi = np.percentile(np.concatenate([lab[..., 0][::8, ::8].ravel() for lab in labs]), [2, 99.5])
+    edges = np.linspace(lo, hi, 9)
+    mids = (edges[:-1] + edges[1:]) / 2
+    curves = []
+    for lab in labs:
+        L, A, B = (lab[..., c][::4, ::4].ravel() for c in range(3))
+        ca, cb = [], []
+        for e0, e1 in zip(edges[:-1], edges[1:]):
+            m = (L >= e0) & (L < e1)
+            ca.append(A[m].mean() if m.sum() > 50 else np.nan); cb.append(B[m].mean() if m.sum() > 50 else np.nan)
+        curves.append((np.array(ca), np.array(cb)))
+    ta = np.nanmedian([c[0] for c in curves], axis=0); tb = np.nanmedian([c[1] for c in curves], axis=0)
+    out = []
+    for lab, (ca, cb) in zip(labs, curves):
+        da, db = ta - ca, tb - cb
+        ok = ~np.isnan(da) & ~np.isnan(db)
+        L = lab[..., 0]
+        lab[..., 1] += np.interp(L, mids[ok], da[ok])
+        lab[..., 2] += np.interp(L, mids[ok], db[ok])
+        out.append(Image.fromarray((np.clip(lab2rgb(lab), 0, 1) * 255 + 0.5).astype("uint8")))
+    return out
+
+
+def sheet(key, cols, sources, width=2400, rotate=0, gap=64, margin=40, photos=False, aspect=None, match=False):
     """Combine scanned drawing pages into one sheet: each page cropped to its drawings, then set in rows
     of `cols` that fill the width with even gaps (each row's height follows its pages' shapes).
     photos=True: a board of photos instead (kept whole, tight gaps in the site's panel colour)."""
@@ -205,6 +240,8 @@ def sheet(key, cols, sources, width=2400, rotate=0, gap=64, margin=40, photos=Fa
         if shape:
             im = crop(im, 0.5, 0.5, 1, shape)
         pages.append(im if photos else drawn(im))
+    if match:
+        pages = match_tone(pages)
     rows = [pages[i:i + cols] for i in range(0, len(pages), cols)]
     inner = width - 2 * margin
     heights = [(inner - gap * (len(r) - 1)) / sum(p.width / p.height for p in r) for r in rows]
@@ -321,18 +358,18 @@ if __name__ == "__main__":
         cut(args[1], args[2])
     elif args[0] == "sheet":
         opts, pos, it = {"--width": 2400, "--rotate": 0, "--gap": 64}, [], iter(args[1:])
-        photos, aspect = "--photos" in args, None
+        photos, aspect, match = "--photos" in args, None, "--match" in args
         for a in it:
             if a in opts:
                 opts[a] = int(next(it))
             elif a == "--aspect":
                 w, h = next(it).split(":")
                 aspect = float(w) / float(h)
-            elif a != "--photos":
+            elif a not in ("--photos", "--match"):
                 pos.append(a)
         if len(pos) < 3:
             sys.exit(__doc__)
-        sheet(pos[0], int(pos[1]), pos[2:], opts["--width"], opts["--rotate"], gap=opts["--gap"], margin=min(40, opts["--gap"]), photos=photos, aspect=aspect)
+        sheet(pos[0], int(pos[1]), pos[2:], opts["--width"], opts["--rotate"], gap=opts["--gap"], margin=min(40, opts["--gap"]), photos=photos, aspect=aspect, match=match)
     else:
         opts = {"--width": 1800, "--rotate": 0}
         pos = []
