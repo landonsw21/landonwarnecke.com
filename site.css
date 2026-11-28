@@ -140,7 +140,7 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
 .lw-proj:last-child{padding-bottom:0}
 .lw-unit{container-type:inline-size; border-radius:var(--r-l); outline:2px solid transparent; outline-offset:0; transition:outline-color .2s}
 .lw-card{--h:384px; position:relative; display:block; width:100%; height:var(--h); padding:0; border:0; border-radius:var(--r-l); overflow:hidden; background:var(--lw-ink); color:var(--lw-on-accent); text-align:left; cursor:pointer; transition:height .5s cubic-bezier(.2,.7,.2,1), border-radius .3s}
-.lw-card-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% var(--fy, 50%); background:var(--lw-ink)}
+.lw-card-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% var(--fy, 50%); background:var(--lw-ink); transition:filter .5s}
 .lw-card-img.is-blur{filter:blur(14px) saturate(.9); transform:scale(1.12)}
 .lw-card::before{content:""; position:absolute; inset:0; z-index:1; background:color-mix(in srgb, var(--lw-ink) 42%, transparent); transition:opacity .5s}
 .lw-card::after{content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(to top, color-mix(in srgb, var(--lw-ink) 88%, transparent) 0, color-mix(in srgb, var(--lw-ink) 62%, transparent) 34%, transparent 72%)}
@@ -151,6 +151,7 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
 @media (hover: hover){
  .lw-proj.is-hover .lw-unit{outline-color:var(--lw-accent)}
  .lw-proj.is-hover .lw-card::before{opacity:0}
+ .lw-proj.is-hover:not(.is-open) .lw-card-img:not(.is-blur){filter:brightness(var(--lift, 1))}   /* dark photos also brighten (see hover_lift) */
 }
 .lw-proj.is-open .lw-unit{outline-color:var(--lw-accent)}
 .lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{height:min(calc(100cqw / var(--ar, 2)), 86svh); border-radius:var(--r-l) var(--r-l) 0 0; transition:height .6s cubic-bezier(.2,.7,.2,1), border-radius .3s}
@@ -182,7 +183,7 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
  .lw-me, .lw-me .lw-portrait{border-radius:50%}
 }
 @media (prefers-reduced-motion: reduce){
- .lw-card, .lw-card::before, .lw-drawer, .lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{transition:none}
+ .lw-card, .lw-card::before, .lw-card-img, .lw-drawer, .lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{transition:none}
 }
 /* --- extras share the project-card hover: shade lifts, pomegranate outline, slight grow.
    Touch screens never hover, so they show the images unshaded. --- */
