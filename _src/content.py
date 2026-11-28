@@ -94,8 +94,7 @@ PROJECTS = [
          sections=[
              ("overview", "Overview", ["A watercolor bag that moves with plein air artists, with less setup and cleanup."], [], 1),
              ("user", "User", ["<strong>Raul Beardsley</strong>, a plein air watercolorist. Pigments and materials get lost in larger bags. Pigment and water collect, creating mold and mildew. Water is hard to store and use in current setups."], [], 1),
-             ("question", "How might we", ["<span style=\"font-size:24px; line-height:1.3; font-weight:600; letter-spacing:-0.02em\">How might we help plein air watercolor artists transition between environments, while minimizing friction from setup and cleanup?</span>"],
-              [("fern_storyboard", "Fern storyboard")], 1),
+             ("question", "How might we", ["<span style=\"font-size:24px; line-height:1.3; font-weight:600; letter-spacing:-0.02em\">How might we help plein air watercolor artists transition between environments, while minimizing friction from setup and cleanup?</span>"], [], 1),
              ("research", "Research", ["A survey of existing watercolor kits, rolls and pouches."],
               [("fern_supplies", "The supplies a plein air kit has to hold"), ("fern_kits", "Existing watercolor kits and pouches")], 1),
              ("ideation", "Ideation", ["Sketches explored bag layouts and closures."],
@@ -114,8 +113,7 @@ PROJECTS = [
          sections=[
              ("brief", "Brief", ["Design a face wash and moisturizer pair that complement each other in form, color, material and purpose. They have to stand upright without tipping; be easy to handle, open, pour and close; hold about 8 to 12 ounces; and have an original form that stands apart from competitors."], [], 1),
              ("research", "Research", ["<strong>User:</strong> Jordan Williams, 32, a style-driven urban creative. He's a freelance photographer and content producer in Los Angeles who rents a loft-style apartment and lives alone.",
-                                       "Research covered materials and manufacturing (PET injection molding versus blown glass), finishes, trends, psychographics and buying behavior. Pain points with current products: <strong>masculine, loud, underperforming</strong>."],
-              [("axio_persona", "Persona: Jordan Williams at home")], 1),
+                                       "Research covered materials and manufacturing (PET injection molding versus blown glass), finishes, trends, psychographics and buying behavior. Pain points with current products: <strong>masculine, loud, underperforming</strong>."], [], 1),
              ("insights", "Insights", ["<strong>Timeless:</strong> an elegant form and CMF that lasts, instead of chasing trends.",
                                        "<strong>Authentic:</strong> form and CMF reflect the function and quality of the product.",
                                        "<strong>Cohesive:</strong> the bottles have hierarchy together and individually, with a small footprint for limited counter space.",
