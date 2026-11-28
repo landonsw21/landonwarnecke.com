@@ -313,7 +313,8 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-card-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% var(--fy, 50%); background:#2A1F1E; transition:filter .5s}
 .lw-card-img.is-blur{filter:blur(14px) saturate(.9); transform:scale(1.12)}
 .lw-card::before{content:""; position:absolute; inset:0; z-index:1; background:color-mix(in srgb, #2A1F1E 42%, transparent); transition:opacity .5s}
-.lw-card::after{content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(to top, color-mix(in srgb, #2A1F1E 88%, transparent) 0, color-mix(in srgb, #2A1F1E 62%, transparent) 34%, transparent 72%)}
+/* the title's backing: a fixed band at the bottom (not a share of the height), so an open project's photo isn't darkened */
+.lw-card::after{content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(to top, color-mix(in srgb, #2A1F1E 88%, transparent) 0, color-mix(in srgb, #2A1F1E 62%, transparent) 96px, transparent 220px)}
 .lw-card-body{position:absolute; left:0; right:0; bottom:0; z-index:2; display:flex; flex-direction:row; align-items:baseline; justify-content:flex-start; flex-wrap:nowrap; gap:12px; padding:24px; text-shadow:0 1px 14px color-mix(in srgb, #2A1F1E 45%, transparent)}
 .lw-card-name{flex:none; white-space:nowrap; font-size:30px; line-height:1.05; font-weight:700; letter-spacing:-0.03em; color:#FFFFFF}
 .lw-card-line{min-width:0; font-size:16px; line-height:1.45; color:#FFFFFF; opacity:.92; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
