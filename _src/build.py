@@ -88,8 +88,14 @@ for i, p in enumerate(PROJECTS):
         body = "".join(f"<p>{clean(t)}</p>" for t in paras if clean(t))
         if imgs:
             cls = f"lw-imgs c{cols}" if cols in (2, 3, 5) and len(imgs) > 1 else "lw-imgs"
-            # an image given as (key, alt, "wide") spans all the columns
-            body += f'<div class="{cls}">' + "".join(img(k, a, f"is-{w[0]}" if w else "", extra=f' data-lb="{pid}"') for k, a, *w in imgs) + "</div>"
+            # an image given as (key, alt, "wide") spans all the columns; a list of images is one full-width row at a
+            # shared height, each as wide as its shape needs (a portrait beside a landscape takes about a third)
+            def one(it):
+                if isinstance(it, list):
+                    return '<div class="lw-jrow">' + "".join(img(k, a, extra=f' style="flex:{META[k]["w"] / META[k]["h"]:.4f} 1 0" data-lb="{pid}"') for k, a in it) + "</div>"
+                k, a, *w = it
+                return img(k, a, f"is-{w[0]}" if w else "", extra=f' data-lb="{pid}"')
+            body += f'<div class="{cls}">' + "".join(one(it) for it in imgs) + "</div>"
         secs += (f'<section id="{cid}" class="lw-sec" data-chapter="{cid}"><h3>{e(title)}</h3>'
                  f'<div class="lw-sec-body">{body}</div></section>')
     cards.append(
@@ -277,7 +283,7 @@ css = tokenize(BUILD5_CSS) + r"""
 body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-skip{position:absolute; left:-9999px; top:8px; z-index:2000; padding:12px 16px; border-radius:var(--r-s); background:#2A1F1E; color:#FFFFFF !important}
 .lw-skip:focus{left:8px}
-.lw-imgs.c2 .is-wide, .lw-imgs.c3 .is-wide, .lw-imgs.c5 .is-wide{grid-column:1 / -1}
+.lw-imgs.c2 .is-wide, .lw-imgs.c3 .is-wide, .lw-imgs.c5 .is-wide, .lw-imgs .lw-jrow{grid-column:1 / -1}
 .lw-palette{display:flex; flex-wrap:wrap; gap:16px 32px; padding-top:4px}
 .lw-sw{display:grid; grid-template-columns:48px auto; column-gap:12px; align-items:center}
 .lw-sw i{grid-row:1 / span 2; width:48px; height:48px; border-radius:var(--r-s); border:1px solid #D2CABF}

@@ -126,7 +126,7 @@ html{scroll-behavior:smooth}
 body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
 .lw-skip{position:absolute; left:-9999px; top:8px; z-index:2000; padding:12px 16px; border-radius:var(--r-s); background:var(--lw-ink); color:var(--lw-on-accent) !important}
 .lw-skip:focus{left:8px}
-.lw-imgs.c2 .is-wide, .lw-imgs.c3 .is-wide, .lw-imgs.c5 .is-wide{grid-column:1 / -1}
+.lw-imgs.c2 .is-wide, .lw-imgs.c3 .is-wide, .lw-imgs.c5 .is-wide, .lw-imgs .lw-jrow{grid-column:1 / -1}
 .lw-palette{display:flex; flex-wrap:wrap; gap:16px 32px; padding-top:4px}
 .lw-sw{display:grid; grid-template-columns:48px auto; column-gap:12px; align-items:center}
 .lw-sw i{grid-row:1 / span 2; width:48px; height:48px; border-radius:var(--r-s); border:1px solid var(--lw-line)}
