@@ -75,7 +75,7 @@ def clean(text):
 # ---------- projects ----------
 def hover_lift(key, focus):
     """How much a card's photo brightens on hover. Undimming barely shows on a dark photo (MOAI's black render), so a
-    card whose resting strip is dark also lifts its exposure: none at an average of 90/255 or brighter, up to 1.3x."""
+    card whose resting strip is dark also lifts its exposure: none at an average of 90/255 or brighter, up to 1.25x."""
     from PIL import Image
     path = os.path.join(REPO, MEDIA, key + ".jpg")
     if not os.path.exists(path):
@@ -87,7 +87,7 @@ def hover_lift(key, focus):
     top = round(max(0, h - rest) * fy)
     strip = im.resize((w, h)).crop((0, top, w, top + rest))
     mean = sum(i * n for i, n in enumerate(strip.histogram())) / (w * rest)
-    return round(min(1.3, max(1.0, 1 + (90 - mean) / 240)), 2)
+    return round(min(1.25, max(1.0, 1 + (90 - mean) / 288)), 2)
 
 
 cards = []
