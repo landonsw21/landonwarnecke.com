@@ -73,23 +73,6 @@ def clean(text):
 
 
 # ---------- projects ----------
-def hover_lift(key, focus):
-    """How much a card's photo brightens on hover. Undimming barely shows on a dark photo (MOAI's black render), so a
-    card whose resting strip is dark also lifts its exposure: none at an average of 90/255 or brighter, up to 1.25x."""
-    from PIL import Image
-    path = os.path.join(REPO, MEDIA, key + ".jpg")
-    if not os.path.exists(path):
-        return 1.0
-    im = Image.open(path).convert("L")
-    w, rest = 1088, 384
-    h = round(w * im.height / im.width)
-    fy = float(str(focus).rstrip("%")) / 100
-    top = round(max(0, h - rest) * fy)
-    strip = im.resize((w, h)).crop((0, top, w, top + rest))
-    mean = sum(i * n for i, n in enumerate(strip.histogram())) / (w * rest)
-    return round(min(1.25, max(1.0, 1 + (90 - mean) / 288)), 2)
-
-
 cards = []
 for i, p in enumerate(PROJECTS):
     pid = p["id"]
@@ -97,7 +80,6 @@ for i, p in enumerate(PROJECTS):
     media = img(p["hero"], p["alt"], "lw-card-img" + (" is-blur" if p.get("soon") else ""), lazy=i > 2)
     hm = META.get(p["hero"], {"w": 2, "h": 1})
     ar = 2.0 if p.get("soon") else hm["w"] / hm["h"]   # clicked card = the whole image at its own shape
-    lift = hover_lift(p["hero"], focus)
     chaps = "".join(f'<a class="lw-chap" href="#{pid}-{s[0]}" data-chap="{pid}-{s[0]}">{e(s[1])}</a>' for s in p["sections"])
     meta = "".join(f'<div><dt class="lw-mono">{e(k.upper())}</dt><dd>{e(clean(v))}</dd></div>' for k, v in p["meta"] if clean(v))
     secs = ""
@@ -112,7 +94,7 @@ for i, p in enumerate(PROJECTS):
                  f'<div class="lw-sec-body">{body}</div></section>')
     cards.append(
         f'<article id="p-{pid}" class="lw-proj" data-project="{pid}"><div class="lw-unit">'
-        f'<button class="lw-card" type="button" aria-expanded="false" aria-controls="d-{pid}" data-toggle="{pid}" style="--fy:{focus};--ar:{ar:.4f}{f';--lift:{lift:.2f}' if lift > 1 else ''}">{media}'
+        f'<button class="lw-card" type="button" aria-expanded="false" aria-controls="d-{pid}" data-toggle="{pid}" style="--fy:{focus};--ar:{ar:.4f}">{media}'
         f'<span class="lw-card-body">'
         f'<span class="lw-card-name">{e(p["name"])}</span><span class="lw-card-line">{e(p["line"])}</span>'
         f'</span></button>'
@@ -310,7 +292,7 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-proj:last-child{padding-bottom:0}
 .lw-unit{container-type:inline-size; border-radius:var(--r-l); outline:2px solid transparent; outline-offset:0; transition:outline-color .2s}
 .lw-card{--h:384px; position:relative; display:block; width:100%; height:var(--h); padding:0; border:0; border-radius:var(--r-l); overflow:hidden; background:#2A1F1E; color:#FFFFFF; text-align:left; cursor:pointer; transition:height .5s cubic-bezier(.2,.7,.2,1), border-radius .3s}
-.lw-card-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% var(--fy, 50%); background:#2A1F1E; transition:filter .5s}
+.lw-card-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% var(--fy, 50%); background:#2A1F1E}
 .lw-card-img.is-blur{filter:blur(14px) saturate(.9); transform:scale(1.12)}
 .lw-card::before{content:""; position:absolute; inset:0; z-index:1; background:color-mix(in srgb, #2A1F1E 42%, transparent); transition:opacity .5s}
 /* the title's backing: a fixed band at the bottom (not a share of the height), so an open project's photo isn't darkened */
@@ -322,7 +304,6 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 @media (hover: hover){
  .lw-proj.is-hover .lw-unit{outline-color:#8E2F3A}
  .lw-proj.is-hover .lw-card::before{opacity:0}
- .lw-proj.is-hover:not(.is-open) .lw-card-img:not(.is-blur){filter:brightness(var(--lift, 1))}   /* dark photos also brighten (see hover_lift) */
 }
 .lw-proj.is-open .lw-unit{outline-color:#8E2F3A}
 .lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{height:min(calc(100cqw / var(--ar, 2)), 86svh); border-radius:var(--r-l) var(--r-l) 0 0; transition:height .6s cubic-bezier(.2,.7,.2,1), border-radius .3s}
@@ -354,7 +335,7 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
  .lw-me, .lw-me .lw-portrait{border-radius:50%}
 }
 @media (prefers-reduced-motion: reduce){
- .lw-card, .lw-card::before, .lw-card-img, .lw-drawer, .lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{transition:none}
+ .lw-card, .lw-card::before, .lw-drawer, .lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{transition:none}
 }
 /* --- extras share the project-card hover: shade lifts, pomegranate outline, slight grow.
    Touch screens never hover, so they show the images unshaded. --- */
