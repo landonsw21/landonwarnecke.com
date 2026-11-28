@@ -10,7 +10,7 @@ usage (from the repo root):
         (cropped to the drawings, even rows); --photos makes a board of whole photos instead (moodboards);
         --aspect center-crops every photo to that shape first, so the board is an even grid; a single source can
         set its own shape as SOURCE@1:1 (e.g. a row of square photos above rows of 3:4 ones) and its own clockwise
-        turn as SOURCE@r270 (sideways scans), or both as SOURCE@r90,1:1
+        turn as SOURCE@r270 (sideways scans), or both as SOURCE@r90,1:1; SOURCE@degreen removes a green light leak
   python3 _src/images.py cut KEY PROJECT/file.dxf   a laser-cut DXF as portfolio-media/KEY.svg (sheet outline + part)
   python3 _src/images.py label KEY   a render with part labels in the site's font (Manrope, ink, leader lines),
         from _src/labels/KEY.json: source, output width, text size, the x where label text starts (right side) or
@@ -181,6 +181,17 @@ def drawn(im, side=0.02, top=0.01, footer=0.05, pad=0.02):
     return page.crop((max(0, cols[0] * s - p), max(0, rows[0] * s - p), min(im.width, (cols[-1] + 1) * s + p), min(im.height, (rows[-1] + 1) * s + p)))
 
 
+def degreen(im):
+    """Remove a green cast (a light leak) from a warm photo: in Lab, any pixel greener than the photo's usual
+    red-green value (its median, less a small margin) is brought back to it; lightness is untouched."""
+    import numpy as np
+    from skimage.color import rgb2lab, lab2rgb
+    lab = rgb2lab(np.asarray(im.convert("RGB"), float) / 255)
+    floor = np.median(lab[..., 1]) - 1.0
+    lab[..., 1] = np.maximum(lab[..., 1], floor)
+    return Image.fromarray((np.clip(lab2rgb(lab), 0, 1) * 255 + 0.5).astype("uint8"))
+
+
 def match_tone(pages):
     """Grade photos toward one look (needs numpy + scikit-image). In Lab: each page's lightness is mapped through its
     5th/50th/95th percentiles onto the group's medians (its own gradients stay); then its color is matched level by
@@ -224,17 +235,21 @@ def sheet(key, cols, sources, width=2400, rotate=0, gap=64, margin=40, photos=Fa
     if photos:
         gap, margin = 16, 0
     for src in sources:
-        shape, turn = aspect, rotate
+        shape, turn, fix = aspect, rotate, False
         tail = src.rsplit("@", 1)[1] if "@" in src else ""
-        if tail and all(t.startswith("r") or ":" in t for t in tail.split(",")):
+        if tail and all(t.startswith("r") or ":" in t or t == "degreen" for t in tail.split(",")):
             src = src.rsplit("@", 1)[0]
             for t in tail.split(","):
-                if t.startswith("r"):
+                if t == "degreen":
+                    fix = True
+                elif t.startswith("r"):
                     turn = int(t[1:])
                 else:
                     w, h = t.split(":")
                     shape = float(w) / float(h)
         im = flat(Image.open(resolve(src)))
+        if fix:
+            im = degreen(im)
         if turn:
             im = im.rotate(-turn, expand=True)
         if shape:
