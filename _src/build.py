@@ -2,7 +2,7 @@
 usage (from the repo root):  python3 _src/build.py
 Content lives in _src/content.py, base styles in _src/base.css. Plain Python 3, no packages needed.
 """
-import json, os, sys, html as H
+import json, os, re, sys, html as H
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from content import BIO, PROJECTS, GALLERY, EXTRAS, RESUME, CONTACT, TURNSTILE_SITEKEY, HERO_FOCUS
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -113,13 +113,57 @@ for k, tag, name, desc, url, alt in EXTRAS:
            f'<h2>{e(name)}</h2><p>{e(desc)}</p><a class="lw-pill" style="margin-top:auto;align-self:flex-start;color:var(--lw-on-accent)" href="{e(href)}" target="_blank" rel="noopener">Open tool ↗</a></div></article>')
 extras_html = f'<div class="lw-two">{ex}</div>'
 
-# ---------- gallery: one even grid of tiles; a tile opens the viewer at its first piece ----------
-def tile(i, label, items):
-    pieces = [{"src": f'{MEDIA}{k}{META[k]["ext"]}?v={META[k]["v"]}', "alt": cap} for k, cap in items]
-    more = f", {len(items)} pieces" if len(items) > 1 else ""
-    return (f'<button class="lw-tile" type="button" aria-label="View {e(label)}{more}" data-lbset="{e(json.dumps(pieces))}">'
+# ---------- gallery: a grid of tiles; each tile opens its piece as a page in place of the grid ----------
+# A page: sticky "← Gallery" bar, the name and one line, then the images in justified rows (each row one height and
+# the full column width, so photos of any shape line up uncropped), hero first, then the process in order.
+def gslug(label):
+    return re.sub(r"[^a-z0-9]+", "-", label.lower()).strip("-")
+
+
+def jrows(keys, target=2.9):
+    """Rows of images (in order) whose width/height ratios add up close to `target`. The first row is the hero: a
+    landscape image alone, or a portrait or square one together with the next image."""
+    ar = [META[k]["w"] / META[k]["h"] for k in keys]
+    first = 1 if ar[0] >= 1.2 or len(ar) == 1 else 2
+    rest = list(range(first, len(ar)))
+    n = len(rest)
+    best, back = [0.0] + [float("inf")] * n, [0] * (n + 1)
+    for j in range(1, n + 1):
+        for i in range(max(0, j - 4), j):
+            sm = sum(ar[rest[t]] for t in range(i, j))
+            cost = (target - sm) ** 2 * 0.25 if (j == n and sm < target) else (sm - target) ** 2
+            if best[i] + cost < best[j]:
+                best[j], back[j] = best[i] + cost, i
+    cuts, j = [], n
+    while j > 0:
+        cuts.append((back[j], j))
+        j = back[j]
+    rows = [list(range(first))] + [rest[i:j] for i, j in reversed(cuts)]
+    return [[(keys[t], ar[t]) for t in r] for r in rows], target
+
+
+def gpage(label, line, items):
+    slug, alts = gslug(label), dict(items)
+    rows, target = jrows([k for k, _ in items])
+    body = ""
+    for n, row in enumerate(rows):
+        sm = sum(a for _, a in row)
+        cap = "" if n == 0 or sm >= 0.75 * target else f' style="max-width:{sm / target * 100:.1f}%"'   # a short last row keeps the row height
+        body += f'<div class="lw-jrow"{cap}>' + "".join(img(k, alts[k], extra=f' style="flex:{a:.4f} 1 0" data-lb="g-{slug}"') for k, a in row) + "</div>"
+    return (f'<article class="lw-gpage" id="g-{slug}" aria-labelledby="gt-{slug}" hidden>'
+            f'<nav class="lw-gbar" aria-label="{e(label)}"><button class="lw-back" type="button" data-gback>← Gallery</button>'
+            f'<span class="lw-gbar-name" aria-hidden="true">{e(label)}</span></nav>'
+            f'<header class="lw-ghead"><h2 id="gt-{slug}">{e(label)}</h2><p>{e(line)}</p></header>'
+            f'<div class="lw-jrows">{body}</div></article>')
+
+
+def tile(i, label, line, items):
+    return (f'<button class="lw-tile" type="button" aria-label="Open {e(label)}" data-gpage="{gslug(label)}">'
             f'{img(items[0][0], items[0][1], "lw-tile-img", lazy=i > 5)}<span class="lw-tile-name">{e(label)}</span></button>')
-gallery_html = f'<div class="lw-tiles">{"".join(tile(i, label, items) for i, (label, items) in enumerate(GALLERY))}</div>'
+
+
+gallery_html = (f'<div class="lw-tiles">{"".join(tile(i, *g) for i, g in enumerate(GALLERY))}</div>'
+                + "".join(gpage(*g) for g in GALLERY))
 
 # ---------- resume ----------
 def rrow(r):
@@ -304,7 +348,30 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 }
 /* --- gallery: one even grid of tiles, a short label over a darkened image, same hover as the project cards --- */
 .lw-tiles{display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:24px}
-.lw-tile{position:relative; display:block; aspect-ratio:4/5; padding:0; border:0; border-radius:var(--r-l); overflow:hidden; background:#2A1F1E; color:#FFFFFF; font:inherit; text-align:left; cursor:zoom-in; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
+.lw-tile{position:relative; display:block; aspect-ratio:4/5; padding:0; border:0; border-radius:var(--r-l); overflow:hidden; background:#2A1F1E; color:#FFFFFF; font:inherit; text-align:left; cursor:pointer; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
+/* --- gallery pages --- */
+.lw-gpage{display:flex; flex-direction:column}
+.lw-gpage[hidden], .lw-tiles[hidden]{display:none}
+.lw-gbar{position:sticky; top:0; z-index:4; display:flex; align-items:center; gap:16px; padding:12px 0; background:color-mix(in srgb, #E4DED5 94%, transparent); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px)}
+.lw-back{flex:none; display:inline-flex; align-items:center; min-height:44px; padding:0 16px; border:1px solid #D2CABF; border-radius:var(--r-s); background:transparent; color:#2A1F1E; font:inherit; font-size:14px; font-weight:600; cursor:pointer; transition:border-color .2s, color .2s}
+.lw-back:hover{border-color:#8E2F3A; color:#8E2F3A}
+.lw-back:focus-visible{outline:3px solid #2A1F1E; outline-offset:2px}
+.lw-gbar-name{font-size:16px; font-weight:700; letter-spacing:-0.02em; opacity:0; transform:translateY(4px); transition:opacity .2s, transform .2s}
+.lw-gpage.is-docked .lw-gbar-name{opacity:1; transform:none}
+.lw-ghead{padding:24px 0 32px}
+.lw-ghead h2{margin:0; font-size:30px; line-height:1.1; font-weight:700; letter-spacing:-0.03em}
+.lw-ghead p{margin:12px 0 0; max-width:700px; font-size:16px; line-height:1.6; color:#6A5F58}
+.lw-jrows{display:flex; flex-direction:column; gap:12px}
+.lw-jrow{display:flex; gap:12px}
+.lw-jrow img{display:block; width:0; min-width:0; height:auto; border-radius:var(--r-s); background:#D4CBBE; cursor:zoom-in}
+@media (max-width: 860px){
+ .lw-gbar{top:68px}
+ .lw-ghead{padding:16px 0 24px}
+ .lw-ghead h2{font-size:24px}
+ .lw-jrow{flex-direction:column; max-width:none !important}
+ .lw-jrow img{width:100%; flex:none !important}
+}
+@media (prefers-reduced-motion: reduce){ .lw-gbar-name{transition:none} }
 .lw-tile .lw-tile-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
 .lw-tile::before{content:""; position:absolute; inset:0; z-index:1; background:color-mix(in srgb, #2A1F1E 42%, transparent); transition:opacity .5s}
 .lw-tile::after{content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(to top, color-mix(in srgb, #2A1F1E 80%, transparent) 0, transparent 45%)}
@@ -378,6 +445,7 @@ js = r"""(function () {
     });
     $$('.lw-pane').forEach(function (p) { p.hidden = p.getAttribute('data-pane') !== name; });
     closeProject(false, true);
+    closeG(false);
     setMenu(false);
     if (name === 'contact' && typeof loadTurnstile === 'function') loadTurnstile();
     if (push) history.replaceState(null, '', name === 'projects' ? location.pathname : '#' + name);
@@ -388,6 +456,7 @@ js = r"""(function () {
       setMenu(false);
       if (!b.classList.contains('is-active')) { showTab(b.getAttribute('data-tab'), true); return; }
       if (openId) { closeProject(true); history.replaceState(null, '', location.pathname); }
+      if (gOpen) backToGallery();
     });
   });
 
@@ -415,7 +484,7 @@ js = r"""(function () {
     if (side.classList.contains('is-menu') && !side.contains(e.target)) { e.preventDefault(); e.stopPropagation(); setMenu(false); }
   }, true);
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && side.classList.contains('is-menu')) { setMenu(false); if (menuBtn) menuBtn.focus(); }
+    if (e.key === 'Escape' && side.classList.contains('is-menu')) { e.preventDefault(); setMenu(false); if (menuBtn) menuBtn.focus(); }
   });
   if (phone.addEventListener) phone.addEventListener('change', syncPhone);
   syncPhone();
@@ -556,10 +625,7 @@ js = r"""(function () {
   }
   function closeLb() { lb.hidden = true; if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true }); }
   function step(dlt) { idx = (idx + dlt + list.length) % list.length; render(); }
-  $$('[data-lbset]').forEach(function (b) {
-    b.addEventListener('click', function () { openList(JSON.parse(b.getAttribute('data-lbset')), 0, b); });
-  });
-  $$('.lw-imgs img[data-lb]').forEach(function (im) {
+  $$('.lw-imgs img[data-lb], .lw-jrow img[data-lb]').forEach(function (im) {
     im.addEventListener('click', function () {
       var g = im.getAttribute('data-lb'); var all = $$('img[data-lb="' + g + '"]'); openLb(g, all.indexOf(im), im);
     });
@@ -568,7 +634,7 @@ js = r"""(function () {
   $$('[data-lbstep]').forEach(function (b) { b.addEventListener('click', function () { step(Number(b.getAttribute('data-lbstep'))); }); });
   document.addEventListener('keydown', function (ev) {
     if (lb.hidden) return;
-    if (ev.key === 'Escape') closeLb(); else if (ev.key === 'ArrowRight') step(1); else if (ev.key === 'ArrowLeft') step(-1);
+    if (ev.key === 'Escape') { ev.preventDefault(); closeLb(); } else if (ev.key === 'ArrowRight') step(1); else if (ev.key === 'ArrowLeft') step(-1);
   });
 
   // ---------- contact form (Cloudflare Worker at /api/contact + Turnstile) ----------
@@ -648,10 +714,51 @@ js = r"""(function () {
   }, { passive: true });
   document.documentElement.addEventListener('mouseleave', function () { px = -1; setHover(null); });
 
-  // ---------- deep links: #gallery, #resume, #extras, #axio ----------
+  // ---------- gallery pages: a tile opens its piece in place of the grid; "← Gallery", Esc, the browser's back
+  // button or the Gallery tab return to the grid, scrolled to where it was ----------
+  var gTiles = $('.lw-tiles'), gOpen = null, gY = 0, gPushed = false;
+  function openG(slug, push) {
+    var pg = document.getElementById('g-' + slug); if (!pg || !gTiles) return;
+    if (gOpen && gOpen !== slug) document.getElementById('g-' + gOpen).hidden = true;
+    if (!gOpen) gY = window.scrollY;
+    gTiles.hidden = true; pg.hidden = false; pg.classList.remove('is-docked'); gOpen = slug;
+    if (push) { history.pushState({ g: slug }, '', '#gallery/' + slug); gPushed = true; }
+    window.scrollTo(0, 0);
+    $('[data-gback]', pg).focus({ preventScroll: true });
+  }
+  function closeG(restore) {
+    if (!gOpen) return;
+    var slug = gOpen; document.getElementById('g-' + slug).hidden = true; gTiles.hidden = false; gOpen = null; gPushed = false;
+    if (restore) { window.scrollTo(0, gY); var t = $('[data-gpage="' + slug + '"]'); if (t) t.focus({ preventScroll: true }); }
+  }
+  function backToGallery() {
+    if (!gOpen) return;
+    if (gPushed) { history.back(); return; }          // the popstate below closes the page
+    history.replaceState(null, '', '#gallery'); closeG(true);
+  }
+  $$('[data-gpage]').forEach(function (b) { b.addEventListener('click', function () { openG(b.getAttribute('data-gpage'), true); }); });
+  $$('[data-gback]').forEach(function (b) { b.addEventListener('click', backToGallery); });
+  window.addEventListener('popstate', function () {
+    var m = location.hash.match(/^#gallery\/(.+)$/);
+    if (m) { if (!$('[data-pane="gallery"]').hidden) openG(m[1], false); else { showTab('gallery', false); openG(m[1], false); } }
+    else if (gOpen) closeG(true);
+  });
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape' && gOpen && !ev.defaultPrevented) backToGallery();
+  });
+  if ('IntersectionObserver' in window) {                 // the name docks into the bar once the heading has scrolled under it
+    $$('.lw-gpage').forEach(function (pg) {
+      new IntersectionObserver(function (es) { pg.classList.toggle('is-docked', !es[0].isIntersecting); },
+        { rootMargin: (phone.matches ? '-136px' : '-68px') + ' 0px 0px 0px' }).observe($('.lw-ghead h2', pg));
+    });
+  }
+
+  // ---------- deep links: #gallery, #gallery/<piece>, #resume, #extras, #axio ----------
   function route() {
     var h = location.hash.replace('#', '');
     if (!h) return;
+    var gm = h.match(/^gallery\/(.+)$/);
+    if (gm) { showTab('gallery', false); openG(gm[1], false); return; }
     if (['extras', 'gallery', 'resume', 'contact', 'projects'].indexOf(h) >= 0) { showTab(h, false); return; }
     if (document.getElementById('p-' + h)) { openProject(h); }
   }

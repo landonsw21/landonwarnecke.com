@@ -19,6 +19,7 @@
     });
     $$('.lw-pane').forEach(function (p) { p.hidden = p.getAttribute('data-pane') !== name; });
     closeProject(false, true);
+    closeG(false);
     setMenu(false);
     if (name === 'contact' && typeof loadTurnstile === 'function') loadTurnstile();
     if (push) history.replaceState(null, '', name === 'projects' ? location.pathname : '#' + name);
@@ -29,6 +30,7 @@
       setMenu(false);
       if (!b.classList.contains('is-active')) { showTab(b.getAttribute('data-tab'), true); return; }
       if (openId) { closeProject(true); history.replaceState(null, '', location.pathname); }
+      if (gOpen) backToGallery();
     });
   });
 
@@ -56,7 +58,7 @@
     if (side.classList.contains('is-menu') && !side.contains(e.target)) { e.preventDefault(); e.stopPropagation(); setMenu(false); }
   }, true);
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && side.classList.contains('is-menu')) { setMenu(false); if (menuBtn) menuBtn.focus(); }
+    if (e.key === 'Escape' && side.classList.contains('is-menu')) { e.preventDefault(); setMenu(false); if (menuBtn) menuBtn.focus(); }
   });
   if (phone.addEventListener) phone.addEventListener('change', syncPhone);
   syncPhone();
@@ -197,10 +199,7 @@
   }
   function closeLb() { lb.hidden = true; if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true }); }
   function step(dlt) { idx = (idx + dlt + list.length) % list.length; render(); }
-  $$('[data-lbset]').forEach(function (b) {
-    b.addEventListener('click', function () { openList(JSON.parse(b.getAttribute('data-lbset')), 0, b); });
-  });
-  $$('.lw-imgs img[data-lb]').forEach(function (im) {
+  $$('.lw-imgs img[data-lb], .lw-jrow img[data-lb]').forEach(function (im) {
     im.addEventListener('click', function () {
       var g = im.getAttribute('data-lb'); var all = $$('img[data-lb="' + g + '"]'); openLb(g, all.indexOf(im), im);
     });
@@ -209,7 +208,7 @@
   $$('[data-lbstep]').forEach(function (b) { b.addEventListener('click', function () { step(Number(b.getAttribute('data-lbstep'))); }); });
   document.addEventListener('keydown', function (ev) {
     if (lb.hidden) return;
-    if (ev.key === 'Escape') closeLb(); else if (ev.key === 'ArrowRight') step(1); else if (ev.key === 'ArrowLeft') step(-1);
+    if (ev.key === 'Escape') { ev.preventDefault(); closeLb(); } else if (ev.key === 'ArrowRight') step(1); else if (ev.key === 'ArrowLeft') step(-1);
   });
 
   // ---------- contact form (Cloudflare Worker at /api/contact + Turnstile) ----------
@@ -289,10 +288,51 @@
   }, { passive: true });
   document.documentElement.addEventListener('mouseleave', function () { px = -1; setHover(null); });
 
-  // ---------- deep links: #gallery, #resume, #extras, #axio ----------
+  // ---------- gallery pages: a tile opens its piece in place of the grid; "← Gallery", Esc, the browser's back
+  // button or the Gallery tab return to the grid, scrolled to where it was ----------
+  var gTiles = $('.lw-tiles'), gOpen = null, gY = 0, gPushed = false;
+  function openG(slug, push) {
+    var pg = document.getElementById('g-' + slug); if (!pg || !gTiles) return;
+    if (gOpen && gOpen !== slug) document.getElementById('g-' + gOpen).hidden = true;
+    if (!gOpen) gY = window.scrollY;
+    gTiles.hidden = true; pg.hidden = false; pg.classList.remove('is-docked'); gOpen = slug;
+    if (push) { history.pushState({ g: slug }, '', '#gallery/' + slug); gPushed = true; }
+    window.scrollTo(0, 0);
+    $('[data-gback]', pg).focus({ preventScroll: true });
+  }
+  function closeG(restore) {
+    if (!gOpen) return;
+    var slug = gOpen; document.getElementById('g-' + slug).hidden = true; gTiles.hidden = false; gOpen = null; gPushed = false;
+    if (restore) { window.scrollTo(0, gY); var t = $('[data-gpage="' + slug + '"]'); if (t) t.focus({ preventScroll: true }); }
+  }
+  function backToGallery() {
+    if (!gOpen) return;
+    if (gPushed) { history.back(); return; }          // the popstate below closes the page
+    history.replaceState(null, '', '#gallery'); closeG(true);
+  }
+  $$('[data-gpage]').forEach(function (b) { b.addEventListener('click', function () { openG(b.getAttribute('data-gpage'), true); }); });
+  $$('[data-gback]').forEach(function (b) { b.addEventListener('click', backToGallery); });
+  window.addEventListener('popstate', function () {
+    var m = location.hash.match(/^#gallery\/(.+)$/);
+    if (m) { if (!$('[data-pane="gallery"]').hidden) openG(m[1], false); else { showTab('gallery', false); openG(m[1], false); } }
+    else if (gOpen) closeG(true);
+  });
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape' && gOpen && !ev.defaultPrevented) backToGallery();
+  });
+  if ('IntersectionObserver' in window) {                 // the name docks into the bar once the heading has scrolled under it
+    $$('.lw-gpage').forEach(function (pg) {
+      new IntersectionObserver(function (es) { pg.classList.toggle('is-docked', !es[0].isIntersecting); },
+        { rootMargin: (phone.matches ? '-136px' : '-68px') + ' 0px 0px 0px' }).observe($('.lw-ghead h2', pg));
+    });
+  }
+
+  // ---------- deep links: #gallery, #gallery/<piece>, #resume, #extras, #axio ----------
   function route() {
     var h = location.hash.replace('#', '');
     if (!h) return;
+    var gm = h.match(/^gallery\/(.+)$/);
+    if (gm) { showTab('gallery', false); openG(gm[1], false); return; }
     if (['extras', 'gallery', 'resume', 'contact', 'projects'].indexOf(h) >= 0) { showTab(h, false); return; }
     if (document.getElementById('p-' + h)) { openProject(h); }
   }

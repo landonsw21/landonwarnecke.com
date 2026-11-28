@@ -170,52 +170,56 @@ PROJECTS = [
 
 # Gallery: one grid of tiles. Each tile is (label shown on the tile, pieces); the first piece is the tile's image,
 # and clicking opens the image viewer at it (arrows step through the tile's pieces; captions show there).
-GALLERY = [
-    ("Sketches", [
+GALLERY = [   # (name, one line, images): the first image is the tile and the page's hero; the rest run in process order
+    ("Sketches", "Concept sheets, nature and object studies, and marker ideation.", [
         ("g_vases", "Glass vessel studies"), ("g_vases2", "Venini vase studies"), ("g_wayfinder", "Wayfinder concept sheet"),
         ("g_klink", "Klink & Klang, ergonomic VR controllers"), ("g_domino", "Domino, dual power bank"),
         ("g_punchy", "Punchy, a punching machine that fights back"), ("g_projectx", "Project X, a Hot Wheels concept"),
         ("g_samba", "adidas Samba, Japan version"), ("g_trees", "Tree textures, graphite studies"), ("g_still", "Still life, line drawing"),
         ("g_maple", "Japanese maple study sheet"), ("g_frog", "Poison dart frog study sheet"), ("g_pom", "Pomegranate study sheet"),
         ("g_headphones", "Headphone ideation in marker"), ("g_headphones2", "Headphone ideation in marker")]),
-    ("Form studies", [
-        ("g_fs_4177", "Ribbon study"),
-        ("g_fs_4181", "Ribbon study, arches"),
-        ("g_fs_4183", "Ribbon study, loops"),
-        ("g_fs_4171", "Volume study, stacked planes"),
-        ("g_fs_4174", "Volume study"),
-        ("g_fs_4233", "Line study in wire"),
-        ("g_fs_4235", "Line study in wire"),
-        ("g_fs_4276", "Line study in wire"),
-        ("g_fs_4307", "Plane study, repeated forms"),
-        ("g_fs_4309", "Plane study, fanned fins"),
-        ("g_fs_4310", "Plane study, arches"),
-        ("g_fs_4366", "Line and plane study"),
-        ("g_fs_4370", "Line and plane study"),
-        ("g_fs_4374", "Line and plane study"),
-        ("g_fs_4751", "Color and form study"),
-        ("g_fs_4752", "Color and form study"),
-        ("g_fs_4756", "Color and form study"),
-        ("g_fs_4786", "Color and form study"),
-        ("g_fs_4787", "Color and form study"),
-    ]),
-    ("Ceramics", [("g_ceramics", "Tea set and bowls"), ("g_vase", "Glazed vase")]),
-    ("Jewelry", [("g_jw93", "Hammered brass and copper pendant"), ("g_jw99", "Hammered pendant"), ("g_jw86", "Brass and copper pendants"),
-                 ("g_jw102", "Brass pendant with a tree"), ("g_jw96", "Brass pendant with a green stone"), ("g_jw89", "Braided copper and brass bracelet")]),
-    ("PIVOT", [("g_pivot", "PIVOT: flip-up loupe holder + headlight")]),
-    ("Penguino", [("g_penguino", "Penguino, a handheld gaming device"), ("g_penguino2", "Penguino electronics and controls")]),
-    ("OVO", [("g_ovo", "OVO video game packaging"), ("g_ovo2", "OVO packaging family"), ("g_ovo3", "Building the OVO packaging")]),
-    ("Lighter", [("g_lighter", "CAT lighter, close-up"), ("g_lighter2", "CAT lighter, lit"),
-                 ("g_lighter3", "Nintendo lighter with a blue jet flame"), ("g_lighter4", "Nintendo lighter from above")]),
-    ("Rain Roller", [("g_rain", "Rain Roller"), ("g_rain2", "Rain Roller installed")]),
-    ("Uzumaki", [("g_uzumaki", "Uzumaki: wire and parchment lamp")]),
-    ("ELMER", [("g_elmer", "ELMER, worn"), ("g_elmer2", "ELMER cardboard structure"), ("g_elmer3", "ELMER in progress"),
-               ("g_elmer4", "ELMER in progress"), ("g_elmer5", "ELMER on a plinth")]),
-    ("Handheld", [("g_handheld", "Handheld: Shinkansen, digital"), ("g_handheld2", "Handheld: Shinkansen, assembled")]),
-    ("Rowing logo", [("g_rowing", "MI Rowing logo"), ("g_rowing2", "MI Rowing logo on a shirt"), ("g_rowing3", "MI Rowing logo on a shirt"),
-                     ("g_rowing4", "MI Rowing logo options"), ("g_rowing5", "MI Rowing logo sketches")]),
-    ("Record table", [("g_record", "Record table for a vinyl collection and turntable"), ("g_record2", "Record table corner"),
-                      ("g_record3", "Record table frame"), ("g_record4", "Record table parts"), ("g_record5", "Record table sketch sheet")]),
+    ("Form studies", "Studies in ribbon, volume, line and plane, then color.", [
+        ("g_fs_4177", "Ribbon study"), ("g_fs_4181", "Ribbon study, arches"), ("g_fs_4183", "Ribbon study, loops"),
+        ("g_fs_4171", "Volume study, stacked planes"), ("g_fs_4174", "Volume study"),
+        ("g_fs_4233", "Line study in wire"), ("g_fs_4235", "Line study in wire"), ("g_fs_4276", "Line study in wire"),
+        ("g_fs_4307", "Plane study, repeated forms"), ("g_fs_4309", "Plane study, fanned fins"), ("g_fs_4310", "Plane study, arches"),
+        ("g_fs_4366", "Line and plane study"), ("g_fs_4370", "Line and plane study"), ("g_fs_4374", "Line and plane study"),
+        ("g_fs_4751", "Color and form study"), ("g_fs_4752", "Color and form study"), ("g_fs_4756", "Color and form study"),
+        ("g_fs_4786", "Color and form study"), ("g_fs_4787", "Color and form study")]),
+    ("Ceramics", "A tea set, bowls and a glazed vase.", [("g_ceramics", "Tea set and bowls"), ("g_vase", "Glazed vase")]),
+    ("Jewelry", "Hammered brass and copper pendants and a braided bracelet.", [
+        ("g_jw93", "Hammered brass and copper pendant"), ("g_jw99", "Hammered pendant"), ("g_jw86", "Brass and copper pendants"),
+        ("g_jw102", "Brass pendant with a tree"), ("g_jw96", "Brass pendant with a green stone"), ("g_jw89", "Braided copper and brass bracelet")]),
+    ("PIVOT", "A flip-up loupe holder with a built-in headlight, from concept sketches and AI explorations to final renders.", [
+        ("g_pivot", "PIVOT: flip-up loupe holder + headlight"), ("g_pv_concepts", "PIVOT concept sheet: lamp and lens layouts"),
+        ("g_pv_line", "PIVOT line drawing"), ("g_pv_ai1", "AI rendering exploration"), ("g_pv_ai2", "AI rendering exploration, navy strap"),
+        ("g_pv_r1", "PIVOT render, lens down"), ("g_pv_r2", "PIVOT render, three-quarter view"), ("g_pv_r3", "PIVOT headlight detail")]),
+    ("Penguino", "A handheld gaming device, from breadboard prototypes and a printed case to the finished console.", [
+        ("g_penguino", "Penguino, a handheld gaming device"), ("g_pen_plan", "Penguino planning sheet: components and layout"),
+        ("g_pen_bread", "Breadboard prototype driving the screen"), ("g_pen_lcd", "Screen test on the breadboard"),
+        ("g_pen_cad", "Penguino case front in CAD"), ("g_pen_print", "First printed case with the screen and controls"),
+        ("g_penguino2", "Penguino electronics and controls"), ("g_pen_sprites", "Penguino title and sprite pixel art"),
+        ("g_pen_final", "Penguino, finished, with the game running")]),
+    ("OVO", "Packaging for a video game, from sketches and a dieline to cut-and-folded prototypes and the finished family.", [
+        ("g_ovo", "OVO video game packaging"), ("g_ovo_sheet", "OVO color and form ideation sheet"), ("g_ovo_dims", "OVO dimensioned sketches"),
+        ("g_ovo_dieline", "OVO dieline and logo studies"), ("g_ovo_panels", "Cut chipboard panels"), ("g_ovo3", "Building the OVO packaging"),
+        ("g_ovo_proto", "Chipboard OVO prototype"), ("g_ovo_lid", "OVO lid with the logo"), ("g_ovo2", "OVO packaging family")]),
+    ("Lighter", "Two lighter concepts: a CAT-themed lighter and a Nintendo lighter with a blue jet flame.", [
+        ("g_lighter", "CAT lighter, close-up"), ("g_lighter2", "CAT lighter, lit"),
+        ("g_lighter3", "Nintendo lighter with a blue jet flame"), ("g_lighter4", "Nintendo lighter from above")]),
+    ("Rain Roller", "Rain Roller, from render to installed prototype.", [("g_rain", "Rain Roller"), ("g_rain2", "Rain Roller installed")]),
+    ("Uzumaki", "A pendant lamp of wire and parchment spirals.", [("g_uzumaki", "Uzumaki: wire and parchment lamp")]),
+    ("ELMER", "A wearable elephant head, from cardboard structure to finished piece.", [
+        ("g_elmer", "ELMER, worn"), ("g_elmer2", "ELMER cardboard structure"), ("g_elmer3", "ELMER in progress"),
+        ("g_elmer4", "ELMER in progress"), ("g_elmer5", "ELMER on a plinth")]),
+    ("Handheld", "A Shinkansen-inspired handheld, from digital model to assembled piece.", [
+        ("g_handheld", "Handheld: Shinkansen, digital"), ("g_handheld2", "Handheld: Shinkansen, assembled")]),
+    ("Rowing logo", "A logo for MI Rowing, from sketches and type options to shirts.", [
+        ("g_rowing", "MI Rowing logo"), ("g_rowing5", "MI Rowing logo sketches"), ("g_rowing4", "MI Rowing logo options"),
+        ("g_rowing2", "MI Rowing logo on a shirt"), ("g_rowing3", "MI Rowing logo on a shirt")]),
+    ("Record table", "A table for a vinyl collection and turntable, from sketches to the finished piece.", [
+        ("g_record", "Record table for a vinyl collection and turntable"), ("g_record5", "Record table sketch sheet"),
+        ("g_record4", "Record table parts"), ("g_record3", "Record table frame"), ("g_record2", "Record table corner")]),
 ]
 
 EXTRAS = [
