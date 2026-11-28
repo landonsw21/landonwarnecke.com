@@ -121,7 +121,7 @@ PROJECTS = [
                ("axio_foam3", "Foam blocks testing the pair in different orientations"),
                ("axio_prop", "Illustrator proportion studies: the bottles' side angles at ratios from 1/4 to 1/8"),
                ("axio_profiles", "Refined Illustrator profiles of the two bottles with their dispensing heads"),
-               ("axio_foam4", "Refined foam model of the pair"), ("axio_foam5", "Refined foam model in profile")], 2),
+               ("axio_foam5", "Refined foam model of the pair in profile", "wide")], 2),
              ("cmf", "CMF", ['<span class="lw-palette"><span class="lw-sw"><i style="background:#6F4433"></i><b>Cambridge Brown</b><small>Pantone 19-1242 TCX · refined, timeless</small></span><span class="lw-sw"><i style="background:#F1EFEE"></i><b>Wispy Clouds</b><small>Pantone 11-3900 TCX · elegant, authentic</small></span><span class="lw-sw"><i style="background:#2D282C"></i><b>Black Onyx</b><small>Pantone 19-4003 TCX · premium, performance</small></span></span>'],
               [("axio_refboard", "CMF references: lifestyle quality, presentation and image, intentional and refined")], 1),
              ("final", "Final", [],
