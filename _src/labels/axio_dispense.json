@@ -1,0 +1,14 @@
+{
+  "source": "AXIO/ShapeBase.png",
+  "box": [0, 0.077, 1, 0.939],
+  "width": 2400,
+  "size": 56,
+  "labels": [
+    {"text": "Press-down open", "x": 473, "y": 668},
+    {"text": "Pump in profile", "x": 1201, "y": 668},
+    {"text": "Removable cap", "x": 1926, "y": 668},
+    {"text": "Gel pump", "x": 473, "y": 1453},
+    {"text": "Flip cap", "x": 1201, "y": 1453},
+    {"text": "Foam pump", "x": 1926, "y": 1453}
+  ]
+}

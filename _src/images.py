@@ -15,8 +15,9 @@ usage (from the repo root):
   python3 _src/images.py label KEY   a render with part labels in the site's font (Manrope, ink, leader lines),
         from _src/labels/KEY.json: source, output width, text size, the x where label text starts (right side) or
         ends (left side), and per label its text, side, line height y and the point "at" on the part (optional "x" moves
-        that label's text), all in output pixels
-  python3 _src/images.py add KEY SOURCE [--width 1800] [--rotate 90] [--flip] [--box X0 Y0 X1 Y1]
+        that label's text), all in output pixels; a label without "at" is a plain caption centred on its x, y; an
+        optional "box" crops the source first (fractions, as in add --box)
+  python3 _src/images.py add KEY SOURCE [--width 1800] [--rotate 90] [--flip] [--box X0 Y0 X1 Y1] [--paper] [--ink 3]
         SOURCE: a path, "PROJECT/file name.jpg" (searched inside that ID copy project folder),
                 "PDF:PROJECT/deck.pdf:PAGE", "PDFIMG:PROJECT/deck.pdf:OBJ" (an image embedded in a PDF, at its
                 own resolution; find OBJ with python3 _src/pdfimg.py deck.pdf OUTDIR), or a .HEIC file.
@@ -147,17 +148,42 @@ def heroes(keys):
         save(c, key)
 
 
-def add(key, src, width=1800, rotate=0, flip=False, box=None):
+def paper_white(im):
+    """A sheet drawn or laid out on tinted paper, with the paper made white: every channel divided by the paper's
+    colour (the median of the outer 1% border), so lines keep their weight relative to the page."""
+    import numpy as np
+    a = np.asarray(im, float)
+    b = max(2, round(min(im.size) * 0.01))
+    edge = np.concatenate([a[:b].reshape(-1, 3), a[-b:].reshape(-1, 3), a[:, :b].reshape(-1, 3), a[:, -b:].reshape(-1, 3)])
+    return Image.fromarray(np.clip(a / np.median(edge, 0) * 255, 0, 255).astype("uint8"))
+
+
+def boxed(im, box):
+    """Crop by fractions x0 y0 x1 y1; values past 0-1 pad with the image's corner colour (to set a drawing on a
+    page of a given shape without cutting it)."""
+    x0, y0, x1, y1 = (round(f * n) for f, n in zip(box, (im.width, im.height, im.width, im.height)))
+    if x0 >= 0 and y0 >= 0 and x1 <= im.width and y1 <= im.height:
+        return im.crop((x0, y0, x1, y1))
+    out = Image.new("RGB", (x1 - x0, y1 - y0), im.getpixel((0, 0)))
+    out.paste(im, (-x0, -y0))
+    return out
+
+
+def add(key, src, width=1800, rotate=0, flip=False, box=None, paper=False, ink=0):
     im = flat(Image.open(resolve(src)))
+    if paper:
+        im = paper_white(im)
     if flip:
         im = ImageOps.mirror(im)
     if rotate:
         im = im.rotate(-rotate, expand=True)
-    if box:   # crop the source (fractions x0 y0 x1 y1) before resizing, so the kept area gets the full width
-        x0, y0, x1, y1 = box
-        im = im.crop((round(x0 * im.width), round(y0 * im.height), round(x1 * im.width), round(y1 * im.height)))
+    if box:   # crop the source before resizing, so the kept area gets the full width
+        im = boxed(im, box)
     if im.width > width:
         im = im.resize((width, round(im.height * width / im.width)), Image.LANCZOS)
+    if ink:   # thicken hairline drawings (min filter of `ink` output pixels) so they don't fade when shown small
+        from PIL import ImageFilter
+        im = im.filter(ImageFilter.MinFilter(ink))
     save(im, key)
 
 
@@ -287,12 +313,17 @@ def label(key):
     spec = json.load(open(os.path.join(HERE, "labels", key + ".json")))
     w, k = spec["width"], 2
     im = flat(Image.open(resolve(spec["source"])))
+    if spec.get("box"):
+        im = boxed(im, spec["box"])
     im = im.resize((w * k, round(im.height * w * k / im.width)), Image.LANCZOS)
     d = ImageDraw.Draw(im)
     font = ImageFont.truetype(FONT, spec["size"] * k)
     font.set_variation_by_axes([500])
     lw, r, gap = 3 * k, 8 * k, 22 * k
     for lab in spec["labels"]:
+        if "at" not in lab:   # a caption: text centred on (x, y), no leader line
+            d.text((lab["x"] * k, lab["y"] * k), lab["text"], font=font, fill=INK, anchor="mm")
+            continue
         ax, ay = lab["at"][0] * k, lab["at"][1] * k
         y = lab["y"] * k
         right = lab["side"] == "right"
@@ -389,7 +420,7 @@ if __name__ == "__main__":
             sys.exit(__doc__)
         sheet(pos[0], int(pos[1]), pos[2:], opts["--width"], opts["--rotate"], gap=opts["--gap"], margin=min(40, opts["--gap"]), photos=photos, aspect=aspect, match=match)
     else:
-        opts = {"--width": 1800, "--rotate": 0}
+        opts = {"--width": 1800, "--rotate": 0, "--ink": 0}
         pos, box = [], None
         it = iter(args[1:])
         for a in it:
@@ -397,8 +428,8 @@ if __name__ == "__main__":
                 opts[a] = int(next(it))
             elif a == "--box":
                 box = [float(next(it)) for _ in range(4)]
-            elif a != "--flip":
+            elif a not in ("--flip", "--paper"):
                 pos.append(a)
         if len(pos) != 2:
             sys.exit(__doc__)
-        add(pos[0], pos[1], opts["--width"], opts["--rotate"], flip="--flip" in args, box=box)
+        add(pos[0], pos[1], opts["--width"], opts["--rotate"], flip="--flip" in args, box=box, paper="--paper" in args, ink=opts["--ink"])
