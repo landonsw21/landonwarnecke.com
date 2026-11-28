@@ -137,7 +137,7 @@ PROJECTS = [
          meta=[("Type", "Framed table light with a glowing paper insert"), ("Materials", "Yupo, polystyrene")],
          sections=[
              ("overview", "Overview", ["A framed table light whose paper insert shapes a soft, graded glow."], [], 1),
-             ("inspiration", "Inspiration", ["Geometric, simple, fun. References included Venini glass, Vanessa Veck, lithophanes and Lite Brite."],
+             ("inspiration", "Inspiration", ["Geometric, simple, fun. References included Venini glass and Japanese andon lanterns."],
               [("andon_bottles", "Venini Bolle bottles by Tapio Wirkkala"), ("andon_lanterns", "Paper andon lanterns glowing on a wooden table")], 2),
              ("ideation", "Ideation", ["Sketches explored lantern forms and how a paper insert could shape the light."],
               [("andon_sketches", "ANDON sketches: concept grids, form and box explorations, frame layouts and the dimensioned frame")], 1),
