@@ -1,8 +1,8 @@
 /*
   landonwarnecke.com — shared palette (Greige + Pomegranate)
 
-  This one file colors the portfolio (index.html), Fisheye Studio (fisheye.html, editor.html,
-  fisheye-demo.js) and Perspective Studio (perspective-studio/). Change a value here, push,
+  This one file colors the portfolio (index.html), Fisheye Studio (editor.html)
+  and Perspective Studio (perspective-studio/). Change a value here, push,
   and all three update. The portfolio always uses the light set; the tools switch to the dark
   set when the visitor's system is in dark mode (or when a tool sets data-theme="dark").
 
