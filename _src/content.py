@@ -1,7 +1,7 @@
 """Copy for the portfolio prototype, drafted from Landon's decks. [TO WRITE]/[TO CONFIRM] mark unsourced facts."""
 
 BIO = ("Industrial design student at Western Washington University. I enjoy solving everyday problems "
-       "with objects that are practical, playful, and well made.")
+       "with objects that are practical, playful, and considered.")
 
 # section: (slug, title, [paragraph html], [(img, alt)], cols)
 PROJECTS = [
