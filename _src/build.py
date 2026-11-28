@@ -231,12 +231,12 @@ doc = f'''<!doctype html>
 
 css = tokenize(BUILD5_CSS) + r"""
 body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
-.lw-skip{position:absolute; left:-9999px; top:8px; z-index:2000; padding:12px 16px; border-radius:10px; background:#2A1F1E; color:#FFFFFF !important}
+.lw-skip{position:absolute; left:-9999px; top:8px; z-index:2000; padding:12px 16px; border-radius:var(--r-s); background:#2A1F1E; color:#FFFFFF !important}
 .lw-skip:focus{left:8px}
 .lw-imgs.c2 .is-wide, .lw-imgs.c3 .is-wide{grid-column:1 / -1}
 .lw-palette{display:flex; flex-wrap:wrap; gap:16px 32px; padding-top:4px}
 .lw-sw{display:grid; grid-template-columns:48px auto; column-gap:12px; align-items:center}
-.lw-sw i{grid-row:1 / span 2; width:48px; height:48px; border-radius:10px; border:1px solid #D2CABF}
+.lw-sw i{grid-row:1 / span 2; width:48px; height:48px; border-radius:var(--r-s); border:1px solid #D2CABF}
 .lw-sw b{align-self:end; font-size:16px; line-height:1.25}
 .lw-sw small{align-self:start; font-size:12px; line-height:1.35; color:#6A5F58}
 .lw-extra img{height:auto}
@@ -246,8 +246,8 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
    hover only lifts the shade and draws the pomegranate outline (no growth) --- */
 .lw-proj{padding-bottom:24px; scroll-margin-top:16px}
 .lw-proj:last-child{padding-bottom:0}
-.lw-unit{container-type:inline-size; border-radius:18px; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s}
-.lw-card{--h:384px; position:relative; display:block; width:100%; height:var(--h); padding:0; border:0; border-radius:18px; overflow:hidden; background:#2A1F1E; color:#FFFFFF; text-align:left; cursor:pointer; transition:height .5s cubic-bezier(.2,.7,.2,1), border-radius .3s}
+.lw-unit{container-type:inline-size; border-radius:var(--r-l); outline:2px solid transparent; outline-offset:0; transition:outline-color .2s}
+.lw-card{--h:384px; position:relative; display:block; width:100%; height:var(--h); padding:0; border:0; border-radius:var(--r-l); overflow:hidden; background:#2A1F1E; color:#FFFFFF; text-align:left; cursor:pointer; transition:height .5s cubic-bezier(.2,.7,.2,1), border-radius .3s}
 .lw-card-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% var(--fy, 50%); background:#2A1F1E}
 .lw-card-img.is-blur{filter:blur(14px) saturate(.9); transform:scale(1.12)}
 .lw-card::before{content:""; position:absolute; inset:0; z-index:1; background:color-mix(in srgb, #2A1F1E 42%, transparent); transition:opacity .5s}
@@ -261,7 +261,7 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
  .lw-proj.is-hover .lw-card::before{opacity:0}
 }
 .lw-proj.is-open .lw-unit{outline-color:#8E2F3A}
-.lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{height:min(calc(100cqw / var(--ar, 2)), 86svh); border-radius:18px 18px 0 0; transition:height .6s cubic-bezier(.2,.7,.2,1), border-radius .3s}
+.lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{height:min(calc(100cqw / var(--ar, 2)), 86svh); border-radius:var(--r-l) var(--r-l) 0 0; transition:height .6s cubic-bezier(.2,.7,.2,1), border-radius .3s}
 .lw-proj.is-open .lw-card::before{opacity:0}
 /* --- drawer hangs straight off its card and slides open --- */
 .lw-drawer{display:grid; grid-template-columns:minmax(0, 1fr); grid-template-rows:0fr; transition:grid-template-rows .55s cubic-bezier(.2,.7,.2,1)}
@@ -279,7 +279,7 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 .lw-chapbar.is-docked .lw-chapname:hover{color:#8E2F3A}
 @media (max-width: 860px){ .lw-chapname{font-size:14px} }
 /* --- portrait: back to Projects / collapses the open project --- */
-.lw-me{position:relative; flex:none; padding:0; border:0; background:none; border-radius:10px; cursor:pointer; line-height:0}
+.lw-me{position:relative; flex:none; padding:0; border:0; background:none; border-radius:var(--r-s); cursor:pointer; line-height:0}
 .lw-me::after{content:""; position:absolute; inset:0; border-radius:inherit; box-shadow:inset 0 0 0 2px transparent; transition:box-shadow .2s; pointer-events:none}   /* hover ring drawn inside the photo, so the photo lines up with the tabs */
 @media (max-width: 860px){
  .lw-proj{padding-bottom:16px; scroll-margin-top:70px}
@@ -296,7 +296,7 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
    Touch screens never hover, so they show the images unshaded. --- */
 .lw-shade{position:relative; display:block}
 .lw-extra{position:relative; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
-.lw-extra .lw-pill::after{content:""; position:absolute; inset:0; border-radius:18px}
+.lw-extra .lw-pill::after{content:""; position:absolute; inset:0; border-radius:var(--r-l)}
 @media (hover: hover){
  .lw-shade::after{content:""; position:absolute; inset:0; background:color-mix(in srgb, #2A1F1E 42%, transparent); transition:opacity .5s; pointer-events:none}
  .lw-extra.is-hover .lw-shade::after{opacity:0}
@@ -304,7 +304,7 @@ body{margin:0; background:#E4DED5; font-family:Manrope, system-ui, sans-serif}
 }
 /* --- gallery: one even grid of tiles, a short label over a darkened image, same hover as the project cards --- */
 .lw-tiles{display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:24px}
-.lw-tile{position:relative; display:block; aspect-ratio:4/5; padding:0; border:0; border-radius:18px; overflow:hidden; background:#2A1F1E; color:#FFFFFF; font:inherit; text-align:left; cursor:zoom-in; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
+.lw-tile{position:relative; display:block; aspect-ratio:4/5; padding:0; border:0; border-radius:var(--r-l); overflow:hidden; background:#2A1F1E; color:#FFFFFF; font:inherit; text-align:left; cursor:zoom-in; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
 .lw-tile .lw-tile-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
 .lw-tile::before{content:""; position:absolute; inset:0; z-index:1; background:color-mix(in srgb, #2A1F1E 42%, transparent); transition:opacity .5s}
 .lw-tile::after{content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(to top, color-mix(in srgb, #2A1F1E 80%, transparent) 0, transparent 45%)}
@@ -335,14 +335,14 @@ a.lw-crow:hover{color:#8E2F3A !important}
 .lw-frow{display:grid; grid-template-columns:1fr 1fr; gap:24px}
 .lw-field{display:flex; flex-direction:column; gap:8px; min-width:0}
 .lw-field .lw-mono{font-size:12px; color:#6A5F58; letter-spacing:.08em}
-.lw-field input, .lw-field textarea{font:inherit; font-size:16px; color:#2A1F1E; background:#ECE7E0; border:1px solid #B9AEA1; border-radius:10px; padding:12px 16px; width:100%; box-sizing:border-box; transition:border-color .15s, box-shadow .15s}
+.lw-field input, .lw-field textarea{font:inherit; font-size:16px; color:#2A1F1E; background:#ECE7E0; border:1px solid #B9AEA1; border-radius:var(--r-s); padding:12px 16px; width:100%; box-sizing:border-box; transition:border-color .15s, box-shadow .15s}
 .lw-field textarea{resize:vertical; min-height:150px; line-height:1.5}
 .lw-field input:hover, .lw-field textarea:hover{border-color:#6A5F58}
 .lw-field input:focus, .lw-field textarea:focus{outline:none; border-color:#8E2F3A; box-shadow:0 0 0 3px color-mix(in srgb, #8E2F3A 22%, transparent)}
 .lw-hp{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden}
 .lw-ts:empty{display:none}
 .lw-factions{display:flex; align-items:center; gap:16px; flex-wrap:wrap}
-.lw-send{font:inherit; font-size:16px; font-weight:700; color:#FFFFFF; background:#8E2F3A; border:0; border-radius:10px; min-height:48px; padding:0 24px; cursor:pointer; transition:background .15s, transform .15s}
+.lw-send{font:inherit; font-size:16px; font-weight:700; color:#FFFFFF; background:#8E2F3A; border:0; border-radius:var(--r-s); min-height:48px; padding:0 24px; cursor:pointer; transition:background .15s, transform .15s}
 .lw-send:hover{background:#6E2029}
 .lw-send:active{transform:scale(.98)}
 .lw-send:focus-visible{outline:2px solid #2A1F1E; outline-offset:3px}

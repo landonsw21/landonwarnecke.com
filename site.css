@@ -1,21 +1,22 @@
 /* Proportions: spacing 4/8/12/16/24/32/48 px; card, drawer and tile insets 24 (16 on phones); text 12/14/16/20/24/30 px;
-   corners 10 (controls, images) and 18 (cards, panels). See CLAUDE.md, Design system. */
+   corners --r-s (controls, images) and --r-l (cards, panels): 10/18 px circular, or 17/30 px continuous (Apple-style)
+   where the browser supports corner-shape. See CLAUDE.md, Design system. */
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Archivo:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 html{scroll-behavior:smooth}
-.lw-root{background:var(--lw-bg); color:var(--lw-ink); width:100%; -webkit-font-smoothing:antialiased}
+.lw-root{--r-s:10px; --r-l:18px; background:var(--lw-bg); color:var(--lw-ink); width:100%; -webkit-font-smoothing:antialiased}
 .lw-root *{box-sizing:border-box}
 .lw-root a{color:var(--lw-accent)}
 .lw-mono{font-family:'IBM Plex Mono', ui-monospace, monospace; letter-spacing:0.08em}
 .lw-shell{display:flex; align-items:flex-start}
 .lw-side{width:340px; flex:none; position:sticky; top:0; max-height:100vh; overflow-y:auto; scrollbar-width:thin; padding:32px; display:flex; flex-direction:column; gap:24px; border-right:1px solid var(--lw-line); background:var(--lw-bg); z-index:10}
 .lw-id{display:flex; flex-direction:row; align-items:center; gap:16px}
-.lw-portrait{width:80px; height:100px; flex:none; object-fit:cover; object-position:50% 30%; border-radius:10px; display:block}
+.lw-portrait{width:80px; height:100px; flex:none; object-fit:cover; object-position:50% 30%; border-radius:var(--r-s); display:block}
 .lw-nm{font-size:20px; font-weight:700; line-height:1.1; letter-spacing:-0.02em}
 .lw-bio{display:flex; flex-direction:column; gap:8px}
 .lw-bio p{margin:0; font-size:14px; line-height:1.6}
 /* desktop: the menu is simply the side column (about, tabs, footer); the arrow only shows on phones */
 .lw-menu{display:contents}
-.lw-menu-btn{display:none; flex:none; align-items:center; justify-content:center; width:44px; height:44px; margin-left:auto; padding:0; border:0; border-radius:10px; background:transparent; color:var(--lw-ink); cursor:pointer}
+.lw-menu-btn{display:none; flex:none; align-items:center; justify-content:center; width:44px; height:44px; margin-left:auto; padding:0; border:0; border-radius:var(--r-s); background:transparent; color:var(--lw-ink); cursor:pointer}
 .lw-menu-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; transition:transform .25s}
 /* desktop: one fixed 256px column (resting project cards are 1.5x that, 384px, tall). Same contents and order as the original; inside it the photo (80x100) and the name (20px, on two lines) lead, the tabs follow (16px),
    About me is a quiet caption (14px, muted) and the footer is smallest. It never changes size. Phones use the header + menu below. */
@@ -28,7 +29,7 @@ html{scroll-behavior:smooth}
  .lw-side-foot{padding-top:16px; font-size:12px}
 }
 .lw-tabs{display:flex; flex-direction:column; gap:8px}
-.lw-tab{display:flex; justify-content:space-between; align-items:center; gap:8px; width:100%; min-height:48px; padding:12px 16px; border-radius:10px; border:1px solid var(--lw-line); background:transparent; color:var(--lw-muted); font:inherit; font-size:16px; font-weight:600; text-align:left; cursor:pointer; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
+.lw-tab{display:flex; justify-content:space-between; align-items:center; gap:8px; width:100%; min-height:48px; padding:12px 16px; border-radius:var(--r-s); border:1px solid var(--lw-line); background:transparent; color:var(--lw-muted); font:inherit; font-size:16px; font-weight:600; text-align:left; cursor:pointer; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
 /* tabs share the project-card hover: dimmed at rest; hover undims, outlines in pomegranate and grows slightly. The current tab is filled pomegranate; on hover a light ring shows just inside its pomegranate edge (drawn inside the tab, so it never crowds its neighbours) and it grows slightly */
 .lw-tab.is-active{background:var(--lw-accent); border-color:var(--lw-accent); color:var(--lw-on-accent)}
 @media (hover: hover){
@@ -39,12 +40,12 @@ html{scroll-behavior:smooth}
 .lw-main{flex:1 1 auto; min-width:0; padding:32px 48px 120px}
 .lw-label{font-size:12px; color:var(--lw-muted)}
 .lw-list{display:flex; flex-direction:column}
-.lw-pill{flex:none; display:inline-flex; align-items:center; min-height:44px; padding:0 16px; border-radius:10px; background:var(--lw-accent); color:var(--lw-on-accent); font-size:14px; font-weight:600; border:none; font-family:inherit; cursor:pointer; text-decoration:none}
-.lw-drawer{background:var(--lw-panel); border:1px solid var(--lw-line); border-top:0; border-radius:0 0 18px 18px}
+.lw-pill{flex:none; display:inline-flex; align-items:center; min-height:44px; padding:0 16px; border-radius:var(--r-s); background:var(--lw-accent); color:var(--lw-on-accent); font-size:14px; font-weight:600; border:none; font-family:inherit; cursor:pointer; text-decoration:none}
+.lw-drawer{background:var(--lw-panel); border:1px solid var(--lw-line); border-top:0; border-radius:0 0 var(--r-l) var(--r-l)}
 .lw-chapbar{position:sticky; top:0; z-index:4; display:flex; align-items:center; gap:12px; padding:2px 23px; background:color-mix(in srgb, var(--lw-panel) 95%, transparent); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-bottom:1px solid var(--lw-line)}
 .lw-chaps{display:flex; gap:8px; padding:6px 4px; margin:0 -4px; overflow-x:auto; flex:1; min-width:0; scrollbar-width:none}
 .lw-chaps::-webkit-scrollbar{display:none}
-.lw-chap{flex:none; padding:8px 12px; border-radius:10px; border:1px solid var(--lw-line); color:var(--lw-muted) !important; text-decoration:none; font-size:14px; font-weight:600; white-space:nowrap; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
+.lw-chap{flex:none; padding:8px 12px; border-radius:var(--r-s); border:1px solid var(--lw-line); color:var(--lw-muted) !important; text-decoration:none; font-size:14px; font-weight:600; white-space:nowrap; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
 /* section links share the tab states: dimmed at rest; hover undims, outlines in pomegranate and grows slightly; the current section is filled pomegranate and shows the tabs' inner light ring on hover */
 .lw-chap.is-active{background:var(--lw-accent); border-color:var(--lw-accent); color:var(--lw-on-accent) !important}
 @media (hover: hover){
@@ -64,9 +65,9 @@ html{scroll-behavior:smooth}
 .lw-imgs{display:grid; gap:12px}
 .lw-imgs.c2{grid-template-columns:repeat(2, minmax(0,1fr))}
 .lw-imgs.c3{grid-template-columns:repeat(3, minmax(0,1fr))}
-.lw-imgs img{display:block; width:100%; height:auto; border-radius:10px; background:var(--lw-surface); cursor:zoom-in}
+.lw-imgs img{display:block; width:100%; height:auto; border-radius:var(--r-s); background:var(--lw-surface); cursor:zoom-in}
 .lw-two{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:24px}
-.lw-extra{background:var(--lw-surface); border-radius:18px; overflow:hidden; display:flex; flex-direction:column}
+.lw-extra{background:var(--lw-surface); border-radius:var(--r-l); overflow:hidden; display:flex; flex-direction:column}
 .lw-extra img{display:block; width:100%; aspect-ratio:16/10; object-fit:cover; background:var(--lw-ink)}
 .lw-extra-body{padding:24px; display:flex; flex-direction:column; gap:12px; flex:1}
 .lw-extra h2{margin:0; font-size:24px; line-height:1.15; font-weight:700; letter-spacing:-0.02em}
@@ -78,7 +79,7 @@ html{scroll-behavior:smooth}
 .lw-lb{position:fixed; inset:0; z-index:1000; background:rgba(26,18,17,.92); display:flex; align-items:center; justify-content:center}
 .lw-lb-bg{position:absolute; inset:0; border:none; background:transparent; cursor:zoom-out}
 .lw-lb figure{position:relative; margin:0; width:100%; height:100%; max-width:1200px; padding:24px 80px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; pointer-events:none}
-.lw-lb img{display:block; max-width:100%; max-height:calc(100% - 80px); object-fit:contain; border-radius:10px; pointer-events:auto}
+.lw-lb img{display:block; max-width:100%; max-height:calc(100% - 80px); object-fit:contain; border-radius:var(--r-s); pointer-events:auto}
 .lw-lb figcaption{display:flex; gap:16px; align-items:baseline; color:var(--lw-on-accent); font-size:14px; pointer-events:auto}
 .lw-lbicon{position:absolute; width:48px; height:48px; border-radius:50%; border:1px solid rgba(255,255,255,.6); background:transparent; color:var(--lw-on-accent); font:inherit; font-size:20px; cursor:pointer}
 .lw-lbicon:hover{background:rgba(255,255,255,.14)}
@@ -111,13 +112,23 @@ html{scroll-behavior:smooth}
  .lw-card:hover, .lw-tab:not(.is-active):hover, .lw-tab.is-active:hover, .lw-chap:not(.is-active):hover, .lw-chap.is-active:hover{transform:none}
 }
 
+/* Apple-style continuous corners where the browser can draw them (Chrome/Edge 139+, Safari 27.3+): the curve eases into
+   the straight edge instead of meeting it with a sudden change in curvature. The radii grow about 1.7x because a continuous
+   curve hugs the corner more tightly, so the corners read about the same size. Circles stay round. */
+@supports (corner-shape: squircle){
+ .lw-root{--r-s:17px; --r-l:30px}
+ .lw-root *, .lw-root *::before, .lw-root *::after{corner-shape:squircle}
+ .lw-root .lw-lbicon{corner-shape:round}
+ @media (max-width: 860px){ .lw-root .lw-me, .lw-root .lw-me .lw-portrait{corner-shape:round} }
+}
+
 body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
-.lw-skip{position:absolute; left:-9999px; top:8px; z-index:2000; padding:12px 16px; border-radius:10px; background:var(--lw-ink); color:var(--lw-on-accent) !important}
+.lw-skip{position:absolute; left:-9999px; top:8px; z-index:2000; padding:12px 16px; border-radius:var(--r-s); background:var(--lw-ink); color:var(--lw-on-accent) !important}
 .lw-skip:focus{left:8px}
 .lw-imgs.c2 .is-wide, .lw-imgs.c3 .is-wide{grid-column:1 / -1}
 .lw-palette{display:flex; flex-wrap:wrap; gap:16px 32px; padding-top:4px}
 .lw-sw{display:grid; grid-template-columns:48px auto; column-gap:12px; align-items:center}
-.lw-sw i{grid-row:1 / span 2; width:48px; height:48px; border-radius:10px; border:1px solid var(--lw-line)}
+.lw-sw i{grid-row:1 / span 2; width:48px; height:48px; border-radius:var(--r-s); border:1px solid var(--lw-line)}
 .lw-sw b{align-self:end; font-size:16px; line-height:1.25}
 .lw-sw small{align-self:start; font-size:12px; line-height:1.35; color:var(--lw-muted)}
 .lw-extra img{height:auto}
@@ -127,8 +138,8 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
    hover only lifts the shade and draws the pomegranate outline (no growth) --- */
 .lw-proj{padding-bottom:24px; scroll-margin-top:16px}
 .lw-proj:last-child{padding-bottom:0}
-.lw-unit{container-type:inline-size; border-radius:18px; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s}
-.lw-card{--h:384px; position:relative; display:block; width:100%; height:var(--h); padding:0; border:0; border-radius:18px; overflow:hidden; background:var(--lw-ink); color:var(--lw-on-accent); text-align:left; cursor:pointer; transition:height .5s cubic-bezier(.2,.7,.2,1), border-radius .3s}
+.lw-unit{container-type:inline-size; border-radius:var(--r-l); outline:2px solid transparent; outline-offset:0; transition:outline-color .2s}
+.lw-card{--h:384px; position:relative; display:block; width:100%; height:var(--h); padding:0; border:0; border-radius:var(--r-l); overflow:hidden; background:var(--lw-ink); color:var(--lw-on-accent); text-align:left; cursor:pointer; transition:height .5s cubic-bezier(.2,.7,.2,1), border-radius .3s}
 .lw-card-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% var(--fy, 50%); background:var(--lw-ink)}
 .lw-card-img.is-blur{filter:blur(14px) saturate(.9); transform:scale(1.12)}
 .lw-card::before{content:""; position:absolute; inset:0; z-index:1; background:color-mix(in srgb, var(--lw-ink) 42%, transparent); transition:opacity .5s}
@@ -142,7 +153,7 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
  .lw-proj.is-hover .lw-card::before{opacity:0}
 }
 .lw-proj.is-open .lw-unit{outline-color:var(--lw-accent)}
-.lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{height:min(calc(100cqw / var(--ar, 2)), 86svh); border-radius:18px 18px 0 0; transition:height .6s cubic-bezier(.2,.7,.2,1), border-radius .3s}
+.lw-proj.is-open .lw-card, .lw-proj.is-open:hover .lw-card{height:min(calc(100cqw / var(--ar, 2)), 86svh); border-radius:var(--r-l) var(--r-l) 0 0; transition:height .6s cubic-bezier(.2,.7,.2,1), border-radius .3s}
 .lw-proj.is-open .lw-card::before{opacity:0}
 /* --- drawer hangs straight off its card and slides open --- */
 .lw-drawer{display:grid; grid-template-columns:minmax(0, 1fr); grid-template-rows:0fr; transition:grid-template-rows .55s cubic-bezier(.2,.7,.2,1)}
@@ -160,7 +171,7 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
 .lw-chapbar.is-docked .lw-chapname:hover{color:var(--lw-accent)}
 @media (max-width: 860px){ .lw-chapname{font-size:14px} }
 /* --- portrait: back to Projects / collapses the open project --- */
-.lw-me{position:relative; flex:none; padding:0; border:0; background:none; border-radius:10px; cursor:pointer; line-height:0}
+.lw-me{position:relative; flex:none; padding:0; border:0; background:none; border-radius:var(--r-s); cursor:pointer; line-height:0}
 .lw-me::after{content:""; position:absolute; inset:0; border-radius:inherit; box-shadow:inset 0 0 0 2px transparent; transition:box-shadow .2s; pointer-events:none}   /* hover ring drawn inside the photo, so the photo lines up with the tabs */
 @media (max-width: 860px){
  .lw-proj{padding-bottom:16px; scroll-margin-top:70px}
@@ -177,7 +188,7 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
    Touch screens never hover, so they show the images unshaded. --- */
 .lw-shade{position:relative; display:block}
 .lw-extra{position:relative; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
-.lw-extra .lw-pill::after{content:""; position:absolute; inset:0; border-radius:18px}
+.lw-extra .lw-pill::after{content:""; position:absolute; inset:0; border-radius:var(--r-l)}
 @media (hover: hover){
  .lw-shade::after{content:""; position:absolute; inset:0; background:color-mix(in srgb, var(--lw-ink) 42%, transparent); transition:opacity .5s; pointer-events:none}
  .lw-extra.is-hover .lw-shade::after{opacity:0}
@@ -185,7 +196,7 @@ body{margin:0; background:var(--lw-bg); font-family:var(--lw-font-sans)}
 }
 /* --- gallery: one even grid of tiles, a short label over a darkened image, same hover as the project cards --- */
 .lw-tiles{display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:24px}
-.lw-tile{position:relative; display:block; aspect-ratio:4/5; padding:0; border:0; border-radius:18px; overflow:hidden; background:var(--lw-ink); color:var(--lw-on-accent); font:inherit; text-align:left; cursor:zoom-in; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
+.lw-tile{position:relative; display:block; aspect-ratio:4/5; padding:0; border:0; border-radius:var(--r-l); overflow:hidden; background:var(--lw-ink); color:var(--lw-on-accent); font:inherit; text-align:left; cursor:zoom-in; outline:2px solid transparent; outline-offset:0; transition:outline-color .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
 .lw-tile .lw-tile-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
 .lw-tile::before{content:""; position:absolute; inset:0; z-index:1; background:color-mix(in srgb, var(--lw-ink) 42%, transparent); transition:opacity .5s}
 .lw-tile::after{content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(to top, color-mix(in srgb, var(--lw-ink) 80%, transparent) 0, transparent 45%)}
@@ -216,14 +227,14 @@ a.lw-crow:hover{color:var(--lw-accent) !important}
 .lw-frow{display:grid; grid-template-columns:1fr 1fr; gap:24px}
 .lw-field{display:flex; flex-direction:column; gap:8px; min-width:0}
 .lw-field .lw-mono{font-size:12px; color:var(--lw-muted); letter-spacing:.08em}
-.lw-field input, .lw-field textarea{font:inherit; font-size:16px; color:var(--lw-ink); background:var(--lw-panel); border:1px solid var(--lw-line-strong); border-radius:10px; padding:12px 16px; width:100%; box-sizing:border-box; transition:border-color .15s, box-shadow .15s}
+.lw-field input, .lw-field textarea{font:inherit; font-size:16px; color:var(--lw-ink); background:var(--lw-panel); border:1px solid var(--lw-line-strong); border-radius:var(--r-s); padding:12px 16px; width:100%; box-sizing:border-box; transition:border-color .15s, box-shadow .15s}
 .lw-field textarea{resize:vertical; min-height:150px; line-height:1.5}
 .lw-field input:hover, .lw-field textarea:hover{border-color:var(--lw-muted)}
 .lw-field input:focus, .lw-field textarea:focus{outline:none; border-color:var(--lw-accent); box-shadow:0 0 0 3px color-mix(in srgb, var(--lw-accent) 22%, transparent)}
 .lw-hp{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden}
 .lw-ts:empty{display:none}
 .lw-factions{display:flex; align-items:center; gap:16px; flex-wrap:wrap}
-.lw-send{font:inherit; font-size:16px; font-weight:700; color:var(--lw-on-accent); background:var(--lw-accent); border:0; border-radius:10px; min-height:48px; padding:0 24px; cursor:pointer; transition:background .15s, transform .15s}
+.lw-send{font:inherit; font-size:16px; font-weight:700; color:var(--lw-on-accent); background:var(--lw-accent); border:0; border-radius:var(--r-s); min-height:48px; padding:0 24px; cursor:pointer; transition:background .15s, transform .15s}
 .lw-send:hover{background:var(--lw-accent-hover)}
 .lw-send:active{transform:scale(.98)}
 .lw-send:focus-visible{outline:2px solid var(--lw-ink); outline-offset:3px}

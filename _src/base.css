@@ -1,21 +1,22 @@
 /* Proportions: spacing 4/8/12/16/24/32/48 px; card, drawer and tile insets 24 (16 on phones); text 12/14/16/20/24/30 px;
-   corners 10 (controls, images) and 18 (cards, panels). See CLAUDE.md, Design system. */
+   corners --r-s (controls, images) and --r-l (cards, panels): 10/18 px circular, or 17/30 px continuous (Apple-style)
+   where the browser supports corner-shape. See CLAUDE.md, Design system. */
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Archivo:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 html{scroll-behavior:smooth}
-.lw-root{background:#E4DED5; color:#2A1F1E; width:100%; -webkit-font-smoothing:antialiased}
+.lw-root{--r-s:10px; --r-l:18px; background:#E4DED5; color:#2A1F1E; width:100%; -webkit-font-smoothing:antialiased}
 .lw-root *{box-sizing:border-box}
 .lw-root a{color:#8E2F3A}
 .lw-mono{font-family:'IBM Plex Mono', ui-monospace, monospace; letter-spacing:0.08em}
 .lw-shell{display:flex; align-items:flex-start}
 .lw-side{width:340px; flex:none; position:sticky; top:0; max-height:100vh; overflow-y:auto; scrollbar-width:thin; padding:32px; display:flex; flex-direction:column; gap:24px; border-right:1px solid #D2CABF; background:#E4DED5; z-index:10}
 .lw-id{display:flex; flex-direction:row; align-items:center; gap:16px}
-.lw-portrait{width:80px; height:100px; flex:none; object-fit:cover; object-position:50% 30%; border-radius:10px; display:block}
+.lw-portrait{width:80px; height:100px; flex:none; object-fit:cover; object-position:50% 30%; border-radius:var(--r-s); display:block}
 .lw-nm{font-size:20px; font-weight:700; line-height:1.1; letter-spacing:-0.02em}
 .lw-bio{display:flex; flex-direction:column; gap:8px}
 .lw-bio p{margin:0; font-size:14px; line-height:1.6}
 /* desktop: the menu is simply the side column (about, tabs, footer); the arrow only shows on phones */
 .lw-menu{display:contents}
-.lw-menu-btn{display:none; flex:none; align-items:center; justify-content:center; width:44px; height:44px; margin-left:auto; padding:0; border:0; border-radius:10px; background:transparent; color:#2A1F1E; cursor:pointer}
+.lw-menu-btn{display:none; flex:none; align-items:center; justify-content:center; width:44px; height:44px; margin-left:auto; padding:0; border:0; border-radius:var(--r-s); background:transparent; color:#2A1F1E; cursor:pointer}
 .lw-menu-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; transition:transform .25s}
 /* desktop: one fixed 256px column (resting project cards are 1.5x that, 384px, tall). Same contents and order as the original; inside it the photo (80x100) and the name (20px, on two lines) lead, the tabs follow (16px),
    About me is a quiet caption (14px, muted) and the footer is smallest. It never changes size. Phones use the header + menu below. */
@@ -28,7 +29,7 @@ html{scroll-behavior:smooth}
  .lw-side-foot{padding-top:16px; font-size:12px}
 }
 .lw-tabs{display:flex; flex-direction:column; gap:8px}
-.lw-tab{display:flex; justify-content:space-between; align-items:center; gap:8px; width:100%; min-height:48px; padding:12px 16px; border-radius:10px; border:1px solid #D2CABF; background:transparent; color:#6A5F58; font:inherit; font-size:16px; font-weight:600; text-align:left; cursor:pointer; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
+.lw-tab{display:flex; justify-content:space-between; align-items:center; gap:8px; width:100%; min-height:48px; padding:12px 16px; border-radius:var(--r-s); border:1px solid #D2CABF; background:transparent; color:#6A5F58; font:inherit; font-size:16px; font-weight:600; text-align:left; cursor:pointer; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
 /* tabs share the project-card hover: dimmed at rest; hover undims, outlines in pomegranate and grows slightly. The current tab is filled pomegranate; on hover a light ring shows just inside its pomegranate edge (drawn inside the tab, so it never crowds its neighbours) and it grows slightly */
 .lw-tab.is-active{background:#8E2F3A; border-color:#8E2F3A; color:#FFFFFF}
 @media (hover: hover){
@@ -39,12 +40,12 @@ html{scroll-behavior:smooth}
 .lw-main{flex:1 1 auto; min-width:0; padding:32px 48px 120px}
 .lw-label{font-size:12px; color:#6A5F58}
 .lw-list{display:flex; flex-direction:column}
-.lw-pill{flex:none; display:inline-flex; align-items:center; min-height:44px; padding:0 16px; border-radius:10px; background:#8E2F3A; color:#FFFFFF; font-size:14px; font-weight:600; border:none; font-family:inherit; cursor:pointer; text-decoration:none}
-.lw-drawer{background:#ECE7E0; border:1px solid #D2CABF; border-top:0; border-radius:0 0 18px 18px}
+.lw-pill{flex:none; display:inline-flex; align-items:center; min-height:44px; padding:0 16px; border-radius:var(--r-s); background:#8E2F3A; color:#FFFFFF; font-size:14px; font-weight:600; border:none; font-family:inherit; cursor:pointer; text-decoration:none}
+.lw-drawer{background:#ECE7E0; border:1px solid #D2CABF; border-top:0; border-radius:0 0 var(--r-l) var(--r-l)}
 .lw-chapbar{position:sticky; top:0; z-index:4; display:flex; align-items:center; gap:12px; padding:2px 23px; background:rgba(236,231,224,.95); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-bottom:1px solid #D2CABF}
 .lw-chaps{display:flex; gap:8px; padding:6px 4px; margin:0 -4px; overflow-x:auto; flex:1; min-width:0; scrollbar-width:none}
 .lw-chaps::-webkit-scrollbar{display:none}
-.lw-chap{flex:none; padding:8px 12px; border-radius:10px; border:1px solid #D2CABF; color:#6A5F58 !important; text-decoration:none; font-size:14px; font-weight:600; white-space:nowrap; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
+.lw-chap{flex:none; padding:8px 12px; border-radius:var(--r-s); border:1px solid #D2CABF; color:#6A5F58 !important; text-decoration:none; font-size:14px; font-weight:600; white-space:nowrap; transition:color .2s, border-color .2s, box-shadow .2s, transform .3s cubic-bezier(.2,.7,.2,1)}
 /* section links share the tab states: dimmed at rest; hover undims, outlines in pomegranate and grows slightly; the current section is filled pomegranate and shows the tabs' inner light ring on hover */
 .lw-chap.is-active{background:#8E2F3A; border-color:#8E2F3A; color:#FFFFFF !important}
 @media (hover: hover){
@@ -64,9 +65,9 @@ html{scroll-behavior:smooth}
 .lw-imgs{display:grid; gap:12px}
 .lw-imgs.c2{grid-template-columns:repeat(2, minmax(0,1fr))}
 .lw-imgs.c3{grid-template-columns:repeat(3, minmax(0,1fr))}
-.lw-imgs img{display:block; width:100%; height:auto; border-radius:10px; background:#D4CBBE; cursor:zoom-in}
+.lw-imgs img{display:block; width:100%; height:auto; border-radius:var(--r-s); background:#D4CBBE; cursor:zoom-in}
 .lw-two{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:24px}
-.lw-extra{background:#D4CBBE; border-radius:18px; overflow:hidden; display:flex; flex-direction:column}
+.lw-extra{background:#D4CBBE; border-radius:var(--r-l); overflow:hidden; display:flex; flex-direction:column}
 .lw-extra img{display:block; width:100%; aspect-ratio:16/10; object-fit:cover; background:#2A1F1E}
 .lw-extra-body{padding:24px; display:flex; flex-direction:column; gap:12px; flex:1}
 .lw-extra h2{margin:0; font-size:24px; line-height:1.15; font-weight:700; letter-spacing:-0.02em}
@@ -78,7 +79,7 @@ html{scroll-behavior:smooth}
 .lw-lb{position:fixed; inset:0; z-index:1000; background:rgba(26,18,17,.92); display:flex; align-items:center; justify-content:center}
 .lw-lb-bg{position:absolute; inset:0; border:none; background:transparent; cursor:zoom-out}
 .lw-lb figure{position:relative; margin:0; width:100%; height:100%; max-width:1200px; padding:24px 80px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; pointer-events:none}
-.lw-lb img{display:block; max-width:100%; max-height:calc(100% - 80px); object-fit:contain; border-radius:10px; pointer-events:auto}
+.lw-lb img{display:block; max-width:100%; max-height:calc(100% - 80px); object-fit:contain; border-radius:var(--r-s); pointer-events:auto}
 .lw-lb figcaption{display:flex; gap:16px; align-items:baseline; color:#FFFFFF; font-size:14px; pointer-events:auto}
 .lw-lbicon{position:absolute; width:48px; height:48px; border-radius:50%; border:1px solid rgba(255,255,255,.6); background:transparent; color:#FFFFFF; font:inherit; font-size:20px; cursor:pointer}
 .lw-lbicon:hover{background:rgba(255,255,255,.14)}
@@ -109,4 +110,14 @@ html{scroll-behavior:smooth}
  .lw-menu-btn svg{transition:none}
  .lw-card, .lw-tab, .lw-chap{transition:none}
  .lw-card:hover, .lw-tab:not(.is-active):hover, .lw-tab.is-active:hover, .lw-chap:not(.is-active):hover, .lw-chap.is-active:hover{transform:none}
+}
+
+/* Apple-style continuous corners where the browser can draw them (Chrome/Edge 139+, Safari 27.3+): the curve eases into
+   the straight edge instead of meeting it with a sudden change in curvature. The radii grow about 1.7x because a continuous
+   curve hugs the corner more tightly, so the corners read about the same size. Circles stay round. */
+@supports (corner-shape: squircle){
+ .lw-root{--r-s:17px; --r-l:30px}
+ .lw-root *, .lw-root *::before, .lw-root *::after{corner-shape:squircle}
+ .lw-root .lw-lbicon{corner-shape:round}
+ @media (max-width: 860px){ .lw-root .lw-me, .lw-root .lw-me .lw-portrait{corner-shape:round} }
 }
