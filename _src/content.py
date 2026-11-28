@@ -142,7 +142,7 @@ PROJECTS = [
              ("exploration", "Light studies", ["Paper and card studies tested folds, cut patterns and layers, and were photographed lit to compare the patterns they cast."],
               [("andon_studies", "Light studies: five folding patterns lit from behind, then ten cut-pattern inserts tested in the lamp box")], 1),
              ("refinement", "Refinement", ["The insert profile was refined through a series of lit tests."],
-              [("andon_work", "Drawing insert templates beside the lamp"), ("andon_r3", "Cut insert templates"), ("andon_profiles", "Ten insert profiles tested lit in the lamp", "wide")], 2),
+              [("andon_work", "Drawing insert templates beside the lamp"), ("andon_r3", "Cut insert templates"), ("andon_profiles", "Five insert profiles tested lit in the lamp", "wide")], 2),
              ("final", "Final", [],
               [("andon_f2", "ANDON lit against a dark backdrop", "wide"), ("andon_f1", "ANDON close-up glowing"), ("andon_f3", "ANDON by a window in daylight")], 2),
          ]),
